@@ -4,10 +4,12 @@ import Nav from './Nav';
 
 const Logo = styled.h1`
   font-size: 4rem;
-  margin-left: 2rem;
+  margin-left: 3rem;
   position: relative;
-  z-index: 2;
-  background-image: linear-gradient(maroon, blue);
+  z-index: 4;
+  margin-right: 1rem;
+  background-image: linear-gradient(to top left, var(--red), var(--blue));
+  border-radius: 1rem;
   transform: skew(-20deg);
   a {
     color: white;
@@ -18,6 +20,7 @@ const Logo = styled.h1`
 `;
 
 const HeaderStyles = styled.header`
+  background-image: linear-gradient(to top right, var(--blue), var(--red));
   .bar {
     border-bottom: 10px solid var(--black, black);
     display: grid;

@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import PropTypes from 'prop-types';
+import Head from 'next/head';
 import Header from './navagation/Header';
 
 const GlobalStyles = createGlobalStyle`
@@ -10,8 +11,9 @@ const GlobalStyles = createGlobalStyle`
     font-style: normal;
   }
   html {
-    --red: #ff0000;
+    --red: #760D08;
     --black: #393939;
+    --blue: #38B6FF;
     --grey: #3A3A3A;
     --gray: var(--grey);
     --lightGrey: #e1e1e1;
@@ -53,6 +55,10 @@ const InnerStyles = styled.div`
 export default function Page({ children }) {
   return (
     <div>
+      <Head>
+        <title>NCUJHS Dashboard</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <GlobalStyles />
       <Header />
       <InnerStyles>{children}</InnerStyles>
@@ -60,6 +66,5 @@ export default function Page({ children }) {
   );
 }
 Page.propTypes = {
-  cool: PropTypes.string,
   children: PropTypes.any,
 };

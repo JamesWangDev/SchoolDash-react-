@@ -7,12 +7,12 @@ export default function Nav() {
       {true && (
         <>
           <Link href="/calendar">Calendar</Link>
-          <Link href="/Links">Links</Link>
-          <Link href="/Finder">Finder</Link>
-          <Link href="/Callback">Callback</Link>
-          <Link href="/TaTeam">TA Team</Link>
-          <Link href="/Discipline">Discipline</Link>
-          <Link href="/StudentFocus">Student Focus</Link>
+          <Link href="/links">Links</Link>
+          <Link href="/ta">TA</Link>
+          <Link href="/callback">Callback</Link>
+          <Link href="/users">Users</Link>
+          <Link href="/discipline">Discipline</Link>
+          <Link href="/studentFocus">Student Focus</Link>
         </>
       )}
     </NavStyles>
