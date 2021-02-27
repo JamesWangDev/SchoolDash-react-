@@ -51,6 +51,9 @@ const NavStyles = styled.ul`
     &:hover,
     &:focus {
       outline: none;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: var(--red);
+      color: var(--blue);
       &:after {
         width: calc(100%);
       }
