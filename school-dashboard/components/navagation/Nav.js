@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import NavStyles from '../styles/NavStyles';
+import { useUser } from '../User';
+import SignIn from '../loginComponents/SignIn';
 
 export default function Nav() {
+  const user = useUser();
+  if (!user) {
+    return <SignIn />;
+  }
   return (
     <NavStyles>
       {true && (

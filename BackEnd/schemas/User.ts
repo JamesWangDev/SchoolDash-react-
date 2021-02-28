@@ -22,13 +22,13 @@ export const User = list({
     password: password(),
     
    
-    // role: relationship({
-    //   ref: 'Role.assignedTo',
-    //   access: {
-    //     create: permissions.canManageUsers,
-    //     update: permissions.canManageUsers,
-    //   },
-    // }),
+    role: relationship({
+      ref: 'Role.assignedTo',
+      // access: {
+      //   create: permissions.canManageUsers,
+      //   update: permissions.canManageUsers,
+      // },
+    }),
     
   },
 });

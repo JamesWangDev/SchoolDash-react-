@@ -2,6 +2,7 @@ import { integer, select, text, relationship, timestamp,  } from '@keystone-next
 import { list } from '@keystone-next/keystone/schema';
 import { rules, isSignedIn } from '../access';
 import {CalendarDay} from '@keystonejs/fields'
+
 export const Calendar = list({
   // access: {
   //   create: isSignedIn,
@@ -20,16 +21,22 @@ export const Calendar = list({
     
     status: select({
       options: [
-        { label: 'Draft', value: 'DRAFT' },
         { label: 'Available', value: 'AVAILABLE' },
         { label: 'Unavailable', value: 'UNAVAILABLE' },
       ],
-      defaultValue: 'DRAFT',
+      defaultValue: 'AVAILABLE',
       ui: {
         displayMode: 'segmented-control',
         createView: { fieldMode: 'hidden' },
       },
     }),
+    // role: relationship({
+    //   ref: 'Role.assignedTo',
+    //   access: {
+    //     // create: permissions.canManageUsers,
+    //     // update: permissions.canManageUsers,
+    //   },
+    // }),
     date: timestamp({
       isRequired: true
     }),

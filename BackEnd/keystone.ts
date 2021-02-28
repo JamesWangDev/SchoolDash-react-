@@ -2,6 +2,7 @@ import { createAuth } from '@keystone-next/auth';
 import { config, createSchema } from '@keystone-next/keystone/schema';
 import { User } from './schemas/User';
 import {Calendar} from './schemas/Calendar'
+import {Role} from './schemas/Role'
 import 'dotenv/config';
 import {
   withItemData,
@@ -43,7 +44,8 @@ export default withAuth(
     lists: createSchema({
       // Schema items go in here
       User,
-      Calendar
+      Calendar,
+      Role,
     }),
     ui: {
       // Show the UI only for poeple who pass this test
