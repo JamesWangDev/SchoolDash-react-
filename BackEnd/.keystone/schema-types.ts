@@ -7,6 +7,20 @@ type Scalars = {
   readonly JSON: import('@keystone-next/types').JSONValue;
 };
 
+export type UserRelateToManyInput = {
+  readonly create?: ReadonlyArray<UserCreateInput | null> | null;
+  readonly connect?: ReadonlyArray<UserWhereUniqueInput | null> | null;
+  readonly disconnect?: ReadonlyArray<UserWhereUniqueInput | null> | null;
+  readonly disconnectAll?: Scalars['Boolean'] | null;
+};
+
+export type UserRelateToOneInput = {
+  readonly create?: UserCreateInput | null;
+  readonly connect?: UserWhereUniqueInput | null;
+  readonly disconnect?: UserWhereUniqueInput | null;
+  readonly disconnectAll?: Scalars['Boolean'] | null;
+};
+
 export type RoleRelateToOneInput = {
   readonly create?: RoleCreateInput | null;
   readonly connect?: RoleWhereUniqueInput | null;
@@ -58,8 +72,208 @@ export type UserWhereInput = {
   readonly email_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly email_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly password_is_set?: Scalars['Boolean'] | null;
+  readonly taStudents_every?: UserWhereInput | null;
+  readonly taStudents_some?: UserWhereInput | null;
+  readonly taStudents_none?: UserWhereInput | null;
+  readonly taTeacher?: UserWhereInput | null;
+  readonly taTeacher_is_null?: Scalars['Boolean'] | null;
+  readonly parent_every?: UserWhereInput | null;
+  readonly parent_some?: UserWhereInput | null;
+  readonly parent_none?: UserWhereInput | null;
+  readonly children_every?: UserWhereInput | null;
+  readonly children_some?: UserWhereInput | null;
+  readonly children_none?: UserWhereInput | null;
   readonly role?: RoleWhereInput | null;
   readonly role_is_null?: Scalars['Boolean'] | null;
+  readonly block1Teacher?: UserWhereInput | null;
+  readonly block1Teacher_is_null?: Scalars['Boolean'] | null;
+  readonly block1Students_every?: UserWhereInput | null;
+  readonly block1Students_some?: UserWhereInput | null;
+  readonly block1Students_none?: UserWhereInput | null;
+  readonly block2Teacher?: UserWhereInput | null;
+  readonly block2Teacher_is_null?: Scalars['Boolean'] | null;
+  readonly block2Students_every?: UserWhereInput | null;
+  readonly block2Students_some?: UserWhereInput | null;
+  readonly block2Students_none?: UserWhereInput | null;
+  readonly block3Teacher?: UserWhereInput | null;
+  readonly block3Teacher_is_null?: Scalars['Boolean'] | null;
+  readonly block3Students_every?: UserWhereInput | null;
+  readonly block3Students_some?: UserWhereInput | null;
+  readonly block3Students_none?: UserWhereInput | null;
+  readonly block4Teacher?: UserWhereInput | null;
+  readonly block4Teacher_is_null?: Scalars['Boolean'] | null;
+  readonly block4Students_every?: UserWhereInput | null;
+  readonly block4Students_some?: UserWhereInput | null;
+  readonly block4Students_none?: UserWhereInput | null;
+  readonly block5Teacher?: UserWhereInput | null;
+  readonly block5Teacher_is_null?: Scalars['Boolean'] | null;
+  readonly block5Students_every?: UserWhereInput | null;
+  readonly block5Students_some?: UserWhereInput | null;
+  readonly block5Students_none?: UserWhereInput | null;
+  readonly callbackCount?: Scalars['Int'] | null;
+  readonly callbackCount_not?: Scalars['Int'] | null;
+  readonly callbackCount_lt?: Scalars['Int'] | null;
+  readonly callbackCount_lte?: Scalars['Int'] | null;
+  readonly callbackCount_gt?: Scalars['Int'] | null;
+  readonly callbackCount_gte?: Scalars['Int'] | null;
+  readonly callbackCount_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly callbackCount_not_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly PbisCardCount?: Scalars['Int'] | null;
+  readonly PbisCardCount_not?: Scalars['Int'] | null;
+  readonly PbisCardCount_lt?: Scalars['Int'] | null;
+  readonly PbisCardCount_lte?: Scalars['Int'] | null;
+  readonly PbisCardCount_gt?: Scalars['Int'] | null;
+  readonly PbisCardCount_gte?: Scalars['Int'] | null;
+  readonly PbisCardCount_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly PbisCardCount_not_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly YearPbisCount?: Scalars['Int'] | null;
+  readonly YearPbisCount_not?: Scalars['Int'] | null;
+  readonly YearPbisCount_lt?: Scalars['Int'] | null;
+  readonly YearPbisCount_lte?: Scalars['Int'] | null;
+  readonly YearPbisCount_gt?: Scalars['Int'] | null;
+  readonly YearPbisCount_gte?: Scalars['Int'] | null;
+  readonly YearPbisCount_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly YearPbisCount_not_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly teacherSubject?: Scalars['String'] | null;
+  readonly teacherSubject_not?: Scalars['String'] | null;
+  readonly teacherSubject_contains?: Scalars['String'] | null;
+  readonly teacherSubject_not_contains?: Scalars['String'] | null;
+  readonly teacherSubject_starts_with?: Scalars['String'] | null;
+  readonly teacherSubject_not_starts_with?: Scalars['String'] | null;
+  readonly teacherSubject_ends_with?: Scalars['String'] | null;
+  readonly teacherSubject_not_ends_with?: Scalars['String'] | null;
+  readonly teacherSubject_i?: Scalars['String'] | null;
+  readonly teacherSubject_not_i?: Scalars['String'] | null;
+  readonly teacherSubject_contains_i?: Scalars['String'] | null;
+  readonly teacherSubject_not_contains_i?: Scalars['String'] | null;
+  readonly teacherSubject_starts_with_i?: Scalars['String'] | null;
+  readonly teacherSubject_not_starts_with_i?: Scalars['String'] | null;
+  readonly teacherSubject_ends_with_i?: Scalars['String'] | null;
+  readonly teacherSubject_not_ends_with_i?: Scalars['String'] | null;
+  readonly teacherSubject_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly teacherSubject_not_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
+  readonly taPbisCardCount?: Scalars['Int'] | null;
+  readonly taPbisCardCount_not?: Scalars['Int'] | null;
+  readonly taPbisCardCount_lt?: Scalars['Int'] | null;
+  readonly taPbisCardCount_lte?: Scalars['Int'] | null;
+  readonly taPbisCardCount_gt?: Scalars['Int'] | null;
+  readonly taPbisCardCount_gte?: Scalars['Int'] | null;
+  readonly taPbisCardCount_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly taPbisCardCount_not_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly block1Assignment?: Scalars['String'] | null;
+  readonly block1Assignment_not?: Scalars['String'] | null;
+  readonly block1Assignment_contains?: Scalars['String'] | null;
+  readonly block1Assignment_not_contains?: Scalars['String'] | null;
+  readonly block1Assignment_starts_with?: Scalars['String'] | null;
+  readonly block1Assignment_not_starts_with?: Scalars['String'] | null;
+  readonly block1Assignment_ends_with?: Scalars['String'] | null;
+  readonly block1Assignment_not_ends_with?: Scalars['String'] | null;
+  readonly block1Assignment_i?: Scalars['String'] | null;
+  readonly block1Assignment_not_i?: Scalars['String'] | null;
+  readonly block1Assignment_contains_i?: Scalars['String'] | null;
+  readonly block1Assignment_not_contains_i?: Scalars['String'] | null;
+  readonly block1Assignment_starts_with_i?: Scalars['String'] | null;
+  readonly block1Assignment_not_starts_with_i?: Scalars['String'] | null;
+  readonly block1Assignment_ends_with_i?: Scalars['String'] | null;
+  readonly block1Assignment_not_ends_with_i?: Scalars['String'] | null;
+  readonly block1Assignment_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly block1Assignment_not_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
+  readonly block1AssignmentLastUpdated?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated_not?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated_lt?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated_lte?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated_gt?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated_gte?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
+  readonly block1AssignmentLastUpdated_not_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
+  readonly block2Assignment?: Scalars['String'] | null;
+  readonly block2Assignment_not?: Scalars['String'] | null;
+  readonly block2Assignment_contains?: Scalars['String'] | null;
+  readonly block2Assignment_not_contains?: Scalars['String'] | null;
+  readonly block2Assignment_starts_with?: Scalars['String'] | null;
+  readonly block2Assignment_not_starts_with?: Scalars['String'] | null;
+  readonly block2Assignment_ends_with?: Scalars['String'] | null;
+  readonly block2Assignment_not_ends_with?: Scalars['String'] | null;
+  readonly block2Assignment_i?: Scalars['String'] | null;
+  readonly block2Assignment_not_i?: Scalars['String'] | null;
+  readonly block2Assignment_contains_i?: Scalars['String'] | null;
+  readonly block2Assignment_not_contains_i?: Scalars['String'] | null;
+  readonly block2Assignment_starts_with_i?: Scalars['String'] | null;
+  readonly block2Assignment_not_starts_with_i?: Scalars['String'] | null;
+  readonly block2Assignment_ends_with_i?: Scalars['String'] | null;
+  readonly block2Assignment_not_ends_with_i?: Scalars['String'] | null;
+  readonly block2Assignment_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly block2Assignment_not_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
+  readonly block3Assignment?: Scalars['String'] | null;
+  readonly block3Assignment_not?: Scalars['String'] | null;
+  readonly block3Assignment_contains?: Scalars['String'] | null;
+  readonly block3Assignment_not_contains?: Scalars['String'] | null;
+  readonly block3Assignment_starts_with?: Scalars['String'] | null;
+  readonly block3Assignment_not_starts_with?: Scalars['String'] | null;
+  readonly block3Assignment_ends_with?: Scalars['String'] | null;
+  readonly block3Assignment_not_ends_with?: Scalars['String'] | null;
+  readonly block3Assignment_i?: Scalars['String'] | null;
+  readonly block3Assignment_not_i?: Scalars['String'] | null;
+  readonly block3Assignment_contains_i?: Scalars['String'] | null;
+  readonly block3Assignment_not_contains_i?: Scalars['String'] | null;
+  readonly block3Assignment_starts_with_i?: Scalars['String'] | null;
+  readonly block3Assignment_not_starts_with_i?: Scalars['String'] | null;
+  readonly block3Assignment_ends_with_i?: Scalars['String'] | null;
+  readonly block3Assignment_not_ends_with_i?: Scalars['String'] | null;
+  readonly block3Assignment_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly block3Assignment_not_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
+  readonly block4Assignment?: Scalars['String'] | null;
+  readonly block4Assignment_not?: Scalars['String'] | null;
+  readonly block4Assignment_contains?: Scalars['String'] | null;
+  readonly block4Assignment_not_contains?: Scalars['String'] | null;
+  readonly block4Assignment_starts_with?: Scalars['String'] | null;
+  readonly block4Assignment_not_starts_with?: Scalars['String'] | null;
+  readonly block4Assignment_ends_with?: Scalars['String'] | null;
+  readonly block4Assignment_not_ends_with?: Scalars['String'] | null;
+  readonly block4Assignment_i?: Scalars['String'] | null;
+  readonly block4Assignment_not_i?: Scalars['String'] | null;
+  readonly block4Assignment_contains_i?: Scalars['String'] | null;
+  readonly block4Assignment_not_contains_i?: Scalars['String'] | null;
+  readonly block4Assignment_starts_with_i?: Scalars['String'] | null;
+  readonly block4Assignment_not_starts_with_i?: Scalars['String'] | null;
+  readonly block4Assignment_ends_with_i?: Scalars['String'] | null;
+  readonly block4Assignment_not_ends_with_i?: Scalars['String'] | null;
+  readonly block4Assignment_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly block4Assignment_not_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
+  readonly block5Assignment?: Scalars['String'] | null;
+  readonly block5Assignment_not?: Scalars['String'] | null;
+  readonly block5Assignment_contains?: Scalars['String'] | null;
+  readonly block5Assignment_not_contains?: Scalars['String'] | null;
+  readonly block5Assignment_starts_with?: Scalars['String'] | null;
+  readonly block5Assignment_not_starts_with?: Scalars['String'] | null;
+  readonly block5Assignment_ends_with?: Scalars['String'] | null;
+  readonly block5Assignment_not_ends_with?: Scalars['String'] | null;
+  readonly block5Assignment_i?: Scalars['String'] | null;
+  readonly block5Assignment_not_i?: Scalars['String'] | null;
+  readonly block5Assignment_contains_i?: Scalars['String'] | null;
+  readonly block5Assignment_not_contains_i?: Scalars['String'] | null;
+  readonly block5Assignment_starts_with_i?: Scalars['String'] | null;
+  readonly block5Assignment_not_starts_with_i?: Scalars['String'] | null;
+  readonly block5Assignment_ends_with_i?: Scalars['String'] | null;
+  readonly block5Assignment_not_ends_with_i?: Scalars['String'] | null;
+  readonly block5Assignment_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly block5Assignment_not_in?: ReadonlyArray<
+    Scalars['String'] | null
+  > | null;
   readonly passwordResetToken_is_set?: Scalars['Boolean'] | null;
   readonly passwordResetIssuedAt?: Scalars['String'] | null;
   readonly passwordResetIssuedAt_not?: Scalars['String'] | null;
@@ -123,8 +337,58 @@ export type SortUsersBy =
   | 'name_DESC'
   | 'email_ASC'
   | 'email_DESC'
+  | 'taStudents_ASC'
+  | 'taStudents_DESC'
+  | 'taTeacher_ASC'
+  | 'taTeacher_DESC'
+  | 'parent_ASC'
+  | 'parent_DESC'
+  | 'children_ASC'
+  | 'children_DESC'
   | 'role_ASC'
   | 'role_DESC'
+  | 'block1Teacher_ASC'
+  | 'block1Teacher_DESC'
+  | 'block1Students_ASC'
+  | 'block1Students_DESC'
+  | 'block2Teacher_ASC'
+  | 'block2Teacher_DESC'
+  | 'block2Students_ASC'
+  | 'block2Students_DESC'
+  | 'block3Teacher_ASC'
+  | 'block3Teacher_DESC'
+  | 'block3Students_ASC'
+  | 'block3Students_DESC'
+  | 'block4Teacher_ASC'
+  | 'block4Teacher_DESC'
+  | 'block4Students_ASC'
+  | 'block4Students_DESC'
+  | 'block5Teacher_ASC'
+  | 'block5Teacher_DESC'
+  | 'block5Students_ASC'
+  | 'block5Students_DESC'
+  | 'callbackCount_ASC'
+  | 'callbackCount_DESC'
+  | 'PbisCardCount_ASC'
+  | 'PbisCardCount_DESC'
+  | 'YearPbisCount_ASC'
+  | 'YearPbisCount_DESC'
+  | 'teacherSubject_ASC'
+  | 'teacherSubject_DESC'
+  | 'taPbisCardCount_ASC'
+  | 'taPbisCardCount_DESC'
+  | 'block1Assignment_ASC'
+  | 'block1Assignment_DESC'
+  | 'block1AssignmentLastUpdated_ASC'
+  | 'block1AssignmentLastUpdated_DESC'
+  | 'block2Assignment_ASC'
+  | 'block2Assignment_DESC'
+  | 'block3Assignment_ASC'
+  | 'block3Assignment_DESC'
+  | 'block4Assignment_ASC'
+  | 'block4Assignment_DESC'
+  | 'block5Assignment_ASC'
+  | 'block5Assignment_DESC'
   | 'passwordResetIssuedAt_ASC'
   | 'passwordResetIssuedAt_DESC'
   | 'passwordResetRedeemedAt_ASC'
@@ -138,7 +402,32 @@ export type UserUpdateInput = {
   readonly name?: Scalars['String'] | null;
   readonly email?: Scalars['String'] | null;
   readonly password?: Scalars['String'] | null;
+  readonly taStudents?: UserRelateToManyInput | null;
+  readonly taTeacher?: UserRelateToOneInput | null;
+  readonly parent?: UserRelateToManyInput | null;
+  readonly children?: UserRelateToManyInput | null;
   readonly role?: RoleRelateToOneInput | null;
+  readonly block1Teacher?: UserRelateToOneInput | null;
+  readonly block1Students?: UserRelateToManyInput | null;
+  readonly block2Teacher?: UserRelateToOneInput | null;
+  readonly block2Students?: UserRelateToManyInput | null;
+  readonly block3Teacher?: UserRelateToOneInput | null;
+  readonly block3Students?: UserRelateToManyInput | null;
+  readonly block4Teacher?: UserRelateToOneInput | null;
+  readonly block4Students?: UserRelateToManyInput | null;
+  readonly block5Teacher?: UserRelateToOneInput | null;
+  readonly block5Students?: UserRelateToManyInput | null;
+  readonly callbackCount?: Scalars['Int'] | null;
+  readonly PbisCardCount?: Scalars['Int'] | null;
+  readonly YearPbisCount?: Scalars['Int'] | null;
+  readonly teacherSubject?: Scalars['String'] | null;
+  readonly taPbisCardCount?: Scalars['Int'] | null;
+  readonly block1Assignment?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated?: Scalars['String'] | null;
+  readonly block2Assignment?: Scalars['String'] | null;
+  readonly block3Assignment?: Scalars['String'] | null;
+  readonly block4Assignment?: Scalars['String'] | null;
+  readonly block5Assignment?: Scalars['String'] | null;
   readonly passwordResetToken?: Scalars['String'] | null;
   readonly passwordResetIssuedAt?: Scalars['String'] | null;
   readonly passwordResetRedeemedAt?: Scalars['String'] | null;
@@ -156,7 +445,32 @@ export type UserCreateInput = {
   readonly name?: Scalars['String'] | null;
   readonly email?: Scalars['String'] | null;
   readonly password?: Scalars['String'] | null;
+  readonly taStudents?: UserRelateToManyInput | null;
+  readonly taTeacher?: UserRelateToOneInput | null;
+  readonly parent?: UserRelateToManyInput | null;
+  readonly children?: UserRelateToManyInput | null;
   readonly role?: RoleRelateToOneInput | null;
+  readonly block1Teacher?: UserRelateToOneInput | null;
+  readonly block1Students?: UserRelateToManyInput | null;
+  readonly block2Teacher?: UserRelateToOneInput | null;
+  readonly block2Students?: UserRelateToManyInput | null;
+  readonly block3Teacher?: UserRelateToOneInput | null;
+  readonly block3Students?: UserRelateToManyInput | null;
+  readonly block4Teacher?: UserRelateToOneInput | null;
+  readonly block4Students?: UserRelateToManyInput | null;
+  readonly block5Teacher?: UserRelateToOneInput | null;
+  readonly block5Students?: UserRelateToManyInput | null;
+  readonly callbackCount?: Scalars['Int'] | null;
+  readonly PbisCardCount?: Scalars['Int'] | null;
+  readonly YearPbisCount?: Scalars['Int'] | null;
+  readonly teacherSubject?: Scalars['String'] | null;
+  readonly taPbisCardCount?: Scalars['Int'] | null;
+  readonly block1Assignment?: Scalars['String'] | null;
+  readonly block1AssignmentLastUpdated?: Scalars['String'] | null;
+  readonly block2Assignment?: Scalars['String'] | null;
+  readonly block3Assignment?: Scalars['String'] | null;
+  readonly block4Assignment?: Scalars['String'] | null;
+  readonly block5Assignment?: Scalars['String'] | null;
   readonly passwordResetToken?: Scalars['String'] | null;
   readonly passwordResetIssuedAt?: Scalars['String'] | null;
   readonly passwordResetRedeemedAt?: Scalars['String'] | null;
@@ -167,13 +481,6 @@ export type UserCreateInput = {
 
 export type UsersCreateInput = {
   readonly data?: UserCreateInput | null;
-};
-
-export type UserRelateToOneInput = {
-  readonly create?: UserCreateInput | null;
-  readonly connect?: UserWhereUniqueInput | null;
-  readonly disconnect?: UserWhereUniqueInput | null;
-  readonly disconnectAll?: Scalars['Boolean'] | null;
 };
 
 export type CalendarWhereInput = {
@@ -304,13 +611,6 @@ export type CalendarsCreateInput = {
   readonly data?: CalendarCreateInput | null;
 };
 
-export type UserRelateToManyInput = {
-  readonly create?: ReadonlyArray<UserCreateInput | null> | null;
-  readonly connect?: ReadonlyArray<UserWhereUniqueInput | null> | null;
-  readonly disconnect?: ReadonlyArray<UserWhereUniqueInput | null> | null;
-  readonly disconnectAll?: Scalars['Boolean'] | null;
-};
-
 export type RoleWhereInput = {
   readonly AND?: ReadonlyArray<RoleWhereInput | null> | null;
   readonly OR?: ReadonlyArray<RoleWhereInput | null> | null;
@@ -336,18 +636,32 @@ export type RoleWhereInput = {
   readonly name_not_ends_with_i?: Scalars['String'] | null;
   readonly name_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly name_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
-  readonly canManageProducts?: Scalars['Boolean'] | null;
-  readonly canManageProducts_not?: Scalars['Boolean'] | null;
+  readonly canManageCalendar?: Scalars['Boolean'] | null;
+  readonly canManageCalendar_not?: Scalars['Boolean'] | null;
   readonly canSeeOtherUsers?: Scalars['Boolean'] | null;
   readonly canSeeOtherUsers_not?: Scalars['Boolean'] | null;
   readonly canManageUsers?: Scalars['Boolean'] | null;
   readonly canManageUsers_not?: Scalars['Boolean'] | null;
   readonly canManageRoles?: Scalars['Boolean'] | null;
   readonly canManageRoles_not?: Scalars['Boolean'] | null;
-  readonly canManageCart?: Scalars['Boolean'] | null;
-  readonly canManageCart_not?: Scalars['Boolean'] | null;
-  readonly canManageOrders?: Scalars['Boolean'] | null;
-  readonly canManageOrders_not?: Scalars['Boolean'] | null;
+  readonly canManageLinks?: Scalars['Boolean'] | null;
+  readonly canManageLinks_not?: Scalars['Boolean'] | null;
+  readonly canManageDiscipline?: Scalars['Boolean'] | null;
+  readonly canManageDiscipline_not?: Scalars['Boolean'] | null;
+  readonly canSeeAllDiscipline?: Scalars['Boolean'] | null;
+  readonly canSeeAllDiscipline_not?: Scalars['Boolean'] | null;
+  readonly canSeeAllTeacherEvents?: Scalars['Boolean'] | null;
+  readonly canSeeAllTeacherEvents_not?: Scalars['Boolean'] | null;
+  readonly canSeeStudentEvents?: Scalars['Boolean'] | null;
+  readonly canSeeStudentEvents_not?: Scalars['Boolean'] | null;
+  readonly canSeeOwnCallback?: Scalars['Boolean'] | null;
+  readonly canSeeOwnCallback_not?: Scalars['Boolean'] | null;
+  readonly canSeeAllCallback?: Scalars['Boolean'] | null;
+  readonly canSeeAllCallback_not?: Scalars['Boolean'] | null;
+  readonly hasTA?: Scalars['Boolean'] | null;
+  readonly hasTA_not?: Scalars['Boolean'] | null;
+  readonly hasClasses?: Scalars['Boolean'] | null;
+  readonly hasClasses_not?: Scalars['Boolean'] | null;
   readonly assignedTo_every?: UserWhereInput | null;
   readonly assignedTo_some?: UserWhereInput | null;
   readonly assignedTo_none?: UserWhereInput | null;
@@ -362,29 +676,50 @@ export type SortRolesBy =
   | 'id_DESC'
   | 'name_ASC'
   | 'name_DESC'
-  | 'canManageProducts_ASC'
-  | 'canManageProducts_DESC'
+  | 'canManageCalendar_ASC'
+  | 'canManageCalendar_DESC'
   | 'canSeeOtherUsers_ASC'
   | 'canSeeOtherUsers_DESC'
   | 'canManageUsers_ASC'
   | 'canManageUsers_DESC'
   | 'canManageRoles_ASC'
   | 'canManageRoles_DESC'
-  | 'canManageCart_ASC'
-  | 'canManageCart_DESC'
-  | 'canManageOrders_ASC'
-  | 'canManageOrders_DESC'
+  | 'canManageLinks_ASC'
+  | 'canManageLinks_DESC'
+  | 'canManageDiscipline_ASC'
+  | 'canManageDiscipline_DESC'
+  | 'canSeeAllDiscipline_ASC'
+  | 'canSeeAllDiscipline_DESC'
+  | 'canSeeAllTeacherEvents_ASC'
+  | 'canSeeAllTeacherEvents_DESC'
+  | 'canSeeStudentEvents_ASC'
+  | 'canSeeStudentEvents_DESC'
+  | 'canSeeOwnCallback_ASC'
+  | 'canSeeOwnCallback_DESC'
+  | 'canSeeAllCallback_ASC'
+  | 'canSeeAllCallback_DESC'
+  | 'hasTA_ASC'
+  | 'hasTA_DESC'
+  | 'hasClasses_ASC'
+  | 'hasClasses_DESC'
   | 'assignedTo_ASC'
   | 'assignedTo_DESC';
 
 export type RoleUpdateInput = {
   readonly name?: Scalars['String'] | null;
-  readonly canManageProducts?: Scalars['Boolean'] | null;
+  readonly canManageCalendar?: Scalars['Boolean'] | null;
   readonly canSeeOtherUsers?: Scalars['Boolean'] | null;
   readonly canManageUsers?: Scalars['Boolean'] | null;
   readonly canManageRoles?: Scalars['Boolean'] | null;
-  readonly canManageCart?: Scalars['Boolean'] | null;
-  readonly canManageOrders?: Scalars['Boolean'] | null;
+  readonly canManageLinks?: Scalars['Boolean'] | null;
+  readonly canManageDiscipline?: Scalars['Boolean'] | null;
+  readonly canSeeAllDiscipline?: Scalars['Boolean'] | null;
+  readonly canSeeAllTeacherEvents?: Scalars['Boolean'] | null;
+  readonly canSeeStudentEvents?: Scalars['Boolean'] | null;
+  readonly canSeeOwnCallback?: Scalars['Boolean'] | null;
+  readonly canSeeAllCallback?: Scalars['Boolean'] | null;
+  readonly hasTA?: Scalars['Boolean'] | null;
+  readonly hasClasses?: Scalars['Boolean'] | null;
   readonly assignedTo?: UserRelateToManyInput | null;
 };
 
@@ -395,12 +730,19 @@ export type RolesUpdateInput = {
 
 export type RoleCreateInput = {
   readonly name?: Scalars['String'] | null;
-  readonly canManageProducts?: Scalars['Boolean'] | null;
+  readonly canManageCalendar?: Scalars['Boolean'] | null;
   readonly canSeeOtherUsers?: Scalars['Boolean'] | null;
   readonly canManageUsers?: Scalars['Boolean'] | null;
   readonly canManageRoles?: Scalars['Boolean'] | null;
-  readonly canManageCart?: Scalars['Boolean'] | null;
-  readonly canManageOrders?: Scalars['Boolean'] | null;
+  readonly canManageLinks?: Scalars['Boolean'] | null;
+  readonly canManageDiscipline?: Scalars['Boolean'] | null;
+  readonly canSeeAllDiscipline?: Scalars['Boolean'] | null;
+  readonly canSeeAllTeacherEvents?: Scalars['Boolean'] | null;
+  readonly canSeeStudentEvents?: Scalars['Boolean'] | null;
+  readonly canSeeOwnCallback?: Scalars['Boolean'] | null;
+  readonly canSeeAllCallback?: Scalars['Boolean'] | null;
+  readonly hasTA?: Scalars['Boolean'] | null;
+  readonly hasClasses?: Scalars['Boolean'] | null;
   readonly assignedTo?: UserRelateToManyInput | null;
 };
 
@@ -448,7 +790,32 @@ export type UserListTypeInfo = {
     | 'name'
     | 'email'
     | 'password'
+    | 'taStudents'
+    | 'taTeacher'
+    | 'parent'
+    | 'children'
     | 'role'
+    | 'block1Teacher'
+    | 'block1Students'
+    | 'block2Teacher'
+    | 'block2Students'
+    | 'block3Teacher'
+    | 'block3Students'
+    | 'block4Teacher'
+    | 'block4Students'
+    | 'block5Teacher'
+    | 'block5Students'
+    | 'callbackCount'
+    | 'PbisCardCount'
+    | 'YearPbisCount'
+    | 'teacherSubject'
+    | 'taPbisCardCount'
+    | 'block1Assignment'
+    | 'block1AssignmentLastUpdated'
+    | 'block2Assignment'
+    | 'block3Assignment'
+    | 'block4Assignment'
+    | 'block5Assignment'
     | 'passwordResetToken'
     | 'passwordResetIssuedAt'
     | 'passwordResetRedeemedAt'
@@ -460,7 +827,32 @@ export type UserListTypeInfo = {
     readonly name?: string | null;
     readonly email?: string | null;
     readonly password?: string | null;
+    readonly taStudents?: string | null;
+    readonly taTeacher?: string | null;
+    readonly parent?: string | null;
+    readonly children?: string | null;
     readonly role?: string | null;
+    readonly block1Teacher?: string | null;
+    readonly block1Students?: string | null;
+    readonly block2Teacher?: string | null;
+    readonly block2Students?: string | null;
+    readonly block3Teacher?: string | null;
+    readonly block3Students?: string | null;
+    readonly block4Teacher?: string | null;
+    readonly block4Students?: string | null;
+    readonly block5Teacher?: string | null;
+    readonly block5Students?: string | null;
+    readonly callbackCount?: number | null;
+    readonly PbisCardCount?: number | null;
+    readonly YearPbisCount?: number | null;
+    readonly teacherSubject?: string | null;
+    readonly taPbisCardCount?: number | null;
+    readonly block1Assignment?: string | null;
+    readonly block1AssignmentLastUpdated?: Date | null;
+    readonly block2Assignment?: string | null;
+    readonly block3Assignment?: string | null;
+    readonly block4Assignment?: string | null;
+    readonly block5Assignment?: string | null;
     readonly passwordResetToken?: string | null;
     readonly passwordResetIssuedAt?: Date | null;
     readonly passwordResetRedeemedAt?: Date | null;
@@ -542,22 +934,36 @@ export type RoleListTypeInfo = {
   fields:
     | 'id'
     | 'name'
-    | 'canManageProducts'
+    | 'canManageCalendar'
     | 'canSeeOtherUsers'
     | 'canManageUsers'
     | 'canManageRoles'
-    | 'canManageCart'
-    | 'canManageOrders'
+    | 'canManageLinks'
+    | 'canManageDiscipline'
+    | 'canSeeAllDiscipline'
+    | 'canSeeAllTeacherEvents'
+    | 'canSeeStudentEvents'
+    | 'canSeeOwnCallback'
+    | 'canSeeAllCallback'
+    | 'hasTA'
+    | 'hasClasses'
     | 'assignedTo';
   backing: {
     readonly id: string;
     readonly name?: string | null;
-    readonly canManageProducts?: boolean | null;
+    readonly canManageCalendar?: boolean | null;
     readonly canSeeOtherUsers?: boolean | null;
     readonly canManageUsers?: boolean | null;
     readonly canManageRoles?: boolean | null;
-    readonly canManageCart?: boolean | null;
-    readonly canManageOrders?: boolean | null;
+    readonly canManageLinks?: boolean | null;
+    readonly canManageDiscipline?: boolean | null;
+    readonly canSeeAllDiscipline?: boolean | null;
+    readonly canSeeAllTeacherEvents?: boolean | null;
+    readonly canSeeStudentEvents?: boolean | null;
+    readonly canSeeOwnCallback?: boolean | null;
+    readonly canSeeAllCallback?: boolean | null;
+    readonly hasTA?: boolean | null;
+    readonly hasClasses?: boolean | null;
     readonly assignedTo?: string | null;
   };
   inputs: {

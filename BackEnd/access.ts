@@ -26,16 +26,27 @@ export const permissions = {
 // Rule based function
 // Rules can return a boolean - yes or no - or a filter which limits which products they can CRUD.
 export const rules = {
-  canManageProducts({ session }: ListAccessArgs) {
+  canManageCalendar({ session }: ListAccessArgs) {
     if (!isSignedIn({ session })) {
       return false;
     }
     // 1. Do they have the permission of canManageProducts
-    if (permissions.canManageProducts({ session })) {
+    if (permissions.canManageCalendar({ session })) {
       return true;
     }
     // 2. If not, do they own this item?
-    return { user: { id: session.itemId } };
+    return false;
+  },
+  canViewCalendar({ session }: ListAccessArgs) {
+    if (!isSignedIn({ session })) {
+      return false;
+    }
+    // 1. Do they have the permission of canManageProducts
+    if (permissions.canManageCalendar({ session })) {
+      return true;
+    }
+    // 2. If not, do they own this item?
+    return false;
   },
   canOrder({ session }: ListAccessArgs) {
     if (!isSignedIn({ session })) {

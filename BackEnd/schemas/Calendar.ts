@@ -1,15 +1,15 @@
-import { integer, select, text, relationship, timestamp,  } from '@keystone-next/fields';
+import { integer, select, text, relationship, timestamp, } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { rules, isSignedIn } from '../access';
-import {CalendarDay} from '@keystonejs/fields'
+import { CalendarDay } from '@keystonejs/fields'
 
 export const Calendar = list({
-  // access: {
-  //   create: isSignedIn,
-  //   read: rules.canReadProducts,
-  //   update: rules.canManageProducts,
-  //   delete: rules.canManageProducts,
-  // },
+  access: {
+    create: isSignedIn,
+    read: rules.canViewCalendar,
+    update: rules.canManageCalendar,
+    delete: rules.canManageCalendar,
+  },
   fields: {
     name: text({ isRequired: true }),
     description: text({
@@ -18,35 +18,37 @@ export const Calendar = list({
       },
 
     }),
-    
+
     status: select({
       options: [
-        { label: 'Available', value: 'AVAILABLE' },
-        { label: 'Unavailable', value: 'UNAVAILABLE' },
+        { label: 'Teachers', value: 'Teachers' },
+        { label: 'Students', value: 'Students' },
+        { label: 'Both', value: 'Both' },
       ],
-      defaultValue: 'AVAILABLE',
+      defaultValue: 'Both',
       ui: {
         displayMode: 'segmented-control',
         createView: { fieldMode: 'hidden' },
       },
     }),
-    // role: relationship({
-    //   ref: 'Role.assignedTo',
-    //   access: {
-    //     // create: permissions.canManageUsers,
-    //     // update: permissions.canManageUsers,
-    //   },
-    // }),
     date: timestamp({
-      isRequired: true
+      isRequired: true,
+      defaultValue: () => {
+        const date = new Date();
+        return date.toISOString();
+      }
     }),
     author: relationship({
       ref: 'User',
-      
+
     }),
     dateCreated: timestamp({
       isRequired: true,
-      
+      defaultValue: () => {
+        const date = new Date();
+        return date.toISOString();
+      }
+
     }),
   },
 });

@@ -5,6 +5,7 @@ import { permissionFields } from './fields';
 
 export const Role = list({
   access: {
+    //todo this will need to be updated for production
     // create: permissions.canManageRoles,
     // read: permissions.canManageRoles,
     // update: permissions.canManageRoles,

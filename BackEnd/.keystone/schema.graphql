@@ -1,3 +1,17 @@
+input UserRelateToManyInput {
+  create: [UserCreateInput]
+  connect: [UserWhereUniqueInput]
+  disconnect: [UserWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
+input UserRelateToOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: UserWhereUniqueInput
+  disconnectAll: Boolean
+}
+
 input RoleRelateToOneInput {
   create: RoleCreateInput
   connect: RoleWhereUniqueInput
@@ -11,7 +25,40 @@ type User {
   name: String
   email: String
   password_is_set: Boolean
+  taStudents(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _taStudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  taTeacher: User
+  parent(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _parentMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  children(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _childrenMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   role: Role
+  block1Teacher: User
+  block1Students(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _block1StudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  block2Teacher: User
+  block2Students(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _block2StudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  block3Teacher: User
+  block3Students(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _block3StudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  block4Teacher: User
+  block4Students(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _block4StudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  block5Teacher: User
+  block5Students(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _block5StudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  callbackCount: Int
+  PbisCardCount: Int
+  YearPbisCount: Int
+  teacherSubject: String
+  taPbisCardCount: Int
+  block1Assignment: String
+  block1AssignmentLastUpdated: String
+  block2Assignment: String
+  block3Assignment: String
+  block4Assignment: String
+  block5Assignment: String
   passwordResetToken_is_set: Boolean
   passwordResetIssuedAt: String
   passwordResetRedeemedAt: String
@@ -64,8 +111,240 @@ input UserWhereInput {
   email_in: [String]
   email_not_in: [String]
   password_is_set: Boolean
+
+  """ condition must be true for all nodes """
+  taStudents_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  taStudents_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  taStudents_none: UserWhereInput
+  taTeacher: UserWhereInput
+  taTeacher_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  parent_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  parent_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  parent_none: UserWhereInput
+
+  """ condition must be true for all nodes """
+  children_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  children_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  children_none: UserWhereInput
   role: RoleWhereInput
   role_is_null: Boolean
+  block1Teacher: UserWhereInput
+  block1Teacher_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  block1Students_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  block1Students_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  block1Students_none: UserWhereInput
+  block2Teacher: UserWhereInput
+  block2Teacher_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  block2Students_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  block2Students_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  block2Students_none: UserWhereInput
+  block3Teacher: UserWhereInput
+  block3Teacher_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  block3Students_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  block3Students_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  block3Students_none: UserWhereInput
+  block4Teacher: UserWhereInput
+  block4Teacher_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  block4Students_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  block4Students_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  block4Students_none: UserWhereInput
+  block5Teacher: UserWhereInput
+  block5Teacher_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  block5Students_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  block5Students_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  block5Students_none: UserWhereInput
+  callbackCount: Int
+  callbackCount_not: Int
+  callbackCount_lt: Int
+  callbackCount_lte: Int
+  callbackCount_gt: Int
+  callbackCount_gte: Int
+  callbackCount_in: [Int]
+  callbackCount_not_in: [Int]
+  PbisCardCount: Int
+  PbisCardCount_not: Int
+  PbisCardCount_lt: Int
+  PbisCardCount_lte: Int
+  PbisCardCount_gt: Int
+  PbisCardCount_gte: Int
+  PbisCardCount_in: [Int]
+  PbisCardCount_not_in: [Int]
+  YearPbisCount: Int
+  YearPbisCount_not: Int
+  YearPbisCount_lt: Int
+  YearPbisCount_lte: Int
+  YearPbisCount_gt: Int
+  YearPbisCount_gte: Int
+  YearPbisCount_in: [Int]
+  YearPbisCount_not_in: [Int]
+  teacherSubject: String
+  teacherSubject_not: String
+  teacherSubject_contains: String
+  teacherSubject_not_contains: String
+  teacherSubject_starts_with: String
+  teacherSubject_not_starts_with: String
+  teacherSubject_ends_with: String
+  teacherSubject_not_ends_with: String
+  teacherSubject_i: String
+  teacherSubject_not_i: String
+  teacherSubject_contains_i: String
+  teacherSubject_not_contains_i: String
+  teacherSubject_starts_with_i: String
+  teacherSubject_not_starts_with_i: String
+  teacherSubject_ends_with_i: String
+  teacherSubject_not_ends_with_i: String
+  teacherSubject_in: [String]
+  teacherSubject_not_in: [String]
+  taPbisCardCount: Int
+  taPbisCardCount_not: Int
+  taPbisCardCount_lt: Int
+  taPbisCardCount_lte: Int
+  taPbisCardCount_gt: Int
+  taPbisCardCount_gte: Int
+  taPbisCardCount_in: [Int]
+  taPbisCardCount_not_in: [Int]
+  block1Assignment: String
+  block1Assignment_not: String
+  block1Assignment_contains: String
+  block1Assignment_not_contains: String
+  block1Assignment_starts_with: String
+  block1Assignment_not_starts_with: String
+  block1Assignment_ends_with: String
+  block1Assignment_not_ends_with: String
+  block1Assignment_i: String
+  block1Assignment_not_i: String
+  block1Assignment_contains_i: String
+  block1Assignment_not_contains_i: String
+  block1Assignment_starts_with_i: String
+  block1Assignment_not_starts_with_i: String
+  block1Assignment_ends_with_i: String
+  block1Assignment_not_ends_with_i: String
+  block1Assignment_in: [String]
+  block1Assignment_not_in: [String]
+  block1AssignmentLastUpdated: String
+  block1AssignmentLastUpdated_not: String
+  block1AssignmentLastUpdated_lt: String
+  block1AssignmentLastUpdated_lte: String
+  block1AssignmentLastUpdated_gt: String
+  block1AssignmentLastUpdated_gte: String
+  block1AssignmentLastUpdated_in: [String]
+  block1AssignmentLastUpdated_not_in: [String]
+  block2Assignment: String
+  block2Assignment_not: String
+  block2Assignment_contains: String
+  block2Assignment_not_contains: String
+  block2Assignment_starts_with: String
+  block2Assignment_not_starts_with: String
+  block2Assignment_ends_with: String
+  block2Assignment_not_ends_with: String
+  block2Assignment_i: String
+  block2Assignment_not_i: String
+  block2Assignment_contains_i: String
+  block2Assignment_not_contains_i: String
+  block2Assignment_starts_with_i: String
+  block2Assignment_not_starts_with_i: String
+  block2Assignment_ends_with_i: String
+  block2Assignment_not_ends_with_i: String
+  block2Assignment_in: [String]
+  block2Assignment_not_in: [String]
+  block3Assignment: String
+  block3Assignment_not: String
+  block3Assignment_contains: String
+  block3Assignment_not_contains: String
+  block3Assignment_starts_with: String
+  block3Assignment_not_starts_with: String
+  block3Assignment_ends_with: String
+  block3Assignment_not_ends_with: String
+  block3Assignment_i: String
+  block3Assignment_not_i: String
+  block3Assignment_contains_i: String
+  block3Assignment_not_contains_i: String
+  block3Assignment_starts_with_i: String
+  block3Assignment_not_starts_with_i: String
+  block3Assignment_ends_with_i: String
+  block3Assignment_not_ends_with_i: String
+  block3Assignment_in: [String]
+  block3Assignment_not_in: [String]
+  block4Assignment: String
+  block4Assignment_not: String
+  block4Assignment_contains: String
+  block4Assignment_not_contains: String
+  block4Assignment_starts_with: String
+  block4Assignment_not_starts_with: String
+  block4Assignment_ends_with: String
+  block4Assignment_not_ends_with: String
+  block4Assignment_i: String
+  block4Assignment_not_i: String
+  block4Assignment_contains_i: String
+  block4Assignment_not_contains_i: String
+  block4Assignment_starts_with_i: String
+  block4Assignment_not_starts_with_i: String
+  block4Assignment_ends_with_i: String
+  block4Assignment_not_ends_with_i: String
+  block4Assignment_in: [String]
+  block4Assignment_not_in: [String]
+  block5Assignment: String
+  block5Assignment_not: String
+  block5Assignment_contains: String
+  block5Assignment_not_contains: String
+  block5Assignment_starts_with: String
+  block5Assignment_not_starts_with: String
+  block5Assignment_ends_with: String
+  block5Assignment_not_ends_with: String
+  block5Assignment_i: String
+  block5Assignment_not_i: String
+  block5Assignment_contains_i: String
+  block5Assignment_not_contains_i: String
+  block5Assignment_starts_with_i: String
+  block5Assignment_not_starts_with_i: String
+  block5Assignment_ends_with_i: String
+  block5Assignment_not_ends_with_i: String
+  block5Assignment_in: [String]
+  block5Assignment_not_in: [String]
   passwordResetToken_is_set: Boolean
   passwordResetIssuedAt: String
   passwordResetIssuedAt_not: String
@@ -113,8 +392,58 @@ enum SortUsersBy {
   name_DESC
   email_ASC
   email_DESC
+  taStudents_ASC
+  taStudents_DESC
+  taTeacher_ASC
+  taTeacher_DESC
+  parent_ASC
+  parent_DESC
+  children_ASC
+  children_DESC
   role_ASC
   role_DESC
+  block1Teacher_ASC
+  block1Teacher_DESC
+  block1Students_ASC
+  block1Students_DESC
+  block2Teacher_ASC
+  block2Teacher_DESC
+  block2Students_ASC
+  block2Students_DESC
+  block3Teacher_ASC
+  block3Teacher_DESC
+  block3Students_ASC
+  block3Students_DESC
+  block4Teacher_ASC
+  block4Teacher_DESC
+  block4Students_ASC
+  block4Students_DESC
+  block5Teacher_ASC
+  block5Teacher_DESC
+  block5Students_ASC
+  block5Students_DESC
+  callbackCount_ASC
+  callbackCount_DESC
+  PbisCardCount_ASC
+  PbisCardCount_DESC
+  YearPbisCount_ASC
+  YearPbisCount_DESC
+  teacherSubject_ASC
+  teacherSubject_DESC
+  taPbisCardCount_ASC
+  taPbisCardCount_DESC
+  block1Assignment_ASC
+  block1Assignment_DESC
+  block1AssignmentLastUpdated_ASC
+  block1AssignmentLastUpdated_DESC
+  block2Assignment_ASC
+  block2Assignment_DESC
+  block3Assignment_ASC
+  block3Assignment_DESC
+  block4Assignment_ASC
+  block4Assignment_DESC
+  block5Assignment_ASC
+  block5Assignment_DESC
   passwordResetIssuedAt_ASC
   passwordResetIssuedAt_DESC
   passwordResetRedeemedAt_ASC
@@ -129,7 +458,32 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  taStudents: UserRelateToManyInput
+  taTeacher: UserRelateToOneInput
+  parent: UserRelateToManyInput
+  children: UserRelateToManyInput
   role: RoleRelateToOneInput
+  block1Teacher: UserRelateToOneInput
+  block1Students: UserRelateToManyInput
+  block2Teacher: UserRelateToOneInput
+  block2Students: UserRelateToManyInput
+  block3Teacher: UserRelateToOneInput
+  block3Students: UserRelateToManyInput
+  block4Teacher: UserRelateToOneInput
+  block4Students: UserRelateToManyInput
+  block5Teacher: UserRelateToOneInput
+  block5Students: UserRelateToManyInput
+  callbackCount: Int
+  PbisCardCount: Int
+  YearPbisCount: Int
+  teacherSubject: String
+  taPbisCardCount: Int
+  block1Assignment: String
+  block1AssignmentLastUpdated: String
+  block2Assignment: String
+  block3Assignment: String
+  block4Assignment: String
+  block5Assignment: String
   passwordResetToken: String
   passwordResetIssuedAt: String
   passwordResetRedeemedAt: String
@@ -147,7 +501,32 @@ input UserCreateInput {
   name: String
   email: String
   password: String
+  taStudents: UserRelateToManyInput
+  taTeacher: UserRelateToOneInput
+  parent: UserRelateToManyInput
+  children: UserRelateToManyInput
   role: RoleRelateToOneInput
+  block1Teacher: UserRelateToOneInput
+  block1Students: UserRelateToManyInput
+  block2Teacher: UserRelateToOneInput
+  block2Students: UserRelateToManyInput
+  block3Teacher: UserRelateToOneInput
+  block3Students: UserRelateToManyInput
+  block4Teacher: UserRelateToOneInput
+  block4Students: UserRelateToManyInput
+  block5Teacher: UserRelateToOneInput
+  block5Students: UserRelateToManyInput
+  callbackCount: Int
+  PbisCardCount: Int
+  YearPbisCount: Int
+  teacherSubject: String
+  taPbisCardCount: Int
+  block1Assignment: String
+  block1AssignmentLastUpdated: String
+  block2Assignment: String
+  block3Assignment: String
+  block4Assignment: String
+  block5Assignment: String
   passwordResetToken: String
   passwordResetIssuedAt: String
   passwordResetRedeemedAt: String
@@ -158,13 +537,6 @@ input UserCreateInput {
 
 input UsersCreateInput {
   data: UserCreateInput
-}
-
-input UserRelateToOneInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: UserWhereUniqueInput
-  disconnectAll: Boolean
 }
 
 """ A keystone list """
@@ -307,23 +679,23 @@ input CalendarsCreateInput {
   data: CalendarCreateInput
 }
 
-input UserRelateToManyInput {
-  create: [UserCreateInput]
-  connect: [UserWhereUniqueInput]
-  disconnect: [UserWhereUniqueInput]
-  disconnectAll: Boolean
-}
-
 """ A keystone list """
 type Role {
   id: ID!
   name: String
-  canManageProducts: Boolean
+  canManageCalendar: Boolean
   canSeeOtherUsers: Boolean
   canManageUsers: Boolean
   canManageRoles: Boolean
-  canManageCart: Boolean
-  canManageOrders: Boolean
+  canManageLinks: Boolean
+  canManageDiscipline: Boolean
+  canSeeAllDiscipline: Boolean
+  canSeeAllTeacherEvents: Boolean
+  canSeeStudentEvents: Boolean
+  canSeeOwnCallback: Boolean
+  canSeeAllCallback: Boolean
+  hasTA: Boolean
+  hasClasses: Boolean
   assignedTo(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
   _assignedToMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
 }
@@ -353,18 +725,32 @@ input RoleWhereInput {
   name_not_ends_with_i: String
   name_in: [String]
   name_not_in: [String]
-  canManageProducts: Boolean
-  canManageProducts_not: Boolean
+  canManageCalendar: Boolean
+  canManageCalendar_not: Boolean
   canSeeOtherUsers: Boolean
   canSeeOtherUsers_not: Boolean
   canManageUsers: Boolean
   canManageUsers_not: Boolean
   canManageRoles: Boolean
   canManageRoles_not: Boolean
-  canManageCart: Boolean
-  canManageCart_not: Boolean
-  canManageOrders: Boolean
-  canManageOrders_not: Boolean
+  canManageLinks: Boolean
+  canManageLinks_not: Boolean
+  canManageDiscipline: Boolean
+  canManageDiscipline_not: Boolean
+  canSeeAllDiscipline: Boolean
+  canSeeAllDiscipline_not: Boolean
+  canSeeAllTeacherEvents: Boolean
+  canSeeAllTeacherEvents_not: Boolean
+  canSeeStudentEvents: Boolean
+  canSeeStudentEvents_not: Boolean
+  canSeeOwnCallback: Boolean
+  canSeeOwnCallback_not: Boolean
+  canSeeAllCallback: Boolean
+  canSeeAllCallback_not: Boolean
+  hasTA: Boolean
+  hasTA_not: Boolean
+  hasClasses: Boolean
+  hasClasses_not: Boolean
 
   """ condition must be true for all nodes """
   assignedTo_every: UserWhereInput
@@ -385,30 +771,51 @@ enum SortRolesBy {
   id_DESC
   name_ASC
   name_DESC
-  canManageProducts_ASC
-  canManageProducts_DESC
+  canManageCalendar_ASC
+  canManageCalendar_DESC
   canSeeOtherUsers_ASC
   canSeeOtherUsers_DESC
   canManageUsers_ASC
   canManageUsers_DESC
   canManageRoles_ASC
   canManageRoles_DESC
-  canManageCart_ASC
-  canManageCart_DESC
-  canManageOrders_ASC
-  canManageOrders_DESC
+  canManageLinks_ASC
+  canManageLinks_DESC
+  canManageDiscipline_ASC
+  canManageDiscipline_DESC
+  canSeeAllDiscipline_ASC
+  canSeeAllDiscipline_DESC
+  canSeeAllTeacherEvents_ASC
+  canSeeAllTeacherEvents_DESC
+  canSeeStudentEvents_ASC
+  canSeeStudentEvents_DESC
+  canSeeOwnCallback_ASC
+  canSeeOwnCallback_DESC
+  canSeeAllCallback_ASC
+  canSeeAllCallback_DESC
+  hasTA_ASC
+  hasTA_DESC
+  hasClasses_ASC
+  hasClasses_DESC
   assignedTo_ASC
   assignedTo_DESC
 }
 
 input RoleUpdateInput {
   name: String
-  canManageProducts: Boolean
+  canManageCalendar: Boolean
   canSeeOtherUsers: Boolean
   canManageUsers: Boolean
   canManageRoles: Boolean
-  canManageCart: Boolean
-  canManageOrders: Boolean
+  canManageLinks: Boolean
+  canManageDiscipline: Boolean
+  canSeeAllDiscipline: Boolean
+  canSeeAllTeacherEvents: Boolean
+  canSeeStudentEvents: Boolean
+  canSeeOwnCallback: Boolean
+  canSeeAllCallback: Boolean
+  hasTA: Boolean
+  hasClasses: Boolean
   assignedTo: UserRelateToManyInput
 }
 
@@ -419,12 +826,19 @@ input RolesUpdateInput {
 
 input RoleCreateInput {
   name: String
-  canManageProducts: Boolean
+  canManageCalendar: Boolean
   canSeeOtherUsers: Boolean
   canManageUsers: Boolean
   canManageRoles: Boolean
-  canManageCart: Boolean
-  canManageOrders: Boolean
+  canManageLinks: Boolean
+  canManageDiscipline: Boolean
+  canSeeAllDiscipline: Boolean
+  canSeeAllTeacherEvents: Boolean
+  canSeeStudentEvents: Boolean
+  canSeeOwnCallback: Boolean
+  canSeeAllCallback: Boolean
+  hasTA: Boolean
+  hasClasses: Boolean
   assignedTo: UserRelateToManyInput
 }
 
