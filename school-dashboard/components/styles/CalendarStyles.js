@@ -9,18 +9,14 @@ export const CalendarContainerStyle = styled.div`
 export const SingleCalendarStyle = styled.div`
   display: flex;
   flex-direction: column;
-
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
+  flex-basis: fit;
   .title {
-    background-image: linear-gradient(
-      to top left,
-      var(--red),
-      var(--blue),
-      /* url(/calendar.png) */
-    );
-    background-size: cover;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 2rem;
+    opacity: 0.8;
+    background: linear-gradient(to top left, var(--red), var(--blue));
+    /* background-size: cover; */
   }
 
   .detailsContainer {
@@ -34,8 +30,11 @@ export const SingleCalendarStyle = styled.div`
     overflow: visible;
 
     div {
+      margin-top: -2rem;
       padding: 1rem;
-      background: var(--blue);
+      background: linear-gradient(to top right, var(--red), var(--blue));
+      color: white;
+      opacity: 0.8;
       border-radius: 1rem;
     }
   }

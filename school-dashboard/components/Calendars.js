@@ -6,7 +6,7 @@ import DisplaySingleCalendarEvent from './DisplaySingleCalendarEvent';
 
 const GET_CALENDARS = gql`
   query GET_CALENDARS($searchDates: String!) {
-    allCalendars(sortBy: date_DESC, where: { date_gt: $searchDates }) {
+    allCalendars(sortBy: date_ASC, where: { date_gt: $searchDates }) {
       name
       id
       description
@@ -16,6 +16,8 @@ const GET_CALENDARS = gql`
       }
       status
       dateCreated
+      link
+      linkTitle
     }
   }
 `;
