@@ -1,11 +1,11 @@
 import { list } from '@keystone-next/keystone/schema';
 import { text, password, relationship, integer, timestamp } from '@keystone-next/fields';
-import { permissions, rules } from '../access';
+import { isSignedIn, permissions, rules } from '../access';
 
 export const User = list({
   access: {
     create: () => true,
-    read: rules.canManageUsers,
+    read: isSignedIn,
     // update: rules.canManageUsers,
     // only people with the permission can delete themselves!
     // You can't delete yourself
