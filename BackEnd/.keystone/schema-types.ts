@@ -21,10 +21,10 @@ export type UserRelateToOneInput = {
   readonly disconnectAll?: Scalars['Boolean'] | null;
 };
 
-export type RoleRelateToOneInput = {
-  readonly create?: RoleCreateInput | null;
-  readonly connect?: RoleWhereUniqueInput | null;
-  readonly disconnect?: RoleWhereUniqueInput | null;
+export type RoleRelateToManyInput = {
+  readonly create?: ReadonlyArray<RoleCreateInput | null> | null;
+  readonly connect?: ReadonlyArray<RoleWhereUniqueInput | null> | null;
+  readonly disconnect?: ReadonlyArray<RoleWhereUniqueInput | null> | null;
   readonly disconnectAll?: Scalars['Boolean'] | null;
 };
 
@@ -83,8 +83,9 @@ export type UserWhereInput = {
   readonly children_every?: UserWhereInput | null;
   readonly children_some?: UserWhereInput | null;
   readonly children_none?: UserWhereInput | null;
-  readonly role?: RoleWhereInput | null;
-  readonly role_is_null?: Scalars['Boolean'] | null;
+  readonly role_every?: RoleWhereInput | null;
+  readonly role_some?: RoleWhereInput | null;
+  readonly role_none?: RoleWhereInput | null;
   readonly block1Teacher?: UserWhereInput | null;
   readonly block1Teacher_is_null?: Scalars['Boolean'] | null;
   readonly block1Students_every?: UserWhereInput | null;
@@ -406,7 +407,7 @@ export type UserUpdateInput = {
   readonly taTeacher?: UserRelateToOneInput | null;
   readonly parent?: UserRelateToManyInput | null;
   readonly children?: UserRelateToManyInput | null;
-  readonly role?: RoleRelateToOneInput | null;
+  readonly role?: RoleRelateToManyInput | null;
   readonly block1Teacher?: UserRelateToOneInput | null;
   readonly block1Students?: UserRelateToManyInput | null;
   readonly block2Teacher?: UserRelateToOneInput | null;
@@ -449,7 +450,7 @@ export type UserCreateInput = {
   readonly taTeacher?: UserRelateToOneInput | null;
   readonly parent?: UserRelateToManyInput | null;
   readonly children?: UserRelateToManyInput | null;
-  readonly role?: RoleRelateToOneInput | null;
+  readonly role?: RoleRelateToManyInput | null;
   readonly block1Teacher?: UserRelateToOneInput | null;
   readonly block1Students?: UserRelateToManyInput | null;
   readonly block2Teacher?: UserRelateToOneInput | null;

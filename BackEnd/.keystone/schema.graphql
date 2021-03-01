@@ -12,10 +12,10 @@ input UserRelateToOneInput {
   disconnectAll: Boolean
 }
 
-input RoleRelateToOneInput {
-  create: RoleCreateInput
-  connect: RoleWhereUniqueInput
-  disconnect: RoleWhereUniqueInput
+input RoleRelateToManyInput {
+  create: [RoleCreateInput]
+  connect: [RoleWhereUniqueInput]
+  disconnect: [RoleWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -32,7 +32,8 @@ type User {
   _parentMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   children(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
   _childrenMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
-  role: Role
+  role(where: RoleWhereInput, search: String, sortBy: [SortRolesBy!], orderBy: String, first: Int, skip: Int): [Role!]!
+  _roleMeta(where: RoleWhereInput, search: String, sortBy: [SortRolesBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   block1Teacher: User
   block1Students(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
   _block1StudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
@@ -140,8 +141,15 @@ input UserWhereInput {
 
   """ condition must be false for all nodes """
   children_none: UserWhereInput
-  role: RoleWhereInput
-  role_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  role_every: RoleWhereInput
+
+  """ condition must be true for at least 1 node """
+  role_some: RoleWhereInput
+
+  """ condition must be false for all nodes """
+  role_none: RoleWhereInput
   block1Teacher: UserWhereInput
   block1Teacher_is_null: Boolean
 
@@ -462,7 +470,7 @@ input UserUpdateInput {
   taTeacher: UserRelateToOneInput
   parent: UserRelateToManyInput
   children: UserRelateToManyInput
-  role: RoleRelateToOneInput
+  role: RoleRelateToManyInput
   block1Teacher: UserRelateToOneInput
   block1Students: UserRelateToManyInput
   block2Teacher: UserRelateToOneInput
@@ -505,7 +513,7 @@ input UserCreateInput {
   taTeacher: UserRelateToOneInput
   parent: UserRelateToManyInput
   children: UserRelateToManyInput
-  role: RoleRelateToOneInput
+  role: RoleRelateToManyInput
   block1Teacher: UserRelateToOneInput
   block1Students: UserRelateToManyInput
   block2Teacher: UserRelateToOneInput

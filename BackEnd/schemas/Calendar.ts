@@ -6,7 +6,7 @@ import { CalendarDay } from '@keystonejs/fields'
 export const Calendar = list({
   access: {
     create: isSignedIn,
-    // read: rules.canViewCalendar,
+    read: () => true,
     // update: rules.canManageCalendar,
     // delete: rules.canManageCalendar,
   },

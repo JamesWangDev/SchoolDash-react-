@@ -5,7 +5,8 @@ import { isSignedIn, permissions, rules } from '../access';
 export const User = list({
   access: {
     create: () => true,
-    read: isSignedIn,
+    read: () => true,
+    update: () => true,
     // update: rules.canManageUsers,
     // only people with the permission can delete themselves!
     // You can't delete yourself
@@ -26,10 +27,11 @@ export const User = list({
     children: relationship({ ref: 'User.parent', many: true }),
     role: relationship({
       ref: 'Role.assignedTo',
-      access: {
-        create: permissions.canManageUsers,
-        update: permissions.canManageUsers,
-      },
+      many: true,
+      // access: {
+      //   create: permissions.canManageUsers,
+      //   update: permissions.canManageUsers,
+      // },
     }),
     //classes
     block1Teacher: relationship({ ref: 'User.block1Students', many: false }),

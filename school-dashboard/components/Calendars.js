@@ -25,7 +25,7 @@ const GET_CALENDARS = gql`
 export default function Calendars({ dates }) {
   //   console.log(dates.label);
   //   console.log(dates.date);
-  const { data, loading, error, refetch } = useQuery(GET_CALENDARS, {
+  const { data, loading, error } = useQuery(GET_CALENDARS, {
     variables: {
       searchDates: dates.date,
     },
