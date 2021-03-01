@@ -11,6 +11,7 @@ const Logo = styled.h1`
   background-image: linear-gradient(to top left, var(--red), var(--blue));
   border-radius: 1rem;
   transform: skew(-20deg);
+  max-width: 350px;
   a {
     color: white;
     text-decoration: none;

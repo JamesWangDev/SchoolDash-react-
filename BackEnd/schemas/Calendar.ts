@@ -40,7 +40,6 @@ export const Calendar = list({
     }),
     author: relationship({
       ref: 'User',
-
     }),
     dateCreated: timestamp({
       isRequired: true,
@@ -48,7 +47,8 @@ export const Calendar = list({
         const date = new Date();
         return date.toISOString();
       }
-
     }),
+    link: text(),
+    linkTitle: text(),
   },
 });

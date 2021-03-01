@@ -562,6 +562,42 @@ export type CalendarWhereInput = {
   readonly dateCreated_gte?: Scalars['String'] | null;
   readonly dateCreated_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly dateCreated_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly link?: Scalars['String'] | null;
+  readonly link_not?: Scalars['String'] | null;
+  readonly link_contains?: Scalars['String'] | null;
+  readonly link_not_contains?: Scalars['String'] | null;
+  readonly link_starts_with?: Scalars['String'] | null;
+  readonly link_not_starts_with?: Scalars['String'] | null;
+  readonly link_ends_with?: Scalars['String'] | null;
+  readonly link_not_ends_with?: Scalars['String'] | null;
+  readonly link_i?: Scalars['String'] | null;
+  readonly link_not_i?: Scalars['String'] | null;
+  readonly link_contains_i?: Scalars['String'] | null;
+  readonly link_not_contains_i?: Scalars['String'] | null;
+  readonly link_starts_with_i?: Scalars['String'] | null;
+  readonly link_not_starts_with_i?: Scalars['String'] | null;
+  readonly link_ends_with_i?: Scalars['String'] | null;
+  readonly link_not_ends_with_i?: Scalars['String'] | null;
+  readonly link_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly link_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly linkTitle?: Scalars['String'] | null;
+  readonly linkTitle_not?: Scalars['String'] | null;
+  readonly linkTitle_contains?: Scalars['String'] | null;
+  readonly linkTitle_not_contains?: Scalars['String'] | null;
+  readonly linkTitle_starts_with?: Scalars['String'] | null;
+  readonly linkTitle_not_starts_with?: Scalars['String'] | null;
+  readonly linkTitle_ends_with?: Scalars['String'] | null;
+  readonly linkTitle_not_ends_with?: Scalars['String'] | null;
+  readonly linkTitle_i?: Scalars['String'] | null;
+  readonly linkTitle_not_i?: Scalars['String'] | null;
+  readonly linkTitle_contains_i?: Scalars['String'] | null;
+  readonly linkTitle_not_contains_i?: Scalars['String'] | null;
+  readonly linkTitle_starts_with_i?: Scalars['String'] | null;
+  readonly linkTitle_not_starts_with_i?: Scalars['String'] | null;
+  readonly linkTitle_ends_with_i?: Scalars['String'] | null;
+  readonly linkTitle_not_ends_with_i?: Scalars['String'] | null;
+  readonly linkTitle_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly linkTitle_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
 };
 
 export type CalendarWhereUniqueInput = {
@@ -582,7 +618,11 @@ export type SortCalendarsBy =
   | 'author_ASC'
   | 'author_DESC'
   | 'dateCreated_ASC'
-  | 'dateCreated_DESC';
+  | 'dateCreated_DESC'
+  | 'link_ASC'
+  | 'link_DESC'
+  | 'linkTitle_ASC'
+  | 'linkTitle_DESC';
 
 export type CalendarUpdateInput = {
   readonly name?: Scalars['String'] | null;
@@ -591,6 +631,8 @@ export type CalendarUpdateInput = {
   readonly date?: Scalars['String'] | null;
   readonly author?: UserRelateToOneInput | null;
   readonly dateCreated?: Scalars['String'] | null;
+  readonly link?: Scalars['String'] | null;
+  readonly linkTitle?: Scalars['String'] | null;
 };
 
 export type CalendarsUpdateInput = {
@@ -605,6 +647,8 @@ export type CalendarCreateInput = {
   readonly date?: Scalars['String'] | null;
   readonly author?: UserRelateToOneInput | null;
   readonly dateCreated?: Scalars['String'] | null;
+  readonly link?: Scalars['String'] | null;
+  readonly linkTitle?: Scalars['String'] | null;
 };
 
 export type CalendarsCreateInput = {
@@ -894,7 +938,9 @@ export type CalendarListTypeInfo = {
     | 'status'
     | 'date'
     | 'author'
-    | 'dateCreated';
+    | 'dateCreated'
+    | 'link'
+    | 'linkTitle';
   backing: {
     readonly id: string;
     readonly name?: string | null;
@@ -903,6 +949,8 @@ export type CalendarListTypeInfo = {
     readonly date?: Date | null;
     readonly author?: string | null;
     readonly dateCreated?: Date | null;
+    readonly link?: string | null;
+    readonly linkTitle?: string | null;
   };
   inputs: {
     where: CalendarWhereInput;

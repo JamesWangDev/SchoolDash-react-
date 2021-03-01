@@ -6,7 +6,7 @@ import DisplaySingleCalendarEvent from './DisplaySingleCalendarEvent';
 
 const GET_CALENDARS = gql`
   query GET_CALENDARS($searchDates: String!) {
-    allCalendars(sortBy: date_ASC, where: { date_gt: $searchDates }) {
+    allCalendars(sortBy: date_DESC, where: { date_gt: $searchDates }) {
       name
       id
       description
@@ -21,11 +21,13 @@ const GET_CALENDARS = gql`
 `;
 
 export default function Calendars({ dates }) {
-  console.log(dates.label);
+  //   console.log(dates.label);
+  //   console.log(dates.date);
   const { data, loading, error, refetch } = useQuery(GET_CALENDARS, {
     variables: {
       searchDates: dates.date,
     },
+    pollInterval: 500,
   });
 
   if (loading) {

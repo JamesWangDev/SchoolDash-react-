@@ -9,23 +9,13 @@ export default function Calendar() {
   });
   function switchDates() {
     if (calendarDates.label === 'all') {
-      setCalendarDates({ label: 'upcoming', date: '2021-10-05T14:48:00.000Z' });
+      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      setCalendarDates({ label: 'upcoming', date: weekAgo });
     } else {
       setCalendarDates({ label: 'all', date: '2011-02-28T20:48:00.000Z' });
     }
   }
 
-  function setStartingDate(dates) {
-    if (dates === 'upcoming') {
-      console.log('upcoming');
-      // const today = new Date();
-
-      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-      console.log(weekAgo);
-      return weekAgo.toISOString();
-    }
-    return '2011-10-05T14:48:00.000Z';
-  }
   return (
     <div>
       <div>

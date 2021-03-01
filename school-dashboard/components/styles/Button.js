@@ -16,5 +16,21 @@ const GradientButton = styled.button`
     opacity: 0.5;
   }
 `;
+export const SmallGradientButton = styled.button`
+  background-image: linear-gradient(to top left, var(--red), var(--blue));
+  color: white;
+  font-weight: 500;
+  border: 0;
+  border-radius: 1rem;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  transform: skew(-3deg);
+  display: inline-block;
+  transition: all 0.5s;
+  &[disabled] {
+    opacity: 0.5;
+  }
+`;
 
 export default GradientButton;

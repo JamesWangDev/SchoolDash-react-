@@ -548,6 +548,8 @@ type Calendar {
   date: String
   author: User
   dateCreated: String
+  link: String
+  linkTitle: String
 }
 
 input CalendarWhereInput {
@@ -629,6 +631,42 @@ input CalendarWhereInput {
   dateCreated_gte: String
   dateCreated_in: [String]
   dateCreated_not_in: [String]
+  link: String
+  link_not: String
+  link_contains: String
+  link_not_contains: String
+  link_starts_with: String
+  link_not_starts_with: String
+  link_ends_with: String
+  link_not_ends_with: String
+  link_i: String
+  link_not_i: String
+  link_contains_i: String
+  link_not_contains_i: String
+  link_starts_with_i: String
+  link_not_starts_with_i: String
+  link_ends_with_i: String
+  link_not_ends_with_i: String
+  link_in: [String]
+  link_not_in: [String]
+  linkTitle: String
+  linkTitle_not: String
+  linkTitle_contains: String
+  linkTitle_not_contains: String
+  linkTitle_starts_with: String
+  linkTitle_not_starts_with: String
+  linkTitle_ends_with: String
+  linkTitle_not_ends_with: String
+  linkTitle_i: String
+  linkTitle_not_i: String
+  linkTitle_contains_i: String
+  linkTitle_not_contains_i: String
+  linkTitle_starts_with_i: String
+  linkTitle_not_starts_with_i: String
+  linkTitle_ends_with_i: String
+  linkTitle_not_ends_with_i: String
+  linkTitle_in: [String]
+  linkTitle_not_in: [String]
 }
 
 input CalendarWhereUniqueInput {
@@ -650,6 +688,10 @@ enum SortCalendarsBy {
   author_DESC
   dateCreated_ASC
   dateCreated_DESC
+  link_ASC
+  link_DESC
+  linkTitle_ASC
+  linkTitle_DESC
 }
 
 input CalendarUpdateInput {
@@ -659,6 +701,8 @@ input CalendarUpdateInput {
   date: String
   author: UserRelateToOneInput
   dateCreated: String
+  link: String
+  linkTitle: String
 }
 
 input CalendarsUpdateInput {
@@ -673,6 +717,8 @@ input CalendarCreateInput {
   date: String
   author: UserRelateToOneInput
   dateCreated: String
+  link: String
+  linkTitle: String
 }
 
 input CalendarsCreateInput {
