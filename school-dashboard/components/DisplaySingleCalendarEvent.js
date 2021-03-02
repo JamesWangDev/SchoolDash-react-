@@ -8,7 +8,8 @@ export default function DisplaySingleCalendarEvent({ calendar }) {
   const date = new Date(calendar.date);
   const createdDate = new Date(calendar.dateCreated).toLocaleDateString();
   const today = new Date();
-  const isToday = date.toLocaleDateString() === today.toLocaleDateString();
+  const isToday = date.toDateString() === today.toDateString();
+  console.log(`${calendar.name} - ${date} - ${today}`);
   return (
     <SingleCalendarStyle>
       <div className="title">

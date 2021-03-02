@@ -20,7 +20,10 @@ export default function useForm(initial = {}) {
     }
     if (type === 'date') {
       console.log(value);
-      value = new Date(value).toISOString();
+      const theDate = new Date(value);
+      theDate.setHours(theDate.getHours() + 5);
+      value = theDate.toISOString();
+      // value = new Date(value).toISOString();
       console.log(`new ${value}`);
     }
     setInputs({
