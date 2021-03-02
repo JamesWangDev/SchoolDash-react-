@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Calendars from '../components/Calendars';
+import Calendars from '../components/calendars/Calendars';
 import { LeftEdgeButton } from '../components/styles/Button';
 
 export default function Calendar() {

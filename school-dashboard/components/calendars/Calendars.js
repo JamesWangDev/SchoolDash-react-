@@ -1,13 +1,10 @@
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
 import { useMemo } from 'react';
 import Link from 'next/link';
-import { CalendarContainerStyle } from './styles/CalendarStyles';
-import DisplaySingleCalendarEvent from './DisplaySingleCalendarEvent';
-import { useUser } from './User';
+import { useUser } from '../User';
 import NewCalendar from './NewCalendar';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import Table from './Table';
+import { useGQLQuery } from '../../lib/useGqlQuery';
+import Table from '../Table';
 
 export const GET_CALENDARS = gql`
   query GET_CALENDARS {

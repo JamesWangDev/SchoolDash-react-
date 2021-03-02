@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { SmallGradientButton } from './styles/Button';
-import { SingleCalendarStyle } from './styles/CalendarStyles';
+import { SmallGradientButton } from '../styles/Button';
+import { SingleCalendarStyle } from '../styles/CalendarStyles';
 
 export default function DisplaySingleCalendarEvent({ calendar }) {
   const [displayDetails, setDisplayDetails] = useState(true);

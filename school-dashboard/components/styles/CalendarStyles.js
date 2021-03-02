@@ -39,3 +39,32 @@ export const SingleCalendarStyle = styled.div`
     }
   }
 `;
+
+export const WeeklyCalendarContainerStyles = styled.div`
+  display: flex;
+  div {
+    padding: 1rem;
+  }
+
+  div.today {
+    background: linear-gradient(to top right, var(--red), var(--blue));
+    padding: 1rem;
+    border-radius: 2rem;
+    width: 25vw;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    flex-basis: 35%;
+  }
+  div.notToday {
+    color: var(--blue);
+    margin: 0.1rem;
+    border: 2px solid var(--blue);
+    border-radius: 2rem;
+    flex-basis: 10%;
+    div {
+      /* display: none; */
+    }
+  }
+`;
+
+export const OneDayCalendarStyles = styled.div``;

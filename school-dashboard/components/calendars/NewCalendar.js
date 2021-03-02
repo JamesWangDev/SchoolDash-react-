@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import GradientButton from './styles/Button';
-import Form from './styles/Form';
-import useForm from '../lib/useForm';
-import DisplayError from './ErrorMessage';
-import { GET_CALENDARS } from './Calendars';
-import { useUser } from './User';
+import GradientButton from '../styles/Button';
+import Form from '../styles/Form';
+import useForm from '../../lib/useForm';
+import DisplayError from '../ErrorMessage';
+import { useUser } from '../User';
 
 const CREATE_CALENDAR_MUTATION = gql`
   mutation CREATE_CALENDAR_MUTATION(
