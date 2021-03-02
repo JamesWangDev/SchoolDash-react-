@@ -18,6 +18,11 @@ export default function useForm(initial = {}) {
     if (type === 'file') {
       [value] = e.target.files;
     }
+    if (type === 'date') {
+      console.log(value);
+      value = new Date(value).toISOString();
+      console.log(`new ${value}`);
+    }
     setInputs({
       // copy the existing state
       ...inputs,

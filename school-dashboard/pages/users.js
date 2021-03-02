@@ -69,7 +69,7 @@ export default function Users() {
     ],
     []
   );
-  console.log(data);
+  // console.log(data);
   return (
     <div>
       <UserTable data={data?.allUsers || []} columns={columns} />

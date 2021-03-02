@@ -1,10 +1,11 @@
 import gql from 'graphql-tag';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { useEffect } from 'react';
+import { useQuery } from '@apollo/client';
 import { CalendarContainerStyle } from './styles/CalendarStyles';
 import DisplaySingleCalendarEvent from './DisplaySingleCalendarEvent';
+import { useUser } from './User';
+import NewCalendar from './NewCalendar';
 
-const GET_CALENDARS = gql`
+export const GET_CALENDARS = gql`
   query GET_CALENDARS($searchDates: String!) {
     allCalendars(sortBy: date_ASC, where: { date_gt: $searchDates }) {
       name
@@ -23,8 +24,9 @@ const GET_CALENDARS = gql`
 `;
 
 export default function Calendars({ dates }) {
-  //   console.log(dates.label);
-  //   console.log(dates.date);
+  const user = useUser();
+  const editor = user?.role?.some((role) => role.canManageCalendar);
+
   const { data, loading, error } = useQuery(GET_CALENDARS, {
     variables: {
       searchDates: dates.date,
@@ -39,13 +41,16 @@ export default function Calendars({ dates }) {
     return <p>{error}</p>;
   }
   return (
-    <CalendarContainerStyle>
-      {data.allCalendars.map((singleCalendar) => (
-        <DisplaySingleCalendarEvent
-          calendar={singleCalendar}
-          key={singleCalendar.id}
-        />
-      ))}
-    </CalendarContainerStyle>
+    <>
+      <NewCalendar hidden={!editor} />
+      <CalendarContainerStyle>
+        {data.allCalendars.map((singleCalendar) => (
+          <DisplaySingleCalendarEvent
+            calendar={singleCalendar}
+            key={singleCalendar.id}
+          />
+        ))}
+      </CalendarContainerStyle>
+    </>
   );
 }
