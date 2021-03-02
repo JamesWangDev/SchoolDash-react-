@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 import { useMemo } from 'react';
-import UserTable from '../components/UserTable';
+import Table from '../components/Table';
 import { useGQLQuery } from '../lib/useGqlQuery';
 
 const GET_ALL_USERS = gql`
@@ -72,7 +72,7 @@ export default function Users() {
   // console.log(data);
   return (
     <div>
-      <UserTable data={data?.allUsers || []} columns={columns} />
+      <Table data={data?.allUsers || []} columns={columns} />
     </div>
   );
 }

@@ -7,7 +7,7 @@ import DisplaySingleCalendarEvent from './DisplaySingleCalendarEvent';
 import { useUser } from './User';
 import NewCalendar from './NewCalendar';
 import { useGQLQuery } from '../lib/useGqlQuery';
-import UserTable from './UserTable';
+import Table from './Table';
 
 export const GET_CALENDARS = gql`
   query GET_CALENDARS {
@@ -54,12 +54,17 @@ export default function Calendars({ dates }) {
             accessor: 'name',
           },
           {
+            Header: 'Description',
+            accessor: 'description',
+          },
+          {
             Header: 'Date',
             accessor: 'date',
             Cell: ({ cell: { value } }) => {
-              console.log(value);
+              const today = new Date().toLocaleDateString();
               const displayDate = new Date(value).toLocaleDateString();
-              return displayDate;
+              const isToday = today === displayDate;
+              return isToday ? `📆 Today 📆` : displayDate;
             },
           },
           {
@@ -88,15 +93,15 @@ export default function Calendars({ dates }) {
   return (
     <>
       <NewCalendar hidden={!editor} refetchCalendars={refetch} />
-      <CalendarContainerStyle>
+      {/* <CalendarContainerStyle>
         {filteredCalendars.map((singleCalendar) => (
           <DisplaySingleCalendarEvent
             calendar={singleCalendar}
             key={singleCalendar.id}
           />
         ))}
-      </CalendarContainerStyle>
-      <UserTable data={filteredCalendars || []} columns={columns} />
+      </CalendarContainerStyle> */}
+      <Table data={filteredCalendars || []} columns={columns} />
     </>
   );
 }

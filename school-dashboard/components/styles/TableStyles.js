@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const UserTableStyles = styled.div`
   table {
+    width: 100%;
     border-spacing: 0;
     border: 1px solid #ededed;
   }
@@ -12,6 +13,7 @@ export const UserTableStyles = styled.div`
   table td {
     margin: 0;
     padding: 0.5rem;
+    min-width: 8rem;
     border-bottom: 1px solid #ededed;
     border-right: 1px solid #ededed;
     position: relative;
@@ -58,6 +60,8 @@ export const UserTableStyles = styled.div`
   }
   input {
     padding: 10px;
+    margin-top: 10px;
+    margin-left: 100px;
     margin-bottom: 20px;
     font-size: 18px;
     border-radius: 5px;
