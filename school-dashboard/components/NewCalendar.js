@@ -16,6 +16,7 @@ const CREATE_CALENDAR_MUTATION = gql`
     $date: String!
     $link: String
     $linkTitle: String
+    $author: ID!
   ) {
     createCalendar(
       data: {
@@ -25,6 +26,7 @@ const CREATE_CALENDAR_MUTATION = gql`
         date: $date
         link: $link
         linkTitle: $linkTitle
+        author: { connect: { id: $author } }
       }
     ) {
       id
