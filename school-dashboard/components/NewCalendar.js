@@ -101,6 +101,7 @@ export default function NewCalendar() {
               id="description"
               name="description"
               placeholder="Description"
+              required
               value={inputs.description}
               onChange={handleChange}
             />

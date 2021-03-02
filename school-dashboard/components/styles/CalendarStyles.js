@@ -9,7 +9,7 @@ export const CalendarContainerStyle = styled.div`
 export const SingleCalendarStyle = styled.div`
   display: flex;
   flex-direction: column;
-  flex-basis: fit;
+  flex-basis: 25%;
   .title {
     margin: 1rem;
     padding: 1rem;
