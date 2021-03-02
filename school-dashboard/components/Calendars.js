@@ -1,9 +1,13 @@
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
+import { useMemo } from 'react';
+import Link from 'next/link';
 import { CalendarContainerStyle } from './styles/CalendarStyles';
 import DisplaySingleCalendarEvent from './DisplaySingleCalendarEvent';
 import { useUser } from './User';
 import NewCalendar from './NewCalendar';
+import { useGQLQuery } from '../lib/useGqlQuery';
+import UserTable from './UserTable';
 
 export const GET_CALENDARS = gql`
   query GET_CALENDARS {
@@ -26,7 +30,11 @@ export const GET_CALENDARS = gql`
 export default function Calendars({ dates }) {
   const user = useUser();
   const editor = user?.role?.some((role) => role.canManageCalendar);
-  const { data, loading, error } = useQuery(GET_CALENDARS, {});
+  const { data, isLoading, error, refetch } = useGQLQuery(
+    'allCalendars',
+    GET_CALENDARS
+  );
+  //   console.log(data);
   const filteredCalendars = data?.allCalendars.filter(
     (singleCalendarToFilter) => {
       // console.log(singleCalendarToFilter);
@@ -36,15 +44,50 @@ export default function Calendars({ dates }) {
     }
   );
 
-  if (loading) {
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Events',
+        columns: [
+          {
+            Header: 'Event',
+            accessor: 'name',
+          },
+          {
+            Header: 'Date',
+            accessor: 'date',
+            Cell: ({ cell: { value } }) => {
+              console.log(value);
+              const displayDate = new Date(value).toLocaleDateString();
+              return displayDate;
+            },
+          },
+          {
+            Header: 'Link',
+            accessor: 'link',
+            Cell: ({ cell: { value } }) => (
+              <Link
+                href={value?.startsWith('http') ? value : `http://${value}`}
+              >
+                {value ? 'Link' : ''}
+              </Link>
+            ),
+          },
+        ],
+      },
+    ],
+    []
+  );
+
+  if (isLoading) {
     return <p>Loading...</p>;
   }
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error.message}</p>;
   }
   return (
     <>
-      <NewCalendar hidden={!editor} />
+      <NewCalendar hidden={!editor} refetchCalendars={refetch} />
       <CalendarContainerStyle>
         {filteredCalendars.map((singleCalendar) => (
           <DisplaySingleCalendarEvent
@@ -53,6 +96,7 @@ export default function Calendars({ dates }) {
           />
         ))}
       </CalendarContainerStyle>
+      <UserTable data={filteredCalendars || []} columns={columns} />
     </>
   );
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import Calendars from '../components/Calendars';
 import { LeftEdgeButton } from '../components/styles/Button';
 

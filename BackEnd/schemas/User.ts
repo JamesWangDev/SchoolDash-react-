@@ -5,7 +5,7 @@ import { isSignedIn, permissions, rules } from '../access';
 export const User = list({
   access: {
     create: () => true,
-    read: () => true,
+    read: isSignedIn,
     update: () => true,
     // update: rules.canManageUsers,
     // only people with the permission can delete themselves!

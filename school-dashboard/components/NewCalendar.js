@@ -34,7 +34,7 @@ const CREATE_CALENDAR_MUTATION = gql`
   }
 `;
 
-export default function NewCalendar() {
+export default function NewCalendar({ refetchCalendars }) {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     name: 'Event Title',
@@ -43,12 +43,11 @@ export default function NewCalendar() {
     date: new Date().toISOString,
   });
   const user = useUser();
-  console.log(`user ${user.id}`);
+  //   console.log(`user ${user.id}`);
   const [createCalendar, { loading, error, data }] = useMutation(
     CREATE_CALENDAR_MUTATION,
     {
       variables: { ...inputs, author: user.id },
-      refetchQueries: [{ query: GET_CALENDARS }],
     }
   );
   return (
@@ -66,6 +65,7 @@ export default function NewCalendar() {
           // Submit the inputfields to the backend:
           const res = await createCalendar();
           clearForm();
+          refetchCalendars();
           setShowForm(false);
         }}
       >

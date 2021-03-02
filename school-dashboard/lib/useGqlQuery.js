@@ -4,6 +4,8 @@ import { endpoint } from '../config';
 
 export const useGQLQuery = (key, query, variables, config = {}) => {
   const headers = {
+    credentials: 'include',
+    mode: 'cors',
     headers: {
       authorization: `Bearer token goes here`,
     },

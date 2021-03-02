@@ -1,8 +1,8 @@
 import { createAuth } from '@keystone-next/auth';
 import { config, createSchema } from '@keystone-next/keystone/schema';
 import { User } from './schemas/User';
-import {Calendar} from './schemas/Calendar'
-import {Role} from './schemas/Role'
+import { Calendar } from './schemas/Calendar'
+import { Role } from './schemas/Role'
 import 'dotenv/config';
 import {
   withItemData,
@@ -49,9 +49,10 @@ export default withAuth(
     }),
     ui: {
       // Show the UI only for poeple who pass this test
-      isAccessAllowed: ({ session }) =>
+      isAccessAllowed: ({ session }) => {
         // console.log(session);
-        !!session?.data,
+        return !!session?.data
+      },
     },
     session: withItemData(statelessSessions(sessionConfig), {
       // GraphQL Query

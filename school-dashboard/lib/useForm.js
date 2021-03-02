@@ -19,12 +19,12 @@ export default function useForm(initial = {}) {
       [value] = e.target.files;
     }
     if (type === 'date') {
-      console.log(value);
+      // console.log(value);
       const theDate = new Date(value);
       theDate.setHours(theDate.getHours() + 5);
       value = theDate.toISOString();
       // value = new Date(value).toISOString();
-      console.log(`new ${value}`);
+      // console.log(`new ${value}`);
     }
     setInputs({
       // copy the existing state

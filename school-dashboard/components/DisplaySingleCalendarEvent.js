@@ -9,7 +9,7 @@ export default function DisplaySingleCalendarEvent({ calendar }) {
   const createdDate = new Date(calendar.dateCreated).toLocaleDateString();
   const today = new Date();
   const isToday = date.toDateString() === today.toDateString();
-  console.log(`${calendar.name} - ${date} - ${today}`);
+  // console.log(`${calendar.name} - ${date} - ${today}`);
   return (
     <SingleCalendarStyle>
       <div className="title">
