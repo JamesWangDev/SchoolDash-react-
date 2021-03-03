@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import Search from '../Search';
 import Nav from './Nav';
 
 const Logo = styled.h1`
   font-size: 4rem;
   margin-left: 3rem;
+  padding-left: 1rem;
   position: relative;
   z-index: 4;
   margin-right: 1rem;
@@ -46,7 +48,9 @@ export default function Header() {
         </Logo>
         <Nav />
       </div>
-      <div className="sub-bar" />
+      <div className="sub-bar">
+        <Search />
+      </div>
     </HeaderStyles>
   );
 }
