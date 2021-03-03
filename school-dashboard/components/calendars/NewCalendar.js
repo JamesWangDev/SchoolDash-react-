@@ -107,14 +107,18 @@ export default function NewCalendar({ refetchCalendars }) {
           </label>
           <label htmlFor="status">
             Who can see this event?
-            <input
+            <select
               type="select"
               id="status"
               name="status"
               placeholder="Name"
               value={inputs.status}
               onChange={handleChange}
-            />
+            >
+              <option value="Both">Students and Teachers</option>
+              <option value="Students">Students Only</option>
+              <option value="Teachers">Teachers Only</option>
+            </select>
           </label>
           <label htmlFor="link">
             Link
