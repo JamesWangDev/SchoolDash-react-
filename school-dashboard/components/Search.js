@@ -44,7 +44,7 @@ export default function Search() {
     },
     onSelectedItemChange({ selectedItem }) {
       router.push({
-        pathname: `/product/${selectedItem.id}`,
+        pathname: `/userProfile/${selectedItem.id}`,
       });
     },
     itemToString: (item) => item?.name || '',

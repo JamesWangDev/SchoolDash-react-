@@ -40,7 +40,13 @@ export default function Users() {
         columns: [
           {
             Header: 'Name',
-            accessor: 'name',
+            accessor: (properties) => `
+              ${properties.name}, ${properties.id}
+            `,
+            // Cell: ({ cell: value }) => {
+            //   console.log(value);
+            //   return <p>test</p>;
+            // },
           },
           {
             Header: 'Type',
