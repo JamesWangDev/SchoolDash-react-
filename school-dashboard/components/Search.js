@@ -3,6 +3,8 @@ import { resetIdCounter, useCombobox } from 'downshift';
 import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
+import { SmallGradientButton } from './styles/Button';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 
 const SEARCH_PRODUCTS_QUERY = gql`
@@ -70,6 +72,10 @@ export default function Search() {
               highlighted={index === highlightedIndex}
             >
               {item.name}
+              <SmallGradientButton style={{ marginLeft: '1rem' }}>
+                {/* TODO Link to actual pbis card */}
+                <Link href="/">PBIS Card</Link>
+              </SmallGradientButton>
             </DropDownItem>
           ))}
         {isOpen && !items.length && !loading && (
