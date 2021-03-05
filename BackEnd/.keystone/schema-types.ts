@@ -28,6 +28,27 @@ export type RoleRelateToManyInput = {
   readonly disconnectAll?: Scalars['Boolean'] | null;
 };
 
+export type PbisTeamRelateToOneInput = {
+  readonly create?: PbisTeamCreateInput | null;
+  readonly connect?: PbisTeamWhereUniqueInput | null;
+  readonly disconnect?: PbisTeamWhereUniqueInput | null;
+  readonly disconnectAll?: Scalars['Boolean'] | null;
+};
+
+export type StudentFocusRelateToManyInput = {
+  readonly create?: ReadonlyArray<StudentFocusCreateInput | null> | null;
+  readonly connect?: ReadonlyArray<StudentFocusWhereUniqueInput | null> | null;
+  readonly disconnect?: ReadonlyArray<StudentFocusWhereUniqueInput | null> | null;
+  readonly disconnectAll?: Scalars['Boolean'] | null;
+};
+
+export type PbisCardRelateToManyInput = {
+  readonly create?: ReadonlyArray<PbisCardCreateInput | null> | null;
+  readonly connect?: ReadonlyArray<PbisCardWhereUniqueInput | null> | null;
+  readonly disconnect?: ReadonlyArray<PbisCardWhereUniqueInput | null> | null;
+  readonly disconnectAll?: Scalars['Boolean'] | null;
+};
+
 export type UserWhereInput = {
   readonly AND?: ReadonlyArray<UserWhereInput | null> | null;
   readonly OR?: ReadonlyArray<UserWhereInput | null> | null;
@@ -111,6 +132,20 @@ export type UserWhereInput = {
   readonly block5Students_every?: UserWhereInput | null;
   readonly block5Students_some?: UserWhereInput | null;
   readonly block5Students_none?: UserWhereInput | null;
+  readonly taTeam?: PbisTeamWhereInput | null;
+  readonly taTeam_is_null?: Scalars['Boolean'] | null;
+  readonly studentFocusTeacher_every?: StudentFocusWhereInput | null;
+  readonly studentFocusTeacher_some?: StudentFocusWhereInput | null;
+  readonly studentFocusTeacher_none?: StudentFocusWhereInput | null;
+  readonly studentFocusStudent_every?: StudentFocusWhereInput | null;
+  readonly studentFocusStudent_some?: StudentFocusWhereInput | null;
+  readonly studentFocusStudent_none?: StudentFocusWhereInput | null;
+  readonly teacherPbisCards_every?: PbisCardWhereInput | null;
+  readonly teacherPbisCards_some?: PbisCardWhereInput | null;
+  readonly teacherPbisCards_none?: PbisCardWhereInput | null;
+  readonly studentPbisCards_every?: PbisCardWhereInput | null;
+  readonly studentPbisCards_some?: PbisCardWhereInput | null;
+  readonly studentPbisCards_none?: PbisCardWhereInput | null;
   readonly callbackCount?: Scalars['Int'] | null;
   readonly callbackCount_not?: Scalars['Int'] | null;
   readonly callbackCount_lt?: Scalars['Int'] | null;
@@ -368,6 +403,16 @@ export type SortUsersBy =
   | 'block5Teacher_DESC'
   | 'block5Students_ASC'
   | 'block5Students_DESC'
+  | 'taTeam_ASC'
+  | 'taTeam_DESC'
+  | 'studentFocusTeacher_ASC'
+  | 'studentFocusTeacher_DESC'
+  | 'studentFocusStudent_ASC'
+  | 'studentFocusStudent_DESC'
+  | 'teacherPbisCards_ASC'
+  | 'teacherPbisCards_DESC'
+  | 'studentPbisCards_ASC'
+  | 'studentPbisCards_DESC'
   | 'callbackCount_ASC'
   | 'callbackCount_DESC'
   | 'PbisCardCount_ASC'
@@ -418,6 +463,11 @@ export type UserUpdateInput = {
   readonly block4Students?: UserRelateToManyInput | null;
   readonly block5Teacher?: UserRelateToOneInput | null;
   readonly block5Students?: UserRelateToManyInput | null;
+  readonly taTeam?: PbisTeamRelateToOneInput | null;
+  readonly studentFocusTeacher?: StudentFocusRelateToManyInput | null;
+  readonly studentFocusStudent?: StudentFocusRelateToManyInput | null;
+  readonly teacherPbisCards?: PbisCardRelateToManyInput | null;
+  readonly studentPbisCards?: PbisCardRelateToManyInput | null;
   readonly callbackCount?: Scalars['Int'] | null;
   readonly PbisCardCount?: Scalars['Int'] | null;
   readonly YearPbisCount?: Scalars['Int'] | null;
@@ -461,6 +511,11 @@ export type UserCreateInput = {
   readonly block4Students?: UserRelateToManyInput | null;
   readonly block5Teacher?: UserRelateToOneInput | null;
   readonly block5Students?: UserRelateToManyInput | null;
+  readonly taTeam?: PbisTeamRelateToOneInput | null;
+  readonly studentFocusTeacher?: StudentFocusRelateToManyInput | null;
+  readonly studentFocusStudent?: StudentFocusRelateToManyInput | null;
+  readonly teacherPbisCards?: PbisCardRelateToManyInput | null;
+  readonly studentPbisCards?: PbisCardRelateToManyInput | null;
   readonly callbackCount?: Scalars['Int'] | null;
   readonly PbisCardCount?: Scalars['Int'] | null;
   readonly YearPbisCount?: Scalars['Int'] | null;
@@ -795,6 +850,497 @@ export type RolesCreateInput = {
   readonly data?: RoleCreateInput | null;
 };
 
+export type LinkWhereInput = {
+  readonly AND?: ReadonlyArray<LinkWhereInput | null> | null;
+  readonly OR?: ReadonlyArray<LinkWhereInput | null> | null;
+  readonly id?: Scalars['ID'] | null;
+  readonly id_not?: Scalars['ID'] | null;
+  readonly id_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly id_not_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly name?: Scalars['String'] | null;
+  readonly name_not?: Scalars['String'] | null;
+  readonly name_contains?: Scalars['String'] | null;
+  readonly name_not_contains?: Scalars['String'] | null;
+  readonly name_starts_with?: Scalars['String'] | null;
+  readonly name_not_starts_with?: Scalars['String'] | null;
+  readonly name_ends_with?: Scalars['String'] | null;
+  readonly name_not_ends_with?: Scalars['String'] | null;
+  readonly name_i?: Scalars['String'] | null;
+  readonly name_not_i?: Scalars['String'] | null;
+  readonly name_contains_i?: Scalars['String'] | null;
+  readonly name_not_contains_i?: Scalars['String'] | null;
+  readonly name_starts_with_i?: Scalars['String'] | null;
+  readonly name_not_starts_with_i?: Scalars['String'] | null;
+  readonly name_ends_with_i?: Scalars['String'] | null;
+  readonly name_not_ends_with_i?: Scalars['String'] | null;
+  readonly name_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly name_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly description?: Scalars['String'] | null;
+  readonly description_not?: Scalars['String'] | null;
+  readonly description_contains?: Scalars['String'] | null;
+  readonly description_not_contains?: Scalars['String'] | null;
+  readonly description_starts_with?: Scalars['String'] | null;
+  readonly description_not_starts_with?: Scalars['String'] | null;
+  readonly description_ends_with?: Scalars['String'] | null;
+  readonly description_not_ends_with?: Scalars['String'] | null;
+  readonly description_i?: Scalars['String'] | null;
+  readonly description_not_i?: Scalars['String'] | null;
+  readonly description_contains_i?: Scalars['String'] | null;
+  readonly description_not_contains_i?: Scalars['String'] | null;
+  readonly description_starts_with_i?: Scalars['String'] | null;
+  readonly description_not_starts_with_i?: Scalars['String'] | null;
+  readonly description_ends_with_i?: Scalars['String'] | null;
+  readonly description_not_ends_with_i?: Scalars['String'] | null;
+  readonly description_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly description_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly forTeachers?: Scalars['Boolean'] | null;
+  readonly forTeachers_not?: Scalars['Boolean'] | null;
+  readonly forStudents?: Scalars['Boolean'] | null;
+  readonly forStudents_not?: Scalars['Boolean'] | null;
+  readonly forParents?: Scalars['Boolean'] | null;
+  readonly forParents_not?: Scalars['Boolean'] | null;
+  readonly onHomePage?: Scalars['Boolean'] | null;
+  readonly onHomePage_not?: Scalars['Boolean'] | null;
+  readonly modifiedBy?: UserWhereInput | null;
+  readonly modifiedBy_is_null?: Scalars['Boolean'] | null;
+  readonly modified?: Scalars['String'] | null;
+  readonly modified_not?: Scalars['String'] | null;
+  readonly modified_lt?: Scalars['String'] | null;
+  readonly modified_lte?: Scalars['String'] | null;
+  readonly modified_gt?: Scalars['String'] | null;
+  readonly modified_gte?: Scalars['String'] | null;
+  readonly modified_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly modified_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly link?: Scalars['String'] | null;
+  readonly link_not?: Scalars['String'] | null;
+  readonly link_contains?: Scalars['String'] | null;
+  readonly link_not_contains?: Scalars['String'] | null;
+  readonly link_starts_with?: Scalars['String'] | null;
+  readonly link_not_starts_with?: Scalars['String'] | null;
+  readonly link_ends_with?: Scalars['String'] | null;
+  readonly link_not_ends_with?: Scalars['String'] | null;
+  readonly link_i?: Scalars['String'] | null;
+  readonly link_not_i?: Scalars['String'] | null;
+  readonly link_contains_i?: Scalars['String'] | null;
+  readonly link_not_contains_i?: Scalars['String'] | null;
+  readonly link_starts_with_i?: Scalars['String'] | null;
+  readonly link_not_starts_with_i?: Scalars['String'] | null;
+  readonly link_ends_with_i?: Scalars['String'] | null;
+  readonly link_not_ends_with_i?: Scalars['String'] | null;
+  readonly link_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly link_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly linkTitle?: Scalars['String'] | null;
+  readonly linkTitle_not?: Scalars['String'] | null;
+  readonly linkTitle_contains?: Scalars['String'] | null;
+  readonly linkTitle_not_contains?: Scalars['String'] | null;
+  readonly linkTitle_starts_with?: Scalars['String'] | null;
+  readonly linkTitle_not_starts_with?: Scalars['String'] | null;
+  readonly linkTitle_ends_with?: Scalars['String'] | null;
+  readonly linkTitle_not_ends_with?: Scalars['String'] | null;
+  readonly linkTitle_i?: Scalars['String'] | null;
+  readonly linkTitle_not_i?: Scalars['String'] | null;
+  readonly linkTitle_contains_i?: Scalars['String'] | null;
+  readonly linkTitle_not_contains_i?: Scalars['String'] | null;
+  readonly linkTitle_starts_with_i?: Scalars['String'] | null;
+  readonly linkTitle_not_starts_with_i?: Scalars['String'] | null;
+  readonly linkTitle_ends_with_i?: Scalars['String'] | null;
+  readonly linkTitle_not_ends_with_i?: Scalars['String'] | null;
+  readonly linkTitle_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly linkTitle_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+};
+
+export type LinkWhereUniqueInput = {
+  readonly id: Scalars['ID'];
+};
+
+export type SortLinksBy =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'name_ASC'
+  | 'name_DESC'
+  | 'description_ASC'
+  | 'description_DESC'
+  | 'forTeachers_ASC'
+  | 'forTeachers_DESC'
+  | 'forStudents_ASC'
+  | 'forStudents_DESC'
+  | 'forParents_ASC'
+  | 'forParents_DESC'
+  | 'onHomePage_ASC'
+  | 'onHomePage_DESC'
+  | 'modifiedBy_ASC'
+  | 'modifiedBy_DESC'
+  | 'modified_ASC'
+  | 'modified_DESC'
+  | 'link_ASC'
+  | 'link_DESC'
+  | 'linkTitle_ASC'
+  | 'linkTitle_DESC';
+
+export type LinkUpdateInput = {
+  readonly name?: Scalars['String'] | null;
+  readonly description?: Scalars['String'] | null;
+  readonly forTeachers?: Scalars['Boolean'] | null;
+  readonly forStudents?: Scalars['Boolean'] | null;
+  readonly forParents?: Scalars['Boolean'] | null;
+  readonly onHomePage?: Scalars['Boolean'] | null;
+  readonly modifiedBy?: UserRelateToOneInput | null;
+  readonly modified?: Scalars['String'] | null;
+  readonly link?: Scalars['String'] | null;
+  readonly linkTitle?: Scalars['String'] | null;
+};
+
+export type LinksUpdateInput = {
+  readonly id: Scalars['ID'];
+  readonly data?: LinkUpdateInput | null;
+};
+
+export type LinkCreateInput = {
+  readonly name?: Scalars['String'] | null;
+  readonly description?: Scalars['String'] | null;
+  readonly forTeachers?: Scalars['Boolean'] | null;
+  readonly forStudents?: Scalars['Boolean'] | null;
+  readonly forParents?: Scalars['Boolean'] | null;
+  readonly onHomePage?: Scalars['Boolean'] | null;
+  readonly modifiedBy?: UserRelateToOneInput | null;
+  readonly modified?: Scalars['String'] | null;
+  readonly link?: Scalars['String'] | null;
+  readonly linkTitle?: Scalars['String'] | null;
+};
+
+export type LinksCreateInput = {
+  readonly data?: LinkCreateInput | null;
+};
+
+export type PbisCardWhereInput = {
+  readonly AND?: ReadonlyArray<PbisCardWhereInput | null> | null;
+  readonly OR?: ReadonlyArray<PbisCardWhereInput | null> | null;
+  readonly id?: Scalars['ID'] | null;
+  readonly id_not?: Scalars['ID'] | null;
+  readonly id_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly id_not_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly cardMessage?: Scalars['String'] | null;
+  readonly cardMessage_not?: Scalars['String'] | null;
+  readonly cardMessage_contains?: Scalars['String'] | null;
+  readonly cardMessage_not_contains?: Scalars['String'] | null;
+  readonly cardMessage_starts_with?: Scalars['String'] | null;
+  readonly cardMessage_not_starts_with?: Scalars['String'] | null;
+  readonly cardMessage_ends_with?: Scalars['String'] | null;
+  readonly cardMessage_not_ends_with?: Scalars['String'] | null;
+  readonly cardMessage_i?: Scalars['String'] | null;
+  readonly cardMessage_not_i?: Scalars['String'] | null;
+  readonly cardMessage_contains_i?: Scalars['String'] | null;
+  readonly cardMessage_not_contains_i?: Scalars['String'] | null;
+  readonly cardMessage_starts_with_i?: Scalars['String'] | null;
+  readonly cardMessage_not_starts_with_i?: Scalars['String'] | null;
+  readonly cardMessage_ends_with_i?: Scalars['String'] | null;
+  readonly cardMessage_not_ends_with_i?: Scalars['String'] | null;
+  readonly cardMessage_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly cardMessage_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly student?: UserWhereInput | null;
+  readonly student_is_null?: Scalars['Boolean'] | null;
+  readonly teacher?: UserWhereInput | null;
+  readonly teacher_is_null?: Scalars['Boolean'] | null;
+  readonly dateGiven?: Scalars['String'] | null;
+  readonly dateGiven_not?: Scalars['String'] | null;
+  readonly dateGiven_lt?: Scalars['String'] | null;
+  readonly dateGiven_lte?: Scalars['String'] | null;
+  readonly dateGiven_gt?: Scalars['String'] | null;
+  readonly dateGiven_gte?: Scalars['String'] | null;
+  readonly dateGiven_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly dateGiven_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly counted?: Scalars['Boolean'] | null;
+  readonly counted_not?: Scalars['Boolean'] | null;
+};
+
+export type PbisCardWhereUniqueInput = {
+  readonly id: Scalars['ID'];
+};
+
+export type SortPbisCardsBy =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'cardMessage_ASC'
+  | 'cardMessage_DESC'
+  | 'student_ASC'
+  | 'student_DESC'
+  | 'teacher_ASC'
+  | 'teacher_DESC'
+  | 'dateGiven_ASC'
+  | 'dateGiven_DESC'
+  | 'counted_ASC'
+  | 'counted_DESC';
+
+export type PbisCardUpdateInput = {
+  readonly cardMessage?: Scalars['String'] | null;
+  readonly student?: UserRelateToOneInput | null;
+  readonly teacher?: UserRelateToOneInput | null;
+  readonly dateGiven?: Scalars['String'] | null;
+  readonly counted?: Scalars['Boolean'] | null;
+};
+
+export type PbisCardsUpdateInput = {
+  readonly id: Scalars['ID'];
+  readonly data?: PbisCardUpdateInput | null;
+};
+
+export type PbisCardCreateInput = {
+  readonly cardMessage?: Scalars['String'] | null;
+  readonly student?: UserRelateToOneInput | null;
+  readonly teacher?: UserRelateToOneInput | null;
+  readonly dateGiven?: Scalars['String'] | null;
+  readonly counted?: Scalars['Boolean'] | null;
+};
+
+export type PbisCardsCreateInput = {
+  readonly data?: PbisCardCreateInput | null;
+};
+
+export type PbisTeamWhereInput = {
+  readonly AND?: ReadonlyArray<PbisTeamWhereInput | null> | null;
+  readonly OR?: ReadonlyArray<PbisTeamWhereInput | null> | null;
+  readonly id?: Scalars['ID'] | null;
+  readonly id_not?: Scalars['ID'] | null;
+  readonly id_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly id_not_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly teamName?: Scalars['String'] | null;
+  readonly teamName_not?: Scalars['String'] | null;
+  readonly teamName_contains?: Scalars['String'] | null;
+  readonly teamName_not_contains?: Scalars['String'] | null;
+  readonly teamName_starts_with?: Scalars['String'] | null;
+  readonly teamName_not_starts_with?: Scalars['String'] | null;
+  readonly teamName_ends_with?: Scalars['String'] | null;
+  readonly teamName_not_ends_with?: Scalars['String'] | null;
+  readonly teamName_i?: Scalars['String'] | null;
+  readonly teamName_not_i?: Scalars['String'] | null;
+  readonly teamName_contains_i?: Scalars['String'] | null;
+  readonly teamName_not_contains_i?: Scalars['String'] | null;
+  readonly teamName_starts_with_i?: Scalars['String'] | null;
+  readonly teamName_not_starts_with_i?: Scalars['String'] | null;
+  readonly teamName_ends_with_i?: Scalars['String'] | null;
+  readonly teamName_not_ends_with_i?: Scalars['String'] | null;
+  readonly teamName_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly teamName_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly taTeacher_every?: UserWhereInput | null;
+  readonly taTeacher_some?: UserWhereInput | null;
+  readonly taTeacher_none?: UserWhereInput | null;
+  readonly uncountedCards?: Scalars['Int'] | null;
+  readonly uncountedCards_not?: Scalars['Int'] | null;
+  readonly uncountedCards_lt?: Scalars['Int'] | null;
+  readonly uncountedCards_lte?: Scalars['Int'] | null;
+  readonly uncountedCards_gt?: Scalars['Int'] | null;
+  readonly uncountedCards_gte?: Scalars['Int'] | null;
+  readonly uncountedCards_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly uncountedCards_not_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly countedCards?: Scalars['Int'] | null;
+  readonly countedCards_not?: Scalars['Int'] | null;
+  readonly countedCards_lt?: Scalars['Int'] | null;
+  readonly countedCards_lte?: Scalars['Int'] | null;
+  readonly countedCards_gt?: Scalars['Int'] | null;
+  readonly countedCards_gte?: Scalars['Int'] | null;
+  readonly countedCards_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly countedCards_not_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly currentLevel?: Scalars['Int'] | null;
+  readonly currentLevel_not?: Scalars['Int'] | null;
+  readonly currentLevel_lt?: Scalars['Int'] | null;
+  readonly currentLevel_lte?: Scalars['Int'] | null;
+  readonly currentLevel_gt?: Scalars['Int'] | null;
+  readonly currentLevel_gte?: Scalars['Int'] | null;
+  readonly currentLevel_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly currentLevel_not_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly numberOfStudents?: Scalars['Int'] | null;
+  readonly numberOfStudents_not?: Scalars['Int'] | null;
+  readonly numberOfStudents_lt?: Scalars['Int'] | null;
+  readonly numberOfStudents_lte?: Scalars['Int'] | null;
+  readonly numberOfStudents_gt?: Scalars['Int'] | null;
+  readonly numberOfStudents_gte?: Scalars['Int'] | null;
+  readonly numberOfStudents_in?: ReadonlyArray<Scalars['Int'] | null> | null;
+  readonly numberOfStudents_not_in?: ReadonlyArray<
+    Scalars['Int'] | null
+  > | null;
+  readonly averageCardsPerStudent?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent_not?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent_lt?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent_lte?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent_gt?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent_gte?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent_in?: ReadonlyArray<
+    Scalars['Int'] | null
+  > | null;
+  readonly averageCardsPerStudent_not_in?: ReadonlyArray<
+    Scalars['Int'] | null
+  > | null;
+  readonly dateModivied?: Scalars['String'] | null;
+  readonly dateModivied_not?: Scalars['String'] | null;
+  readonly dateModivied_lt?: Scalars['String'] | null;
+  readonly dateModivied_lte?: Scalars['String'] | null;
+  readonly dateModivied_gt?: Scalars['String'] | null;
+  readonly dateModivied_gte?: Scalars['String'] | null;
+  readonly dateModivied_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly dateModivied_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly lastModifiedBy?: UserWhereInput | null;
+  readonly lastModifiedBy_is_null?: Scalars['Boolean'] | null;
+};
+
+export type PbisTeamWhereUniqueInput = {
+  readonly id: Scalars['ID'];
+};
+
+export type SortPbisTeamsBy =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'teamName_ASC'
+  | 'teamName_DESC'
+  | 'taTeacher_ASC'
+  | 'taTeacher_DESC'
+  | 'uncountedCards_ASC'
+  | 'uncountedCards_DESC'
+  | 'countedCards_ASC'
+  | 'countedCards_DESC'
+  | 'currentLevel_ASC'
+  | 'currentLevel_DESC'
+  | 'numberOfStudents_ASC'
+  | 'numberOfStudents_DESC'
+  | 'averageCardsPerStudent_ASC'
+  | 'averageCardsPerStudent_DESC'
+  | 'dateModivied_ASC'
+  | 'dateModivied_DESC'
+  | 'lastModifiedBy_ASC'
+  | 'lastModifiedBy_DESC';
+
+export type PbisTeamUpdateInput = {
+  readonly teamName?: Scalars['String'] | null;
+  readonly taTeacher?: UserRelateToManyInput | null;
+  readonly uncountedCards?: Scalars['Int'] | null;
+  readonly countedCards?: Scalars['Int'] | null;
+  readonly currentLevel?: Scalars['Int'] | null;
+  readonly numberOfStudents?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent?: Scalars['Int'] | null;
+  readonly dateModivied?: Scalars['String'] | null;
+  readonly lastModifiedBy?: UserRelateToOneInput | null;
+};
+
+export type PbisTeamsUpdateInput = {
+  readonly id: Scalars['ID'];
+  readonly data?: PbisTeamUpdateInput | null;
+};
+
+export type PbisTeamCreateInput = {
+  readonly teamName?: Scalars['String'] | null;
+  readonly taTeacher?: UserRelateToManyInput | null;
+  readonly uncountedCards?: Scalars['Int'] | null;
+  readonly countedCards?: Scalars['Int'] | null;
+  readonly currentLevel?: Scalars['Int'] | null;
+  readonly numberOfStudents?: Scalars['Int'] | null;
+  readonly averageCardsPerStudent?: Scalars['Int'] | null;
+  readonly dateModivied?: Scalars['String'] | null;
+  readonly lastModifiedBy?: UserRelateToOneInput | null;
+};
+
+export type PbisTeamsCreateInput = {
+  readonly data?: PbisTeamCreateInput | null;
+};
+
+export type StudentFocusWhereInput = {
+  readonly AND?: ReadonlyArray<StudentFocusWhereInput | null> | null;
+  readonly OR?: ReadonlyArray<StudentFocusWhereInput | null> | null;
+  readonly id?: Scalars['ID'] | null;
+  readonly id_not?: Scalars['ID'] | null;
+  readonly id_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly id_not_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly comments?: Scalars['String'] | null;
+  readonly comments_not?: Scalars['String'] | null;
+  readonly comments_contains?: Scalars['String'] | null;
+  readonly comments_not_contains?: Scalars['String'] | null;
+  readonly comments_starts_with?: Scalars['String'] | null;
+  readonly comments_not_starts_with?: Scalars['String'] | null;
+  readonly comments_ends_with?: Scalars['String'] | null;
+  readonly comments_not_ends_with?: Scalars['String'] | null;
+  readonly comments_i?: Scalars['String'] | null;
+  readonly comments_not_i?: Scalars['String'] | null;
+  readonly comments_contains_i?: Scalars['String'] | null;
+  readonly comments_not_contains_i?: Scalars['String'] | null;
+  readonly comments_starts_with_i?: Scalars['String'] | null;
+  readonly comments_not_starts_with_i?: Scalars['String'] | null;
+  readonly comments_ends_with_i?: Scalars['String'] | null;
+  readonly comments_not_ends_with_i?: Scalars['String'] | null;
+  readonly comments_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly comments_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly category?: Scalars['String'] | null;
+  readonly category_not?: Scalars['String'] | null;
+  readonly category_contains?: Scalars['String'] | null;
+  readonly category_not_contains?: Scalars['String'] | null;
+  readonly category_starts_with?: Scalars['String'] | null;
+  readonly category_not_starts_with?: Scalars['String'] | null;
+  readonly category_ends_with?: Scalars['String'] | null;
+  readonly category_not_ends_with?: Scalars['String'] | null;
+  readonly category_i?: Scalars['String'] | null;
+  readonly category_not_i?: Scalars['String'] | null;
+  readonly category_contains_i?: Scalars['String'] | null;
+  readonly category_not_contains_i?: Scalars['String'] | null;
+  readonly category_starts_with_i?: Scalars['String'] | null;
+  readonly category_not_starts_with_i?: Scalars['String'] | null;
+  readonly category_ends_with_i?: Scalars['String'] | null;
+  readonly category_not_ends_with_i?: Scalars['String'] | null;
+  readonly category_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly category_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly student?: UserWhereInput | null;
+  readonly student_is_null?: Scalars['Boolean'] | null;
+  readonly teacher?: UserWhereInput | null;
+  readonly teacher_is_null?: Scalars['Boolean'] | null;
+  readonly dateCreated?: Scalars['String'] | null;
+  readonly dateCreated_not?: Scalars['String'] | null;
+  readonly dateCreated_lt?: Scalars['String'] | null;
+  readonly dateCreated_lte?: Scalars['String'] | null;
+  readonly dateCreated_gt?: Scalars['String'] | null;
+  readonly dateCreated_gte?: Scalars['String'] | null;
+  readonly dateCreated_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly dateCreated_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+};
+
+export type StudentFocusWhereUniqueInput = {
+  readonly id: Scalars['ID'];
+};
+
+export type SortStudentFociBy =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'comments_ASC'
+  | 'comments_DESC'
+  | 'category_ASC'
+  | 'category_DESC'
+  | 'student_ASC'
+  | 'student_DESC'
+  | 'teacher_ASC'
+  | 'teacher_DESC'
+  | 'dateCreated_ASC'
+  | 'dateCreated_DESC';
+
+export type StudentFocusUpdateInput = {
+  readonly comments?: Scalars['String'] | null;
+  readonly category?: Scalars['String'] | null;
+  readonly student?: UserRelateToOneInput | null;
+  readonly teacher?: UserRelateToOneInput | null;
+  readonly dateCreated?: Scalars['String'] | null;
+};
+
+export type StudentFociUpdateInput = {
+  readonly id: Scalars['ID'];
+  readonly data?: StudentFocusUpdateInput | null;
+};
+
+export type StudentFocusCreateInput = {
+  readonly comments?: Scalars['String'] | null;
+  readonly category?: Scalars['String'] | null;
+  readonly student?: UserRelateToOneInput | null;
+  readonly teacher?: UserRelateToOneInput | null;
+  readonly dateCreated?: Scalars['String'] | null;
+};
+
+export type StudentFociCreateInput = {
+  readonly data?: StudentFocusCreateInput | null;
+};
+
 export type _ksListsMetaInput = {
   readonly key?: Scalars['String'] | null;
   readonly auxiliary?: Scalars['Boolean'] | null;
@@ -850,6 +1396,11 @@ export type UserListTypeInfo = {
     | 'block4Students'
     | 'block5Teacher'
     | 'block5Students'
+    | 'taTeam'
+    | 'studentFocusTeacher'
+    | 'studentFocusStudent'
+    | 'teacherPbisCards'
+    | 'studentPbisCards'
     | 'callbackCount'
     | 'PbisCardCount'
     | 'YearPbisCount'
@@ -887,6 +1438,11 @@ export type UserListTypeInfo = {
     readonly block4Students?: string | null;
     readonly block5Teacher?: string | null;
     readonly block5Students?: string | null;
+    readonly taTeam?: string | null;
+    readonly studentFocusTeacher?: string | null;
+    readonly studentFocusStudent?: string | null;
+    readonly teacherPbisCards?: string | null;
+    readonly studentPbisCards?: string | null;
     readonly callbackCount?: number | null;
     readonly PbisCardCount?: number | null;
     readonly YearPbisCount?: number | null;
@@ -1040,8 +1596,198 @@ export type RoleListFn = (
   RoleListTypeInfo['fields']
 >;
 
+export type LinkListTypeInfo = {
+  key: 'Link';
+  fields:
+    | 'id'
+    | 'name'
+    | 'description'
+    | 'forTeachers'
+    | 'forStudents'
+    | 'forParents'
+    | 'onHomePage'
+    | 'modifiedBy'
+    | 'modified'
+    | 'link'
+    | 'linkTitle';
+  backing: {
+    readonly id: string;
+    readonly name?: string | null;
+    readonly description?: string | null;
+    readonly forTeachers?: boolean | null;
+    readonly forStudents?: boolean | null;
+    readonly forParents?: boolean | null;
+    readonly onHomePage?: boolean | null;
+    readonly modifiedBy?: string | null;
+    readonly modified?: Date | null;
+    readonly link?: string | null;
+    readonly linkTitle?: string | null;
+  };
+  inputs: {
+    where: LinkWhereInput;
+    create: LinkCreateInput;
+    update: LinkUpdateInput;
+  };
+  args: {
+    listQuery: {
+      readonly where?: LinkWhereInput | null;
+      readonly sortBy?: ReadonlyArray<SortLinksBy> | null;
+      readonly first?: Scalars['Int'] | null;
+      readonly skip?: Scalars['Int'] | null;
+    };
+  };
+};
+
+export type LinkListFn = (
+  listConfig: import('@keystone-next/keystone/schema').ListConfig<
+    LinkListTypeInfo,
+    LinkListTypeInfo['fields']
+  >
+) => import('@keystone-next/keystone/schema').ListConfig<
+  LinkListTypeInfo,
+  LinkListTypeInfo['fields']
+>;
+
+export type PbisCardListTypeInfo = {
+  key: 'PbisCard';
+  fields:
+    | 'id'
+    | 'cardMessage'
+    | 'student'
+    | 'teacher'
+    | 'dateGiven'
+    | 'counted';
+  backing: {
+    readonly id: string;
+    readonly cardMessage?: string | null;
+    readonly student?: string | null;
+    readonly teacher?: string | null;
+    readonly dateGiven?: Date | null;
+    readonly counted?: boolean | null;
+  };
+  inputs: {
+    where: PbisCardWhereInput;
+    create: PbisCardCreateInput;
+    update: PbisCardUpdateInput;
+  };
+  args: {
+    listQuery: {
+      readonly where?: PbisCardWhereInput | null;
+      readonly sortBy?: ReadonlyArray<SortPbisCardsBy> | null;
+      readonly first?: Scalars['Int'] | null;
+      readonly skip?: Scalars['Int'] | null;
+    };
+  };
+};
+
+export type PbisCardListFn = (
+  listConfig: import('@keystone-next/keystone/schema').ListConfig<
+    PbisCardListTypeInfo,
+    PbisCardListTypeInfo['fields']
+  >
+) => import('@keystone-next/keystone/schema').ListConfig<
+  PbisCardListTypeInfo,
+  PbisCardListTypeInfo['fields']
+>;
+
+export type PbisTeamListTypeInfo = {
+  key: 'PbisTeam';
+  fields:
+    | 'id'
+    | 'teamName'
+    | 'taTeacher'
+    | 'uncountedCards'
+    | 'countedCards'
+    | 'currentLevel'
+    | 'numberOfStudents'
+    | 'averageCardsPerStudent'
+    | 'dateModivied'
+    | 'lastModifiedBy';
+  backing: {
+    readonly id: string;
+    readonly teamName?: string | null;
+    readonly taTeacher?: string | null;
+    readonly uncountedCards?: number | null;
+    readonly countedCards?: number | null;
+    readonly currentLevel?: number | null;
+    readonly numberOfStudents?: number | null;
+    readonly averageCardsPerStudent?: number | null;
+    readonly dateModivied?: Date | null;
+    readonly lastModifiedBy?: string | null;
+  };
+  inputs: {
+    where: PbisTeamWhereInput;
+    create: PbisTeamCreateInput;
+    update: PbisTeamUpdateInput;
+  };
+  args: {
+    listQuery: {
+      readonly where?: PbisTeamWhereInput | null;
+      readonly sortBy?: ReadonlyArray<SortPbisTeamsBy> | null;
+      readonly first?: Scalars['Int'] | null;
+      readonly skip?: Scalars['Int'] | null;
+    };
+  };
+};
+
+export type PbisTeamListFn = (
+  listConfig: import('@keystone-next/keystone/schema').ListConfig<
+    PbisTeamListTypeInfo,
+    PbisTeamListTypeInfo['fields']
+  >
+) => import('@keystone-next/keystone/schema').ListConfig<
+  PbisTeamListTypeInfo,
+  PbisTeamListTypeInfo['fields']
+>;
+
+export type StudentFocusListTypeInfo = {
+  key: 'StudentFocus';
+  fields:
+    | 'id'
+    | 'comments'
+    | 'category'
+    | 'student'
+    | 'teacher'
+    | 'dateCreated';
+  backing: {
+    readonly id: string;
+    readonly comments?: string | null;
+    readonly category?: string | null;
+    readonly student?: string | null;
+    readonly teacher?: string | null;
+    readonly dateCreated?: Date | null;
+  };
+  inputs: {
+    where: StudentFocusWhereInput;
+    create: StudentFocusCreateInput;
+    update: StudentFocusUpdateInput;
+  };
+  args: {
+    listQuery: {
+      readonly where?: StudentFocusWhereInput | null;
+      readonly sortBy?: ReadonlyArray<SortStudentFociBy> | null;
+      readonly first?: Scalars['Int'] | null;
+      readonly skip?: Scalars['Int'] | null;
+    };
+  };
+};
+
+export type StudentFocusListFn = (
+  listConfig: import('@keystone-next/keystone/schema').ListConfig<
+    StudentFocusListTypeInfo,
+    StudentFocusListTypeInfo['fields']
+  >
+) => import('@keystone-next/keystone/schema').ListConfig<
+  StudentFocusListTypeInfo,
+  StudentFocusListTypeInfo['fields']
+>;
+
 export type KeystoneListsTypeInfo = {
   readonly User: UserListTypeInfo;
   readonly Calendar: CalendarListTypeInfo;
   readonly Role: RoleListTypeInfo;
+  readonly Link: LinkListTypeInfo;
+  readonly PbisCard: PbisCardListTypeInfo;
+  readonly PbisTeam: PbisTeamListTypeInfo;
+  readonly StudentFocus: StudentFocusListTypeInfo;
 };

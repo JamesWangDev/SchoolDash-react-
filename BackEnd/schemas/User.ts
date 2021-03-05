@@ -45,6 +45,14 @@ export const User = list({
     block5Teacher: relationship({ ref: 'User.block5Students', many: false }),
     block5Students: relationship({ ref: 'User.block5Teacher', many: true }),
 
+    //other relationships
+    taTeam: relationship({ ref: 'PbisTeam.taTeacher' }),
+    studentFocusTeacher: relationship({ ref: 'StudentFocus.teacher', many: true }),
+    studentFocusStudent: relationship({ ref: 'StudentFocus.student', many: true }),
+    teacherPbisCards: relationship({ ref: 'PbisCard.teacher', many: true }),
+    studentPbisCards: relationship({ ref: 'PbisCard.student', many: true }),
+
+
     // Important Info
     callbackCount: integer({ defaultValue: 0 }),
     PbisCardCount: integer({ defaultValue: 0 }),

@@ -19,6 +19,27 @@ input RoleRelateToManyInput {
   disconnectAll: Boolean
 }
 
+input PbisTeamRelateToOneInput {
+  create: PbisTeamCreateInput
+  connect: PbisTeamWhereUniqueInput
+  disconnect: PbisTeamWhereUniqueInput
+  disconnectAll: Boolean
+}
+
+input StudentFocusRelateToManyInput {
+  create: [StudentFocusCreateInput]
+  connect: [StudentFocusWhereUniqueInput]
+  disconnect: [StudentFocusWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
+input PbisCardRelateToManyInput {
+  create: [PbisCardCreateInput]
+  connect: [PbisCardWhereUniqueInput]
+  disconnect: [PbisCardWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
 """ A keystone list """
 type User {
   id: ID!
@@ -49,6 +70,15 @@ type User {
   block5Teacher: User
   block5Students(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
   _block5StudentsMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  taTeam: PbisTeam
+  studentFocusTeacher(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): [StudentFocus!]!
+  _studentFocusTeacherMeta(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  studentFocusStudent(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): [StudentFocus!]!
+  _studentFocusStudentMeta(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  teacherPbisCards(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): [PbisCard!]!
+  _teacherPbisCardsMeta(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  studentPbisCards(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): [PbisCard!]!
+  _studentPbisCardsMeta(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   callbackCount: Int
   PbisCardCount: Int
   YearPbisCount: Int
@@ -205,6 +235,44 @@ input UserWhereInput {
 
   """ condition must be false for all nodes """
   block5Students_none: UserWhereInput
+  taTeam: PbisTeamWhereInput
+  taTeam_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  studentFocusTeacher_every: StudentFocusWhereInput
+
+  """ condition must be true for at least 1 node """
+  studentFocusTeacher_some: StudentFocusWhereInput
+
+  """ condition must be false for all nodes """
+  studentFocusTeacher_none: StudentFocusWhereInput
+
+  """ condition must be true for all nodes """
+  studentFocusStudent_every: StudentFocusWhereInput
+
+  """ condition must be true for at least 1 node """
+  studentFocusStudent_some: StudentFocusWhereInput
+
+  """ condition must be false for all nodes """
+  studentFocusStudent_none: StudentFocusWhereInput
+
+  """ condition must be true for all nodes """
+  teacherPbisCards_every: PbisCardWhereInput
+
+  """ condition must be true for at least 1 node """
+  teacherPbisCards_some: PbisCardWhereInput
+
+  """ condition must be false for all nodes """
+  teacherPbisCards_none: PbisCardWhereInput
+
+  """ condition must be true for all nodes """
+  studentPbisCards_every: PbisCardWhereInput
+
+  """ condition must be true for at least 1 node """
+  studentPbisCards_some: PbisCardWhereInput
+
+  """ condition must be false for all nodes """
+  studentPbisCards_none: PbisCardWhereInput
   callbackCount: Int
   callbackCount_not: Int
   callbackCount_lt: Int
@@ -430,6 +498,16 @@ enum SortUsersBy {
   block5Teacher_DESC
   block5Students_ASC
   block5Students_DESC
+  taTeam_ASC
+  taTeam_DESC
+  studentFocusTeacher_ASC
+  studentFocusTeacher_DESC
+  studentFocusStudent_ASC
+  studentFocusStudent_DESC
+  teacherPbisCards_ASC
+  teacherPbisCards_DESC
+  studentPbisCards_ASC
+  studentPbisCards_DESC
   callbackCount_ASC
   callbackCount_DESC
   PbisCardCount_ASC
@@ -481,6 +559,11 @@ input UserUpdateInput {
   block4Students: UserRelateToManyInput
   block5Teacher: UserRelateToOneInput
   block5Students: UserRelateToManyInput
+  taTeam: PbisTeamRelateToOneInput
+  studentFocusTeacher: StudentFocusRelateToManyInput
+  studentFocusStudent: StudentFocusRelateToManyInput
+  teacherPbisCards: PbisCardRelateToManyInput
+  studentPbisCards: PbisCardRelateToManyInput
   callbackCount: Int
   PbisCardCount: Int
   YearPbisCount: Int
@@ -524,6 +607,11 @@ input UserCreateInput {
   block4Students: UserRelateToManyInput
   block5Teacher: UserRelateToOneInput
   block5Students: UserRelateToManyInput
+  taTeam: PbisTeamRelateToOneInput
+  studentFocusTeacher: StudentFocusRelateToManyInput
+  studentFocusStudent: StudentFocusRelateToManyInput
+  teacherPbisCards: PbisCardRelateToManyInput
+  studentPbisCards: PbisCardRelateToManyInput
   callbackCount: Int
   PbisCardCount: Int
   YearPbisCount: Int
@@ -900,6 +988,551 @@ input RolesCreateInput {
   data: RoleCreateInput
 }
 
+""" A keystone list """
+type Link {
+  id: ID!
+  name: String
+  description: String
+  forTeachers: Boolean
+  forStudents: Boolean
+  forParents: Boolean
+  onHomePage: Boolean
+  modifiedBy: User
+  modified: String
+  link: String
+  linkTitle: String
+}
+
+input LinkWhereInput {
+  AND: [LinkWhereInput]
+  OR: [LinkWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_i: String
+  name_not_i: String
+  name_contains_i: String
+  name_not_contains_i: String
+  name_starts_with_i: String
+  name_not_starts_with_i: String
+  name_ends_with_i: String
+  name_not_ends_with_i: String
+  name_in: [String]
+  name_not_in: [String]
+  description: String
+  description_not: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  description_i: String
+  description_not_i: String
+  description_contains_i: String
+  description_not_contains_i: String
+  description_starts_with_i: String
+  description_not_starts_with_i: String
+  description_ends_with_i: String
+  description_not_ends_with_i: String
+  description_in: [String]
+  description_not_in: [String]
+  forTeachers: Boolean
+  forTeachers_not: Boolean
+  forStudents: Boolean
+  forStudents_not: Boolean
+  forParents: Boolean
+  forParents_not: Boolean
+  onHomePage: Boolean
+  onHomePage_not: Boolean
+  modifiedBy: UserWhereInput
+  modifiedBy_is_null: Boolean
+  modified: String
+  modified_not: String
+  modified_lt: String
+  modified_lte: String
+  modified_gt: String
+  modified_gte: String
+  modified_in: [String]
+  modified_not_in: [String]
+  link: String
+  link_not: String
+  link_contains: String
+  link_not_contains: String
+  link_starts_with: String
+  link_not_starts_with: String
+  link_ends_with: String
+  link_not_ends_with: String
+  link_i: String
+  link_not_i: String
+  link_contains_i: String
+  link_not_contains_i: String
+  link_starts_with_i: String
+  link_not_starts_with_i: String
+  link_ends_with_i: String
+  link_not_ends_with_i: String
+  link_in: [String]
+  link_not_in: [String]
+  linkTitle: String
+  linkTitle_not: String
+  linkTitle_contains: String
+  linkTitle_not_contains: String
+  linkTitle_starts_with: String
+  linkTitle_not_starts_with: String
+  linkTitle_ends_with: String
+  linkTitle_not_ends_with: String
+  linkTitle_i: String
+  linkTitle_not_i: String
+  linkTitle_contains_i: String
+  linkTitle_not_contains_i: String
+  linkTitle_starts_with_i: String
+  linkTitle_not_starts_with_i: String
+  linkTitle_ends_with_i: String
+  linkTitle_not_ends_with_i: String
+  linkTitle_in: [String]
+  linkTitle_not_in: [String]
+}
+
+input LinkWhereUniqueInput {
+  id: ID!
+}
+
+enum SortLinksBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  forTeachers_ASC
+  forTeachers_DESC
+  forStudents_ASC
+  forStudents_DESC
+  forParents_ASC
+  forParents_DESC
+  onHomePage_ASC
+  onHomePage_DESC
+  modifiedBy_ASC
+  modifiedBy_DESC
+  modified_ASC
+  modified_DESC
+  link_ASC
+  link_DESC
+  linkTitle_ASC
+  linkTitle_DESC
+}
+
+input LinkUpdateInput {
+  name: String
+  description: String
+  forTeachers: Boolean
+  forStudents: Boolean
+  forParents: Boolean
+  onHomePage: Boolean
+  modifiedBy: UserRelateToOneInput
+  modified: String
+  link: String
+  linkTitle: String
+}
+
+input LinksUpdateInput {
+  id: ID!
+  data: LinkUpdateInput
+}
+
+input LinkCreateInput {
+  name: String
+  description: String
+  forTeachers: Boolean
+  forStudents: Boolean
+  forParents: Boolean
+  onHomePage: Boolean
+  modifiedBy: UserRelateToOneInput
+  modified: String
+  link: String
+  linkTitle: String
+}
+
+input LinksCreateInput {
+  data: LinkCreateInput
+}
+
+""" A keystone list """
+type PbisCard {
+  id: ID!
+  cardMessage: String
+  student: User
+  teacher: User
+  dateGiven: String
+  counted: Boolean
+}
+
+input PbisCardWhereInput {
+  AND: [PbisCardWhereInput]
+  OR: [PbisCardWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  cardMessage: String
+  cardMessage_not: String
+  cardMessage_contains: String
+  cardMessage_not_contains: String
+  cardMessage_starts_with: String
+  cardMessage_not_starts_with: String
+  cardMessage_ends_with: String
+  cardMessage_not_ends_with: String
+  cardMessage_i: String
+  cardMessage_not_i: String
+  cardMessage_contains_i: String
+  cardMessage_not_contains_i: String
+  cardMessage_starts_with_i: String
+  cardMessage_not_starts_with_i: String
+  cardMessage_ends_with_i: String
+  cardMessage_not_ends_with_i: String
+  cardMessage_in: [String]
+  cardMessage_not_in: [String]
+  student: UserWhereInput
+  student_is_null: Boolean
+  teacher: UserWhereInput
+  teacher_is_null: Boolean
+  dateGiven: String
+  dateGiven_not: String
+  dateGiven_lt: String
+  dateGiven_lte: String
+  dateGiven_gt: String
+  dateGiven_gte: String
+  dateGiven_in: [String]
+  dateGiven_not_in: [String]
+  counted: Boolean
+  counted_not: Boolean
+}
+
+input PbisCardWhereUniqueInput {
+  id: ID!
+}
+
+enum SortPbisCardsBy {
+  id_ASC
+  id_DESC
+  cardMessage_ASC
+  cardMessage_DESC
+  student_ASC
+  student_DESC
+  teacher_ASC
+  teacher_DESC
+  dateGiven_ASC
+  dateGiven_DESC
+  counted_ASC
+  counted_DESC
+}
+
+input PbisCardUpdateInput {
+  cardMessage: String
+  student: UserRelateToOneInput
+  teacher: UserRelateToOneInput
+  dateGiven: String
+  counted: Boolean
+}
+
+input PbisCardsUpdateInput {
+  id: ID!
+  data: PbisCardUpdateInput
+}
+
+input PbisCardCreateInput {
+  cardMessage: String
+  student: UserRelateToOneInput
+  teacher: UserRelateToOneInput
+  dateGiven: String
+  counted: Boolean
+}
+
+input PbisCardsCreateInput {
+  data: PbisCardCreateInput
+}
+
+""" A keystone list """
+type PbisTeam {
+  id: ID!
+  teamName: String
+  taTeacher(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User!]!
+  _taTeacherMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  uncountedCards: Int
+  countedCards: Int
+  currentLevel: Int
+  numberOfStudents: Int
+  averageCardsPerStudent: Int
+  dateModivied: String
+  lastModifiedBy: User
+}
+
+input PbisTeamWhereInput {
+  AND: [PbisTeamWhereInput]
+  OR: [PbisTeamWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  teamName: String
+  teamName_not: String
+  teamName_contains: String
+  teamName_not_contains: String
+  teamName_starts_with: String
+  teamName_not_starts_with: String
+  teamName_ends_with: String
+  teamName_not_ends_with: String
+  teamName_i: String
+  teamName_not_i: String
+  teamName_contains_i: String
+  teamName_not_contains_i: String
+  teamName_starts_with_i: String
+  teamName_not_starts_with_i: String
+  teamName_ends_with_i: String
+  teamName_not_ends_with_i: String
+  teamName_in: [String]
+  teamName_not_in: [String]
+
+  """ condition must be true for all nodes """
+  taTeacher_every: UserWhereInput
+
+  """ condition must be true for at least 1 node """
+  taTeacher_some: UserWhereInput
+
+  """ condition must be false for all nodes """
+  taTeacher_none: UserWhereInput
+  uncountedCards: Int
+  uncountedCards_not: Int
+  uncountedCards_lt: Int
+  uncountedCards_lte: Int
+  uncountedCards_gt: Int
+  uncountedCards_gte: Int
+  uncountedCards_in: [Int]
+  uncountedCards_not_in: [Int]
+  countedCards: Int
+  countedCards_not: Int
+  countedCards_lt: Int
+  countedCards_lte: Int
+  countedCards_gt: Int
+  countedCards_gte: Int
+  countedCards_in: [Int]
+  countedCards_not_in: [Int]
+  currentLevel: Int
+  currentLevel_not: Int
+  currentLevel_lt: Int
+  currentLevel_lte: Int
+  currentLevel_gt: Int
+  currentLevel_gte: Int
+  currentLevel_in: [Int]
+  currentLevel_not_in: [Int]
+  numberOfStudents: Int
+  numberOfStudents_not: Int
+  numberOfStudents_lt: Int
+  numberOfStudents_lte: Int
+  numberOfStudents_gt: Int
+  numberOfStudents_gte: Int
+  numberOfStudents_in: [Int]
+  numberOfStudents_not_in: [Int]
+  averageCardsPerStudent: Int
+  averageCardsPerStudent_not: Int
+  averageCardsPerStudent_lt: Int
+  averageCardsPerStudent_lte: Int
+  averageCardsPerStudent_gt: Int
+  averageCardsPerStudent_gte: Int
+  averageCardsPerStudent_in: [Int]
+  averageCardsPerStudent_not_in: [Int]
+  dateModivied: String
+  dateModivied_not: String
+  dateModivied_lt: String
+  dateModivied_lte: String
+  dateModivied_gt: String
+  dateModivied_gte: String
+  dateModivied_in: [String]
+  dateModivied_not_in: [String]
+  lastModifiedBy: UserWhereInput
+  lastModifiedBy_is_null: Boolean
+}
+
+input PbisTeamWhereUniqueInput {
+  id: ID!
+}
+
+enum SortPbisTeamsBy {
+  id_ASC
+  id_DESC
+  teamName_ASC
+  teamName_DESC
+  taTeacher_ASC
+  taTeacher_DESC
+  uncountedCards_ASC
+  uncountedCards_DESC
+  countedCards_ASC
+  countedCards_DESC
+  currentLevel_ASC
+  currentLevel_DESC
+  numberOfStudents_ASC
+  numberOfStudents_DESC
+  averageCardsPerStudent_ASC
+  averageCardsPerStudent_DESC
+  dateModivied_ASC
+  dateModivied_DESC
+  lastModifiedBy_ASC
+  lastModifiedBy_DESC
+}
+
+input PbisTeamUpdateInput {
+  teamName: String
+  taTeacher: UserRelateToManyInput
+  uncountedCards: Int
+  countedCards: Int
+  currentLevel: Int
+  numberOfStudents: Int
+  averageCardsPerStudent: Int
+  dateModivied: String
+  lastModifiedBy: UserRelateToOneInput
+}
+
+input PbisTeamsUpdateInput {
+  id: ID!
+  data: PbisTeamUpdateInput
+}
+
+input PbisTeamCreateInput {
+  teamName: String
+  taTeacher: UserRelateToManyInput
+  uncountedCards: Int
+  countedCards: Int
+  currentLevel: Int
+  numberOfStudents: Int
+  averageCardsPerStudent: Int
+  dateModivied: String
+  lastModifiedBy: UserRelateToOneInput
+}
+
+input PbisTeamsCreateInput {
+  data: PbisTeamCreateInput
+}
+
+""" A keystone list """
+type StudentFocus {
+  id: ID!
+  comments: String
+  category: String
+  student: User
+  teacher: User
+  dateCreated: String
+}
+
+input StudentFocusWhereInput {
+  AND: [StudentFocusWhereInput]
+  OR: [StudentFocusWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  comments: String
+  comments_not: String
+  comments_contains: String
+  comments_not_contains: String
+  comments_starts_with: String
+  comments_not_starts_with: String
+  comments_ends_with: String
+  comments_not_ends_with: String
+  comments_i: String
+  comments_not_i: String
+  comments_contains_i: String
+  comments_not_contains_i: String
+  comments_starts_with_i: String
+  comments_not_starts_with_i: String
+  comments_ends_with_i: String
+  comments_not_ends_with_i: String
+  comments_in: [String]
+  comments_not_in: [String]
+  category: String
+  category_not: String
+  category_contains: String
+  category_not_contains: String
+  category_starts_with: String
+  category_not_starts_with: String
+  category_ends_with: String
+  category_not_ends_with: String
+  category_i: String
+  category_not_i: String
+  category_contains_i: String
+  category_not_contains_i: String
+  category_starts_with_i: String
+  category_not_starts_with_i: String
+  category_ends_with_i: String
+  category_not_ends_with_i: String
+  category_in: [String]
+  category_not_in: [String]
+  student: UserWhereInput
+  student_is_null: Boolean
+  teacher: UserWhereInput
+  teacher_is_null: Boolean
+  dateCreated: String
+  dateCreated_not: String
+  dateCreated_lt: String
+  dateCreated_lte: String
+  dateCreated_gt: String
+  dateCreated_gte: String
+  dateCreated_in: [String]
+  dateCreated_not_in: [String]
+}
+
+input StudentFocusWhereUniqueInput {
+  id: ID!
+}
+
+enum SortStudentFociBy {
+  id_ASC
+  id_DESC
+  comments_ASC
+  comments_DESC
+  category_ASC
+  category_DESC
+  student_ASC
+  student_DESC
+  teacher_ASC
+  teacher_DESC
+  dateCreated_ASC
+  dateCreated_DESC
+}
+
+input StudentFocusUpdateInput {
+  comments: String
+  category: String
+  student: UserRelateToOneInput
+  teacher: UserRelateToOneInput
+  dateCreated: String
+}
+
+input StudentFociUpdateInput {
+  id: ID!
+  data: StudentFocusUpdateInput
+}
+
+input StudentFocusCreateInput {
+  comments: String
+  category: String
+  student: UserRelateToOneInput
+  teacher: UserRelateToOneInput
+  dateCreated: String
+}
+
+input StudentFociCreateInput {
+  data: StudentFocusCreateInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -1118,6 +1751,57 @@ type Query {
   """ Retrieve the meta-data for the Role list. """
   _RolesMeta: _ListMeta
 
+  """ Search for all Link items which match the where clause. """
+  allLinks(where: LinkWhereInput, search: String, sortBy: [SortLinksBy!], orderBy: String, first: Int, skip: Int): [Link]
+
+  """ Search for the Link item with the matching ID. """
+  Link(where: LinkWhereUniqueInput!): Link
+
+  """ Perform a meta-query on all Link items which match the where clause. """
+  _allLinksMeta(where: LinkWhereInput, search: String, sortBy: [SortLinksBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the Link list. """
+  _LinksMeta: _ListMeta
+
+  """ Search for all PbisCard items which match the where clause. """
+  allPbisCards(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): [PbisCard]
+
+  """ Search for the PbisCard item with the matching ID. """
+  PbisCard(where: PbisCardWhereUniqueInput!): PbisCard
+
+  """ Perform a meta-query on all PbisCard items which match the where clause. 
+  """
+  _allPbisCardsMeta(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the PbisCard list. """
+  _PbisCardsMeta: _ListMeta
+
+  """ Search for all PbisTeam items which match the where clause. """
+  allPbisTeams(where: PbisTeamWhereInput, search: String, sortBy: [SortPbisTeamsBy!], orderBy: String, first: Int, skip: Int): [PbisTeam]
+
+  """ Search for the PbisTeam item with the matching ID. """
+  PbisTeam(where: PbisTeamWhereUniqueInput!): PbisTeam
+
+  """ Perform a meta-query on all PbisTeam items which match the where clause. 
+  """
+  _allPbisTeamsMeta(where: PbisTeamWhereInput, search: String, sortBy: [SortPbisTeamsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the PbisTeam list. """
+  _PbisTeamsMeta: _ListMeta
+
+  """ Search for all StudentFocus items which match the where clause. """
+  allStudentFoci(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): [StudentFocus]
+
+  """ Search for the StudentFocus item with the matching ID. """
+  StudentFocus(where: StudentFocusWhereUniqueInput!): StudentFocus
+
+  """ Perform a meta-query on all StudentFocus items which match the where clause. 
+  """
+  _allStudentFociMeta(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the StudentFocus list. """
+  _StudentFociMeta: _ListMeta
+
   """ Retrieve the meta-data for all lists. """
   _ksListsMeta(where: _ksListsMetaInput): [_ListMeta]
 
@@ -1181,6 +1865,78 @@ type Mutation {
 
   """ Delete multiple Role items by ID. """
   deleteRoles(ids: [ID!]): [Role]
+
+  """ Create a single Link item. """
+  createLink(data: LinkCreateInput): Link
+
+  """ Create multiple Link items. """
+  createLinks(data: [LinksCreateInput]): [Link]
+
+  """ Update a single Link item by ID. """
+  updateLink(id: ID!, data: LinkUpdateInput): Link
+
+  """ Update multiple Link items by ID. """
+  updateLinks(data: [LinksUpdateInput]): [Link]
+
+  """ Delete a single Link item by ID. """
+  deleteLink(id: ID!): Link
+
+  """ Delete multiple Link items by ID. """
+  deleteLinks(ids: [ID!]): [Link]
+
+  """ Create a single PbisCard item. """
+  createPbisCard(data: PbisCardCreateInput): PbisCard
+
+  """ Create multiple PbisCard items. """
+  createPbisCards(data: [PbisCardsCreateInput]): [PbisCard]
+
+  """ Update a single PbisCard item by ID. """
+  updatePbisCard(id: ID!, data: PbisCardUpdateInput): PbisCard
+
+  """ Update multiple PbisCard items by ID. """
+  updatePbisCards(data: [PbisCardsUpdateInput]): [PbisCard]
+
+  """ Delete a single PbisCard item by ID. """
+  deletePbisCard(id: ID!): PbisCard
+
+  """ Delete multiple PbisCard items by ID. """
+  deletePbisCards(ids: [ID!]): [PbisCard]
+
+  """ Create a single PbisTeam item. """
+  createPbisTeam(data: PbisTeamCreateInput): PbisTeam
+
+  """ Create multiple PbisTeam items. """
+  createPbisTeams(data: [PbisTeamsCreateInput]): [PbisTeam]
+
+  """ Update a single PbisTeam item by ID. """
+  updatePbisTeam(id: ID!, data: PbisTeamUpdateInput): PbisTeam
+
+  """ Update multiple PbisTeam items by ID. """
+  updatePbisTeams(data: [PbisTeamsUpdateInput]): [PbisTeam]
+
+  """ Delete a single PbisTeam item by ID. """
+  deletePbisTeam(id: ID!): PbisTeam
+
+  """ Delete multiple PbisTeam items by ID. """
+  deletePbisTeams(ids: [ID!]): [PbisTeam]
+
+  """ Create a single StudentFocus item. """
+  createStudentFocus(data: StudentFocusCreateInput): StudentFocus
+
+  """ Create multiple StudentFocus items. """
+  createStudentFoci(data: [StudentFociCreateInput]): [StudentFocus]
+
+  """ Update a single StudentFocus item by ID. """
+  updateStudentFocus(id: ID!, data: StudentFocusUpdateInput): StudentFocus
+
+  """ Update multiple StudentFocus items by ID. """
+  updateStudentFoci(data: [StudentFociUpdateInput]): [StudentFocus]
+
+  """ Delete a single StudentFocus item by ID. """
+  deleteStudentFocus(id: ID!): StudentFocus
+
+  """ Delete multiple StudentFocus items by ID. """
+  deleteStudentFoci(ids: [ID!]): [StudentFocus]
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult!
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   endSession: Boolean!

@@ -30,6 +30,18 @@ export default function Home() {
           Role: _allRolesMeta {
             count
           }
+          Link: _allLinksMeta {
+            count
+          }
+          PbisCard: _allPbisCardsMeta {
+            count
+          }
+          PbisTeam: _allPbisTeamsMeta {
+            count
+          }
+          StudentFocus: _allStudentFociMeta {
+            count
+          }
         }
       `}
     />

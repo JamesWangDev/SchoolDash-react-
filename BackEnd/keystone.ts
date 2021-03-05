@@ -3,6 +3,10 @@ import { config, createSchema } from '@keystone-next/keystone/schema';
 import { User } from './schemas/User';
 import { Calendar } from './schemas/Calendar'
 import { Role } from './schemas/Role'
+import { Link } from './schemas/Link'
+import { PbisCard } from './schemas/PbisCard'
+import { PbisTeam } from './schemas/PbisTeam'
+import { StudentFocus } from './schemas/StudentFocus'
 import 'dotenv/config';
 import {
   withItemData,
@@ -46,6 +50,10 @@ export default withAuth(
       User,
       Calendar,
       Role,
+      Link,
+      PbisCard,
+      PbisTeam,
+      StudentFocus,
     }),
     ui: {
       // Show the UI only for poeple who pass this test
