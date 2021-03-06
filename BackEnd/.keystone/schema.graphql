@@ -33,6 +33,13 @@ input StudentFocusRelateToManyInput {
   disconnectAll: Boolean
 }
 
+input CellPhoneViolationRelateToManyInput {
+  create: [CellPhoneViolationCreateInput]
+  connect: [CellPhoneViolationWhereUniqueInput]
+  disconnect: [CellPhoneViolationWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
 input PbisCardRelateToManyInput {
   create: [PbisCardCreateInput]
   connect: [PbisCardWhereUniqueInput]
@@ -75,6 +82,10 @@ type User {
   _studentFocusTeacherMeta(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   studentFocusStudent(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): [StudentFocus!]!
   _studentFocusStudentMeta(where: StudentFocusWhereInput, search: String, sortBy: [SortStudentFociBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  studentCellPhoneViolation(where: CellPhoneViolationWhereInput, search: String, sortBy: [SortCellPhoneViolationsBy!], orderBy: String, first: Int, skip: Int): [CellPhoneViolation!]!
+  _studentCellPhoneViolationMeta(where: CellPhoneViolationWhereInput, search: String, sortBy: [SortCellPhoneViolationsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  teacherCellPhoneViolation(where: CellPhoneViolationWhereInput, search: String, sortBy: [SortCellPhoneViolationsBy!], orderBy: String, first: Int, skip: Int): [CellPhoneViolation!]!
+  _teacherCellPhoneViolationMeta(where: CellPhoneViolationWhereInput, search: String, sortBy: [SortCellPhoneViolationsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   teacherPbisCards(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): [PbisCard!]!
   _teacherPbisCardsMeta(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   studentPbisCards(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): [PbisCard!]!
@@ -255,6 +266,24 @@ input UserWhereInput {
 
   """ condition must be false for all nodes """
   studentFocusStudent_none: StudentFocusWhereInput
+
+  """ condition must be true for all nodes """
+  studentCellPhoneViolation_every: CellPhoneViolationWhereInput
+
+  """ condition must be true for at least 1 node """
+  studentCellPhoneViolation_some: CellPhoneViolationWhereInput
+
+  """ condition must be false for all nodes """
+  studentCellPhoneViolation_none: CellPhoneViolationWhereInput
+
+  """ condition must be true for all nodes """
+  teacherCellPhoneViolation_every: CellPhoneViolationWhereInput
+
+  """ condition must be true for at least 1 node """
+  teacherCellPhoneViolation_some: CellPhoneViolationWhereInput
+
+  """ condition must be false for all nodes """
+  teacherCellPhoneViolation_none: CellPhoneViolationWhereInput
 
   """ condition must be true for all nodes """
   teacherPbisCards_every: PbisCardWhereInput
@@ -504,6 +533,10 @@ enum SortUsersBy {
   studentFocusTeacher_DESC
   studentFocusStudent_ASC
   studentFocusStudent_DESC
+  studentCellPhoneViolation_ASC
+  studentCellPhoneViolation_DESC
+  teacherCellPhoneViolation_ASC
+  teacherCellPhoneViolation_DESC
   teacherPbisCards_ASC
   teacherPbisCards_DESC
   studentPbisCards_ASC
@@ -562,6 +595,8 @@ input UserUpdateInput {
   taTeam: PbisTeamRelateToOneInput
   studentFocusTeacher: StudentFocusRelateToManyInput
   studentFocusStudent: StudentFocusRelateToManyInput
+  studentCellPhoneViolation: CellPhoneViolationRelateToManyInput
+  teacherCellPhoneViolation: CellPhoneViolationRelateToManyInput
   teacherPbisCards: PbisCardRelateToManyInput
   studentPbisCards: PbisCardRelateToManyInput
   callbackCount: Int
@@ -610,6 +645,8 @@ input UserCreateInput {
   taTeam: PbisTeamRelateToOneInput
   studentFocusTeacher: StudentFocusRelateToManyInput
   studentFocusStudent: StudentFocusRelateToManyInput
+  studentCellPhoneViolation: CellPhoneViolationRelateToManyInput
+  teacherCellPhoneViolation: CellPhoneViolationRelateToManyInput
   teacherPbisCards: PbisCardRelateToManyInput
   studentPbisCards: PbisCardRelateToManyInput
   callbackCount: Int
@@ -1533,6 +1570,94 @@ input StudentFociCreateInput {
   data: StudentFocusCreateInput
 }
 
+""" A keystone list """
+type CellPhoneViolation {
+  id: ID!
+  description: String
+  student: User
+  teacher: User
+  dateGiven: String
+}
+
+input CellPhoneViolationWhereInput {
+  AND: [CellPhoneViolationWhereInput]
+  OR: [CellPhoneViolationWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  description: String
+  description_not: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  description_i: String
+  description_not_i: String
+  description_contains_i: String
+  description_not_contains_i: String
+  description_starts_with_i: String
+  description_not_starts_with_i: String
+  description_ends_with_i: String
+  description_not_ends_with_i: String
+  description_in: [String]
+  description_not_in: [String]
+  student: UserWhereInput
+  student_is_null: Boolean
+  teacher: UserWhereInput
+  teacher_is_null: Boolean
+  dateGiven: String
+  dateGiven_not: String
+  dateGiven_lt: String
+  dateGiven_lte: String
+  dateGiven_gt: String
+  dateGiven_gte: String
+  dateGiven_in: [String]
+  dateGiven_not_in: [String]
+}
+
+input CellPhoneViolationWhereUniqueInput {
+  id: ID!
+}
+
+enum SortCellPhoneViolationsBy {
+  id_ASC
+  id_DESC
+  description_ASC
+  description_DESC
+  student_ASC
+  student_DESC
+  teacher_ASC
+  teacher_DESC
+  dateGiven_ASC
+  dateGiven_DESC
+}
+
+input CellPhoneViolationUpdateInput {
+  description: String
+  student: UserRelateToOneInput
+  teacher: UserRelateToOneInput
+  dateGiven: String
+}
+
+input CellPhoneViolationsUpdateInput {
+  id: ID!
+  data: CellPhoneViolationUpdateInput
+}
+
+input CellPhoneViolationCreateInput {
+  description: String
+  student: UserRelateToOneInput
+  teacher: UserRelateToOneInput
+  dateGiven: String
+}
+
+input CellPhoneViolationsCreateInput {
+  data: CellPhoneViolationCreateInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -1802,6 +1927,20 @@ type Query {
   """ Retrieve the meta-data for the StudentFocus list. """
   _StudentFociMeta: _ListMeta
 
+  """ Search for all CellPhoneViolation items which match the where clause. 
+  """
+  allCellPhoneViolations(where: CellPhoneViolationWhereInput, search: String, sortBy: [SortCellPhoneViolationsBy!], orderBy: String, first: Int, skip: Int): [CellPhoneViolation]
+
+  """ Search for the CellPhoneViolation item with the matching ID. """
+  CellPhoneViolation(where: CellPhoneViolationWhereUniqueInput!): CellPhoneViolation
+
+  """ Perform a meta-query on all CellPhoneViolation items which match the where clause. 
+  """
+  _allCellPhoneViolationsMeta(where: CellPhoneViolationWhereInput, search: String, sortBy: [SortCellPhoneViolationsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the CellPhoneViolation list. """
+  _CellPhoneViolationsMeta: _ListMeta
+
   """ Retrieve the meta-data for all lists. """
   _ksListsMeta(where: _ksListsMetaInput): [_ListMeta]
 
@@ -1937,6 +2076,24 @@ type Mutation {
 
   """ Delete multiple StudentFocus items by ID. """
   deleteStudentFoci(ids: [ID!]): [StudentFocus]
+
+  """ Create a single CellPhoneViolation item. """
+  createCellPhoneViolation(data: CellPhoneViolationCreateInput): CellPhoneViolation
+
+  """ Create multiple CellPhoneViolation items. """
+  createCellPhoneViolations(data: [CellPhoneViolationsCreateInput]): [CellPhoneViolation]
+
+  """ Update a single CellPhoneViolation item by ID. """
+  updateCellPhoneViolation(id: ID!, data: CellPhoneViolationUpdateInput): CellPhoneViolation
+
+  """ Update multiple CellPhoneViolation items by ID. """
+  updateCellPhoneViolations(data: [CellPhoneViolationsUpdateInput]): [CellPhoneViolation]
+
+  """ Delete a single CellPhoneViolation item by ID. """
+  deleteCellPhoneViolation(id: ID!): CellPhoneViolation
+
+  """ Delete multiple CellPhoneViolation items by ID. """
+  deleteCellPhoneViolations(ids: [ID!]): [CellPhoneViolation]
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult!
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   endSession: Boolean!

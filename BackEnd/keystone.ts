@@ -7,6 +7,7 @@ import { Link } from './schemas/Link'
 import { PbisCard } from './schemas/PbisCard'
 import { PbisTeam } from './schemas/PbisTeam'
 import { StudentFocus } from './schemas/StudentFocus'
+import { CellPhoneViolation } from './schemas/CellPhoneViolation'
 import 'dotenv/config';
 import {
   withItemData,
@@ -14,7 +15,7 @@ import {
 } from '@keystone-next/keystone/session';
 
 const databaseURL =
-  process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
+  process.env.DATABASE_URL;
 
 const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
@@ -54,6 +55,7 @@ export default withAuth(
       PbisCard,
       PbisTeam,
       StudentFocus,
+      CellPhoneViolation,
     }),
     ui: {
       // Show the UI only for poeple who pass this test

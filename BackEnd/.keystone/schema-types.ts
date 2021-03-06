@@ -42,6 +42,13 @@ export type StudentFocusRelateToManyInput = {
   readonly disconnectAll?: Scalars['Boolean'] | null;
 };
 
+export type CellPhoneViolationRelateToManyInput = {
+  readonly create?: ReadonlyArray<CellPhoneViolationCreateInput | null> | null;
+  readonly connect?: ReadonlyArray<CellPhoneViolationWhereUniqueInput | null> | null;
+  readonly disconnect?: ReadonlyArray<CellPhoneViolationWhereUniqueInput | null> | null;
+  readonly disconnectAll?: Scalars['Boolean'] | null;
+};
+
 export type PbisCardRelateToManyInput = {
   readonly create?: ReadonlyArray<PbisCardCreateInput | null> | null;
   readonly connect?: ReadonlyArray<PbisCardWhereUniqueInput | null> | null;
@@ -140,6 +147,12 @@ export type UserWhereInput = {
   readonly studentFocusStudent_every?: StudentFocusWhereInput | null;
   readonly studentFocusStudent_some?: StudentFocusWhereInput | null;
   readonly studentFocusStudent_none?: StudentFocusWhereInput | null;
+  readonly studentCellPhoneViolation_every?: CellPhoneViolationWhereInput | null;
+  readonly studentCellPhoneViolation_some?: CellPhoneViolationWhereInput | null;
+  readonly studentCellPhoneViolation_none?: CellPhoneViolationWhereInput | null;
+  readonly teacherCellPhoneViolation_every?: CellPhoneViolationWhereInput | null;
+  readonly teacherCellPhoneViolation_some?: CellPhoneViolationWhereInput | null;
+  readonly teacherCellPhoneViolation_none?: CellPhoneViolationWhereInput | null;
   readonly teacherPbisCards_every?: PbisCardWhereInput | null;
   readonly teacherPbisCards_some?: PbisCardWhereInput | null;
   readonly teacherPbisCards_none?: PbisCardWhereInput | null;
@@ -409,6 +422,10 @@ export type SortUsersBy =
   | 'studentFocusTeacher_DESC'
   | 'studentFocusStudent_ASC'
   | 'studentFocusStudent_DESC'
+  | 'studentCellPhoneViolation_ASC'
+  | 'studentCellPhoneViolation_DESC'
+  | 'teacherCellPhoneViolation_ASC'
+  | 'teacherCellPhoneViolation_DESC'
   | 'teacherPbisCards_ASC'
   | 'teacherPbisCards_DESC'
   | 'studentPbisCards_ASC'
@@ -466,6 +483,8 @@ export type UserUpdateInput = {
   readonly taTeam?: PbisTeamRelateToOneInput | null;
   readonly studentFocusTeacher?: StudentFocusRelateToManyInput | null;
   readonly studentFocusStudent?: StudentFocusRelateToManyInput | null;
+  readonly studentCellPhoneViolation?: CellPhoneViolationRelateToManyInput | null;
+  readonly teacherCellPhoneViolation?: CellPhoneViolationRelateToManyInput | null;
   readonly teacherPbisCards?: PbisCardRelateToManyInput | null;
   readonly studentPbisCards?: PbisCardRelateToManyInput | null;
   readonly callbackCount?: Scalars['Int'] | null;
@@ -514,6 +533,8 @@ export type UserCreateInput = {
   readonly taTeam?: PbisTeamRelateToOneInput | null;
   readonly studentFocusTeacher?: StudentFocusRelateToManyInput | null;
   readonly studentFocusStudent?: StudentFocusRelateToManyInput | null;
+  readonly studentCellPhoneViolation?: CellPhoneViolationRelateToManyInput | null;
+  readonly teacherCellPhoneViolation?: CellPhoneViolationRelateToManyInput | null;
   readonly teacherPbisCards?: PbisCardRelateToManyInput | null;
   readonly studentPbisCards?: PbisCardRelateToManyInput | null;
   readonly callbackCount?: Scalars['Int'] | null;
@@ -1341,6 +1362,84 @@ export type StudentFociCreateInput = {
   readonly data?: StudentFocusCreateInput | null;
 };
 
+export type CellPhoneViolationWhereInput = {
+  readonly AND?: ReadonlyArray<CellPhoneViolationWhereInput | null> | null;
+  readonly OR?: ReadonlyArray<CellPhoneViolationWhereInput | null> | null;
+  readonly id?: Scalars['ID'] | null;
+  readonly id_not?: Scalars['ID'] | null;
+  readonly id_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly id_not_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly description?: Scalars['String'] | null;
+  readonly description_not?: Scalars['String'] | null;
+  readonly description_contains?: Scalars['String'] | null;
+  readonly description_not_contains?: Scalars['String'] | null;
+  readonly description_starts_with?: Scalars['String'] | null;
+  readonly description_not_starts_with?: Scalars['String'] | null;
+  readonly description_ends_with?: Scalars['String'] | null;
+  readonly description_not_ends_with?: Scalars['String'] | null;
+  readonly description_i?: Scalars['String'] | null;
+  readonly description_not_i?: Scalars['String'] | null;
+  readonly description_contains_i?: Scalars['String'] | null;
+  readonly description_not_contains_i?: Scalars['String'] | null;
+  readonly description_starts_with_i?: Scalars['String'] | null;
+  readonly description_not_starts_with_i?: Scalars['String'] | null;
+  readonly description_ends_with_i?: Scalars['String'] | null;
+  readonly description_not_ends_with_i?: Scalars['String'] | null;
+  readonly description_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly description_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly student?: UserWhereInput | null;
+  readonly student_is_null?: Scalars['Boolean'] | null;
+  readonly teacher?: UserWhereInput | null;
+  readonly teacher_is_null?: Scalars['Boolean'] | null;
+  readonly dateGiven?: Scalars['String'] | null;
+  readonly dateGiven_not?: Scalars['String'] | null;
+  readonly dateGiven_lt?: Scalars['String'] | null;
+  readonly dateGiven_lte?: Scalars['String'] | null;
+  readonly dateGiven_gt?: Scalars['String'] | null;
+  readonly dateGiven_gte?: Scalars['String'] | null;
+  readonly dateGiven_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly dateGiven_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+};
+
+export type CellPhoneViolationWhereUniqueInput = {
+  readonly id: Scalars['ID'];
+};
+
+export type SortCellPhoneViolationsBy =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'description_ASC'
+  | 'description_DESC'
+  | 'student_ASC'
+  | 'student_DESC'
+  | 'teacher_ASC'
+  | 'teacher_DESC'
+  | 'dateGiven_ASC'
+  | 'dateGiven_DESC';
+
+export type CellPhoneViolationUpdateInput = {
+  readonly description?: Scalars['String'] | null;
+  readonly student?: UserRelateToOneInput | null;
+  readonly teacher?: UserRelateToOneInput | null;
+  readonly dateGiven?: Scalars['String'] | null;
+};
+
+export type CellPhoneViolationsUpdateInput = {
+  readonly id: Scalars['ID'];
+  readonly data?: CellPhoneViolationUpdateInput | null;
+};
+
+export type CellPhoneViolationCreateInput = {
+  readonly description?: Scalars['String'] | null;
+  readonly student?: UserRelateToOneInput | null;
+  readonly teacher?: UserRelateToOneInput | null;
+  readonly dateGiven?: Scalars['String'] | null;
+};
+
+export type CellPhoneViolationsCreateInput = {
+  readonly data?: CellPhoneViolationCreateInput | null;
+};
+
 export type _ksListsMetaInput = {
   readonly key?: Scalars['String'] | null;
   readonly auxiliary?: Scalars['Boolean'] | null;
@@ -1399,6 +1498,8 @@ export type UserListTypeInfo = {
     | 'taTeam'
     | 'studentFocusTeacher'
     | 'studentFocusStudent'
+    | 'studentCellPhoneViolation'
+    | 'teacherCellPhoneViolation'
     | 'teacherPbisCards'
     | 'studentPbisCards'
     | 'callbackCount'
@@ -1441,6 +1542,8 @@ export type UserListTypeInfo = {
     readonly taTeam?: string | null;
     readonly studentFocusTeacher?: string | null;
     readonly studentFocusStudent?: string | null;
+    readonly studentCellPhoneViolation?: string | null;
+    readonly teacherCellPhoneViolation?: string | null;
     readonly teacherPbisCards?: string | null;
     readonly studentPbisCards?: string | null;
     readonly callbackCount?: number | null;
@@ -1782,6 +1885,41 @@ export type StudentFocusListFn = (
   StudentFocusListTypeInfo['fields']
 >;
 
+export type CellPhoneViolationListTypeInfo = {
+  key: 'CellPhoneViolation';
+  fields: 'id' | 'description' | 'student' | 'teacher' | 'dateGiven';
+  backing: {
+    readonly id: string;
+    readonly description?: string | null;
+    readonly student?: string | null;
+    readonly teacher?: string | null;
+    readonly dateGiven?: Date | null;
+  };
+  inputs: {
+    where: CellPhoneViolationWhereInput;
+    create: CellPhoneViolationCreateInput;
+    update: CellPhoneViolationUpdateInput;
+  };
+  args: {
+    listQuery: {
+      readonly where?: CellPhoneViolationWhereInput | null;
+      readonly sortBy?: ReadonlyArray<SortCellPhoneViolationsBy> | null;
+      readonly first?: Scalars['Int'] | null;
+      readonly skip?: Scalars['Int'] | null;
+    };
+  };
+};
+
+export type CellPhoneViolationListFn = (
+  listConfig: import('@keystone-next/keystone/schema').ListConfig<
+    CellPhoneViolationListTypeInfo,
+    CellPhoneViolationListTypeInfo['fields']
+  >
+) => import('@keystone-next/keystone/schema').ListConfig<
+  CellPhoneViolationListTypeInfo,
+  CellPhoneViolationListTypeInfo['fields']
+>;
+
 export type KeystoneListsTypeInfo = {
   readonly User: UserListTypeInfo;
   readonly Calendar: CalendarListTypeInfo;
@@ -1790,4 +1928,5 @@ export type KeystoneListsTypeInfo = {
   readonly PbisCard: PbisCardListTypeInfo;
   readonly PbisTeam: PbisTeamListTypeInfo;
   readonly StudentFocus: StudentFocusListTypeInfo;
+  readonly CellPhoneViolation: CellPhoneViolationListTypeInfo;
 };

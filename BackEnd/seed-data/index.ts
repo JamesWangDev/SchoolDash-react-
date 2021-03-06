@@ -19,3 +19,4 @@ export async function insertSeedData(ks: any) {
   console.log(`👋 Please start the process with \`yarn dev\` or \`npm run dev\``);
   process.exit();
 }
+ 

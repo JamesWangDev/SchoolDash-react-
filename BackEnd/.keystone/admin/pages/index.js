@@ -42,6 +42,9 @@ export default function Home() {
           StudentFocus: _allStudentFociMeta {
             count
           }
+          CellPhoneViolation: _allCellPhoneViolationsMeta {
+            count
+          }
         }
       `}
     />

@@ -49,6 +49,8 @@ export const User = list({
     taTeam: relationship({ ref: 'PbisTeam.taTeacher' }),
     studentFocusTeacher: relationship({ ref: 'StudentFocus.teacher', many: true }),
     studentFocusStudent: relationship({ ref: 'StudentFocus.student', many: true }),
+    studentCellPhoneViolation: relationship({ ref: 'CellPhoneViolation.student', many: true }),
+    teacherCellPhoneViolation: relationship({ ref: 'CellPhoneViolation.teacher', many: true }),
     teacherPbisCards: relationship({ ref: 'PbisCard.teacher', many: true }),
     studentPbisCards: relationship({ ref: 'PbisCard.student', many: true }),
 
