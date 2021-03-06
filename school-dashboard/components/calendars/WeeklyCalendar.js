@@ -67,7 +67,6 @@ export default function WeeklyCalendar() {
     fridayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 5),
     saturdayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 6),
   };
-  console.log(todaysDay);
   return (
     <WeeklyCalendarContainerStyles>
       <SingleDayCalendar dailyEvents={dailyEvents.sundayEvents} day="Sunday" />

@@ -98,7 +98,11 @@ export default function Calendars({ dates }) {
           />
         ))}
       </CalendarContainerStyle> */}
-      <Table data={filteredCalendars || []} columns={columns} />
+      <Table
+        data={filteredCalendars || []}
+        columns={columns}
+        searchColumn="name"
+      />
     </>
   );
 }

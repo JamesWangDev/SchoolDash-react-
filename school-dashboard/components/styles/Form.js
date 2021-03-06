@@ -11,6 +11,26 @@ const loading = keyframes`
   }
 `;
 
+export const FormContainerStyles = styled.div`
+  .hidden {
+    position: absolute;
+    transform: translatey(-200%) translate(500px);
+    width: 500px;
+    opacity: 50%;
+    transition: all 0.5s ease-in-out;
+    background-image: linear-gradient(to bottom, var(--blue), var(--red));
+  }
+  .visible {
+    z-index: 1000;
+    width: 500px;
+    opacity: 100%;
+    transition: all 0.5s ease-in-out;
+    transform: translatey(0%) translateX(200px);
+    position: absolute;
+    background-image: linear-gradient(to bottom, var(--blue), var(--red));
+  }
+`;
+
 const Form = styled.form`
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
   background: rgba(0, 0, 0, 0.02);
@@ -19,6 +39,7 @@ const Form = styled.form`
   font-size: 1.5rem;
   line-height: 1.5;
   font-weight: 600;
+
   label {
     display: block;
     margin-bottom: 1rem;

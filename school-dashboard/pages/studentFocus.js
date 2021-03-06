@@ -1,7 +1,10 @@
+import StudentFocusTable from '../components/StudentFocusTable';
+
 export default function studentFocus() {
   return (
     <div>
-      <p> This is the Student focus page</p>
+      <h1>Student Focus</h1>
+      <StudentFocusTable />
     </div>
   );
 }

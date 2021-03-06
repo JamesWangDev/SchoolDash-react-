@@ -74,7 +74,7 @@ export default function Search() {
               {item.name}
               <SmallGradientButton style={{ marginLeft: '1rem' }}>
                 {/* TODO Link to actual pbis card */}
-                <Link href="/">PBIS Card</Link>
+                <Link href={`/givePbisCard/${item.id}`}>PBIS Card</Link>
               </SmallGradientButton>
             </DropDownItem>
           ))}

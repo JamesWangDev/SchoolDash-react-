@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTable, useFilters, useSortBy } from 'react-table';
 import { UserTableStyles } from './styles/TableStyles';
 
-export default function Table({ columns, data }) {
+export default function Table({ columns, data, searchColumn }) {
   const [filterInput, setFilterInput] = useState('');
   // Use the state and functions returned from useTable to build your UI
   const {
@@ -23,7 +23,7 @@ export default function Table({ columns, data }) {
 
   const handleFilterChange = (e) => {
     const value = e.target.value || undefined;
-    setFilter('name', value);
+    setFilter(searchColumn, value);
     setFilterInput(value);
   };
 

@@ -51,7 +51,7 @@ export default function SingleDayCalendar({ dailyEvents, day }) {
       <div className={todaysDay === day ? 'today' : 'notToday'}>
         <h2>{day}</h2>
         {dailyEvents.map((today) => (
-          <DisplayEvent event={today} />
+          <DisplayEvent key={today.id} event={today} />
         ))}
       </div>
     </>

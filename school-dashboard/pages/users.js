@@ -1,5 +1,7 @@
 import { gql } from 'graphql-request';
-import { useMemo } from 'react';
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import GradientButton from '../components/styles/Button';
 import Table from '../components/Table';
 import { useGQLQuery } from '../lib/useGqlQuery';
 
@@ -32,6 +34,7 @@ const ArrayValues = ({ values }) => (
 );
 
 export default function Users() {
+  const [userSortType, setUserSortType] = useState('student');
   const { data, isLoading, error } = useGQLQuery('users', GET_ALL_USERS);
   const columns = useMemo(
     () => [
@@ -40,13 +43,12 @@ export default function Users() {
         columns: [
           {
             Header: 'Name',
-            accessor: (properties) => `
-              ${properties.name}, ${properties.id}
-            `,
-            // Cell: ({ cell: value }) => {
-            //   console.log(value);
-            //   return <p>test</p>;
-            // },
+            accessor: 'name',
+            Cell: ({ row }) => (
+              <Link href={`/userProfile/${row.original.id}`}>
+                {row.original.name}
+              </Link>
+            ),
           },
           {
             Header: 'Type',
@@ -78,7 +80,19 @@ export default function Users() {
   // console.log(data);
   return (
     <div>
-      <Table data={data?.allUsers || []} columns={columns} />
+      <div>
+        <GradientButton onClick={() => setUserSortType('teacher')}>
+          Show Teachers
+        </GradientButton>
+        <GradientButton onClick={() => setUserSortType('student')}>
+          Show Parents
+        </GradientButton>
+      </div>
+      <Table
+        data={data?.allUsers || []}
+        columns={columns}
+        searchColumn="name"
+      />
     </div>
   );
 }
