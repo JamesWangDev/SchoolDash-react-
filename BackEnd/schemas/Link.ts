@@ -48,7 +48,6 @@ export const Link = list({
             }
         }),
         link: text(),
-        linkTitle: text(),
 
     },
 });

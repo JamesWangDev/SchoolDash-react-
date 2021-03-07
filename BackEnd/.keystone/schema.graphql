@@ -1037,7 +1037,6 @@ type Link {
   modifiedBy: User
   modified: String
   link: String
-  linkTitle: String
 }
 
 input LinkWhereInput {
@@ -1119,24 +1118,6 @@ input LinkWhereInput {
   link_not_ends_with_i: String
   link_in: [String]
   link_not_in: [String]
-  linkTitle: String
-  linkTitle_not: String
-  linkTitle_contains: String
-  linkTitle_not_contains: String
-  linkTitle_starts_with: String
-  linkTitle_not_starts_with: String
-  linkTitle_ends_with: String
-  linkTitle_not_ends_with: String
-  linkTitle_i: String
-  linkTitle_not_i: String
-  linkTitle_contains_i: String
-  linkTitle_not_contains_i: String
-  linkTitle_starts_with_i: String
-  linkTitle_not_starts_with_i: String
-  linkTitle_ends_with_i: String
-  linkTitle_not_ends_with_i: String
-  linkTitle_in: [String]
-  linkTitle_not_in: [String]
 }
 
 input LinkWhereUniqueInput {
@@ -1164,8 +1145,6 @@ enum SortLinksBy {
   modified_DESC
   link_ASC
   link_DESC
-  linkTitle_ASC
-  linkTitle_DESC
 }
 
 input LinkUpdateInput {
@@ -1178,7 +1157,6 @@ input LinkUpdateInput {
   modifiedBy: UserRelateToOneInput
   modified: String
   link: String
-  linkTitle: String
 }
 
 input LinksUpdateInput {
@@ -1196,7 +1174,6 @@ input LinkCreateInput {
   modifiedBy: UserRelateToOneInput
   modified: String
   link: String
-  linkTitle: String
 }
 
 input LinksCreateInput {

@@ -39,7 +39,12 @@ const CREATE_LINK_MUTATION = gql`
 
 export default function NewLink({ refetchLinks }) {
   const [showForm, setShowForm] = useState(false);
-  const { inputs, handleChange, clearForm, resetForm } = useForm();
+  const { inputs, handleChange, clearForm, resetForm } = useForm({
+    forTeachers: false,
+    forStudents: false,
+    forParents: false,
+    onHomePage: false,
+  });
   const user = useUser();
   //   console.log(`user ${user.id}`);
   const [createLink, { loading, error, data }] = useMutation(
@@ -48,6 +53,7 @@ export default function NewLink({ refetchLinks }) {
       variables: { ...inputs, modifiedBy: user.id },
     }
   );
+  console.log(inputs);
   return (
     <div>
       <GradientButton
@@ -84,6 +90,17 @@ export default function NewLink({ refetchLinks }) {
                 onChange={handleChange}
               />
             </label>
+            <label htmlFor="link">
+              Link
+              <input
+                type="text"
+                id="link"
+                name="link"
+                placeholder="Input Link Here"
+                value={inputs.link}
+                onChange={handleChange}
+              />
+            </label>
 
             <label htmlFor="description">
               Description
@@ -102,7 +119,8 @@ export default function NewLink({ refetchLinks }) {
                 type="checkbox"
                 id="forTeachers"
                 name="forTeachers"
-                value={inputs.forTeachers}
+                checked={inputs.forTeachers}
+                // value={inputs.forTeachers}
                 onChange={handleChange}
               />
             </label>
@@ -112,7 +130,7 @@ export default function NewLink({ refetchLinks }) {
                 type="checkbox"
                 id="forStudents"
                 name="forStudents"
-                value={inputs.forStudents}
+                checked={inputs.forStudents}
                 onChange={handleChange}
               />
             </label>
@@ -122,23 +140,22 @@ export default function NewLink({ refetchLinks }) {
                 type="checkbox"
                 id="forParents"
                 name="forParents"
-                value={inputs.forParents}
+                checked={inputs.forParents}
                 onChange={handleChange}
               />
             </label>
-            <label htmlFor="link">
-              Link
+            <label htmlFor="onHomePage">
+              Show on The HomePage
               <input
-                type="text"
-                id="link"
-                name="link"
-                placeholder="Input Link Here"
-                value={inputs.link}
+                type="checkbox"
+                id="onHomePage"
+                name="onHomePage"
+                checked={inputs.onHomePage}
                 onChange={handleChange}
               />
             </label>
 
-            <button type="submit">+ Add A New Event</button>
+            <button type="submit">+ Add A New Link</button>
           </fieldset>
         </Form>
       </FormContainerStyles>

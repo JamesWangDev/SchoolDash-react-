@@ -13,7 +13,6 @@ const GET_ALL_LINKS_QUERY = gql`
       id
       name
       link
-      linkTitle
       onHomePage
       description
       modified

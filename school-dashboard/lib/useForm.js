@@ -1,3 +1,4 @@
+import { check } from 'prettier';
 import { useEffect, useState } from 'react';
 
 export default function useForm(initial = {}) {
@@ -11,7 +12,8 @@ export default function useForm(initial = {}) {
   }, [initialValues]);
 
   function handleChange(e) {
-    let { value, name, type } = e.target;
+    console.log(e.target);
+    let { value, name, type, checked } = e.target;
     if (type === 'number') {
       value = parseInt(value);
     }
@@ -25,6 +27,15 @@ export default function useForm(initial = {}) {
       value = theDate.toISOString();
       // value = new Date(value).toISOString();
       // console.log(`new ${value}`);
+    }
+    if (type === 'checkbox') {
+      console.log(`value: ${value}  checked: ${checked}`);
+      if (checked === true) {
+        value = true;
+      }
+      if (checked === false) {
+        value = false;
+      }
     }
     setInputs({
       // copy the existing state

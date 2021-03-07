@@ -950,24 +950,6 @@ export type LinkWhereInput = {
   readonly link_not_ends_with_i?: Scalars['String'] | null;
   readonly link_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly link_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
-  readonly linkTitle?: Scalars['String'] | null;
-  readonly linkTitle_not?: Scalars['String'] | null;
-  readonly linkTitle_contains?: Scalars['String'] | null;
-  readonly linkTitle_not_contains?: Scalars['String'] | null;
-  readonly linkTitle_starts_with?: Scalars['String'] | null;
-  readonly linkTitle_not_starts_with?: Scalars['String'] | null;
-  readonly linkTitle_ends_with?: Scalars['String'] | null;
-  readonly linkTitle_not_ends_with?: Scalars['String'] | null;
-  readonly linkTitle_i?: Scalars['String'] | null;
-  readonly linkTitle_not_i?: Scalars['String'] | null;
-  readonly linkTitle_contains_i?: Scalars['String'] | null;
-  readonly linkTitle_not_contains_i?: Scalars['String'] | null;
-  readonly linkTitle_starts_with_i?: Scalars['String'] | null;
-  readonly linkTitle_not_starts_with_i?: Scalars['String'] | null;
-  readonly linkTitle_ends_with_i?: Scalars['String'] | null;
-  readonly linkTitle_not_ends_with_i?: Scalars['String'] | null;
-  readonly linkTitle_in?: ReadonlyArray<Scalars['String'] | null> | null;
-  readonly linkTitle_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
 };
 
 export type LinkWhereUniqueInput = {
@@ -994,9 +976,7 @@ export type SortLinksBy =
   | 'modified_ASC'
   | 'modified_DESC'
   | 'link_ASC'
-  | 'link_DESC'
-  | 'linkTitle_ASC'
-  | 'linkTitle_DESC';
+  | 'link_DESC';
 
 export type LinkUpdateInput = {
   readonly name?: Scalars['String'] | null;
@@ -1008,7 +988,6 @@ export type LinkUpdateInput = {
   readonly modifiedBy?: UserRelateToOneInput | null;
   readonly modified?: Scalars['String'] | null;
   readonly link?: Scalars['String'] | null;
-  readonly linkTitle?: Scalars['String'] | null;
 };
 
 export type LinksUpdateInput = {
@@ -1026,7 +1005,6 @@ export type LinkCreateInput = {
   readonly modifiedBy?: UserRelateToOneInput | null;
   readonly modified?: Scalars['String'] | null;
   readonly link?: Scalars['String'] | null;
-  readonly linkTitle?: Scalars['String'] | null;
 };
 
 export type LinksCreateInput = {
@@ -1711,8 +1689,7 @@ export type LinkListTypeInfo = {
     | 'onHomePage'
     | 'modifiedBy'
     | 'modified'
-    | 'link'
-    | 'linkTitle';
+    | 'link';
   backing: {
     readonly id: string;
     readonly name?: string | null;
@@ -1724,7 +1701,6 @@ export type LinkListTypeInfo = {
     readonly modifiedBy?: string | null;
     readonly modified?: Date | null;
     readonly link?: string | null;
-    readonly linkTitle?: string | null;
   };
   inputs: {
     where: LinkWhereInput;
