@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 import DisplayError from '../components/ErrorMessage';
 import Table from '../components/Table';
 import { useGQLQuery } from '../lib/useGqlQuery';
+import { useUser } from '../components/User';
+import NewLink from '../components/NewLink';
 
 const GET_ALL_LINKS_QUERY = gql`
   query GET_ALL_LINKS_QUERY {
@@ -24,7 +26,9 @@ const GET_ALL_LINKS_QUERY = gql`
 `;
 
 export default function Links() {
-  const { data, isLoading, error } = useGQLQuery(
+  const user = useUser();
+  const editor = user?.role?.some((role) => role.canManageLinks);
+  const { data, isLoading, error, refetch } = useGQLQuery(
     'allLinks',
     GET_ALL_LINKS_QUERY
   );
@@ -54,9 +58,10 @@ export default function Links() {
           },
           {
             Header: 'Edit',
-            Cell: ({ row }) => (
-              <Link href={`/editLink/${row.original.id}`}>Edit</Link>
-            ),
+            Cell: ({ row }) => {
+              if (!editor) return <p />;
+              return <Link href={`/editLink/${row.original.id}`}>Edit</Link>;
+            },
           },
         ],
       },
@@ -68,7 +73,7 @@ export default function Links() {
   if (error) return <DisplayError>{error.message}</DisplayError>;
   return (
     <div>
-      <p> {JSON.stringify(data.allLinks)}</p>
+      <NewLink hidden={!editor} refetchLinks={refetch} />
       <Table data={data.allLinks} columns={columns} searchColumn="name" />
     </div>
   );

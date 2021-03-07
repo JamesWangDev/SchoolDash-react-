@@ -20,7 +20,7 @@ export const Link = list({
         }),
 
         forTeachers: checkbox({
-            defaultValue: () => true,
+            defaultValue: () => false,
             label: 'Teachers can view',
         }),
         forStudents: checkbox({

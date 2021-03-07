@@ -90,14 +90,6 @@ export default function Calendars({ dates }) {
   return (
     <>
       <NewCalendar hidden={!editor} refetchCalendars={refetch} />
-      {/* <CalendarContainerStyle>
-        {filteredCalendars.map((singleCalendar) => (
-          <DisplaySingleCalendarEvent
-            calendar={singleCalendar}
-            key={singleCalendar.id}
-          />
-        ))}
-      </CalendarContainerStyle> */}
       <Table
         data={filteredCalendars || []}
         columns={columns}

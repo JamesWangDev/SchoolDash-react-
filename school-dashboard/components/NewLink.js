@@ -1,31 +1,35 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import GradientButton from '../styles/Button';
-import Form, { FormContainerStyles } from '../styles/Form';
-import useForm from '../../lib/useForm';
-import DisplayError from '../ErrorMessage';
-import { useUser } from '../User';
+import GradientButton from './styles/Button';
+import Form, { FormContainerStyles } from './styles/Form';
+import useForm from '../lib/useForm';
+import DisplayError from './ErrorMessage';
+import { useUser } from './User';
 
-const CREATE_CALENDAR_MUTATION = gql`
-  mutation CREATE_CALENDAR_MUTATION(
+const CREATE_LINK_MUTATION = gql`
+  mutation CREATE_LINK_MUTATION(
     $name: String!
     $description: String!
-    $status: String!
-    $date: String!
+    $forTeachers: Boolean!
+    $forStudents: Boolean!
+    $forParents: Boolean!
+    $onHomePage: Boolean!
     $link: String
     $linkTitle: String
-    $author: ID!
+    $modifiedBy: ID!
   ) {
-    createCalendar(
+    createLink(
       data: {
         name: $name
         description: $description
-        status: $status
-        date: $date
+        forTeachers: $forTeachers
+        forStudents: $forStudents
+        forParents: $forParents
+        onHomePage: $onHomePage
         link: $link
         linkTitle: $linkTitle
-        author: { connect: { id: $author } }
+        modifiedBy: { connect: { id: $modifiedBy } }
       }
     ) {
       id
@@ -33,20 +37,15 @@ const CREATE_CALENDAR_MUTATION = gql`
   }
 `;
 
-export default function NewCalendar({ refetchCalendars }) {
+export default function NewLink({ refetchLinks }) {
   const [showForm, setShowForm] = useState(false);
-  const { inputs, handleChange, clearForm, resetForm } = useForm({
-    name: 'Event Title',
-    description: 'What is going on?',
-    status: 'Both',
-    date: new Date().toISOString,
-  });
+  const { inputs, handleChange, clearForm, resetForm } = useForm();
   const user = useUser();
   //   console.log(`user ${user.id}`);
-  const [createCalendar, { loading, error, data }] = useMutation(
-    CREATE_CALENDAR_MUTATION,
+  const [createLink, { loading, error, data }] = useMutation(
+    CREATE_LINK_MUTATION,
     {
-      variables: { ...inputs, author: user.id },
+      variables: { ...inputs, modifiedBy: user.id },
     }
   );
   return (
@@ -55,7 +54,7 @@ export default function NewCalendar({ refetchCalendars }) {
         onClick={() => setShowForm(!showForm)}
         style={{ marginLeft: '100px' }}
       >
-        {showForm ? 'Nevermind... Close the form' : 'Add A New Event'}
+        {showForm ? 'Nevermind... Close the form' : 'Add A New Link'}
       </GradientButton>
       <FormContainerStyles>
         <Form
@@ -64,9 +63,9 @@ export default function NewCalendar({ refetchCalendars }) {
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the inputfields to the backend:
-            const res = await createCalendar();
+            const res = await createLink();
             clearForm();
-            refetchCalendars();
+            refetchLinks();
             setShowForm(false);
           }}
         >
@@ -74,28 +73,18 @@ export default function NewCalendar({ refetchCalendars }) {
           <DisplayError error={error} />
           <fieldset disabled={loading} aria-busy={loading}>
             <label htmlFor="name">
-              Event Title
+              Link Title
               <input
                 required
                 type="text"
                 id="name"
                 name="name"
-                placeholder="Event Title"
+                placeholder="Link Title"
                 value={inputs.name}
                 onChange={handleChange}
               />
             </label>
-            <label htmlFor="date">
-              Date of Event
-              <input
-                required
-                type="date"
-                id="date"
-                name="date"
-                value={inputs.value}
-                onChange={handleChange}
-              />
-            </label>
+
             <label htmlFor="description">
               Description
               <textarea
@@ -107,20 +96,35 @@ export default function NewCalendar({ refetchCalendars }) {
                 onChange={handleChange}
               />
             </label>
-            <label htmlFor="status">
-              Who can see this event?
-              <select
-                type="select"
-                id="status"
-                name="status"
-                placeholder="Name"
-                value={inputs.status}
+            <label htmlFor="forTeachers">
+              Visible to Teachers
+              <input
+                type="checkbox"
+                id="forTeachers"
+                name="forTeachers"
+                value={inputs.forTeachers}
                 onChange={handleChange}
-              >
-                <option value="Both">Students and Teachers</option>
-                <option value="Students">Students Only</option>
-                <option value="Teachers">Teachers Only</option>
-              </select>
+              />
+            </label>
+            <label htmlFor="forStudents">
+              Visible to Students
+              <input
+                type="checkbox"
+                id="forStudents"
+                name="forStudents"
+                value={inputs.forStudents}
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="forParents">
+              Visible to Parents
+              <input
+                type="checkbox"
+                id="forParents"
+                name="forParents"
+                value={inputs.forParents}
+                onChange={handleChange}
+              />
             </label>
             <label htmlFor="link">
               Link
@@ -130,17 +134,6 @@ export default function NewCalendar({ refetchCalendars }) {
                 name="link"
                 placeholder="Input Link Here"
                 value={inputs.link}
-                onChange={handleChange}
-              />
-            </label>
-            <label htmlFor="linkTitle">
-              Link Title
-              <input
-                type="text"
-                id="linkTitle"
-                name="linkTitle"
-                placeholder="Input Link Here"
-                value={inputs.linkTitle}
                 onChange={handleChange}
               />
             </label>
