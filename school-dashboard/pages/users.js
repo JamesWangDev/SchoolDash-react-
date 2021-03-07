@@ -26,11 +26,10 @@ const GET_ALL_USERS = gql`
 `;
 
 const ButtonStyles = styled.div`
-  /* background: red; */
-
   button {
     border: 2px solid white;
     position: absolute;
+    transition: all 1s ease-in-out;
     :hover {
       border: 2px solid var(--red);
     }
