@@ -53,6 +53,8 @@ export const User = list({
     teacherCellPhoneViolation: relationship({ ref: 'CellPhoneViolation.teacher', many: true }),
     teacherPbisCards: relationship({ ref: 'PbisCard.teacher', many: true }),
     studentPbisCards: relationship({ ref: 'PbisCard.student', many: true }),
+    callbackItems: relationship({ ref: 'Callback.student' }),
+    callbackAssigned: relationship({ ref: 'Callback.teacher' }),
 
 
     // Important Info
@@ -61,6 +63,7 @@ export const User = list({
     YearPbisCount: integer({ defaultValue: 0 }),
     teacherSubject: text({ defaultValue: undefined, }),
     taPbisCardCount: integer({ defaultValue: 0 }),
+    averageTimeToCompleteCallback: integer(),
 
     // assignments
     block1Assignment: text({ defaultValue: 'Current Assignment for Block 1 goes here' }),
@@ -70,11 +73,7 @@ export const User = list({
     block4Assignment: text({ defaultValue: 'Current Assignment for Block 4 goes here' }),
     block5Assignment: text({ defaultValue: 'Current Assignment for Block 5 goes here' }),
 
-    //Todo add these schemas
 
-    // callbackItems: relationship({ ref: 'Callback.Student' }),
-    // callbackAssigned: relationship({ ref: 'Callback.teacher' }),
-    // cellPhoneViolations: relationship({ ref: 'Cellphone.student' }),
 
 
 

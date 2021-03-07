@@ -14,17 +14,17 @@ const loading = keyframes`
 export const FormContainerStyles = styled.div`
   .hidden {
     position: absolute;
-    transform: translatey(-200%) translate(500px);
-    width: 500px;
-    opacity: 50%;
-    transition: all 0.5s ease-in-out;
+    transform: translatey(-200%) translatex(500px);
+    width: 100px;
+    /* opacity: 50%; */
+    transition: all 0.5s ease-in;
     background-image: linear-gradient(to bottom, var(--blue), var(--red));
   }
   .visible {
     z-index: 1000;
-    width: 500px;
-    opacity: 100%;
-    transition: all 0.5s ease-in-out;
+    width: 50%;
+    /* opacity: 100%; */
+    transition: all 0.5s ease-out;
     transform: translatey(0%) translateX(200px);
     position: absolute;
     background-image: linear-gradient(to bottom, var(--blue), var(--red));
@@ -36,13 +36,15 @@ const Form = styled.form`
   background: rgba(0, 0, 0, 0.02);
   border: 5px solid white;
   padding: 20px;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   line-height: 1.5;
-  font-weight: 600;
+  font-weight: 500;
 
   label {
     display: block;
+    color: white;
     margin-bottom: 1rem;
+    /* -webkit-text-stroke: 0.2px var(--lightGrey); */
   }
   input,
   textarea,
@@ -59,12 +61,12 @@ const Form = styled.form`
   button,
   input[type='submit'] {
     width: auto;
-    background: red;
+    background: radial-gradient(var(--blue), var(--red));
     color: white;
     border: 0;
     font-size: 2rem;
     font-weight: 600;
-    padding: 0.5rem 1.2rem;
+    padding: 0.8rem 1.2rem;
   }
   fieldset {
     border: 0;

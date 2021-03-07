@@ -8,6 +8,8 @@ import { PbisCard } from './schemas/PbisCard'
 import { PbisTeam } from './schemas/PbisTeam'
 import { StudentFocus } from './schemas/StudentFocus'
 import { CellPhoneViolation } from './schemas/CellPhoneViolation'
+import { Callback } from './schemas/Callback'
+
 import 'dotenv/config';
 import {
   withItemData,
@@ -56,6 +58,7 @@ export default withAuth(
       PbisTeam,
       StudentFocus,
       CellPhoneViolation,
+      Callback
     }),
     ui: {
       // Show the UI only for poeple who pass this test

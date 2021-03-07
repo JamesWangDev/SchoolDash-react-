@@ -45,6 +45,9 @@ export default function Home() {
           CellPhoneViolation: _allCellPhoneViolationsMeta {
             count
           }
+          Callback: _allCallbacksMeta {
+            count
+          }
         }
       `}
     />

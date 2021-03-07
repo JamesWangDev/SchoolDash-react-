@@ -59,7 +59,6 @@ export default function TA() {
     taTeacher: user?.id,
   });
   if (isLoading) return <p>Loading...</p>;
-  console.log(error);
   if (error) return <DisplayError>{error.message}</DisplayError>;
 
   return (
