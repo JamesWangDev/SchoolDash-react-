@@ -30,7 +30,10 @@ function getLastAndNextSunday(d) {
   l.setDate(l.getDate() - l.getDay());
   const n = new Date(d);
   n.setDate(n.getDate() + ((5 - n.getDay() + 7) % 7) + 1);
-  return { lastSunday: l, nextSaturday: n };
+  return {
+    lastSunday: l.toISOString().slice(0, -14),
+    nextSaturday: n.toISOString().slice(0, -14),
+  };
 }
 
 function getDatesFromDayOfTheWeek(data, day) {
@@ -45,19 +48,18 @@ export default function WeeklyCalendar() {
   const today = new Date();
   const todaysDay = today.getDay();
   const { lastSunday, nextSaturday } = getLastAndNextSunday(today);
+  console.log(lastSunday);
+  console.log(nextSaturday);
   const { data, isLoading, error } = useGQLQuery(
     'weekCalendars',
     GET_WEEK_CALENDARS,
     {
-      variables: {
-        starting: lastSunday,
-        ending: nextSaturday,
-      },
+      starting: lastSunday,
+      ending: nextSaturday,
     }
   );
   if (isLoading) return <p>Loading Calendar...</p>;
   if (error) return <p>{error.message}</p>;
-
   const dailyEvents = {
     sundayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 0),
     mondayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 1),

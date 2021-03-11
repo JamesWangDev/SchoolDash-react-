@@ -7,6 +7,7 @@ import {
 } from 'react-query';
 import { ApolloProvider } from '@apollo/client';
 import Router from 'next/router';
+import { ReactQueryDevtools } from 'react-query-devtools';
 import Page from '../components/Page';
 import withData from '../lib/withData';
 
@@ -14,13 +15,16 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps, apollo }) {
   return (
-    <ApolloProvider client={apollo}>
-      <QueryClientProvider client={queryClient}>
-        <Page>
-          <Component {...pageProps} />
-        </Page>
-      </QueryClientProvider>
-    </ApolloProvider>
+    <>
+      <ApolloProvider client={apollo}>
+        <QueryClientProvider client={queryClient}>
+          <Page>
+            <Component {...pageProps} />
+          </Page>
+        </QueryClientProvider>
+      </ApolloProvider>
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    </>
   );
 }
 
