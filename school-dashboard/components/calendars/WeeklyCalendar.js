@@ -48,8 +48,6 @@ export default function WeeklyCalendar() {
   const today = new Date();
   const todaysDay = today.getDay();
   const { lastSunday, nextSaturday } = getLastAndNextSunday(today);
-  console.log(lastSunday);
-  console.log(nextSaturday);
   const { data, isLoading, error } = useGQLQuery(
     'weekCalendars',
     GET_WEEK_CALENDARS,
