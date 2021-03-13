@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
-import { SmallGradientButton } from './styles/Button';
+import QuickPbisButton from './PBIS/QuickPbisButton';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 
 const SEARCH_PRODUCTS_QUERY = gql`
@@ -12,6 +12,9 @@ const SEARCH_PRODUCTS_QUERY = gql`
     searchTerms: allUsers(where: { name_contains_i: $searchTerm }) {
       id
       name
+      role {
+        name
+      }
     }
   }
 `;
@@ -51,6 +54,7 @@ export default function Search() {
     },
     itemToString: (item) => item?.name || '',
   });
+
   return (
     <SearchStyles>
       <div {...getComboboxProps()}>
@@ -65,19 +69,19 @@ export default function Search() {
       </div>
       <DropDown {...getMenuProps()}>
         {isOpen &&
-          items.map((item, index) => (
-            <DropDownItem
-              {...getItemProps({ item })}
-              key={item.id}
-              highlighted={index === highlightedIndex}
-            >
-              {item.name}
-              <SmallGradientButton style={{ marginLeft: '1rem' }}>
-                {/* TODO Link to actual pbis card */}
-                <Link href={`/givePbisCard/${item.id}`}>PBIS Card</Link>
-              </SmallGradientButton>
-            </DropDownItem>
-          ))}
+          items.map((item, index) => {
+            const isStudent = item.role.some((role) => role.name === 'student');
+            return (
+              <DropDownItem
+                {...getItemProps({ item })}
+                key={item.id}
+                highlighted={index === highlightedIndex}
+              >
+                {item.name}
+                {isStudent && <QuickPbisButton id={item.id} />}
+              </DropDownItem>
+            );
+          })}
         {isOpen && !items.length && !loading && (
           <DropDownItem>Sorry, No users found for {inputValue}</DropDownItem>
         )}

@@ -1233,6 +1233,7 @@ input LinksCreateInput {
 """ A keystone list """
 type PbisCard {
   id: ID!
+  category: String
   cardMessage: String
   student: User
   teacher: User
@@ -1247,6 +1248,24 @@ input PbisCardWhereInput {
   id_not: ID
   id_in: [ID]
   id_not_in: [ID]
+  category: String
+  category_not: String
+  category_contains: String
+  category_not_contains: String
+  category_starts_with: String
+  category_not_starts_with: String
+  category_ends_with: String
+  category_not_ends_with: String
+  category_i: String
+  category_not_i: String
+  category_contains_i: String
+  category_not_contains_i: String
+  category_starts_with_i: String
+  category_not_starts_with_i: String
+  category_ends_with_i: String
+  category_not_ends_with_i: String
+  category_in: [String]
+  category_not_in: [String]
   cardMessage: String
   cardMessage_not: String
   cardMessage_contains: String
@@ -1288,6 +1307,8 @@ input PbisCardWhereUniqueInput {
 enum SortPbisCardsBy {
   id_ASC
   id_DESC
+  category_ASC
+  category_DESC
   cardMessage_ASC
   cardMessage_DESC
   student_ASC
@@ -1301,6 +1322,7 @@ enum SortPbisCardsBy {
 }
 
 input PbisCardUpdateInput {
+  category: String
   cardMessage: String
   student: UserRelateToOneInput
   teacher: UserRelateToOneInput
@@ -1314,6 +1336,7 @@ input PbisCardsUpdateInput {
 }
 
 input PbisCardCreateInput {
+  category: String
   cardMessage: String
   student: UserRelateToOneInput
   teacher: UserRelateToOneInput

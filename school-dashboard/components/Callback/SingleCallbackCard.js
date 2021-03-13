@@ -40,12 +40,12 @@ export default function SingleCallbackCard({ callback }) {
       <fieldset>
         <label>
           <span>Student: </span>
-          <input type="text" value={callback.messageFromStudent} />
+          <input type="text" defaultValue={callback.messageFromStudent} />
         </label>
         <br />
         <label>
           <span>Teacher: </span>
-          <input type="text" value={callback.messageFromTeacher} />
+          <input type="text" defaultValue={callback.messageFromTeacher} />
         </label>
       </fieldset>
     </SingleCardStyles>

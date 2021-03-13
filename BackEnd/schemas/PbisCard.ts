@@ -11,7 +11,7 @@ export const PbisCard = list({
         // delete: rules.canManageCalendar,
     },
     fields: {
-
+        category: text(),
         cardMessage: text({
             ui: {
                 displayMode: 'textarea',

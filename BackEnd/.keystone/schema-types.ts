@@ -1055,6 +1055,24 @@ export type PbisCardWhereInput = {
   readonly id_not?: Scalars['ID'] | null;
   readonly id_in?: ReadonlyArray<Scalars['ID'] | null> | null;
   readonly id_not_in?: ReadonlyArray<Scalars['ID'] | null> | null;
+  readonly category?: Scalars['String'] | null;
+  readonly category_not?: Scalars['String'] | null;
+  readonly category_contains?: Scalars['String'] | null;
+  readonly category_not_contains?: Scalars['String'] | null;
+  readonly category_starts_with?: Scalars['String'] | null;
+  readonly category_not_starts_with?: Scalars['String'] | null;
+  readonly category_ends_with?: Scalars['String'] | null;
+  readonly category_not_ends_with?: Scalars['String'] | null;
+  readonly category_i?: Scalars['String'] | null;
+  readonly category_not_i?: Scalars['String'] | null;
+  readonly category_contains_i?: Scalars['String'] | null;
+  readonly category_not_contains_i?: Scalars['String'] | null;
+  readonly category_starts_with_i?: Scalars['String'] | null;
+  readonly category_not_starts_with_i?: Scalars['String'] | null;
+  readonly category_ends_with_i?: Scalars['String'] | null;
+  readonly category_not_ends_with_i?: Scalars['String'] | null;
+  readonly category_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly category_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly cardMessage?: Scalars['String'] | null;
   readonly cardMessage_not?: Scalars['String'] | null;
   readonly cardMessage_contains?: Scalars['String'] | null;
@@ -1096,6 +1114,8 @@ export type PbisCardWhereUniqueInput = {
 export type SortPbisCardsBy =
   | 'id_ASC'
   | 'id_DESC'
+  | 'category_ASC'
+  | 'category_DESC'
   | 'cardMessage_ASC'
   | 'cardMessage_DESC'
   | 'student_ASC'
@@ -1108,6 +1128,7 @@ export type SortPbisCardsBy =
   | 'counted_DESC';
 
 export type PbisCardUpdateInput = {
+  readonly category?: Scalars['String'] | null;
   readonly cardMessage?: Scalars['String'] | null;
   readonly student?: UserRelateToOneInput | null;
   readonly teacher?: UserRelateToOneInput | null;
@@ -1121,6 +1142,7 @@ export type PbisCardsUpdateInput = {
 };
 
 export type PbisCardCreateInput = {
+  readonly category?: Scalars['String'] | null;
   readonly cardMessage?: Scalars['String'] | null;
   readonly student?: UserRelateToOneInput | null;
   readonly teacher?: UserRelateToOneInput | null;
@@ -1962,6 +1984,7 @@ export type PbisCardListTypeInfo = {
   key: 'PbisCard';
   fields:
     | 'id'
+    | 'category'
     | 'cardMessage'
     | 'student'
     | 'teacher'
@@ -1969,6 +1992,7 @@ export type PbisCardListTypeInfo = {
     | 'counted';
   backing: {
     readonly id: string;
+    readonly category?: string | null;
     readonly cardMessage?: string | null;
     readonly student?: string | null;
     readonly teacher?: string | null;
