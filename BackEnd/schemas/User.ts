@@ -54,7 +54,7 @@ export const User = list({
     teacherPbisCards: relationship({ ref: 'PbisCard.teacher', many: true }),
     studentPbisCards: relationship({ ref: 'PbisCard.student', many: true }),
     callbackItems: relationship({ ref: 'Callback.student' }),
-    callbackAssigned: relationship({ ref: 'Callback.teacher' }),
+    callbackAssigned: relationship({ ref: 'Callback.teacher', many: true }),
 
 
     // Important Info

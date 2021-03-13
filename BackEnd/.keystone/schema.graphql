@@ -54,6 +54,13 @@ input CallbackRelateToOneInput {
   disconnectAll: Boolean
 }
 
+input CallbackRelateToManyInput {
+  create: [CallbackCreateInput]
+  connect: [CallbackWhereUniqueInput]
+  disconnect: [CallbackWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
 """ A keystone list """
 type User {
   id: ID!
@@ -98,7 +105,8 @@ type User {
   studentPbisCards(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): [PbisCard!]!
   _studentPbisCardsMeta(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   callbackItems: Callback
-  callbackAssigned: Callback
+  callbackAssigned(where: CallbackWhereInput, search: String, sortBy: [SortCallbacksBy!], orderBy: String, first: Int, skip: Int): [Callback!]!
+  _callbackAssignedMeta(where: CallbackWhereInput, search: String, sortBy: [SortCallbacksBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   callbackCount: Int
   PbisCardCount: Int
   YearPbisCount: Int
@@ -314,8 +322,15 @@ input UserWhereInput {
   studentPbisCards_none: PbisCardWhereInput
   callbackItems: CallbackWhereInput
   callbackItems_is_null: Boolean
-  callbackAssigned: CallbackWhereInput
-  callbackAssigned_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  callbackAssigned_every: CallbackWhereInput
+
+  """ condition must be true for at least 1 node """
+  callbackAssigned_some: CallbackWhereInput
+
+  """ condition must be false for all nodes """
+  callbackAssigned_none: CallbackWhereInput
   callbackCount: Int
   callbackCount_not: Int
   callbackCount_lt: Int
@@ -628,7 +643,7 @@ input UserUpdateInput {
   teacherPbisCards: PbisCardRelateToManyInput
   studentPbisCards: PbisCardRelateToManyInput
   callbackItems: CallbackRelateToOneInput
-  callbackAssigned: CallbackRelateToOneInput
+  callbackAssigned: CallbackRelateToManyInput
   callbackCount: Int
   PbisCardCount: Int
   YearPbisCount: Int
@@ -681,7 +696,7 @@ input UserCreateInput {
   teacherPbisCards: PbisCardRelateToManyInput
   studentPbisCards: PbisCardRelateToManyInput
   callbackItems: CallbackRelateToOneInput
-  callbackAssigned: CallbackRelateToOneInput
+  callbackAssigned: CallbackRelateToManyInput
   callbackCount: Int
   PbisCardCount: Int
   YearPbisCount: Int
@@ -1674,14 +1689,13 @@ type Callback {
   id: ID!
   title: String
   description: String
-  category: String
   student: User
   teacher: User
   dateAssigned: String
   dateCompleted: String
   link: String
   messageFromTeacher: String
-  mesageFromStudent: String
+  messageFromStudent: String
 }
 
 input CallbackWhereInput {
@@ -1727,24 +1741,6 @@ input CallbackWhereInput {
   description_not_ends_with_i: String
   description_in: [String]
   description_not_in: [String]
-  category: String
-  category_not: String
-  category_contains: String
-  category_not_contains: String
-  category_starts_with: String
-  category_not_starts_with: String
-  category_ends_with: String
-  category_not_ends_with: String
-  category_i: String
-  category_not_i: String
-  category_contains_i: String
-  category_not_contains_i: String
-  category_starts_with_i: String
-  category_not_starts_with_i: String
-  category_ends_with_i: String
-  category_not_ends_with_i: String
-  category_in: [String]
-  category_not_in: [String]
   student: UserWhereInput
   student_is_null: Boolean
   teacher: UserWhereInput
@@ -1801,24 +1797,24 @@ input CallbackWhereInput {
   messageFromTeacher_not_ends_with_i: String
   messageFromTeacher_in: [String]
   messageFromTeacher_not_in: [String]
-  mesageFromStudent: String
-  mesageFromStudent_not: String
-  mesageFromStudent_contains: String
-  mesageFromStudent_not_contains: String
-  mesageFromStudent_starts_with: String
-  mesageFromStudent_not_starts_with: String
-  mesageFromStudent_ends_with: String
-  mesageFromStudent_not_ends_with: String
-  mesageFromStudent_i: String
-  mesageFromStudent_not_i: String
-  mesageFromStudent_contains_i: String
-  mesageFromStudent_not_contains_i: String
-  mesageFromStudent_starts_with_i: String
-  mesageFromStudent_not_starts_with_i: String
-  mesageFromStudent_ends_with_i: String
-  mesageFromStudent_not_ends_with_i: String
-  mesageFromStudent_in: [String]
-  mesageFromStudent_not_in: [String]
+  messageFromStudent: String
+  messageFromStudent_not: String
+  messageFromStudent_contains: String
+  messageFromStudent_not_contains: String
+  messageFromStudent_starts_with: String
+  messageFromStudent_not_starts_with: String
+  messageFromStudent_ends_with: String
+  messageFromStudent_not_ends_with: String
+  messageFromStudent_i: String
+  messageFromStudent_not_i: String
+  messageFromStudent_contains_i: String
+  messageFromStudent_not_contains_i: String
+  messageFromStudent_starts_with_i: String
+  messageFromStudent_not_starts_with_i: String
+  messageFromStudent_ends_with_i: String
+  messageFromStudent_not_ends_with_i: String
+  messageFromStudent_in: [String]
+  messageFromStudent_not_in: [String]
 }
 
 input CallbackWhereUniqueInput {
@@ -1832,8 +1828,6 @@ enum SortCallbacksBy {
   title_DESC
   description_ASC
   description_DESC
-  category_ASC
-  category_DESC
   student_ASC
   student_DESC
   teacher_ASC
@@ -1846,21 +1840,20 @@ enum SortCallbacksBy {
   link_DESC
   messageFromTeacher_ASC
   messageFromTeacher_DESC
-  mesageFromStudent_ASC
-  mesageFromStudent_DESC
+  messageFromStudent_ASC
+  messageFromStudent_DESC
 }
 
 input CallbackUpdateInput {
   title: String
   description: String
-  category: String
   student: UserRelateToOneInput
   teacher: UserRelateToOneInput
   dateAssigned: String
   dateCompleted: String
   link: String
   messageFromTeacher: String
-  mesageFromStudent: String
+  messageFromStudent: String
 }
 
 input CallbacksUpdateInput {
@@ -1871,14 +1864,13 @@ input CallbacksUpdateInput {
 input CallbackCreateInput {
   title: String
   description: String
-  category: String
   student: UserRelateToOneInput
   teacher: UserRelateToOneInput
   dateAssigned: String
   dateCompleted: String
   link: String
   messageFromTeacher: String
-  mesageFromStudent: String
+  messageFromStudent: String
 }
 
 input CallbacksCreateInput {

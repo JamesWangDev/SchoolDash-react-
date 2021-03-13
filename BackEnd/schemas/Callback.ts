@@ -16,7 +16,7 @@ export const Callback = list({
                 displayMode: 'textarea',
             },
         }),
-        category: text(),
+        // category: text(),
         student: relationship({
             ref: 'User.callbackItems',
         }),
@@ -36,7 +36,7 @@ export const Callback = list({
         }),
         link: text(),
         messageFromTeacher: text(),
-        mesageFromStudent: text(),
+        messageFromStudent: text(),
 
     },
 });

@@ -33,7 +33,7 @@ export default function Table({ columns, data, searchColumn }) {
       <input
         value={filterInput}
         onChange={handleFilterChange}
-        placeholder="Search "
+        placeholder={`Search ${searchColumn.replace('.', ' ')}`}
       />
       <table {...getTableProps()}>
         <thead>
