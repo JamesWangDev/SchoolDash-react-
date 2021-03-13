@@ -12,8 +12,10 @@ const GlobalStyles = createGlobalStyle`
   }
   html {
     --red: #760D08;
+    --redTrans: #760D0880;
     --black: #393939;
     --blue: #38B6FF;
+    --blueTrans: #38B6FF80;
     --grey: #3A3A3A;
     --gray: var(--grey);
     --lightGrey: #e1e1e1;

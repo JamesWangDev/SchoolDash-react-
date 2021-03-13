@@ -6,10 +6,15 @@ import DisplayError from '../components/ErrorMessage';
 import CallbackTable from '../components/Callback/CallbackTable';
 import 'react-toggle/style.css';
 import { useState } from 'react';
+import CallbackCards from '../components/Callback/CallbackCards';
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($teacher: ID) {
-    allCallbacks(where: { teacher: { id: $teacher } }) {
+    allCallbacks(
+      sortBy: dateAssigned_ASC
+      where: { teacher: { id: $teacher } }
+    ) {
+      id
       teacher {
         id
         name
@@ -56,7 +61,11 @@ export default function Callback() {
         />
         <span>Show Completed</span>
       </label>
-      <CallbackTable callbacks={callbacks} />
+      {callbacks.length > 10 ? (
+        <CallbackTable callbacks={callbacks} />
+      ) : (
+        <CallbackCards callbacks={callbacks} />
+      )}
     </div>
   );
 }

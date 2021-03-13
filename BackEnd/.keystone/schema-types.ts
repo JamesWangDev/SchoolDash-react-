@@ -56,13 +56,6 @@ export type PbisCardRelateToManyInput = {
   readonly disconnectAll?: Scalars['Boolean'] | null;
 };
 
-export type CallbackRelateToOneInput = {
-  readonly create?: CallbackCreateInput | null;
-  readonly connect?: CallbackWhereUniqueInput | null;
-  readonly disconnect?: CallbackWhereUniqueInput | null;
-  readonly disconnectAll?: Scalars['Boolean'] | null;
-};
-
 export type CallbackRelateToManyInput = {
   readonly create?: ReadonlyArray<CallbackCreateInput | null> | null;
   readonly connect?: ReadonlyArray<CallbackWhereUniqueInput | null> | null;
@@ -173,8 +166,9 @@ export type UserWhereInput = {
   readonly studentPbisCards_every?: PbisCardWhereInput | null;
   readonly studentPbisCards_some?: PbisCardWhereInput | null;
   readonly studentPbisCards_none?: PbisCardWhereInput | null;
-  readonly callbackItems?: CallbackWhereInput | null;
-  readonly callbackItems_is_null?: Scalars['Boolean'] | null;
+  readonly callbackItems_every?: CallbackWhereInput | null;
+  readonly callbackItems_some?: CallbackWhereInput | null;
+  readonly callbackItems_none?: CallbackWhereInput | null;
   readonly callbackAssigned_every?: CallbackWhereInput | null;
   readonly callbackAssigned_some?: CallbackWhereInput | null;
   readonly callbackAssigned_none?: CallbackWhereInput | null;
@@ -524,7 +518,7 @@ export type UserUpdateInput = {
   readonly teacherCellPhoneViolation?: CellPhoneViolationRelateToManyInput | null;
   readonly teacherPbisCards?: PbisCardRelateToManyInput | null;
   readonly studentPbisCards?: PbisCardRelateToManyInput | null;
-  readonly callbackItems?: CallbackRelateToOneInput | null;
+  readonly callbackItems?: CallbackRelateToManyInput | null;
   readonly callbackAssigned?: CallbackRelateToManyInput | null;
   readonly callbackCount?: Scalars['Int'] | null;
   readonly PbisCardCount?: Scalars['Int'] | null;
@@ -577,7 +571,7 @@ export type UserCreateInput = {
   readonly teacherCellPhoneViolation?: CellPhoneViolationRelateToManyInput | null;
   readonly teacherPbisCards?: PbisCardRelateToManyInput | null;
   readonly studentPbisCards?: PbisCardRelateToManyInput | null;
-  readonly callbackItems?: CallbackRelateToOneInput | null;
+  readonly callbackItems?: CallbackRelateToManyInput | null;
   readonly callbackAssigned?: CallbackRelateToManyInput | null;
   readonly callbackCount?: Scalars['Int'] | null;
   readonly PbisCardCount?: Scalars['Int'] | null;

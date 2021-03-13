@@ -47,13 +47,6 @@ input PbisCardRelateToManyInput {
   disconnectAll: Boolean
 }
 
-input CallbackRelateToOneInput {
-  create: CallbackCreateInput
-  connect: CallbackWhereUniqueInput
-  disconnect: CallbackWhereUniqueInput
-  disconnectAll: Boolean
-}
-
 input CallbackRelateToManyInput {
   create: [CallbackCreateInput]
   connect: [CallbackWhereUniqueInput]
@@ -104,7 +97,8 @@ type User {
   _teacherPbisCardsMeta(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   studentPbisCards(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): [PbisCard!]!
   _studentPbisCardsMeta(where: PbisCardWhereInput, search: String, sortBy: [SortPbisCardsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
-  callbackItems: Callback
+  callbackItems(where: CallbackWhereInput, search: String, sortBy: [SortCallbacksBy!], orderBy: String, first: Int, skip: Int): [Callback!]!
+  _callbackItemsMeta(where: CallbackWhereInput, search: String, sortBy: [SortCallbacksBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   callbackAssigned(where: CallbackWhereInput, search: String, sortBy: [SortCallbacksBy!], orderBy: String, first: Int, skip: Int): [Callback!]!
   _callbackAssignedMeta(where: CallbackWhereInput, search: String, sortBy: [SortCallbacksBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
   callbackCount: Int
@@ -320,8 +314,15 @@ input UserWhereInput {
 
   """ condition must be false for all nodes """
   studentPbisCards_none: PbisCardWhereInput
-  callbackItems: CallbackWhereInput
-  callbackItems_is_null: Boolean
+
+  """ condition must be true for all nodes """
+  callbackItems_every: CallbackWhereInput
+
+  """ condition must be true for at least 1 node """
+  callbackItems_some: CallbackWhereInput
+
+  """ condition must be false for all nodes """
+  callbackItems_none: CallbackWhereInput
 
   """ condition must be true for all nodes """
   callbackAssigned_every: CallbackWhereInput
@@ -642,7 +643,7 @@ input UserUpdateInput {
   teacherCellPhoneViolation: CellPhoneViolationRelateToManyInput
   teacherPbisCards: PbisCardRelateToManyInput
   studentPbisCards: PbisCardRelateToManyInput
-  callbackItems: CallbackRelateToOneInput
+  callbackItems: CallbackRelateToManyInput
   callbackAssigned: CallbackRelateToManyInput
   callbackCount: Int
   PbisCardCount: Int
@@ -695,7 +696,7 @@ input UserCreateInput {
   teacherCellPhoneViolation: CellPhoneViolationRelateToManyInput
   teacherPbisCards: PbisCardRelateToManyInput
   studentPbisCards: PbisCardRelateToManyInput
-  callbackItems: CallbackRelateToOneInput
+  callbackItems: CallbackRelateToManyInput
   callbackAssigned: CallbackRelateToManyInput
   callbackCount: Int
   PbisCardCount: Int
