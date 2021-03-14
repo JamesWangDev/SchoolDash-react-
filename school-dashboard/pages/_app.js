@@ -5,9 +5,10 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { ApolloProvider } from '@apollo/client';
 import Router from 'next/router';
-import { ReactQueryDevtools } from 'react-query-devtools';
+
 import Page from '../components/Page';
 import withData from '../lib/withData';
 
@@ -21,9 +22,9 @@ function MyApp({ Component, pageProps, apollo }) {
           <Page>
             <Component {...pageProps} />
           </Page>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ApolloProvider>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );
 }
