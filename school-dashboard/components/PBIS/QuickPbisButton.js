@@ -25,6 +25,14 @@ const CREATE_QUICK_PBIS = gql`
   }
 `;
 
+const UPDATE_PBIS = gql`
+  mutation UPDATE_PBIS($userId: ID!) {
+    recalculatePBIS(userId: $userId) {
+      id
+    }
+  }
+`;
+
 export default function QuickPbisButton({ id, displayName = false }) {
   const me = useUser();
   const teacher = me.id;
@@ -32,6 +40,10 @@ export default function QuickPbisButton({ id, displayName = false }) {
     CREATE_QUICK_PBIS,
     { variables: { teacher, student: id } }
   );
+  console.log(id);
+  const [updateCardCount] = useMutation(UPDATE_PBIS, {
+    variables: { userId: id },
+  });
   return (
     <SmallGradientButton
       style={{ marginLeft: '1rem' }}
@@ -40,6 +52,7 @@ export default function QuickPbisButton({ id, displayName = false }) {
         console.log('creating card');
         const res = await createCard();
         console.log(res);
+        await updateCardCount();
       }}
     >
       {displayName ? `Quick Card for ${displayName}` : 'Quick Card'}

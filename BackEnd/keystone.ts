@@ -9,7 +9,7 @@ import { PbisTeam } from './schemas/PbisTeam'
 import { StudentFocus } from './schemas/StudentFocus'
 import { CellPhoneViolation } from './schemas/CellPhoneViolation'
 import { Callback } from './schemas/Callback'
-
+import { extendGraphqlSchema } from './mutations';
 import 'dotenv/config';
 import {
   withItemData,
@@ -60,6 +60,7 @@ export default withAuth(
       CellPhoneViolation,
       Callback
     }),
+    extendGraphqlSchema,
     ui: {
       // Show the UI only for poeple who pass this test
       isAccessAllowed: ({ session }) => {
