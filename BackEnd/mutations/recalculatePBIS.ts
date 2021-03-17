@@ -42,7 +42,9 @@ const taTeacher = await context.lists.User.findOne({
          yearCards: _teacherPbisCardsMeta(where:{counted:false}){
          count
         }
-        
+        taTeam{
+            id
+        }
     `,
   });
 
@@ -56,29 +58,31 @@ const taTeacher = await context.lists.User.findOne({
   });
 
   const totalTeamCards = await context.lists.PbisCard.findMany({
-      where: {teacher:{taTeam: {id: "604237f4221bd40e3b8a33e6"}}},
+      where: {teacher:{taTeam: {id: taTeacher.taTeam.id}}},
       resolveFields: graphql`
       id
       `,
   })
+
   const uncountedTeamCards = await context.lists.PbisCard.findMany({
-      where: {teacher:{taTeam: {id: "604237f4221bd40e3b8a33e6"}}, counted: false},
+      where: {teacher:{taTeam: {id: taTeacher.taTeam.id}}, counted: false},
       resolveFields: graphql`
       id
       `,
   })
+console.log(totalTeamCards)
+  console.log(uncountedTeamCards)
 
-  console.log("team cards")
-  console.log(totalTeamCards.length)
-  console.log(uncountedTeamCards.length)
+  const updatedTeam = await context.lists.PbisTeam.updateOne({
+      id: taTeacher.taTeam.id,
+      data:{
+          uncountedCards: uncountedTeamCards.length,
+          countedCards: totalTeamCards.length,
+      },
+      resolveFields: false,
+  })
 
-// const taUncountedCardsPerTeam = taTeam.taTeacher.map((teacher) => {
-//     console.log(teacher)
-//     const cards = teacher.taStudents.reduce((sum,current)=>  sum+current.cards.count)
-//     console.log(cards)
-//     return cards
-// })
-// console.log(taUncountedCardsPerTeam)
+
 
     return await context.lists.User.updateOne({
         id: userId,

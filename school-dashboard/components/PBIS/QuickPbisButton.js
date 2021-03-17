@@ -41,13 +41,14 @@ export default function QuickPbisButton({ id, displayName = false }) {
     { variables: { teacher, student: id } }
   );
   console.log(id);
-  const [updateCardCount] = useMutation(UPDATE_PBIS, {
+  const [updateCardCount, { loading: cardLoading }] = useMutation(UPDATE_PBIS, {
     variables: { userId: id },
   });
   return (
     <SmallGradientButton
       style={{ marginLeft: '1rem' }}
-      onClick={async () => {
+      onClick={async (e) => {
+        e.preventDefault();
         console.log(teacher);
         console.log('creating card');
         const res = await createCard();
@@ -55,6 +56,7 @@ export default function QuickPbisButton({ id, displayName = false }) {
         await updateCardCount();
       }}
     >
+      {loading || cardLoading ? 'Please Wait' : ''}
       {displayName ? `Quick Card for ${displayName}` : 'Quick Card'}
     </SmallGradientButton>
   );
