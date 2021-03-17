@@ -1228,14 +1228,14 @@ export type PbisTeamWhereInput = {
   readonly averageCardsPerStudent_not_in?: ReadonlyArray<
     Scalars['Int'] | null
   > | null;
-  readonly dateModivied?: Scalars['String'] | null;
-  readonly dateModivied_not?: Scalars['String'] | null;
-  readonly dateModivied_lt?: Scalars['String'] | null;
-  readonly dateModivied_lte?: Scalars['String'] | null;
-  readonly dateModivied_gt?: Scalars['String'] | null;
-  readonly dateModivied_gte?: Scalars['String'] | null;
-  readonly dateModivied_in?: ReadonlyArray<Scalars['String'] | null> | null;
-  readonly dateModivied_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly dateModified?: Scalars['String'] | null;
+  readonly dateModified_not?: Scalars['String'] | null;
+  readonly dateModified_lt?: Scalars['String'] | null;
+  readonly dateModified_lte?: Scalars['String'] | null;
+  readonly dateModified_gt?: Scalars['String'] | null;
+  readonly dateModified_gte?: Scalars['String'] | null;
+  readonly dateModified_in?: ReadonlyArray<Scalars['String'] | null> | null;
+  readonly dateModified_not_in?: ReadonlyArray<Scalars['String'] | null> | null;
   readonly lastModifiedBy?: UserWhereInput | null;
   readonly lastModifiedBy_is_null?: Scalars['Boolean'] | null;
 };
@@ -1261,8 +1261,8 @@ export type SortPbisTeamsBy =
   | 'numberOfStudents_DESC'
   | 'averageCardsPerStudent_ASC'
   | 'averageCardsPerStudent_DESC'
-  | 'dateModivied_ASC'
-  | 'dateModivied_DESC'
+  | 'dateModified_ASC'
+  | 'dateModified_DESC'
   | 'lastModifiedBy_ASC'
   | 'lastModifiedBy_DESC';
 
@@ -1274,7 +1274,7 @@ export type PbisTeamUpdateInput = {
   readonly currentLevel?: Scalars['Int'] | null;
   readonly numberOfStudents?: Scalars['Int'] | null;
   readonly averageCardsPerStudent?: Scalars['Int'] | null;
-  readonly dateModivied?: Scalars['String'] | null;
+  readonly dateModified?: Scalars['String'] | null;
   readonly lastModifiedBy?: UserRelateToOneInput | null;
 };
 
@@ -1291,7 +1291,7 @@ export type PbisTeamCreateInput = {
   readonly currentLevel?: Scalars['Int'] | null;
   readonly numberOfStudents?: Scalars['Int'] | null;
   readonly averageCardsPerStudent?: Scalars['Int'] | null;
-  readonly dateModivied?: Scalars['String'] | null;
+  readonly dateModified?: Scalars['String'] | null;
   readonly lastModifiedBy?: UserRelateToOneInput | null;
 };
 
@@ -2035,7 +2035,7 @@ export type PbisTeamListTypeInfo = {
     | 'currentLevel'
     | 'numberOfStudents'
     | 'averageCardsPerStudent'
-    | 'dateModivied'
+    | 'dateModified'
     | 'lastModifiedBy';
   backing: {
     readonly id: string;
@@ -2046,7 +2046,7 @@ export type PbisTeamListTypeInfo = {
     readonly currentLevel?: number | null;
     readonly numberOfStudents?: number | null;
     readonly averageCardsPerStudent?: number | null;
-    readonly dateModivied?: Date | null;
+    readonly dateModified?: Date | null;
     readonly lastModifiedBy?: string | null;
   };
   inputs: {

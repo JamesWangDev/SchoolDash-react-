@@ -5,7 +5,7 @@ import { CalendarDay } from '@keystonejs/fields'
 
 export const PbisTeam = list({
     access: {
-        create: isSignedIn,
+        create: () => true,
         read: () => true,
         // update: rules.canManageCalendar,
         // delete: rules.canManageCalendar,
@@ -25,7 +25,7 @@ export const PbisTeam = list({
         averageCardsPerStudent: integer({ defaultValue: 0 }),
 
 
-        dateModivied: timestamp({
+        dateModified: timestamp({
             isRequired: true,
             defaultValue: () => {
                 const date = new Date();

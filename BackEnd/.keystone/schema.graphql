@@ -1359,7 +1359,7 @@ type PbisTeam {
   currentLevel: Int
   numberOfStudents: Int
   averageCardsPerStudent: Int
-  dateModivied: String
+  dateModified: String
   lastModifiedBy: User
 }
 
@@ -1437,14 +1437,14 @@ input PbisTeamWhereInput {
   averageCardsPerStudent_gte: Int
   averageCardsPerStudent_in: [Int]
   averageCardsPerStudent_not_in: [Int]
-  dateModivied: String
-  dateModivied_not: String
-  dateModivied_lt: String
-  dateModivied_lte: String
-  dateModivied_gt: String
-  dateModivied_gte: String
-  dateModivied_in: [String]
-  dateModivied_not_in: [String]
+  dateModified: String
+  dateModified_not: String
+  dateModified_lt: String
+  dateModified_lte: String
+  dateModified_gt: String
+  dateModified_gte: String
+  dateModified_in: [String]
+  dateModified_not_in: [String]
   lastModifiedBy: UserWhereInput
   lastModifiedBy_is_null: Boolean
 }
@@ -1470,8 +1470,8 @@ enum SortPbisTeamsBy {
   numberOfStudents_DESC
   averageCardsPerStudent_ASC
   averageCardsPerStudent_DESC
-  dateModivied_ASC
-  dateModivied_DESC
+  dateModified_ASC
+  dateModified_DESC
   lastModifiedBy_ASC
   lastModifiedBy_DESC
 }
@@ -1484,7 +1484,7 @@ input PbisTeamUpdateInput {
   currentLevel: Int
   numberOfStudents: Int
   averageCardsPerStudent: Int
-  dateModivied: String
+  dateModified: String
   lastModifiedBy: UserRelateToOneInput
 }
 
@@ -1501,7 +1501,7 @@ input PbisTeamCreateInput {
   currentLevel: Int
   numberOfStudents: Int
   averageCardsPerStudent: Int
-  dateModivied: String
+  dateModified: String
   lastModifiedBy: UserRelateToOneInput
 }
 
