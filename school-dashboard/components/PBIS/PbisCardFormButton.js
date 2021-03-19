@@ -26,8 +26,8 @@ export default function PbisCardFormButton({ teacher }) {
         }}
       >
         PBIS CARD
+        {displayCardForm && <CardForm />}
       </GradientButton>
-      {displayCardForm && <CardForm />}
     </CardButtonContainer>
   );
 }

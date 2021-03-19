@@ -2,10 +2,11 @@ import Link from 'next/link';
 import NavStyles from '../styles/NavStyles';
 import { useUser } from '../User';
 import SignIn from '../loginComponents/SignIn';
+import isAllowed from '../../lib/isAllowed';
 
 export default function Nav() {
-  const user = useUser();
-  if (!user) {
+  const me = useUser();
+  if (!me) {
     return <SignIn />;
   }
   return (
@@ -14,11 +15,15 @@ export default function Nav() {
         <>
           <Link href="/calendar">Calendar</Link>
           <Link href="/links">Links</Link>
-          <Link href="/ta">TA</Link>
-          <Link href="/callback">Callback</Link>
-          <Link href="/users">Users</Link>
-          <Link href="/discipline">Discipline</Link>
-          <Link href="/studentFocus">Student Focus</Link>
+          {isAllowed(me, 'TA Teacher') && <Link href="/ta">TA</Link>}
+          {isAllowed(me, 'Classroom Teacher') && (
+            <Link href="/callback">Callback</Link>
+          )}
+          {isAllowed(me, 'staff') && <Link href="/users">Users</Link>}
+          {isAllowed(me, 'staff') && <Link href="/discipline">Discipline</Link>}
+          {isAllowed(me, 'staff') && (
+            <Link href="/studentFocus">Student Focus</Link>
+          )}
         </>
       )}
     </NavStyles>

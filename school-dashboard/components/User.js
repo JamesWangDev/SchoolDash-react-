@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { useGQLQuery } from '../lib/useGqlQuery';
 
 const CURRENT_USER_QUERY = gql`
   query {
@@ -11,6 +12,8 @@ const CURRENT_USER_QUERY = gql`
           name
           canManageCalendar
           canManageLinks
+          hasTA
+          hasClasses
         }
       }
     }
@@ -18,7 +21,7 @@ const CURRENT_USER_QUERY = gql`
 `;
 
 export function useUser() {
-  const { data } = useQuery(CURRENT_USER_QUERY);
+  const { data } = useGQLQuery('me', CURRENT_USER_QUERY);
   // console.log(data);
   return data?.authenticatedItem;
 }
