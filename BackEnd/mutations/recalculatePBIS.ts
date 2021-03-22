@@ -77,7 +77,7 @@ console.log(totalTeamCards)
       id: taTeacher.taTeam.id,
       data:{
           uncountedCards: uncountedTeamCards.length,
-          countedCards: totalTeamCards.length,
+        //   countedCards: totalTeamCards.length,
       },
       resolveFields: false,
   })
