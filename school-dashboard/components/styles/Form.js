@@ -14,18 +14,21 @@ const loading = keyframes`
 export const FormContainerStyles = styled.div`
   .hidden {
     position: absolute;
-    transform: translatey(-200%) translatex(500px);
-    width: 100px;
+    transform: translatex(-500%);
+    /* width: 100px; */
     /* opacity: 50%; */
+    width: min(75%, 800px);
     transition: all 0.5s ease-in;
     background-image: linear-gradient(to bottom, var(--blue), var(--red));
+    z-index: 1000;
   }
   .visible {
     z-index: 1000;
-    width: 50%;
+    width: min(75%, 800px);
     /* opacity: 100%; */
     transition: all 0.5s ease-out;
-    transform: translatey(0%) translateX(200px);
+    margin: auto;
+    /* transform: translatey(0%); */
     position: absolute;
     background-image: linear-gradient(to bottom, var(--blue), var(--red));
   }

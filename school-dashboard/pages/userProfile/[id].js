@@ -21,7 +21,7 @@ const GET_SINGLE_USER = gql`
 
 export default function UserProfile({ query }) {
   const { data, isLoading, error } = useGQLQuery(
-    'SingleUser',
+    `SingleUser-${query.id}`,
     GET_SINGLE_USER,
     { id: query.id }
   );

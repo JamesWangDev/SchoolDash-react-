@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import Toggle from 'react-toggle';
 import GradientButton from './styles/Button';
 import Form, { FormContainerStyles } from './styles/Form';
 import useForm from '../lib/useForm';
 import DisplayError from './ErrorMessage';
 import { useUser } from './User';
+import 'react-toggle/style.css';
 
 const CREATE_LINK_MUTATION = gql`
   mutation CREATE_LINK_MUTATION(
@@ -16,7 +18,6 @@ const CREATE_LINK_MUTATION = gql`
     $forParents: Boolean!
     $onHomePage: Boolean!
     $link: String
-    $linkTitle: String
     $modifiedBy: ID!
   ) {
     createLink(
@@ -28,7 +29,6 @@ const CREATE_LINK_MUTATION = gql`
         forParents: $forParents
         onHomePage: $onHomePage
         link: $link
-        linkTitle: $linkTitle
         modifiedBy: { connect: { id: $modifiedBy } }
       }
     ) {
@@ -50,7 +50,7 @@ export default function NewLink({ refetchLinks }) {
   const [createLink, { loading, error, data }] = useMutation(
     CREATE_LINK_MUTATION,
     {
-      variables: { ...inputs, modifiedBy: user.id },
+      variables: { ...inputs, modifiedBy: user?.id },
     }
   );
   console.log(inputs);
@@ -60,7 +60,7 @@ export default function NewLink({ refetchLinks }) {
         onClick={() => setShowForm(!showForm)}
         style={{ marginLeft: '100px' }}
       >
-        {showForm ? 'Nevermind... Close the form' : 'Add A New Link'}
+        {showForm ? 'Close the form' : 'Add A New Link'}
       </GradientButton>
       <FormContainerStyles>
         <Form
@@ -114,20 +114,17 @@ export default function NewLink({ refetchLinks }) {
               />
             </label>
             <label htmlFor="forTeachers">
-              Visible to Teachers
-              <input
-                type="checkbox"
+              <span>Visible to Teachers </span>
+              <Toggle
+                checked={inputs.forTeachers}
                 id="forTeachers"
                 name="forTeachers"
-                checked={inputs.forTeachers}
-                // value={inputs.forTeachers}
                 onChange={handleChange}
               />
             </label>
             <label htmlFor="forStudents">
-              Visible to Students
-              <input
-                type="checkbox"
+              <span>Visible to Students </span>
+              <Toggle
                 id="forStudents"
                 name="forStudents"
                 checked={inputs.forStudents}
@@ -135,9 +132,8 @@ export default function NewLink({ refetchLinks }) {
               />
             </label>
             <label htmlFor="forParents">
-              Visible to Parents
-              <input
-                type="checkbox"
+              <span>Visible to Parents </span>
+              <Toggle
                 id="forParents"
                 name="forParents"
                 checked={inputs.forParents}
@@ -145,9 +141,8 @@ export default function NewLink({ refetchLinks }) {
               />
             </label>
             <label htmlFor="onHomePage">
-              Show on The HomePage
-              <input
-                type="checkbox"
+              <span>Show on The HomePage </span>
+              <Toggle
                 id="onHomePage"
                 name="onHomePage"
                 checked={inputs.onHomePage}

@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 import Toggle from 'react-toggle';
+import { useState } from 'react';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import { useUser } from '../components/User';
 import DisplayError from '../components/ErrorMessage';
 import CallbackTable from '../components/Callback/CallbackTable';
 import 'react-toggle/style.css';
-import { useState } from 'react';
 import CallbackCards from '../components/Callback/CallbackCards';
 
 const MY_CALLBACK_ASSIGNMENTS = gql`

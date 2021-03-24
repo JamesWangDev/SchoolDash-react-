@@ -55,7 +55,7 @@ export default function NewCalendar({ refetchCalendars }) {
         onClick={() => setShowForm(!showForm)}
         style={{ marginLeft: '100px' }}
       >
-        {showForm ? 'Nevermind... Close the form' : 'Add A New Event'}
+        {showForm ? 'Close the form' : 'Add A New Event'}
       </GradientButton>
       <FormContainerStyles>
         <Form
