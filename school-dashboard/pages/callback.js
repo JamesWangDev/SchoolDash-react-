@@ -53,18 +53,23 @@ export default function Callback() {
     if (showCompleted) return true;
     return !callback.dateCompleted;
   });
+  // if (!showTable && callbacks.length > 1) {
+  //   setShowTable(true);
+  // } else {
+  //   setShowTable(showTable);
+  // }
   return (
     <div>
       <label>
+        <span>Show Completed </span>
         <Toggle
           checked={showCompleted}
           onChange={() => setShowCompleted(!showCompleted)}
         />
-        <span>Show Completed </span>
       </label>
       <label>
+        <span> Show As Table</span>
         <Toggle checked={showTable} onChange={() => setShowTable(!showTable)} />
-        <span>Show As Table</span>
       </label>
       {showTable ? (
         <CallbackTable callbacks={callbacks} />
