@@ -36,6 +36,7 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
 
 export default function Callback() {
   const [showCompleted, setShowCompleted] = useState(false);
+  const [showTable, setShowTable] = useState(false);
   const me = useUser();
   if (!me) return <p>Please Log In</p>;
   const { data, isLoading, error } = useGQLQuery(
@@ -59,9 +60,13 @@ export default function Callback() {
           checked={showCompleted}
           onChange={() => setShowCompleted(!showCompleted)}
         />
-        <span>Show Completed</span>
+        <span>Show Completed </span>
       </label>
-      {callbacks.length > 10 ? (
+      <label>
+        <Toggle checked={showTable} onChange={() => setShowTable(!showTable)} />
+        <span>Show As Table</span>
+      </label>
+      {showTable ? (
         <CallbackTable callbacks={callbacks} />
       ) : (
         <CallbackCards callbacks={callbacks} />
