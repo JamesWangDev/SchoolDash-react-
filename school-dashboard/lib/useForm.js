@@ -12,7 +12,7 @@ export default function useForm(initial = {}) {
   }, [initialValues]);
 
   function handleChange(e) {
-    console.log(e.target);
+    // console.log(e.target);
     let { value, name, type, checked } = e.target;
     if (type === 'number') {
       value = parseInt(value);
@@ -29,7 +29,7 @@ export default function useForm(initial = {}) {
       // console.log(`new ${value}`);
     }
     if (type === 'checkbox') {
-      console.log(`value: ${value}  checked: ${checked}`);
+      // console.log(`value: ${value}  checked: ${checked}`);
       if (checked === true) {
         value = true;
       }
@@ -37,6 +37,10 @@ export default function useForm(initial = {}) {
         value = false;
       }
     }
+    // if (type === 'radio') {
+    //   console.log(`value: ${value} name:${name}  checked: ${checked}`);
+    //   // console.log(e);
+    // }
     setInputs({
       // copy the existing state
       ...inputs,

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import GradientButton from '../styles/Button';
 import SearchForUserName from '../SearchForUserName';
 import Form from '../styles/Form';
+import useForm from '../../lib/useForm';
 
 const CardButtonContainer = styled.div`
   padding: 20px;
@@ -18,8 +19,8 @@ const CardFormContainerStyles = styled.div`
   }
   .invisible {
     opacity: 1;
-    transition: all ease-in 1s;
-    transform: translateX(2000px);
+    transition: all ease-in-out 0.6s;
+    transform: scale(0) translateX(-100px) translateY(200px);
   }
   form {
     z-index: 1000;
@@ -32,14 +33,21 @@ const CardFormContainerStyles = styled.div`
 `;
 
 function CardForm({ visible }) {
-  console.log(visible);
+  const { inputs, handleChange, clearForm, resetForm } = useForm({
+    studentName: '',
+    message: '',
+  });
   return (
     <CardFormContainerStyles>
       <div className={visible}>
         <Form>
-          <h3>New PBIS Card</h3>
+          <label>New PBIS Card</label>
 
-          <SearchForUserName name="studentName" />
+          <SearchForUserName
+            name="studentName"
+            value={inputs.studentName}
+            handleChange={handleChange}
+          />
           <label htmlFor="message">
             message
             <input
@@ -47,14 +55,41 @@ function CardForm({ visible }) {
               id="message"
               name="message"
               placeholder="student Message"
-              // value={inputs.message}
-              // onChange={handleChange}
+              value={inputs.message}
+              onChange={handleChange}
             />
           </label>
-          <label htmlFor="category">
-            Respect
+          <label htmlFor="respect">
             <input type="radio" name="category" id="respect" value="respect" />
+            Respect
           </label>
+          <label htmlFor="responsibility">
+            <input
+              type="radio"
+              name="category"
+              id="responsibility"
+              value="responsibility"
+              onChange={handleChange}
+            />
+            Responsability
+          </label>
+          <label htmlFor="perserverance">
+            <input
+              type="radio"
+              name="category"
+              id="perserverance"
+              value="perserverance"
+            />
+            Perserverance
+          </label>
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            Give A PBIS Card
+          </button>
         </Form>
       </div>
     </CardFormContainerStyles>

@@ -70,7 +70,14 @@ const Form = styled.form`
     font-size: 2rem;
     font-weight: 600;
     padding: 0.8rem 1.2rem;
+    border-radius: 1rem;
   }
+  input[type='radio'] {
+    display: inline-block;
+    /* margin: 20px; */
+    width: 20px;
+  }
+
   fieldset {
     border: 0;
     padding: 0;

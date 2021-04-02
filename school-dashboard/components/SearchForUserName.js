@@ -19,7 +19,7 @@ const SEARCH_PRODUCTS_QUERY = gql`
   }
 `;
 
-export default function SearchForUserName({ name }) {
+export default function SearchForUserName({ name, value, handleChange }) {
   const router = useRouter();
   const [findItems, { loading, data, error }] = useLazyQuery(
     SEARCH_PRODUCTS_QUERY,
@@ -46,6 +46,7 @@ export default function SearchForUserName({ name }) {
           searchTerm: inputValue,
         },
       });
+      handleChange;
     },
     // onSelectedItemChange({ selectedItem }) {
     //   router.push({
@@ -65,6 +66,7 @@ export default function SearchForUserName({ name }) {
             id: name,
             name,
             className: loading ? 'loading' : '',
+            value,
           })}
         />
       </div>
