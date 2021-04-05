@@ -45,8 +45,8 @@ function CardForm({ visible }) {
 
           <SearchForUserName
             name="studentName"
-            value={inputs.studentName}
-            handleChange={handleChange}
+            // value={inputs.studentName}
+            // handleChange={handleChange}
           />
           <label htmlFor="message">
             message

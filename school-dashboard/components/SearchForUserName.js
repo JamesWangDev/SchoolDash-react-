@@ -46,7 +46,6 @@ export default function SearchForUserName({ name, value, handleChange }) {
           searchTerm: inputValue,
         },
       });
-      handleChange;
     },
     // onSelectedItemChange({ selectedItem }) {
     //   router.push({
@@ -66,7 +65,6 @@ export default function SearchForUserName({ name, value, handleChange }) {
             id: name,
             name,
             className: loading ? 'loading' : '',
-            value,
           })}
         />
       </div>
