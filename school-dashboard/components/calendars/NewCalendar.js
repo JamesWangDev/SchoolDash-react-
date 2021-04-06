@@ -46,7 +46,7 @@ export default function NewCalendar({ refetchCalendars }) {
   const [createCalendar, { loading, error, data }] = useMutation(
     CREATE_CALENDAR_MUTATION,
     {
-      variables: { ...inputs, author: user.id },
+      variables: { ...inputs, author: user?.id },
     }
   );
   return (

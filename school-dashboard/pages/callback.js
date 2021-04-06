@@ -71,11 +71,9 @@ export default function Callback() {
         <span> Show As Table</span>
         <Toggle checked={showTable} onChange={() => setShowTable(!showTable)} />
       </label>
-      {showTable ? (
-        <CallbackTable callbacks={callbacks} />
-      ) : (
-        <CallbackCards callbacks={callbacks} />
-      )}
+      {showTable && <CallbackTable callbacks={callbacks} />}
+
+      {!showTable && <CallbackCards callbacks={callbacks} />}
     </div>
   );
 }
