@@ -37,6 +37,8 @@ function CardForm({ visible }) {
     studentName: '',
     message: '',
   });
+  const [studentID, setStudentID] = useState();
+  console.log(studentID);
   return (
     <CardFormContainerStyles>
       <div className={visible}>
@@ -46,7 +48,7 @@ function CardForm({ visible }) {
           <SearchForUserName
             name="studentName"
             // value={inputs.studentName}
-            // handleChange={handleChange}
+            updateID={setStudentID}
           />
           <label htmlFor="message">
             message

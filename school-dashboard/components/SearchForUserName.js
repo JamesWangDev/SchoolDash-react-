@@ -19,7 +19,7 @@ const SEARCH_PRODUCTS_QUERY = gql`
   }
 `;
 
-export default function SearchForUserName({ name, value, handleChange }) {
+export default function SearchForUserName({ name, value, updateID }) {
   const router = useRouter();
   const [findItems, { loading, data, error }] = useLazyQuery(
     SEARCH_PRODUCTS_QUERY,
@@ -47,11 +47,9 @@ export default function SearchForUserName({ name, value, handleChange }) {
         },
       });
     },
-    // onSelectedItemChange({ selectedItem }) {
-    //   router.push({
-    //     pathname: `/userProfile/${selectedItem.id}`,
-    //   });
-    // },
+    onSelectedItemChange({ selectedItem }) {
+      updateID(selectedItem.id);
+    },
     itemToString: (item) => item?.name || '',
   });
 
