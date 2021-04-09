@@ -19,7 +19,7 @@ const SEARCH_PRODUCTS_QUERY = gql`
   }
 `;
 
-export default function SearchForUserName({ name, value, updateID }) {
+export default function SearchForUserName({ name, value, updateUser }) {
   const router = useRouter();
   const [findItems, { loading, data, error }] = useLazyQuery(
     SEARCH_PRODUCTS_QUERY,
@@ -48,7 +48,7 @@ export default function SearchForUserName({ name, value, updateID }) {
       });
     },
     onSelectedItemChange({ selectedItem }) {
-      updateID(selectedItem.id);
+      updateUser({ userId: selectedItem.id, userName: selectedItem.name });
     },
     itemToString: (item) => item?.name || '',
   });
@@ -63,6 +63,7 @@ export default function SearchForUserName({ name, value, updateID }) {
             id: name,
             name,
             className: loading ? 'loading' : '',
+            // value,
           })}
         />
       </div>

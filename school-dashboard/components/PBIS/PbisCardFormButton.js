@@ -30,15 +30,20 @@ const CardFormContainerStyles = styled.div`
     border-radius: 1rem;
     background: linear-gradient(to top left, var(--redTrans), var(--blueTrans));
   }
+  button:disabled,
+  button[disabled] {
+    /* border: 1px solid red; */
+    /* background-color: #cccccc; */
+    color: var(--red);
+  }
 `;
 
 function CardForm({ visible }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
-    studentName: '',
     message: '',
   });
-  const [studentID, setStudentID] = useState();
-  console.log(studentID);
+  const [studentCardIsFor, setStudentCardIsFor] = useState();
+  console.log(studentCardIsFor);
   return (
     <CardFormContainerStyles>
       <div className={visible}>
@@ -48,7 +53,7 @@ function CardForm({ visible }) {
           <SearchForUserName
             name="studentName"
             // value={inputs.studentName}
-            updateID={setStudentID}
+            updateUser={setStudentCardIsFor}
           />
           <label htmlFor="message">
             message
@@ -62,7 +67,13 @@ function CardForm({ visible }) {
             />
           </label>
           <label htmlFor="respect">
-            <input type="radio" name="category" id="respect" value="respect" />
+            <input
+              type="radio"
+              name="category"
+              id="respect"
+              value="respect"
+              onChange={handleChange}
+            />
             Respect
           </label>
           <label htmlFor="responsibility">
@@ -81,16 +92,20 @@ function CardForm({ visible }) {
               name="category"
               id="perserverance"
               value="perserverance"
+              onChange={handleChange}
             />
             Perserverance
           </label>
           <button
             type="submit"
+            disabled={!studentCardIsFor || !inputs.category}
             onClick={(e) => {
               e.preventDefault();
+              console.log(inputs);
             }}
           >
-            Give A PBIS Card
+            Give {studentCardIsFor && `${studentCardIsFor.userName} `}A PBIS
+            Card
           </button>
         </Form>
       </div>
