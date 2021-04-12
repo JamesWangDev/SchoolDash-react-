@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useMutation } from '@apollo/client';
+import gql from 'graphql-tag';
 import GradientButton from '../styles/Button';
 import SearchForUserName from '../SearchForUserName';
 import Form from '../styles/Form';
 import useForm from '../../lib/useForm';
+import { UPDATE_PBIS } from '../../lib/pbisUtils';
+import { useUser } from '../User';
 
 const CardButtonContainer = styled.div`
   padding: 20px;
@@ -38,12 +42,58 @@ const CardFormContainerStyles = styled.div`
   }
 `;
 
-function CardForm({ visible }) {
+const CREATE_PBIS_CARD = gql`
+  mutation CREATE_QUICK_PBIS(
+    $teacher: ID!
+    $student: ID!
+    $category: String
+    $message: String
+  ) {
+    createPbisCard(
+      data: {
+        teacher: { connect: { id: $teacher } }
+        student: { connect: { id: $student } }
+        category: $category
+        cardMessage: $message
+      }
+    ) {
+      id
+      student {
+        name
+      }
+      teacher {
+        name
+      }
+    }
+  }
+`;
+
+function CardForm({ visible, hide }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     message: '',
   });
+  const me = useUser();
+  const teacher = me.id;
   const [studentCardIsFor, setStudentCardIsFor] = useState();
   console.log(studentCardIsFor);
+
+  const [createCard, { loading, error, data }] = useMutation(CREATE_PBIS_CARD, {
+    variables: {
+      teacher,
+      student: studentCardIsFor?.userId,
+      message: inputs.message,
+      category: inputs.category,
+    },
+  });
+
+  const [updateCardCount, { loading: cardLoading }] = useMutation(UPDATE_PBIS, {
+    variables: { userId: studentCardIsFor?.userId },
+  });
+
+  if (error) {
+    console.log(error);
+    return <p>{error.message}</p>;
+  }
   return (
     <CardFormContainerStyles>
       <div className={visible}>
@@ -99,9 +149,16 @@ function CardForm({ visible }) {
           <button
             type="submit"
             disabled={!studentCardIsFor || !inputs.category}
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               console.log(inputs);
+              const res = await createCard();
+              console.log(res);
+              await updateCardCount();
+              clearForm();
+              setStudentCardIsFor(null);
+              resetForm();
+              hide(false);
             }}
           >
             Give {studentCardIsFor && `${studentCardIsFor.userName} `}A PBIS
@@ -125,7 +182,10 @@ export default function PbisCardFormButton({ teacher }) {
       >
         PBIS CARD
       </GradientButton>
-      <CardForm visible={displayCardForm ? 'visible' : 'invisible'} />
+      <CardForm
+        visible={displayCardForm ? 'visible' : 'invisible'}
+        hide={setDisplayCardForm}
+      />
     </CardButtonContainer>
   );
 }

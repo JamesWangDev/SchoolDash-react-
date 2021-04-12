@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import React from 'react';
+import { UPDATE_PBIS } from '../../lib/pbisUtils';
 import { SmallGradientButton } from '../styles/Button';
 import { useUser } from '../User';
 
@@ -21,14 +22,6 @@ const CREATE_QUICK_PBIS = gql`
       teacher {
         name
       }
-    }
-  }
-`;
-
-const UPDATE_PBIS = gql`
-  mutation UPDATE_PBIS($userId: ID!) {
-    recalculatePBIS(userId: $userId) {
-      id
     }
   }
 `;
