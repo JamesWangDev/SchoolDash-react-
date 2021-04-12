@@ -107,7 +107,7 @@ function CardForm({ visible, hide }) {
           />
           <label htmlFor="message">
             message
-            <input
+            <textarea
               type="text"
               id="message"
               name="message"
