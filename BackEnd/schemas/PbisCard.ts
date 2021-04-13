@@ -33,4 +33,9 @@ export const PbisCard = list({
         }),
         counted: checkbox({ defaultValue: false, isRequired: true, label: 'Counted' }),
     },
+    ui: {
+        listView: {
+            initialColumns: ['category', 'student', "teacher", 'cardMessage'],
+        },
+    },
 });
