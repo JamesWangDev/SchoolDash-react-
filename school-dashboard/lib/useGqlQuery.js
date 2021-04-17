@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { GraphQLClient, request } from 'graphql-request';
-import { endpoint } from '../config';
+import { endpoint, prodEndpoint } from '../config';
 
 export const useGQLQuery = (key, query, variables, config = {}) => {
   const headers = {
@@ -11,7 +11,10 @@ export const useGQLQuery = (key, query, variables, config = {}) => {
     },
   };
 
-  const graphQLClient = new GraphQLClient(endpoint, headers);
+  const graphQLClient = new GraphQLClient(
+    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    headers
+  );
   // console.log(GraphQLClient);
   const fetchData = async () => await graphQLClient.request(query, variables);
 
