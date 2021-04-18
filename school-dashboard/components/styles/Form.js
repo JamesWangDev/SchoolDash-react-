@@ -11,6 +11,15 @@ const loading = keyframes`
   }
 `;
 
+export const FormGroupStyles = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  div {
+    min-width: 30%;
+  }
+`;
+
 export const FormContainerStyles = styled.div`
   .hidden {
     position: absolute;

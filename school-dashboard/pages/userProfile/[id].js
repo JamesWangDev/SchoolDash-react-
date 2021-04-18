@@ -6,6 +6,7 @@ const GET_SINGLE_USER = gql`
     User(where: { id: $id }) {
       id
       name
+      email
       taStudents {
         id
         name
@@ -33,6 +34,7 @@ export default function UserProfile({ query }) {
       <h1>{user.name}</h1>
       <p>{JSON.stringify(user.role)}</p>
       <p>{query.id}</p>
+      <p>{user.email}</p>
     </div>
   );
 }

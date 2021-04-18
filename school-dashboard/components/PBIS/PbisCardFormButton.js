@@ -75,7 +75,7 @@ function CardForm({ visible, hide }) {
   const me = useUser();
   const teacher = me.id;
   const [studentCardIsFor, setStudentCardIsFor] = useState();
-  console.log(studentCardIsFor);
+  // console.log(studentCardIsFor);
 
   const [createCard, { loading, error, data }] = useMutation(CREATE_PBIS_CARD, {
     variables: {
