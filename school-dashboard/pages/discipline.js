@@ -1,10 +1,11 @@
 import NewDiscipline from '../components/discipline/DisciplineButton';
+import DisciplineData from '../components/discipline/DisciplineData';
 
 export default function discipline() {
   return (
     <div>
       <NewDiscipline />
-      <p> This is the Discipline page</p>
+      <DisciplineData />
     </div>
   );
 }

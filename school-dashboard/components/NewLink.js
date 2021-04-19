@@ -75,7 +75,7 @@ export default function NewLink({ refetchLinks }) {
             setShowForm(false);
           }}
         >
-          <h1>Add a New Calendar Event</h1>
+          <h1>Add a New Link</h1>
           <DisplayError error={error} />
           <fieldset disabled={loading} aria-busy={loading}>
             <label htmlFor="name">

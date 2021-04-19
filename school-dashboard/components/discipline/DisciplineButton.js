@@ -11,27 +11,80 @@ import FormSelect from '../../lib/FormSelect';
 import {
   classTypeList,
   locationList,
+  othersInvolvedList,
+  studentConductList,
+  teacherActionList,
   timeOfDayList,
 } from '../../lib/disciplineData';
+import FormCheckboxArray from '../../lib/FormCheckboxArray';
 
 const CREATE_DISCIPLINE_MUTATION = gql`
   mutation CREATE_DISCIPLINE_MUTATION(
-    $name: String!
-    $description: String!
-    $date: String!
+    $teacherComments: String!
+    $date: String
     $teacher: ID!
     $student: ID!
+    $classType: String!
+    $location: String!
+    $timeOfDay: String!
+    $inappropriateLanguage: Boolean
+    $physicalConduct: Boolean
+    $nonCompliance: Boolean
+    $disruption: Boolean
+    $propertyMisuse: Boolean
+    $otherConduct: Boolean
+    $VerbalWarning: Boolean
+    $buddyRoom: Boolean
+    $conferenceWithStudent: Boolean
+    $ParentContact: Boolean
+    $PlanningRoomReferral: Boolean
+    $FollowupPlan: Boolean
+    $LossOfPrivilege: Boolean
+    $DetentionWithTeacher: Boolean
+    $IndividualizedInstruction: Boolean
+    $GuidanceReferral: Boolean
+    $ReferToAdministrator: Boolean
+    $OtherAction: Boolean
+    $none: Boolean
+    $peers: Boolean
+    $teacherInvolved: Boolean
+    $substitute: Boolean
+    $unknown: Boolean
+    $othersInvolved: Boolean
   ) {
     createDiscipline(
       data: {
-        name: $name
-        description: $description
-        status: $status
+        teacherComments: $teacherComments
         date: $date
-        link: $link
-        linkTitle: $linkTitle
         teacher: { connect: { id: $teacher } }
         student: { connect: { id: $student } }
+        classType: $classType
+        location: $location
+        timeOfDay: $timeOfDay
+        inappropriateLanguage: $inappropriateLanguage
+        physicalConduct: $physicalConduct
+        nonCompliance: $nonCompliance
+        disruption: $disruption
+        propertyMisuse: $propertyMisuse
+        otherConduct: $otherConduct
+        VerbalWarning: $VerbalWarning
+        buddyRoom: $buddyRoom
+        conferenceWithStudent: $conferenceWithStudent
+        ParentContact: $ParentContact
+        PlanningRoomReferral: $PlanningRoomReferral
+        FollowupPlan: $FollowupPlan
+        LossOfPrivilege: $LossOfPrivilege
+        DetentionWithTeacher: $DetentionWithTeacher
+        IndividualizedInstruction: $IndividualizedInstruction
+        GuidanceReferral: $GuidanceReferral
+        ReferToAdministrator: $ReferToAdministrator
+        OtherAction: $OtherAction
+        none: $none
+        peers: $peers
+        teacherInvolved: $teacherInvolved
+        substitute: $substitute
+        unknown: $unknown
+        othersInvolved: $othersInvolved
       }
     ) {
       id
@@ -45,10 +98,10 @@ export default function NewDiscipline({ refetch }) {
     date: new Date().toISOString,
   });
   const user = useUser();
-  const [studentReferralIsFor, setStudentReferralIsFor] = useState();
-  const [classType, setClassType] = useState();
-  const [location, setLocation] = useState();
-  const [timeOfDay, setTimeOfDay] = useState();
+  const [studentReferralIsFor, setStudentReferralIsFor] = useState(null);
+  const [classType, setClassType] = useState('');
+  const [location, setLocation] = useState('');
+  const [timeOfDay, setTimeOfDay] = useState('');
   //   console.log(`user ${user.id}`);
   const [createDiscipline, { loading, error, data }] = useMutation(
     CREATE_DISCIPLINE_MUTATION,
@@ -56,7 +109,10 @@ export default function NewDiscipline({ refetch }) {
       variables: {
         ...inputs,
         teacher: user?.id,
-        student: studentReferralIsFor,
+        student: studentReferralIsFor?.userId,
+        classType,
+        location,
+        timeOfDay,
       },
     }
   );
@@ -75,10 +131,12 @@ export default function NewDiscipline({ refetch }) {
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the input fields to the backend:
+            console.log(inputs);
             const res = await createDiscipline();
             clearForm();
-            refetch();
+            // refetch();
             setShowForm(false);
+            console.log(inputs);
           }}
         >
           <h2>Add a New Referral</h2>
@@ -112,31 +170,54 @@ export default function NewDiscipline({ refetch }) {
                 setValue={setClassType}
                 name="Class Type"
                 listOfOptions={classTypeList}
+                required
               />
               <FormSelect
                 currentValue={location}
                 setValue={setLocation}
                 name="location"
                 listOfOptions={locationList}
+                required
               />
 
               <FormSelect
                 currentValue={timeOfDay}
                 setValue={setTimeOfDay}
                 name="Time of Day"
+                required
                 listOfOptions={timeOfDayList}
               />
             </FormGroupStyles>
-
+            <FormGroupStyles>
+              <FormCheckboxArray
+                inputs={inputs}
+                handleChange={handleChange}
+                name="Inappropriate Student Conduct"
+                listOfCheckBoxes={studentConductList}
+              />
+              <FormCheckboxArray
+                inputs={inputs}
+                handleChange={handleChange}
+                name="Teacher Actions"
+                listOfCheckBoxes={teacherActionList}
+              />
+              <FormCheckboxArray
+                inputs={inputs}
+                handleChange={handleChange}
+                name="Others Involved"
+                listOfCheckBoxes={othersInvolvedList}
+              />
+            </FormGroupStyles>
             <label htmlFor="description">
               Description
               <textarea
-                id="description"
-                name="description"
-                placeholder="Description"
+                id="teacherComments"
+                name="teacherComments"
+                placeholder="Teacher's Comments"
                 required
-                value={inputs.description}
+                value={inputs.teacherComments}
                 onChange={handleChange}
+                rows="5"
               />
             </label>
 

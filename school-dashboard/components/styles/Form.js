@@ -26,14 +26,14 @@ export const FormContainerStyles = styled.div`
     transform: translatex(-500%);
     /* width: 100px; */
     /* opacity: 50%; */
-    width: min(75%, 800px);
+    width: min(75%, 1000px);
     transition: all 0.5s ease-in;
     background-image: linear-gradient(to bottom, var(--blue), var(--red));
     z-index: 1000;
   }
   .visible {
     z-index: 1000;
-    width: min(75%, 800px);
+    width: min(75%, 1000px);
     /* opacity: 100%; */
     transition: all 0.5s ease-out;
     margin: auto;
