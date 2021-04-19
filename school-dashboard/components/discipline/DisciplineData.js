@@ -4,8 +4,12 @@ import { useGQLQuery } from '../../lib/useGqlQuery';
 import DisciplineTable from './DisciplineTable';
 
 const DisciplinePageContainer = styled.div`
+  h2 {
+    text-align: center;
+  }
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 `;
 
 const DISCIPLINE_DATA = gql`
@@ -58,6 +62,8 @@ export default function DisciplineData() {
     'allDisciplines',
     DISCIPLINE_DATA
   );
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <DisciplinePageContainer>
