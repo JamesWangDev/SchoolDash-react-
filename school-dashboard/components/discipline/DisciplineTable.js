@@ -27,6 +27,14 @@ export default function DisciplineTable({ disciplines }) {
               return isToday ? `📆 Today 📆` : displayDate;
             },
           },
+          {
+            Header: 'Class Type',
+            accessor: 'classType',
+          },
+          {
+            Header: 'Time',
+            accessor: 'timeOfDay',
+          },
         ],
       },
     ],

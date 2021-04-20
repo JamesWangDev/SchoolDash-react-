@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
+import DisciplineCharts from './DisciplineCharts';
 import DisciplineTable from './DisciplineTable';
 
 const DisciplinePageContainer = styled.div`
@@ -73,6 +74,7 @@ export default function DisciplineData() {
       </div>
       <div>
         <h2>Discipline data</h2>
+        <DisciplineCharts disciplines={data.allDisciplines} />
       </div>
     </DisciplinePageContainer>
   );
