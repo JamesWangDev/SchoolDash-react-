@@ -11,18 +11,50 @@ export default function CallbackTable({ callbacks }) {
           {
             Header: 'Student',
             accessor: 'student.name',
+            Cell: ({ cell }) => {
+              console.log(cell.row.original.student.id);
+              return (
+                <Link href={`/userProfile/${cell.row.original.student.id}`}>
+                  {cell.value}
+                </Link>
+              );
+            },
           },
           {
             Header: 'Teacher',
             accessor: 'teacher.name',
+            Cell: ({ cell }) => {
+              console.log(cell.row.original.student.id);
+              return (
+                <Link href={`/userProfile/${cell.row.original.teacher.id}`}>
+                  {cell.value}
+                </Link>
+              );
+            },
           },
           {
             Header: 'Assignment',
             accessor: 'title',
+            Cell: ({ cell }) => {
+              console.log(cell.row.original.student.id);
+              return (
+                <Link href={`/callback/${cell.row.original.id}`}>
+                  {cell.value}
+                </Link>
+              );
+            },
           },
           {
             Header: 'Description',
             accessor: 'description',
+            Cell: ({ cell }) => {
+              console.log(cell.row.original.student.id);
+              return (
+                <Link href={`/callback/${cell.row.original.id}`}>
+                  {cell.value}
+                </Link>
+              );
+            },
           },
           {
             Header: 'Date Assigned',
@@ -66,10 +98,26 @@ export default function CallbackTable({ callbacks }) {
           {
             Header: 'Teacher',
             accessor: 'messageFromTeacher',
+            Cell: ({ cell }) => {
+              console.log(cell.row.original.student.id);
+              return (
+                <Link href={`/callback/${cell.row.original.id}`}>
+                  {cell.value}
+                </Link>
+              );
+            },
           },
           {
             Header: 'Student',
             accessor: 'messageFromStudent',
+            Cell: ({ cell }) => {
+              console.log(cell.row.original.student.id);
+              return (
+                <Link href={`/callback/${cell.row.original.id}`}>
+                  {cell.value}
+                </Link>
+              );
+            },
           },
         ],
       },

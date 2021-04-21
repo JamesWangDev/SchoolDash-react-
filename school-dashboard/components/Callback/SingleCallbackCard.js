@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { useUser } from '../User';
 
@@ -26,28 +27,29 @@ export default function SingleCallbackCard({ callback }) {
     ? `Completed on ${new Date(callback.dateCompleted).toLocaleDateString()}`
     : 'Incomplete';
   return (
-    <SingleCardStyles>
-      <h1>{callback.title}</h1>
-      <p>
-        {callback.teacher.id === me.id ? '' : `${callback.teacher.name} -- `}{' '}
-        {dateAssigned}
-      </p>
-      <p>
-        {callback.student.id === me.id ? '' : `${callback.student.name} -- `}{' '}
-        {completed}
-      </p>
-      <p>{callback.description}</p>
-      <fieldset>
-        <label>
-          <span>Student: </span>
-          <input type="text" defaultValue={callback.messageFromStudent} />
-        </label>
-        <br />
-        <label>
-          <span>Teacher: </span>
-          <input type="text" defaultValue={callback.messageFromTeacher} />
-        </label>
-      </fieldset>
-    </SingleCardStyles>
+    <Link href={`/callback/${callback.id}`}>
+      <SingleCardStyles>
+        <h1>{callback.title}</h1>
+        <p>
+          {callback.teacher.id === me.id ? '' : `${callback.teacher.name} -- `}{' '}
+          {dateAssigned}
+        </p>
+        <p>
+          {callback.student.id === me.id ? '' : `${callback.student.name} -- `}{' '}
+          {completed}
+        </p>
+        <p>{callback.description}</p>
+        <fieldset>
+          <p>
+            Student:
+            <span> {callback.messageFromStudent}</span>
+          </p>
+          <p>
+            Teacher:
+            <span> {callback.messageFromTeacher}</span>
+          </p>
+        </fieldset>
+      </SingleCardStyles>
+    </Link>
   );
 }

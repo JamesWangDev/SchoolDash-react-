@@ -4,6 +4,7 @@ import TeacherDashboard from '../components/dashboard/TeacherDashboard';
 import SignOut from '../components/loginComponents/SignOut';
 import Header from '../components/navagation/Header';
 import HomePageLinks from '../components/navagation/HomePageLinks';
+import { CalendarContainerStyle } from '../components/styles/CalendarStyles';
 import { useUser } from '../components/User';
 import styles from '../styles/Home.module.css';
 
@@ -13,10 +14,12 @@ export default function Home() {
     <div>
       <main>
         <HomePageLinks me={me} />
-        <WeeklyCalendar me={me} />
-        {me?.role?.some((role) => role.name === 'staff') && (
-          <TeacherDashboard teacher={me} />
-        )}
+        <CalendarContainerStyle>
+          <WeeklyCalendar me={me} />
+          {me?.role?.some((role) => role.name === 'staff') && (
+            <TeacherDashboard teacher={me} />
+          )}
+        </CalendarContainerStyle>
       </main>
 
       <footer>

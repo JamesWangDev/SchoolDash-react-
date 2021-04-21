@@ -42,6 +42,8 @@ export const SingleCalendarStyle = styled.div`
 
 export const WeeklyCalendarContainerStyles = styled.div`
   display: flex;
+  flex-wrap: nowrap;
+  flex-flow: column;
   div {
     padding: 0.2rem;
   }
@@ -67,6 +69,7 @@ export const WeeklyCalendarContainerStyles = styled.div`
 
     div {
       margin-top: -2rem;
+
       padding: 1rem;
       background: linear-gradient(to top right, var(--red), var(--blue));
       color: white;
@@ -78,13 +81,16 @@ export const WeeklyCalendarContainerStyles = styled.div`
     background: linear-gradient(to top right, var(--red), var(--blue));
     padding: 1rem;
     border-radius: 2rem;
-    width: 25vw;
+    /* min-width: min-content; */
+    width: 300px;
     border: none;
     color: rgba(255, 255, 255, 0.5);
     flex-basis: 35%;
   }
   div.notToday {
     color: var(--blue);
+    /* min-width: min-content; */
+    width: 300px;
     margin: 0.1rem;
     border: 2px solid var(--blue);
     border-radius: 2rem;
