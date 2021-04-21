@@ -134,7 +134,7 @@ export default function NewDiscipline({ refetch }) {
             console.log(inputs);
             const res = await createDiscipline();
             clearForm();
-            // refetch();
+            refetch();
             setShowForm(false);
             console.log(inputs);
           }}

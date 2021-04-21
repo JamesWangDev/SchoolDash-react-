@@ -14,6 +14,7 @@ export default function FormSelect({
         type="select"
         id={name}
         name={name}
+        required
         // placeholder="class"
         value={currentValue}
         onChange={(e) => {
@@ -21,6 +22,7 @@ export default function FormSelect({
           setValue(e.target.value);
         }}
       >
+        <option value="">-----</option>
         {listOfOptions.map((item) => (
           //   console.log(item);
           <option key={`item${item}`} value={item}>

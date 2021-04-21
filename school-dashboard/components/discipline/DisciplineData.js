@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import DisciplineCharts from './DisciplineCharts';
 import DisciplineTable from './DisciplineTable';
+import NewDiscipline from './DisciplineButton';
 
 const DisciplinePageContainer = styled.div`
   h2 {
@@ -59,7 +60,7 @@ const DISCIPLINE_DATA = gql`
 `;
 
 export default function DisciplineData() {
-  const { data, isLoading, isError } = useGQLQuery(
+  const { data, isLoading, isError, refetch } = useGQLQuery(
     'allDisciplines',
     DISCIPLINE_DATA
   );
@@ -67,15 +68,18 @@ export default function DisciplineData() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <DisciplinePageContainer>
-      <div>
-        <h2>Discipline Table</h2>
-        <DisciplineTable disciplines={data.allDisciplines} />
-      </div>
-      <div>
-        <h2>Discipline data</h2>
-        <DisciplineCharts disciplines={data.allDisciplines} />
-      </div>
-    </DisciplinePageContainer>
+    <>
+      <NewDiscipline refetch={refetch} />
+      <DisciplinePageContainer>
+        <div>
+          <h2>Discipline Table</h2>
+          <DisciplineTable disciplines={data.allDisciplines} />
+        </div>
+        <div>
+          <h2>Discipline data</h2>
+          <DisciplineCharts disciplines={data.allDisciplines} />
+        </div>
+      </DisciplinePageContainer>
+    </>
   );
 }

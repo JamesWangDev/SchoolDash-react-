@@ -1,16 +1,16 @@
 import { Doughnut } from '@reactchartjs/react-chart.js';
 
 export default function DoughnutChart({ title, chartData }) {
-  console.log(chartData);
+  //   console.log(chartData);
   const labels = chartData.map((item) => item.word);
   const dataToChart = chartData.map((item) => item.total);
-  console.log(dataToChart);
+  //   console.log(dataToChart);
 
   const data = {
     labels,
     datasets: [
       {
-        label: '# of Votes',
+        // label: '# of Votes',
         data: dataToChart,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',

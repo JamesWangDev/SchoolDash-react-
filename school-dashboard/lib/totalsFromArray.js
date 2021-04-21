@@ -6,6 +6,6 @@ export default function totalsFromArray(wordList, field, entries) {
     }, 0);
     return { word, total };
   });
-  console.log(totalPerClass);
+  //   console.log(totalPerClass);
   return totalPerClass;
 }
