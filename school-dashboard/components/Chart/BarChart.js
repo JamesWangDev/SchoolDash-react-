@@ -21,8 +21,8 @@ const options = {
     ],
   },
   animation: {
-    easing: 'easeOutBounce',
-    duration: 1500,
+    easing: 'easeInBounce',
+    duration: 2500,
   },
   responsive: true,
   maintainAspectRatio: true,
