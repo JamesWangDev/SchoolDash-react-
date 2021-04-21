@@ -1,9 +1,11 @@
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
+import { useQueryClient } from 'react-query';
 import Form from '../styles/Form';
 import useForm from '../../lib/useForm';
-import { CURRENT_USER_QUERY } from '../User';
+import { CURRENT_USER_QUERY, useUser } from '../User';
 import Error from '../ErrorMessage';
+import { useGQLQuery } from '../../lib/useGqlQuery';
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -28,6 +30,7 @@ export default function SignIn() {
     email: '',
     password: '',
   });
+  const queryClient = useQueryClient();
   const [signin, { data, loading }] = useMutation(SIGNIN_MUTATION, {
     variables: inputs,
     // refetch the currently logged in user
@@ -38,9 +41,12 @@ export default function SignIn() {
     // console.log(inputs);
     const res = await signin();
     // console.log(res);
+    queryClient.refetchQueries();
+    // refetch();
     resetForm();
     // Send the email and password to the graphqlAPI
   }
+
   const error =
     data?.authenticateUserWithPassword.__typename ===
     'UserAuthenticationWithPasswordFailure'

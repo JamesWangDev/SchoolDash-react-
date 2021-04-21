@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import {
   classTypeList,
   locationList,
@@ -11,6 +12,12 @@ import totalsFromArray from '../../lib/totalsFromArray';
 import DoughnutChart from '../Chart/DonutChart';
 import BarChart from '../Chart/BarChart';
 import totalsTrueInArray from '../../lib/totalsTrueInArray';
+
+const ChartContainerStyles = styled.div`
+  /* display: flex;
+  flex-wrap: wrap;
+  max-width: 400px; */
+`;
 
 const weekday = new Array(7);
 weekday[0] = 'Sunday';
@@ -48,7 +55,6 @@ function getDayTotals(disciplines) {
 }
 
 export default function DisciplineCharts({ disciplines }) {
-  const totalDisciplines = disciplines.length;
   const classList = classTypeList;
   const totalPerClass = totalsFromArray(classList, 'classType', disciplines);
   const locations = totalsFromArray(locationList, 'location', disciplines);
@@ -59,9 +65,7 @@ export default function DisciplineCharts({ disciplines }) {
   const dates = getDayTotals(disciplines);
   console.log(dates);
   return (
-    <div>
-      <h3>chart goes here</h3>
-      <p>There are a total of {totalDisciplines} referrals</p>
+    <ChartContainerStyles>
       <DoughnutChart title="Day of the Week" chartData={dates} />
       <DoughnutChart title="Class Type" chartData={totalPerClass} />
       <DoughnutChart title="Location" chartData={locations} />
@@ -69,6 +73,6 @@ export default function DisciplineCharts({ disciplines }) {
       <BarChart title="Inappropriate Student Conduct" chartData={conducts} />
       <BarChart title="Teacher Actions" chartData={teacherActions} />
       <BarChart title="Others Involved" chartData={others} />
-    </div>
+    </ChartContainerStyles>
   );
 }

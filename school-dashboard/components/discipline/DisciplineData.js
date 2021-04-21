@@ -12,6 +12,9 @@ const DisciplinePageContainer = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  div {
+    max-width: 500px;
+  }
 `;
 
 const DISCIPLINE_DATA = gql`
@@ -66,17 +69,16 @@ export default function DisciplineData() {
   );
 
   if (isLoading) return <p>Loading...</p>;
-
+  const totalDisciplines = data.allDisciplines.length;
   return (
     <>
       <NewDiscipline refetch={refetch} />
       <DisciplinePageContainer>
         <div>
-          <h2>Discipline Table</h2>
+          <h2>{totalDisciplines} Total Referrals</h2>
           <DisciplineTable disciplines={data.allDisciplines} />
         </div>
         <div>
-          <h2>Discipline data</h2>
           <DisciplineCharts disciplines={data.allDisciplines} />
         </div>
       </DisciplinePageContainer>
