@@ -88,7 +88,7 @@ export default function CallbackTable({ callbacks }) {
             accessor: 'messageFromTeacher',
             Cell: ({ cell }) => (
               <Link href={`/callback/${cell.row.original.id}`}>
-                {cell.value || ''}
+                {cell.value || '-----'}
               </Link>
             ),
           },
@@ -97,7 +97,7 @@ export default function CallbackTable({ callbacks }) {
             accessor: 'messageFromStudent',
             Cell: ({ cell }) => (
               <Link href={`/callback/${cell.row.original.id}`}>
-                {cell.value || ''}
+                {cell.value || '-----'}
               </Link>
             ),
           },

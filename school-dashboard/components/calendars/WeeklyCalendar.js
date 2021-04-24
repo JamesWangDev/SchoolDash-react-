@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import Link from 'next/link';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import { WeeklyCalendarContainerStyles } from '../styles/CalendarStyles';
+import { useUser } from '../User';
 import SingleDayCalendar from './SingleDayCalendar';
 
 export const GET_WEEK_CALENDARS = gql`
@@ -46,6 +47,7 @@ function getDatesFromDayOfTheWeek(data, day) {
 
 export default function WeeklyCalendar() {
   const today = new Date();
+  const me = useUser();
   const todaysDay = today.getDay();
   const { lastSunday, nextSaturday } = getLastAndNextSunday(today);
   const { data, isLoading, error } = useGQLQuery(
@@ -56,6 +58,7 @@ export default function WeeklyCalendar() {
       ending: nextSaturday,
     }
   );
+  if (!me) return <p />;
   if (isLoading) return <p>Loading Calendar...</p>;
   if (error) return <p>{error.message}</p>;
   const dailyEvents = {
