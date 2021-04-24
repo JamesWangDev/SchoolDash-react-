@@ -53,7 +53,7 @@ export default function NewLink({ refetchLinks }) {
       variables: { ...inputs, modifiedBy: user?.id },
     }
   );
-  console.log(inputs);
+  // console.log(inputs);
   return (
     <div>
       <GradientButton

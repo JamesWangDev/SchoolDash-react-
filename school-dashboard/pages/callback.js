@@ -7,6 +7,8 @@ import DisplayError from '../components/ErrorMessage';
 import CallbackTable from '../components/Callback/CallbackTable';
 import 'react-toggle/style.css';
 import CallbackCards from '../components/Callback/CallbackCards';
+import NewCallback from '../components/Callback/NewCallbackButton';
+import { FormContainerStyles } from '../components/styles/Form';
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($teacher: ID) {
@@ -35,18 +37,21 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
 `;
 
 export default function Callback() {
+  const me = useUser();
   const [showCompleted, setShowCompleted] = useState(false);
   const [showTable, setShowTable] = useState(false);
-  const me = useUser();
-  if (!me) return <p>Please Log In</p>;
-  const { data, isLoading, error } = useGQLQuery(
+  const { data, isLoading, error, refetch } = useGQLQuery(
     'myCallbacks',
     MY_CALLBACK_ASSIGNMENTS,
     {
       teacher: me?.id,
+    },
+    {
+      enabled: !!me,
     }
   );
 
+  if (!me) return <p>Please Log In</p>;
   if (isLoading) return <p>Loading...</p>;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   const callbacks = data.allCallbacks.filter((callback) => {
@@ -60,17 +65,23 @@ export default function Callback() {
   // }
   return (
     <div>
-      <label>
-        <span>Show Completed </span>
-        <Toggle
-          checked={showCompleted}
-          onChange={() => setShowCompleted(!showCompleted)}
-        />
-      </label>
-      <label>
-        <span> Show As Table</span>
-        <Toggle checked={showTable} onChange={() => setShowTable(!showTable)} />
-      </label>
+      <FormContainerStyles>
+        <label>
+          <span>Show Completed </span>
+          <Toggle
+            checked={showCompleted}
+            onChange={() => setShowCompleted(!showCompleted)}
+          />
+        </label>
+        <label>
+          <span> Show As Table</span>
+          <Toggle
+            checked={showTable}
+            onChange={() => setShowTable(!showTable)}
+          />
+        </label>
+        <NewCallback refetch={refetch} />
+      </FormContainerStyles>
       {showTable && <CallbackTable callbacks={callbacks} />}
 
       {!showTable && <CallbackCards callbacks={callbacks} />}

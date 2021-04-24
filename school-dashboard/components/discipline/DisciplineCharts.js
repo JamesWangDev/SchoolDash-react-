@@ -63,7 +63,7 @@ export default function DisciplineCharts({ disciplines }) {
   const teacherActions = totalsTrueInArray(teacherActionList, disciplines);
   const others = totalsTrueInArray(othersInvolvedList, disciplines);
   const dates = getDayTotals(disciplines);
-  console.log(dates);
+  // console.log(dates);
   return (
     <ChartContainerStyles>
       <DoughnutChart title="Day of the Week" chartData={dates} />

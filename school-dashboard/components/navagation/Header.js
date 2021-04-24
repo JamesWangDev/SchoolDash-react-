@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Search from '../Search';
+import { useUser } from '../User';
 import Nav from './Nav';
 
 const Logo = styled.h1`
@@ -13,12 +14,15 @@ const Logo = styled.h1`
   background-image: linear-gradient(to top left, var(--red), var(--blue));
   border-radius: 1rem;
   transform: skew(-20deg);
-  max-width: 350px;
+  max-width: min-content;
   a {
     color: white;
     text-decoration: none;
     text-transform: uppercase;
     padding: 0.5rem 1rem;
+  }
+  @media (max-width: 1100px) {
+    font-size: 3rem;
   }
 `;
 
@@ -40,6 +44,7 @@ const HeaderStyles = styled.header`
 `;
 
 export default function Header() {
+  const me = useUser();
   return (
     <HeaderStyles>
       <div className="bar">

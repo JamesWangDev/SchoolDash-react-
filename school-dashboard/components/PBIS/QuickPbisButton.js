@@ -33,7 +33,7 @@ export default function QuickPbisButton({ id, displayName = false }) {
     CREATE_QUICK_PBIS,
     { variables: { teacher, student: id } }
   );
-  console.log(id);
+  // console.log(id);
   const [updateCardCount, { loading: cardLoading }] = useMutation(UPDATE_PBIS, {
     variables: { userId: id },
   });
@@ -42,10 +42,10 @@ export default function QuickPbisButton({ id, displayName = false }) {
       style={{ marginLeft: '1rem' }}
       onClick={async (e) => {
         e.preventDefault();
-        console.log(teacher);
-        console.log('creating card');
+        // console.log(teacher);
+        // console.log('creating card');
         const res = await createCard();
-        console.log(res);
+        // console.log(res);
         await updateCardCount();
       }}
     >

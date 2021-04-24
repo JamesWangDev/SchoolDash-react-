@@ -35,6 +35,9 @@ const NavStyles = styled.ul`
       transform: skew(-20deg);
       top: 0;
       bottom: 0;
+      @media (max-width: 1150px) {
+        width: 0px;
+      }
     }
     &:after {
       height: 4px;
@@ -70,7 +73,21 @@ const NavStyles = styled.ul`
     font-size: 1.5rem;
   }
   @media (max-width: 1150px) {
+    align-items: center;
     flex-wrap: wrap;
+
+    justify-content: space-around;
+    a {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 0.5rem;
+      height: 4rem;
+      /* margin-top: 2rem; */
+    }
+    &:before {
+      width: 0px;
+    }
+
     a,
     button {
       flex-basis: 20%;

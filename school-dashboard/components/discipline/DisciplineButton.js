@@ -17,6 +17,7 @@ import {
   timeOfDayList,
 } from '../../lib/disciplineData';
 import FormCheckboxArray from '../../lib/FormCheckboxArray';
+import { todaysDateForForm } from '../calendars/formatTodayForForm';
 
 const CREATE_DISCIPLINE_MUTATION = gql`
   mutation CREATE_DISCIPLINE_MUTATION(
@@ -95,7 +96,7 @@ const CREATE_DISCIPLINE_MUTATION = gql`
 export default function NewDiscipline({ refetch }) {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
-    date: new Date().toISOString,
+    date: todaysDateForForm(),
   });
   const user = useUser();
   const [studentReferralIsFor, setStudentReferralIsFor] = useState(null);
@@ -159,7 +160,7 @@ export default function NewDiscipline({ refetch }) {
                   type="date"
                   id="date"
                   name="date"
-                  value={inputs.value}
+                  value={inputs.date}
                   onChange={handleChange}
                 />
               </label>

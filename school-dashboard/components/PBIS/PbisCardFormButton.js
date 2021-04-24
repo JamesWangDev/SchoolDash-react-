@@ -151,9 +151,9 @@ function CardForm({ visible, hide }) {
             disabled={!studentCardIsFor || !inputs.category}
             onClick={async (e) => {
               e.preventDefault();
-              console.log(inputs);
+              // console.log(inputs);
               const res = await createCard();
-              console.log(res);
+              // console.log(res);
               await updateCardCount();
               clearForm();
               setStudentCardIsFor(null);

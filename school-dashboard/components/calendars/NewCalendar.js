@@ -6,6 +6,7 @@ import Form, { FormContainerStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
 import { useUser } from '../User';
+import { todaysDateForForm } from './formatTodayForForm';
 
 const CREATE_CALENDAR_MUTATION = gql`
   mutation CREATE_CALENDAR_MUTATION(
@@ -39,7 +40,7 @@ export default function NewCalendar({ refetchCalendars }) {
     name: 'Event Title',
     description: 'What is going on?',
     status: 'Both',
-    date: new Date().toISOString,
+    date: todaysDateForForm(),
   });
   const user = useUser();
   //   console.log(`user ${user.id}`);
@@ -92,7 +93,7 @@ export default function NewCalendar({ refetchCalendars }) {
                 type="date"
                 id="date"
                 name="date"
-                value={inputs.value}
+                value={inputs.date}
                 onChange={handleChange}
               />
             </label>
