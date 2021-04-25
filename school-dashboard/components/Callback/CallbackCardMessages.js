@@ -25,10 +25,10 @@ export default function CallbackCardMessages({ me, callback }) {
   const isTeacher = me.id === callback.teacher.id;
   const isStudent = me.id === callback.student.id;
   const [teacherMessage, setTeacherMessage] = useState(
-    callback.messageFromTeacher
+    callback.messageFromTeacher || ''
   );
   const [studentMessage, setStudentMessage] = useState(
-    callback.messageFromStudent
+    callback.messageFromStudent || ''
   );
 
   const [updateCallback, { loading, error, data }] = useMutation(
@@ -51,7 +51,7 @@ export default function CallbackCardMessages({ me, callback }) {
         // Submit the input fields to the backend:
         // console.log(inputs);
         const res = await updateCallback();
-        // clearForm();
+        console.log(res);
         // refetch();
         // setShowForm(false);
         // console.log(inputs);
@@ -68,14 +68,31 @@ export default function CallbackCardMessages({ me, callback }) {
           {!isTeacher && (
             <p>
               Teacher:
-              <span> {callback.messageFromTeacher}</span>
+              <span> {callback.messageFromTeacher || '----'}</span>
             </p>
+          )}
+          {isStudent && (
+            <>
+              <p>
+                Student Message:
+                <input
+                  id="student"
+                  placeholder="Message from Teacher"
+                  value={studentMessage}
+                  onChange={(e) => {
+                    //   console.log(e.target.value);
+                    setStudentMessage(e.target.value);
+                  }}
+                />
+              </p>
+            </>
           )}
           {isTeacher && (
             <>
               <p>
                 Teacher:
                 <input
+                  id="teacher"
                   placeholder="Message from Teacher"
                   value={teacherMessage}
                   onChange={(e) => {

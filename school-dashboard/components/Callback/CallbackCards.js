@@ -5,6 +5,7 @@ const CallBackCardsStyles = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  transition: all ease-in 1s;
 `;
 
 export default function CallbackCards({ callbacks }) {
