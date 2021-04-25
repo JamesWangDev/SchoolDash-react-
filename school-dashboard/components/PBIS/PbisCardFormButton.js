@@ -16,6 +16,8 @@ const CardButtonContainer = styled.div`
 `;
 
 const CardFormContainerStyles = styled.div`
+  z-index: 1;
+  text-shadow: 1px 1px 2px var(--red);
   .visible {
     /* background: red; */
     opacity: 1;
