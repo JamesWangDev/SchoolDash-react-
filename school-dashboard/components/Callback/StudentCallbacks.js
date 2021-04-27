@@ -40,7 +40,7 @@ export default function StudentCallbacks() {
   const [showCompleted, setShowCompleted] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'myCallbacks',
+    'myStudentCallbacks',
     MY_CALLBACK_ASSIGNMENTS,
     {
       student: me?.id,

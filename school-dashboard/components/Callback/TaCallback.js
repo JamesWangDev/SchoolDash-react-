@@ -40,7 +40,7 @@ export default function TaCallbacks() {
   const [showCompleted, setShowCompleted] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const { data, isLoading, error } = useGQLQuery(
-    'myCallbacks',
+    'myTaCallbacks',
     MY_CALLBACK_ASSIGNMENTS,
     {
       taTeacher: me?.id,

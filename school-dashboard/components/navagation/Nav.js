@@ -3,6 +3,7 @@ import NavStyles from '../styles/NavStyles';
 import { useUser } from '../User';
 import SignIn from '../loginComponents/SignIn';
 import isAllowed from '../../lib/isAllowed';
+import MessagesCount from '../Messages/MessagesCount';
 
 export default function Nav() {
   const me = useUser();
@@ -24,6 +25,7 @@ export default function Nav() {
           {isAllowed(me, 'staff') && (
             <Link href="/studentFocus">Student Focus</Link>
           )}
+          <MessagesCount />
         </>
       )}
     </NavStyles>
