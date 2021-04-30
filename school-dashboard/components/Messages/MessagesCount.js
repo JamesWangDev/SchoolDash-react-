@@ -56,6 +56,7 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
       subject
       message
       read
+      link
       sender {
         id
         name

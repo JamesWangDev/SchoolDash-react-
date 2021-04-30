@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 const MessageContainerStyles = styled.div`
   margin: 0px 100px;
@@ -16,6 +17,12 @@ const MessageContainerStyles = styled.div`
     padding: 0;
     height: 5rem;
   }
+  .unread {
+    font-size: 3rem;
+  }
+  h3 {
+    font-size: 2rem;
+  }
 `;
 
 export default function SingleMessageInList({ message }) {
@@ -23,6 +30,7 @@ export default function SingleMessageInList({ message }) {
   return (
     <MessageContainerStyles key={message.id}>
       <h3
+        className={message.read ? '' : 'unread'}
         onClick={() => {
           setViewMessage(!viewMessage);
         }}
@@ -31,6 +39,7 @@ export default function SingleMessageInList({ message }) {
       </h3>
       <div className={viewMessage ? 'show' : 'hide'}>
         <p>{message.message}</p>
+        {message.link && <Link href={message.link}>View</Link>}
       </div>
     </MessageContainerStyles>
   );
