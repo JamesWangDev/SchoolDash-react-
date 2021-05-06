@@ -15,13 +15,18 @@ const MessageContainerStyles = styled.div`
   }
   .show {
     padding: 0;
-    height: 5rem;
+    height: min-content;
   }
   .unread {
     font-size: 3rem;
   }
   h3 {
     font-size: 2rem;
+  }
+  a {
+    :before {
+      display: none;
+    }
   }
 `;
 

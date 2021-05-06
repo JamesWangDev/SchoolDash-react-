@@ -75,7 +75,7 @@ export default function TaCallbacks() {
       </FormContainerStyles>
       {showTable && <CallbackTable callbacks={callbacks} />}
 
-      {!showTable && <CallbackCards callbacks={callbacks} />}
+      {!showTable && <CallbackCards maxColumns={3} callbacks={callbacks} />}
     </div>
   );
 }
