@@ -7,9 +7,15 @@ import { useUser } from '../User';
 import MessagesList from './MessagesList';
 
 const MessageButtonStyles = styled.button`
-  height: 100%;
-  border: 1px solid red;
-  background: green;
+  position: fixed;
+  display: flex;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  /* height: 100%; */
+  border: none;
+  background: none;
+  color: white;
 `;
 const AnimationStyles = styled.span`
   margin-top: 50px;
@@ -39,8 +45,9 @@ const AnimationStyles = styled.span`
 
 const Dot = styled.div`
   background: var(--blue);
-  color: white;
-  border-radius: 50%;
+  color: var(--red);
+  font-size: 2rem;
+  border-radius: 500px;
   padding: 0.5rem;
   line-height: 2rem;
   min-width: 3rem;
@@ -103,8 +110,8 @@ export default function MessagesCount() {
                 setViewAllMessages(!viewAllMessages);
               }}
             >
-              <Dot>{unread} </Dot>
               unread messages
+              <Dot>{unread} </Dot>
             </MessageButtonStyles>
             {viewAllMessages && <MessagesList messages={data?.allMessages} />}
           </>

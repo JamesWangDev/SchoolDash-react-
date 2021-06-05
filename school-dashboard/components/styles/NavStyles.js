@@ -59,7 +59,7 @@ const NavStyles = styled.ul`
       -webkit-text-stroke-color: var(--red);
       color: var(--blue);
       &:after {
-        width: calc(100%);
+        width: calc(50%);
       }
       @media (max-width: 700px) {
         width: calc(100% - 10px);

@@ -25,7 +25,7 @@ export default function Nav() {
           {isAllowed(me, 'staff') && (
             <Link href="/studentFocus">Student Focus</Link>
           )}
-          <MessagesCount />
+          {/* <MessagesCount /> */}
         </>
       )}
     </NavStyles>

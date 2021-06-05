@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Search from '../Search';
 import { useUser } from '../User';
 import Nav from './Nav';
+import MessagesCount from '../Messages/MessagesCount';
 
 const Logo = styled.h1`
   font-size: 4rem;
@@ -46,16 +47,19 @@ const HeaderStyles = styled.header`
 export default function Header() {
   const me = useUser();
   return (
-    <HeaderStyles>
-      <div className="bar">
-        <Logo>
-          <Link href="/">NCUJHS Dashboard</Link>
-        </Logo>
-        <Nav />
-      </div>
-      <div className="sub-bar">
-        <Search />
-      </div>
-    </HeaderStyles>
+    <>
+      <HeaderStyles>
+        <div className="bar">
+          <Logo>
+            <Link href="/">NCUJHS Dashboard</Link>
+          </Logo>
+          <Nav />
+        </div>
+        <div className="sub-bar">
+          <Search />
+        </div>
+      </HeaderStyles>
+      <MessagesCount />
+    </>
   );
 }
