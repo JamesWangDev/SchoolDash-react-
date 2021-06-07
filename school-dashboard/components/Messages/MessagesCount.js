@@ -105,13 +105,20 @@ export default function MessagesCount() {
         >
           <>
             <MessageButtonStyles
-              type="button"
-              onClick={() => {
-                setViewAllMessages(!viewAllMessages);
-              }}
+            // type="button"
+            // onClick={() => {
+            //   setViewAllMessages(!viewAllMessages);
+            // }}
             >
-              unread messages
-              <Dot>{unread} </Dot>
+              {unread > 0 && 'unread messages'}
+              <Dot
+                type="button"
+                onClick={() => {
+                  setViewAllMessages(!viewAllMessages);
+                }}
+              >
+                {unread}
+              </Dot>
             </MessageButtonStyles>
             {viewAllMessages && <MessagesList messages={data?.allMessages} />}
           </>
