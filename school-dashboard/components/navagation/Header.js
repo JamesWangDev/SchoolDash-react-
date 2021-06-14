@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useIsFetching } from 'react-query';
 import Search from '../Search';
 import { useUser } from '../User';
 import Nav from './Nav';
@@ -28,7 +29,7 @@ const Logo = styled.h1`
 `;
 
 const HeaderStyles = styled.header`
-  background-image: linear-gradient(to top right, var(--blue), var(--red));
+  background: linear-gradient(to top right, var(--blue), var(--red));
   .bar {
     border-bottom: 10px solid var(--black, black);
     display: grid;
@@ -42,15 +43,54 @@ const HeaderStyles = styled.header`
     grid-template-columns: 1fr auto;
     border-bottom: 1px solid var(--black, black);
   }
+  .loading {
+    -webkit-animation: Animation 1s ease infinite;
+    -moz-animation: Animation 1s ease infinite;
+    animation: Animation 1s ease infinite;
+    @-webkit-keyframes Animation {
+      0% {
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.7;
+      }
+    }
+    @-moz-keyframes Animation {
+      0% {
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.7;
+      }
+    }
+    @keyframes Animation {
+      0% {
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.7;
+      }
+    }
+  }
 `;
 
 export default function Header() {
   const me = useUser();
+  const isFetching = useIsFetching();
   return (
     <>
       <HeaderStyles>
         <div className="bar">
-          <Logo>
+          <Logo className={isFetching ? 'loading' : ''}>
             <Link href="/">NCUJHS Dashboard</Link>
           </Logo>
           <Nav />
