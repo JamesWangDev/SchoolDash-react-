@@ -44,9 +44,9 @@ const HeaderStyles = styled.header`
     border-bottom: 1px solid var(--black, black);
   }
   .loading {
-    -webkit-animation: Animation 1s ease infinite;
-    -moz-animation: Animation 1s ease infinite;
-    animation: Animation 1s ease infinite;
+    -webkit-animation: Animation 0.5s ease infinite;
+    -moz-animation: Animation 0.5s ease infinite;
+    animation: Animation 0.5s ease infinite;
     @-webkit-keyframes Animation {
       0% {
         opacity: 0.7;
