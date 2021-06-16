@@ -8,6 +8,7 @@ import 'react-toggle/style.css';
 import CallbackCards from './CallbackCards';
 import { FormContainerStyles } from '../styles/Form';
 import { useGQLQuery } from '../../lib/useGqlQuery';
+import Loading from '../Loading';
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($taTeacher: ID!) {
@@ -51,7 +52,7 @@ export default function TaCallbacks() {
   );
 
   if (!me) return <p>Please Log In</p>;
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   const callbacks = data.allCallbacks.filter((callback) => {
     if (showCompleted) return true;

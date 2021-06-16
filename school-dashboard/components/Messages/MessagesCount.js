@@ -5,6 +5,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import { useUser } from '../User';
 import MessagesList from './MessagesList';
+import Loading from '../Loading';
 
 const MessageButtonStyles = styled.button`
   position: fixed;
@@ -92,7 +93,7 @@ export default function MessagesCount() {
   );
   const unread = data?._allMessagesMeta?.count;
   const [viewAllMessages, setViewAllMessages] = useState(false);
-  if (isLoading) return <p>..</p>;
+  if (isLoading) return <Loading />;
   return (
     <AnimationStyles>
       <TransitionGroup>

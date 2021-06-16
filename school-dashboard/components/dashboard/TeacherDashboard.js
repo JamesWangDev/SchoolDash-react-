@@ -8,7 +8,7 @@ export default function TeacherDashboard({ teacher }) {
   return (
     <div>
       <PbisCardFormButton teacher={teacher} />
-      <Loading />
+
       <TaCallbacks />
     </div>
   );

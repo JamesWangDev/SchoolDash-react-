@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { useGQLQuery } from '../../lib/useGqlQuery';
+import Loading from '../../components/Loading';
 
 const GET_SINGLE_USER = gql`
   query GET_SINGLE_USER($id: ID!) {
@@ -26,7 +27,7 @@ export default function UserProfile({ query }) {
     GET_SINGLE_USER,
     { id: query.id }
   );
-  if (isLoading) return <p>... Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
   const user = data.User;
   return (

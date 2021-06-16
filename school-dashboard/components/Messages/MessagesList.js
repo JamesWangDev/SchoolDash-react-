@@ -24,7 +24,7 @@ const MessageListStyles = styled.div`
 `;
 
 export default function MessagesList({ messages }) {
-  console.log(messages);
+  // console.log(messages);
   return (
     <MessageListStyles>
       {messages.map((message) => {

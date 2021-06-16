@@ -4,6 +4,7 @@ import { useGQLQuery } from '../../lib/useGqlQuery';
 import { WeeklyCalendarContainerStyles } from '../styles/CalendarStyles';
 import { useUser } from '../User';
 import SingleDayCalendar from './SingleDayCalendar';
+import Loading from '../Loading';
 
 export const GET_WEEK_CALENDARS = gql`
   query GET_WEEK_CALENDARS($starting: String, $ending: String) {
@@ -59,7 +60,7 @@ export default function WeeklyCalendar() {
     }
   );
   if (!me) return <p />;
-  if (isLoading) return <p>Loading Calendar...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
   const dailyEvents = {
     sundayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 0),

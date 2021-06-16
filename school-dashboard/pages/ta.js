@@ -3,6 +3,7 @@ import DisplayError from '../components/ErrorMessage';
 import TaTeacherInfo from '../components/TA/TaTeacherInfo';
 import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
+import Loading from '../components/Loading';
 
 const TA_INFO_QUERY = gql`
   query TA_INFO_QUERY($id: ID!) {
@@ -71,7 +72,7 @@ export default function TA() {
   const { data, isLoading, error } = useGQLQuery('TaInfo', TA_INFO_QUERY, {
     id: user?.id,
   });
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   const students = data.taTeacher.taStudents;
   return (

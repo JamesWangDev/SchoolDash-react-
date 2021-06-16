@@ -4,6 +4,7 @@ import Table from './Table';
 
 import { useGQLQuery } from '../lib/useGqlQuery';
 import DisplayError from './ErrorMessage';
+import Loading from './Loading';
 
 const ALL_STUDENT_FOCUS_QUERY = gql`
   query ALL_STUDENT_FOCUS_QUERY {
@@ -80,7 +81,7 @@ export default function StudentFocusTable() {
     []
   );
 
-  if (isLoading) return <p> Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   return (
     <div>

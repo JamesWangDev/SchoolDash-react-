@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import DisplayError from '../ErrorMessage';
+import Loading from '../Loading';
 
 const GET_HOMEPAGE_LINKS = gql`
   query GET_HOMEPAGE_LINKS {
@@ -32,7 +33,7 @@ export default function HomePageLinks() {
     GET_HOMEPAGE_LINKS
   );
 
-  if (isLoading) return <p>Links Loading</p>;
+  if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
 
   return (

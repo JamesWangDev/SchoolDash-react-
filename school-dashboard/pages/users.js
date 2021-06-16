@@ -6,6 +6,7 @@ import DisplayError from '../components/ErrorMessage';
 import GradientButton from '../components/styles/Button';
 import Table from '../components/Table';
 import { useGQLQuery } from '../lib/useGqlQuery';
+import Loading from '../components/Loading';
 
 const GET_ALL_USERS = gql`
   query GET_ALL_USERS($searchTerm: String) {
@@ -107,7 +108,7 @@ export default function Users() {
 
   useEffect(() => refetch(), [userSortType]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.mesage}</DisplayError>;
   return (
     <div>

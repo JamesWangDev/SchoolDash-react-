@@ -5,6 +5,7 @@ import { useUser } from '../User';
 import NewCalendar from './NewCalendar';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import Table from '../Table';
+import Loading from '../Loading';
 
 export const GET_CALENDARS = gql`
   query GET_CALENDARS {
@@ -82,7 +83,7 @@ export default function Calendars({ dates }) {
   );
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (error) {
     return <p>{error.message}</p>;

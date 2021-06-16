@@ -6,6 +6,7 @@ import Table from '../components/Table';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import { useUser } from '../components/User';
 import NewLink from '../components/NewLink';
+import Loading from '../components/Loading';
 
 const GET_ALL_LINKS_QUERY = gql`
   query GET_ALL_LINKS_QUERY {
@@ -68,7 +69,7 @@ export default function Links() {
     []
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   return (
     <div>
