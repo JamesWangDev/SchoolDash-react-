@@ -76,7 +76,7 @@ export default function CallbackCardMessages({ me, callback }) {
               <p>
                 Student Message:
                 <input
-                  id="student"
+                  id={`student - ${callback.id}`}
                   placeholder="Message from Teacher"
                   value={studentMessage}
                   onChange={(e) => {
@@ -92,7 +92,7 @@ export default function CallbackCardMessages({ me, callback }) {
               <p>
                 Teacher:
                 <input
-                  id="teacher"
+                  id={`teacher-${callback.id}`}
                   placeholder="Message from Teacher"
                   value={teacherMessage}
                   onChange={(e) => {

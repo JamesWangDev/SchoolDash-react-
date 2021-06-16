@@ -73,7 +73,7 @@ export default function Search() {
             const isStudent = item.role.some((role) => role.name === 'student');
             return (
               <DropDownItem
-                {...getItemProps({ item })}
+                {...getItemProps({ item, index })}
                 key={item.id}
                 highlighted={index === highlightedIndex}
               >

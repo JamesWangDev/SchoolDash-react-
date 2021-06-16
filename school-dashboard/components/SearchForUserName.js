@@ -3,8 +3,6 @@ import { resetIdCounter, useCombobox } from 'downshift';
 import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
-import Link from 'next/link';
-import QuickPbisButton from './PBIS/QuickPbisButton';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 
 const SEARCH_PRODUCTS_QUERY = gql`
@@ -48,6 +46,8 @@ export default function SearchForUserName({ name, value, updateUser }) {
       });
     },
     onSelectedItemChange({ selectedItem }) {
+      console.log('clicked');
+      console.log(selectedItem);
       updateUser({ userId: selectedItem.id, userName: selectedItem.name });
     },
     itemToString: (item) => item?.name || '',
@@ -73,7 +73,7 @@ export default function SearchForUserName({ name, value, updateUser }) {
             const isStudent = item.role.some((role) => role.name === 'student');
             return (
               <DropDownItem
-                {...getItemProps({ item })}
+                {...getItemProps({ item, index })}
                 key={item.id}
                 highlighted={index === highlightedIndex}
               >
