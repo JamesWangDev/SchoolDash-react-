@@ -1,34 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## What is this?
 
-## Getting Started
+This is a teacher dashboard for the school I work at.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+It is based on the Learn Node course by the fabulous Wes Bos.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Who am I?
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+I am a middle school teacher learning Web Dev to make some of the non-teaching parts of my job easier.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## What needs to be done?
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+**Users** - Teachers, Admin, Students.  Each with a different view and ability to change things.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+**Landing page** - if you are not logged in then all you see is the login
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**Calendar**- Everyone can see the events calendar, but only Admin can add things to the calendar. -- Done, I think
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Callback** - This is the list of late assignments.  only a teacher can create an assignment and it needs to be tagged to the teacher and the student.  Teacher view includes a check box for completed assignment.  
+When a student goes here they see a list of all their own assignments from all teachers.  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Teachers** - Each teacher should have a list of TA students.  These are Teacher Advisory or Homeroom students.  
+When a teacher goes to callback they should see a list of callback assignments for their own TA students.  
+Alternate page where a teacher sees all the callback assignments that they created.
+
+**Students** - Student has an editable list of up to 8 teachers.  Each student sees the calendar of events, and their callback assignments, and their teacher's current assignments.  
+
+**Current Assignment** - Each teacher should have a current assignment.  updatable by the teacher only on their own home page?  Their students see if on their own home pages. 
+
+**Student Focus** - This is where teachers keep track of students and parent contacts.  Just notes about students that all teachers can see.  Students cannot see this at all.  Teachers and Admin can create and view.  Each one tagged to a student and an author.  Tags - parent contact, behavior, referral.  
+
+
+
+**Search** - Only available to teacher or admin.  Search by a student name and pull up that student's info: current assignments, callback, and student focus.  
+
+**User** - Admin only option to adjust user roles.  Currently just isAdmin, and isTeacher booleans, since some people need to be both.  
+
+backend KeystoneJS [Git Repo](https://github.com/mysticfalconvt/School-Keystone-Backend)
+
+Currently viewable at [ncujhs.tech](https://new.ncujhs.tech/)
