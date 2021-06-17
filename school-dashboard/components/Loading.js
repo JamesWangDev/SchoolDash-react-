@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const LoadingStyles = styled.div`
-  --duration: 4s;
+  --duration: 2s;
   --size: 2rem;
 
   body {
