@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { useUser } from '../User';
 import Loading from '../Loading';
 import { useGQLQuery } from '../../lib/useGqlQuery';
+import MessageUpdater from './AssignmentUpdater';
 
 const TeacherMessagesStyles = styled.div`
   display: flex;
@@ -11,13 +12,20 @@ const TeacherMessagesStyles = styled.div`
   text-align: center;
   border: 2px solid var(--blue);
   border-radius: 2rem;
-
+  margin: 10px;
+  h3{
+    margin: .5rem;
+  }
+  
   .messageContainer {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
   }
   .singleMessage {
-    margin: 1rem;
-    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin: .5rem;
+    padding: .5rem;
     border-radius: 2rem;
     box-shadow: 2px 2px var(--blue);
     background: linear-gradient(
@@ -25,6 +33,10 @@ const TeacherMessagesStyles = styled.div`
       var(--blueTrans),
       var(--redTrans)
     );
+    font-size: 1.2rem;
+    h4, p{
+      margin: 0px;
+    }
   }
   .needsUpdate {
     background: linear-gradient(208deg, var(--red), var(--redTrans)));
@@ -76,14 +88,19 @@ const GET_MESSAGES = gql`
       ... on User {
         id
         block1Assignment
+        block1ClassName
         block1AssignmentLastUpdated
         block2Assignment
+        block2ClassName
         block2AssignmentLastUpdated
         block3Assignment
+        block3ClassName
         block3AssignmentLastUpdated
         block4Assignment
+        block4ClassName
         block4AssignmentLastUpdated
         block5Assignment
+        block5ClassName
         block5AssignmentLastUpdated
       }
     }
@@ -92,49 +109,60 @@ const GET_MESSAGES = gql`
 
 export default function TeacherAssignments() {
   const me = useUser();
-  if (!me) return <Loading />;
+  const [showUpdater, setShowUpdater] = useState(false);
+  const [block, setBlock] = useState();
 
   // get messages data
   const { data, isLoading, error, refetch } = useGQLQuery(
     'myTeacherMessages',
     GET_MESSAGES
   );
+  if (!me) return <Loading />;
   if (isLoading) return <Loading />;
   const messages = data.authenticatedItem;
-  //   const num = 1;
   return (
-    <TeacherMessagesStyles>
-      <h3>Class Messages</h3>
-      {/* <pre>{JSON.stringify(messages, ',', 4)}</pre> */}
+    <>
+      {showUpdater && (
+        <MessageUpdater
+          block={block}
+          messages={messages}
+          hide={setShowUpdater}
+        />
+      )}
+      <TeacherMessagesStyles>
+        <h3>Class Messages</h3>
 
-      <div className="messageContainer">
-        {[...Array(5)].map((e, i) => {
-          const num = i + 1;
-          console.log(num);
-          const today = new Date();
-          const messageDate = new Date(
-            messages[`block${num}AssignmentLastUpdated`]
-          );
-          const late = today - messageDate > 600000000;
-          console.log(late);
-          return (
-            // <p>sadfasdf</p>
-            <div
-              className={late ? 'singleMessage needsUpdate' : 'singleMessage'}
-            >
-              <h4>Block {num}</h4>
-              <p>{messages[`block${num}Assignment`]}</p>
-              <p>
-                {
-                  new Date(messages[`block${num}AssignmentLastUpdated`])
-                    .toLocaleString()
-                    .split(',')[0]
-                }
-              </p>
-            </div>
-          );
-        })}
-      </div>
-    </TeacherMessagesStyles>
+        <div className="messageContainer">
+          {[...Array(5)].map((e, i) => {
+            const num = i + 1;
+            const today = new Date();
+            const messageDate = new Date(
+              messages[`block${num}AssignmentLastUpdated`]
+            );
+            const late = today - messageDate > 600000000;
+            return (
+              <div
+                className={late ? 'singleMessage needsUpdate' : 'singleMessage'}
+                onClick={() => {
+                  setBlock(num);
+                  setShowUpdater(true);
+                }}
+              >
+                <h4>Block {num}</h4>
+                <p>{messages[`block${num}ClassName`]}</p>
+                <p>{messages[`block${num}Assignment`]}</p>
+                <p>
+                  {
+                    new Date(messages[`block${num}AssignmentLastUpdated`])
+                      .toLocaleString()
+                      .split(',')[0]
+                  }
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </TeacherMessagesStyles>
+    </>
   );
 }
