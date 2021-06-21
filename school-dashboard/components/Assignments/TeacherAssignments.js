@@ -138,7 +138,7 @@ export default function TeacherAssignments() {
             const num = i + 1;
             const today = new Date();
             const messageDate = new Date(
-              assignments[`block${num}AssignmentLastUpdated`]
+              assignments[`block${num}AssignmentLastUpdated`] || ''
             );
             const late = today - messageDate > 600000000;
             return (

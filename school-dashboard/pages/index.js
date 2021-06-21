@@ -10,7 +10,7 @@ import isAllowed from '../lib/isAllowed';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   @media (max-width: 650px) {
     flex-wrap: wrap;
   }

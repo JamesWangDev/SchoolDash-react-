@@ -41,9 +41,10 @@ export const SingleCalendarStyle = styled.div`
 `;
 
 export const WeeklyCalendarContainerStyles = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
   flex-wrap: nowrap;
-  flex-flow: column;
+  /* flex-flow: column; */
   div {
     padding: 0.2rem;
   }
@@ -64,6 +65,8 @@ export const WeeklyCalendarContainerStyles = styled.div`
     z-index: 100;
   }
   .details {
+    position: relative;
+    z-index: 1;
     width: 200px;
     overflow: visible;
 
@@ -71,9 +74,10 @@ export const WeeklyCalendarContainerStyles = styled.div`
       margin-top: -2rem;
 
       padding: 1rem;
-      background: linear-gradient(to top right, var(--red), var(--blue));
+      background: linear-gradient(to top right, var(--red), var(--blueTrans));
       color: white;
-      opacity: 0.8;
+      text-shadow: 1px 1px var(--grey);
+      opacity: 1;
       border-radius: 1rem;
     }
   }
@@ -82,15 +86,16 @@ export const WeeklyCalendarContainerStyles = styled.div`
     padding: 1rem;
     border-radius: 2rem;
     /* min-width: min-content; */
-    width: 300px;
+    /* width: 300px; */
     border: none;
     color: rgba(255, 255, 255, 0.5);
     flex-basis: 35%;
+    grid-column: span 2;
   }
   div.notToday {
     color: var(--blue);
     /* min-width: min-content; */
-    width: 300px;
+    /* width: 300px; */
     margin: 0.1rem;
     border: 2px solid var(--blue);
     border-radius: 2rem;

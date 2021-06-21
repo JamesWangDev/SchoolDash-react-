@@ -45,6 +45,9 @@ const AssignmentUpdateStyles = styled.div`
     }
     button {
       margin-bottom: 1rem;
+      max-width: 10rem;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 `;
@@ -157,7 +160,7 @@ export default function AssignmentUpdater({
             hide(false);
           }}
         >
-          submit
+          Update
         </button>
       </form>
     </AssignmentUpdateStyles>
