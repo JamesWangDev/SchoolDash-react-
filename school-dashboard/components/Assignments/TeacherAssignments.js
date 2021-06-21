@@ -131,7 +131,7 @@ export default function TeacherAssignments() {
         />
       )}
       <TeacherMessagesStyles>
-        <h3>Class Messages</h3>
+        <h3>Current Class Assignments</h3>
 
         <div className="messageContainer">
           {[...Array(5)].map((e, i) => {

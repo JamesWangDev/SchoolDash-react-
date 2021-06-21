@@ -99,7 +99,6 @@ export default function AssignmentUpdater({
   hide,
   refetch,
 }) {
-  // console.log(assignments);
   const me = useUser();
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     classTitle: assignments[`block${block}ClassName`],
@@ -113,7 +112,6 @@ export default function AssignmentUpdater({
     }
   );
 
-  // console.log(updateData);
   return (
     <AssignmentUpdateStyles>
       <h4>
@@ -154,7 +152,6 @@ export default function AssignmentUpdater({
             updateData[`block${block}Assignment`] = inputs.assignment;
             updateData[`block${block}ClassName`] = inputs.classTitle;
             updateData.id = me.id;
-            console.log(updateData);
             await updateAssignment();
             await refetch();
             hide(false);
