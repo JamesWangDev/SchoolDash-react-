@@ -119,14 +119,15 @@ export default function TeacherAssignments() {
   );
   if (!me) return <Loading />;
   if (isLoading) return <Loading />;
-  const messages = data.authenticatedItem;
+  const assignments = data.authenticatedItem;
   return (
     <>
       {showUpdater && (
         <MessageUpdater
           block={block}
-          messages={messages}
+          assignments={assignments}
           hide={setShowUpdater}
+          refetch={refetch}
         />
       )}
       <TeacherMessagesStyles>
@@ -137,7 +138,7 @@ export default function TeacherAssignments() {
             const num = i + 1;
             const today = new Date();
             const messageDate = new Date(
-              messages[`block${num}AssignmentLastUpdated`]
+              assignments[`block${num}AssignmentLastUpdated`]
             );
             const late = today - messageDate > 600000000;
             return (
@@ -149,11 +150,11 @@ export default function TeacherAssignments() {
                 }}
               >
                 <h4>Block {num}</h4>
-                <p>{messages[`block${num}ClassName`]}</p>
-                <p>{messages[`block${num}Assignment`]}</p>
+                <p>{assignments[`block${num}ClassName`]}</p>
+                <p>{assignments[`block${num}Assignment`]}</p>
                 <p>
                   {
-                    new Date(messages[`block${num}AssignmentLastUpdated`])
+                    new Date(assignments[`block${num}AssignmentLastUpdated`])
                       .toLocaleString()
                       .split(',')[0]
                   }
