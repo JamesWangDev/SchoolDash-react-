@@ -8,6 +8,7 @@ import DisplayError from '../ErrorMessage';
 import { useUser } from '../User';
 import SearchForUserName from '../SearchForUserName';
 import { todaysDateForForm } from '../calendars/formatTodayForForm';
+import useRecalculateCallback from './recalculateCallback';
 
 const CREATE_CALLBACK_MUTATION = gql`
   mutation CREATE_CALLBACK_MUTATION(
@@ -51,6 +52,7 @@ export default function NewCallback({ refetch }) {
       },
     }
   );
+  const { recalculateCallback, setCallbackID } = useRecalculateCallback();
   //   console.log(inputs);
   return (
     <div>
@@ -69,8 +71,13 @@ export default function NewCallback({ refetch }) {
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await createCallback();
-            clearForm();
+            // console.log(callbackID);
+            console.log(res.data.createCallback.id);
+            setCallbackID(res.data.createCallback.id);
+            console.log(res);
             refetch();
+            recalculateCallback();
+            clearForm();
             setShowForm(false);
             // console.log(inputs);
           }}
