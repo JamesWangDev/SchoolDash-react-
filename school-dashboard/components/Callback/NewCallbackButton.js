@@ -5,10 +5,12 @@ import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
-import { useUser } from '../User';
+
 import SearchForUserName from '../SearchForUserName';
 import { todaysDateForForm } from '../calendars/formatTodayForForm';
 import useRecalculateCallback from './recalculateCallback';
+import { useUser } from '../User';
+import useCreateMessage from '../Messages/useCreateMessage';
 
 const CREATE_CALLBACK_MUTATION = gql`
   mutation CREATE_CALLBACK_MUTATION(
@@ -52,6 +54,9 @@ export default function NewCallback({ refetch }) {
       },
     }
   );
+  // TODO: send message when callback assigned
+  const createMessage = useCreateMessage();
+
   const { setCallbackID } = useRecalculateCallback();
   //   console.log(inputs);
   return (

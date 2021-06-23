@@ -98,7 +98,7 @@ export default function Users() {
           },
           {
             Header: 'Yearly PBIS',
-            accessor: 'yearPbisCount',
+            accessor: 'YearPbisCount',
           },
         ],
       },

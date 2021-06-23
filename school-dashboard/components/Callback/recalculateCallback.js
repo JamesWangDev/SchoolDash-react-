@@ -12,7 +12,7 @@ const RECALCULATE_CALLBACK_MUTATION = gql`
 
 export default function useRecalculateCallback() {
   const [callbackIdToUpdate, setCallbackID] = useState();
-  console.log(`id: ${callbackIdToUpdate}`);
+  // console.log(`id: ${callbackIdToUpdate}`);
 
   const [recalculate] = useMutation(RECALCULATE_CALLBACK_MUTATION, {
     variables: {
@@ -24,12 +24,6 @@ export default function useRecalculateCallback() {
       recalculate();
     }
   }, [callbackIdToUpdate]);
-
-  async function recalculateCallback(id) {
-    setCallbackID(id, () => recalculate());
-    console.log(`id recalc: ${callbackIdToUpdate}`);
-    // recalculate();
-  }
 
   return { setCallbackID };
 }

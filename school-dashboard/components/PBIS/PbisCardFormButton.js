@@ -6,8 +6,9 @@ import GradientButton from '../styles/Button';
 import SearchForUserName from '../SearchForUserName';
 import Form from '../styles/Form';
 import useForm from '../../lib/useForm';
-import { UPDATE_PBIS } from '../../lib/pbisUtils';
 import { useUser } from '../User';
+import useCreateMessage from '../Messages/useCreateMessage';
+import useRecalculatePBIS from './useRecalculatePbis';
 
 const CardButtonContainer = styled.div`
   padding: 20px;
@@ -87,11 +88,8 @@ function CardForm({ visible, hide }) {
       category: inputs.category,
     },
   });
-
-  const [updateCardCount, { loading: cardLoading }] = useMutation(UPDATE_PBIS, {
-    variables: { userId: studentCardIsFor?.userId },
-  });
-
+  const { recalculatePbisFromId } = useRecalculatePBIS();
+  const createMessage = useCreateMessage();
   if (error) {
     console.log(error);
     return <p>{error.message}</p>;
@@ -155,11 +153,19 @@ function CardForm({ visible, hide }) {
               e.preventDefault();
               // console.log(inputs);
               const res = await createCard();
-              // console.log(res);
-              await updateCardCount();
+              console.log(`res res `);
+              console.log(res?.data?.createPbisCard.id);
+              createMessage({
+                subject: 'New PBIS Card',
+                message: `you received a new PBIS Card from ${me.name} for ${inputs.category}`,
+                receiver: studentCardIsFor.userId,
+                link: `/pbis/${res?.data?.createPbisCard.id}`,
+              });
+              recalculatePbisFromId(studentCardIsFor.userId);
+              // await updateCardCount();
               clearForm();
-              setStudentCardIsFor(null);
               resetForm();
+              setStudentCardIsFor(null);
               hide(false);
             }}
           >
@@ -184,6 +190,7 @@ export default function PbisCardFormButton({ teacher }) {
       >
         PBIS CARD
       </GradientButton>
+
       <CardForm
         visible={displayCardForm ? 'visible' : 'invisible'}
         hide={setDisplayCardForm}

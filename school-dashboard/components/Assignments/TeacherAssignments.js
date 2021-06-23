@@ -144,6 +144,7 @@ export default function TeacherAssignments() {
             return (
               <div
                 className={late ? 'singleMessage needsUpdate' : 'singleMessage'}
+                key={`key ${num}`}
                 onClick={() => {
                   setBlock(num);
                   setShowUpdater(true);
