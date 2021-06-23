@@ -77,9 +77,15 @@ export default function NewCallback({ refetch }) {
             // console.log(inputs);
             const res = await createCallback();
             // console.log(callbackID);
-            console.log(res.data.createCallback.id);
+            // console.log(res.data.createCallback.id);
             setCallbackID(res.data.createCallback.id);
-            console.log(res);
+            // console.log(res);
+            createMessage({
+              subject: 'New Callback Assignment',
+              message: `you received a new callback item from ${user.name}`,
+              receiver: studentCallbackIsFor?.userId,
+              link: `/callback/${res?.data?.createCallback.id}`,
+            });
             refetch();
             // recalculateCallback();
             clearForm();

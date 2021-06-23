@@ -162,7 +162,6 @@ function CardForm({ visible, hide }) {
                 link: `/pbis/${res?.data?.createPbisCard.id}`,
               });
               recalculatePbisFromId(studentCardIsFor.userId);
-              // await updateCardCount();
               clearForm();
               resetForm();
               setStudentCardIsFor(null);
