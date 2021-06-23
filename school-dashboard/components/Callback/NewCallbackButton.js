@@ -52,7 +52,7 @@ export default function NewCallback({ refetch }) {
       },
     }
   );
-  const { recalculateCallback, setCallbackID } = useRecalculateCallback();
+  const { setCallbackID } = useRecalculateCallback();
   //   console.log(inputs);
   return (
     <div>
@@ -76,7 +76,7 @@ export default function NewCallback({ refetch }) {
             setCallbackID(res.data.createCallback.id);
             console.log(res);
             refetch();
-            recalculateCallback();
+            // recalculateCallback();
             clearForm();
             setShowForm(false);
             // console.log(inputs);
@@ -103,7 +103,7 @@ export default function NewCallback({ refetch }) {
                   id="title"
                   name="title"
                   placeholder="Title of Assignment"
-                  value={inputs.title}
+                  value={inputs.title || ''}
                   onChange={handleChange}
                 />
               </label>
