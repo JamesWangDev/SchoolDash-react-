@@ -140,8 +140,8 @@ function CardForm({ visible, hide }) {
             <input
               type="radio"
               name="category"
-              id="perserverance"
-              value="perserverance"
+              id="perseverance"
+              value="perseverance"
               onChange={handleChange}
             />
             Perserverance
@@ -162,9 +162,9 @@ function CardForm({ visible, hide }) {
                 link: `/pbis/${res?.data?.createPbisCard.id}`,
               });
               recalculatePbisFromId(studentCardIsFor.userId);
-              clearForm();
-              resetForm();
-              setStudentCardIsFor(null);
+              // clearForm();
+              // resetForm();
+              // setStudentCardIsFor(null);
               hide(false);
             }}
           >

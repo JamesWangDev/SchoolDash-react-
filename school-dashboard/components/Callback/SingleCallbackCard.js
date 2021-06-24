@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useUser } from '../User';
 import CallbackCardMessages from './CallbackCardMessages';
+import MarkCallbackCompleted from './MarkCallbackCompleted';
 
 const SingleCardStyles = styled.div`
   background: linear-gradient(to top left, var(--redTrans), var(--blueTrans));
@@ -72,6 +73,7 @@ export default function SingleCallbackCard({ callback }) {
         </Link>
       )}
       <CallbackCardMessages me={me} callback={callback} />
+      <MarkCallbackCompleted callback={callback} />
     </SingleCardStyles>
   );
 }

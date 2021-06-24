@@ -29,7 +29,7 @@ export default function MessagesList({ messages }) {
     <MessageListStyles>
       {messages.map((message) => {
         console.log(message);
-        return <SingleMessageInList message={message} />;
+        return <SingleMessageInList key={message.id} message={message} />;
       })}
     </MessageListStyles>
   );
