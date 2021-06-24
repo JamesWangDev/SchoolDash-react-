@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useQueryClient } from 'react-query';
 import { useUser } from '../User';
+import useRecalculateCallback from './recalculateCallback';
 
 const MARK_CALLBACK_COMPLETED = gql`
   mutation MARK_CALLBACK_COMPLETED(
@@ -22,6 +23,7 @@ export default function MarkCallbackCompleted({ callback }) {
   const queryClient = useQueryClient();
   const me = useUser();
   const today = new Date();
+  const { setCallbackID } = useRecalculateCallback();
   const dateAssigned = new Date(callback.dateAssigned);
   const daysLate = Math.round((today - dateAssigned) / 1000 / 60 / 60 / 24);
   const [markCompleted, { loading, error }] = useMutation(
@@ -43,7 +45,9 @@ export default function MarkCallbackCompleted({ callback }) {
           type="button"
           onClick={async () => {
             console.log('marking completed');
-            await markCompleted();
+            const res = await markCompleted();
+            console.log(res.data.updateCallback.id);
+            setCallbackID(res.data.updateCallback.id);
             queryClient.refetchQueries();
           }}
         >
