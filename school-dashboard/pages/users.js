@@ -22,6 +22,7 @@ const GET_ALL_USERS = gql`
       callbackCount
       PbisCardCount
       YearPbisCount
+      averageTimeToCompleteCallback
     }
   }
 `;
@@ -99,6 +100,10 @@ export default function Users() {
           {
             Header: 'Yearly PBIS',
             accessor: 'YearPbisCount',
+          },
+          {
+            Header: 'Average days on callback',
+            accessor: 'averageTimeToCompleteCallback',
           },
         ],
       },
