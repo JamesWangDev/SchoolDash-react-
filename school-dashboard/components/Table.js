@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useTable, useFilters, useSortBy } from 'react-table';
 import { UserTableStyles } from './styles/TableStyles';
 
-export default function Table({ columns, data, searchColumn }) {
+export default function Table({
+  columns,
+  data,
+  searchColumn,
+  showSearch = true,
+}) {
   const [filterInput, setFilterInput] = useState('');
   // Use the state and functions returned from useTable to build your UI
   const {
@@ -30,11 +35,13 @@ export default function Table({ columns, data, searchColumn }) {
   // Render the UI for your table
   return (
     <UserTableStyles>
-      <input
-        value={filterInput}
-        onChange={handleFilterChange}
-        placeholder={`Search ${searchColumn.replace('.', ' ')}`}
-      />
+      {showSearch && (
+        <input
+          value={filterInput}
+          onChange={handleFilterChange}
+          placeholder={`Search ${searchColumn.replace('.', ' ')}`}
+        />
+      )}
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (

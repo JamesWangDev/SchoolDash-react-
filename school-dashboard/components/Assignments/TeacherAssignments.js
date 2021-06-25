@@ -6,13 +6,15 @@ import Loading from '../Loading';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import MessageUpdater from './AssignmentUpdater';
 
-const TeacherMessagesStyles = styled.div`
+export const TeacherMessagesStyles = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
   border: 2px solid var(--blue);
   border-radius: 2rem;
   margin: 10px;
+  justify-content: space-around;
+  width: 100%;
   h3{
     margin: .5rem;
   }
