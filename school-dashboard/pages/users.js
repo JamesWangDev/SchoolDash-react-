@@ -18,6 +18,7 @@ const GET_ALL_USERS = gql`
       }
       taTeacher {
         name
+        id
       }
       callbackCount
       PbisCardCount
@@ -79,14 +80,25 @@ export default function Users() {
               </Link>
             ),
           },
-          {
-            Header: 'Type',
-            accessor: 'role',
-            Cell: ({ cell: { value } }) => <ArrayValues values={value || []} />,
-          },
+          // {
+          //   Header: 'Type',
+          //   accessor: 'role',
+          //   Cell: ({ cell: { value } }) => <ArrayValues values={value || []} />,
+          // },
           {
             Header: 'TA Teacher',
             accessor: 'taTeacher.name',
+            Cell: ({ row }) => {
+              const showLink = !!row.original?.taTeacher?.id;
+              //   console.log(showLink);
+              if (showLink)
+                return (
+                  <Link href={`/userProfile/${row.original?.taTeacher?.id}`}>
+                    {row.original?.taTeacher?.name}
+                  </Link>
+                );
+              return null;
+            },
           },
 
           {

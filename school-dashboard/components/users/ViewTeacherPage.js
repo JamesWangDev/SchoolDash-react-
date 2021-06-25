@@ -4,6 +4,7 @@ import { useUser } from '../User';
 import Loading from '../Loading';
 import AssignmentViewCards from '../Assignments/AssignmentViewCards';
 import ViewStudentTable from './ViewStudentTable';
+import CallbackCards from '../Callback/CallbackCards';
 
 const GET_SINGLE_TEACHER = gql`
   query GET_SINGLE_TEACHER($id: ID!) {
@@ -11,6 +12,24 @@ const GET_SINGLE_TEACHER = gql`
       id
       name
       email
+      callbackAssigned(where: { dateCompleted: null }) {
+        id
+        title
+        student {
+          id
+          name
+        }
+        teacher {
+          id
+          name
+        }
+        dateAssigned
+        description
+        link
+        messageFromTeacher
+
+        messageFromStudent
+      }
       taStudents {
         id
         name
@@ -151,6 +170,7 @@ export default function ViewTeacherPage({ teacher }) {
       {user.block5Students[0] && (
         <ViewStudentTable users={user.block5Students} title="Block 5" />
       )}
+      <CallbackCards callbacks={user.callbackAssigned} />
     </div>
   );
 }
