@@ -24,13 +24,13 @@ export default function AssignmentViewCards({ assignments }) {
               <h4>Block {num}</h4>
               <p>{assignments[`block${num}ClassName`]}</p>
               <p>{assignments[`block${num}Assignment`]}</p>
-              <p>
+              {/* <p>
                 {
                   new Date(assignments[`block${num}AssignmentLastUpdated`])
                     .toLocaleString()
                     .split(',')[0]
                 }
-              </p>
+              </p> */}
             </div>
           );
         })}

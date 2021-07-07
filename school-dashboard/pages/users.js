@@ -7,6 +7,9 @@ import GradientButton from '../components/styles/Button';
 import Table from '../components/Table';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import Loading from '../components/Loading';
+import NewUpdateUsers from '../components/users/NewUpdateUsers';
+import isAllowed from '../lib/isAllowed';
+import { useUser } from '../components/User';
 
 const GET_ALL_USERS = gql`
   query GET_ALL_USERS($searchTerm: String) {
@@ -124,7 +127,7 @@ export default function Users() {
   );
 
   useEffect(() => refetch(), [userSortType]);
-
+  const me = useUser();
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.mesage}</DisplayError>;
   return (
@@ -147,6 +150,7 @@ export default function Users() {
           Show Students
         </GradientButton>
       </ButtonStyles>
+      {isAllowed(me, 'Super User') && <NewUpdateUsers />}
       <Table
         data={data?.allUsers || []}
         columns={columns}
