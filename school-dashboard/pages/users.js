@@ -12,13 +12,20 @@ import isAllowed from '../lib/isAllowed';
 import { useUser } from '../components/User';
 
 const GET_ALL_USERS = gql`
-  query GET_ALL_USERS($searchTerm: String) {
-    allUsers(where: { role_some: { name: $searchTerm } }) {
+  query GET_ALL_USERS {
+    teachers: allUsers(where: { isTeacher: true }) {
       id
       name
-      role {
-        name
-      }
+
+      callbackCount
+      PbisCardCount
+      YearPbisCount
+      averageTimeToCompleteCallback
+    }
+    students: allUsers(where: { isStudent: true }) {
+      id
+      name
+
       taTeacher {
         name
         id
@@ -69,10 +76,10 @@ export default function Users() {
       searchTerm: userSortType,
     }
   );
-  const columns = useMemo(
+  const studentColumns = useMemo(
     () => [
       {
-        Header: 'Users',
+        Header: 'Students',
         columns: [
           {
             Header: 'Name',
@@ -126,6 +133,39 @@ export default function Users() {
     []
   );
 
+  const teacherColumns = useMemo(
+    () => [
+      {
+        Header: 'Teachers',
+        columns: [
+          {
+            Header: 'Name',
+            accessor: 'name',
+            Cell: ({ row }) => (
+              <Link href={`/userProfile/${row.original.id}`}>
+                {row.original.name}
+              </Link>
+            ),
+          },
+
+          {
+            Header: 'Callback',
+            accessor: 'callbackCount',
+          },
+          {
+            Header: 'Weekly PBIS',
+            accessor: 'PbisCardCount',
+          },
+          {
+            Header: 'Yearly PBIS',
+            accessor: 'YearPbisCount',
+          },
+        ],
+      },
+    ],
+    []
+  );
+
   useEffect(() => refetch(), [userSortType]);
   const me = useUser();
   if (isLoading) return <Loading />;
@@ -151,11 +191,20 @@ export default function Users() {
         </GradientButton>
       </ButtonStyles>
       {isAllowed(me, 'isSuperAdmin') && <NewUpdateUsers />}
-      <Table
-        data={data?.allUsers || []}
-        columns={columns}
-        searchColumn="name"
-      />
+      {userSortType === 'staff' && (
+        <Table
+          data={data?.teachers || []}
+          columns={teacherColumns}
+          searchColumn="name"
+        />
+      )}
+      {userSortType === 'student' && (
+        <Table
+          data={data?.students || []}
+          columns={studentColumns}
+          searchColumn="name"
+        />
+      )}
     </div>
   );
 }

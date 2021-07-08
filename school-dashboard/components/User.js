@@ -25,6 +25,7 @@ const CURRENT_USER_QUERY = gql`
         isParent
         isStaff
         isTeacher
+        isSuperAdmin
       }
     }
   }
