@@ -34,7 +34,7 @@ const CREATE_CALENDAR_MUTATION = gql`
   }
 `;
 
-export default function NewCalendar({ refetchCalendars }) {
+export default function NewCalendar({ refetchCalendars, hidden }) {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     name: 'Event Title',
@@ -50,6 +50,7 @@ export default function NewCalendar({ refetchCalendars }) {
       variables: { ...inputs, author: user?.id },
     }
   );
+  if (hidden) return null;
   return (
     <div>
       <GradientButton

@@ -7,6 +7,7 @@ import { useGQLQuery } from '../lib/useGqlQuery';
 import { useUser } from '../components/User';
 import NewLink from '../components/NewLink';
 import Loading from '../components/Loading';
+import isAllowed from '../lib/isAllowed';
 
 const GET_ALL_LINKS_QUERY = gql`
   query GET_ALL_LINKS_QUERY {
@@ -26,8 +27,8 @@ const GET_ALL_LINKS_QUERY = gql`
 `;
 
 export default function Links() {
-  const user = useUser();
-  const editor = user?.role?.some((role) => role.canManageLinks);
+  const me = useUser();
+  const editor = isAllowed(me, 'canManageLinks');
   const { data, isLoading, error, refetch } = useGQLQuery(
     'allLinks',
     GET_ALL_LINKS_QUERY

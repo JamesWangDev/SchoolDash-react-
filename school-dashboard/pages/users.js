@@ -150,7 +150,7 @@ export default function Users() {
           Show Students
         </GradientButton>
       </ButtonStyles>
-      {isAllowed(me, 'Super User') && <NewUpdateUsers />}
+      {isAllowed(me, 'isSuperAdmin') && <NewUpdateUsers />}
       <Table
         data={data?.allUsers || []}
         columns={columns}

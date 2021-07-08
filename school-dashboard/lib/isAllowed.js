@@ -1,6 +1,7 @@
 import { useUser } from '../components/User';
 
 export default function isAllowed(me, permission) {
-  const allowed = me.role.some((role) => role.name === permission);
+  if (!me) return false;
+  const allowed = me[permission];
   return !!allowed;
 }

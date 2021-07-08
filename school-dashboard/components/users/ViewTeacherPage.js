@@ -114,11 +114,7 @@ const GET_SINGLE_TEACHER = gql`
           name
         }
       }
-      role {
-        name
-        hasTA
-        hasClasses
-      }
+
       block1Assignment
       block1ClassName
       block1AssignmentLastUpdated

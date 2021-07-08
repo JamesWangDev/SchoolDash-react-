@@ -12,9 +12,9 @@ const SEARCH_PRODUCTS_QUERY = gql`
     searchTerms: allUsers(where: { name_contains_i: $searchTerm }) {
       id
       name
-      role {
-        name
-      }
+      isStaff
+      isParent
+      isStudent
     }
   }
 `;
@@ -70,7 +70,8 @@ export default function Search() {
       <DropDown {...getMenuProps()}>
         {isOpen &&
           items.map((item, index) => {
-            const isStudent = item.role.some((role) => role.name === 'student');
+            const { isStudent } = item;
+            console.log(item);
             return (
               <DropDownItem
                 {...getItemProps({ item, index })}

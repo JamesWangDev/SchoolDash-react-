@@ -6,6 +6,7 @@ import NewCalendar from './NewCalendar';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import Table from '../Table';
 import Loading from '../Loading';
+import isAllowed from '../../lib/isAllowed';
 
 export const GET_CALENDARS = gql`
   query GET_CALENDARS {
@@ -26,8 +27,8 @@ export const GET_CALENDARS = gql`
 `;
 
 export default function Calendars({ dates }) {
-  const user = useUser();
-  const editor = user?.role?.some((role) => role.canManageCalendar);
+  const me = useUser();
+  const editor = isAllowed(me, 'canManageCalendar');
   const { data, isLoading, error, refetch } = useGQLQuery(
     'allCalendars',
     GET_CALENDARS

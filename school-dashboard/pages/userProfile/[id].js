@@ -17,11 +17,9 @@ const GET_SINGLE_USER = gql`
         id
         name
       }
-      role {
-        name
-        hasTA
-        hasClasses
-      }
+      isStaff
+      isParent
+      isStudent
     }
   }
 `;
@@ -35,14 +33,14 @@ export default function UserProfile({ query }) {
   );
   if (isLoading || !me) return <Loading />;
   if (error) return <p>{error.message}</p>;
-  if (!isAllowed(me, 'staff')) return null;
+  if (!isAllowed(me, 'isStaff')) return null;
   const user = data.User;
   return (
     <div>
       <h1>{user.name}</h1>
-      {isAllowed(user, 'staff') && <ViewTeacherPage teacher={user} />}
-      {isAllowed(user, 'student') && <ViewStudentPage student={user} />}
-      {isAllowed(user, 'parent') && <ViewParentPage parent={user} />}
+      {isAllowed(user, 'isStaff') && <ViewTeacherPage teacher={user} />}
+      {isAllowed(user, 'isStudent') && <ViewStudentPage student={user} />}
+      {isAllowed(user, 'isParent') && <ViewParentPage parent={user} />}
     </div>
   );
 }

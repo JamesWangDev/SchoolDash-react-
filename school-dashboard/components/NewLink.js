@@ -37,7 +37,7 @@ const CREATE_LINK_MUTATION = gql`
   }
 `;
 
-export default function NewLink({ refetchLinks }) {
+export default function NewLink({ refetchLinks, hidden }) {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     forTeachers: false,
@@ -54,6 +54,7 @@ export default function NewLink({ refetchLinks }) {
     }
   );
   // console.log(inputs);
+  if (hidden) return null;
   return (
     <div>
       <GradientButton

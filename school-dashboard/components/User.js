@@ -8,13 +8,23 @@ const CURRENT_USER_QUERY = gql`
         id
         email
         name
-        role {
-          name
-          canManageCalendar
-          canManageLinks
-          hasTA
-          hasClasses
-        }
+        canManageCalendar
+        canSeeOtherUsers
+        canManageUsers
+        canManageRoles
+        canManageLinks
+        canManageDiscipline
+        canSeeAllDiscipline
+        canSeeAllTeacherEvents
+        canSeeStudentEvents
+        canSeeOwnCallback
+        canSeeAllCallback
+        hasTA
+        hasClasses
+        isStudent
+        isParent
+        isStaff
+        isTeacher
       }
     }
   }

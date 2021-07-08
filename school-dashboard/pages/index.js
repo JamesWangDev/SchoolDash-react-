@@ -24,10 +24,8 @@ export default function Home() {
         <HomePageLinks me={me} />
         <DashboardContainerStyles>
           <WeeklyCalendar me={me} />
-          {me?.role?.some((role) => role.name === 'staff') && (
-            <TeacherDashboard teacher={me} />
-          )}
-          {me && isAllowed(me, 'student') && <StudentCallbacks />}
+          {isAllowed(me, 'isTeacher') && <TeacherDashboard teacher={me} />}
+          {me && isAllowed(me, 'isStudent') && <StudentCallbacks />}
         </DashboardContainerStyles>
       </main>
 

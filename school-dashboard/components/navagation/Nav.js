@@ -16,13 +16,15 @@ export default function Nav() {
         <>
           <Link href="/calendar">Calendar</Link>
           <Link href="/links">Links</Link>
-          {isAllowed(me, 'TA Teacher') && <Link href="/ta">TA</Link>}
-          {isAllowed(me, 'Classroom Teacher') && (
+          {isAllowed(me, 'hasTA') && <Link href="/ta">TA</Link>}
+          {isAllowed(me, 'hasClasses') && (
             <Link href="/callback">Callback</Link>
           )}
-          {isAllowed(me, 'staff') && <Link href="/users">Users</Link>}
-          {isAllowed(me, 'staff') && <Link href="/discipline">Discipline</Link>}
-          {isAllowed(me, 'staff') && (
+          {isAllowed(me, 'isStaff') && <Link href="/users">Users</Link>}
+          {isAllowed(me, 'isStaff') && (
+            <Link href="/discipline">Discipline</Link>
+          )}
+          {isAllowed(me, 'isStaff') && (
             <Link href="/studentFocus">Student Focus</Link>
           )}
           {/* <MessagesCount /> */}
