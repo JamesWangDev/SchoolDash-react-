@@ -26,6 +26,18 @@ const CURRENT_USER_QUERY = gql`
         isStaff
         isTeacher
         isSuperAdmin
+        PbisCardCount
+        YearPbisCount
+        studentPbisCards {
+          id
+          cardMessage
+          category
+          teacher {
+            id
+            name
+          }
+          dateGiven
+        }
       }
     }
   }

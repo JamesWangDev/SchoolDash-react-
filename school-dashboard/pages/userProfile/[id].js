@@ -17,6 +17,10 @@ const GET_SINGLE_USER = gql`
         id
         name
       }
+      children {
+        id
+        name
+      }
       isStaff
       isParent
       isStudent

@@ -16,7 +16,7 @@ const NavStyles = styled.ul`
     position: relative;
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 1em;
+    font-size: 1.5rem;
     color: white;
     background: none;
     border: 0;
@@ -70,7 +70,7 @@ const NavStyles = styled.ul`
   @media (max-width: 1300px) {
     /* border-top: 1px solid var(--lightGrey); */
     width: 100%;
-    justify-content: center;
+    justify-content: flex-end;
     font-size: 1.5rem;
   }
   @media (max-width: 1150px) {

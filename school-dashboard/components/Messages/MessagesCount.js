@@ -70,9 +70,7 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
         name
       }
     }
-    _allMessagesMeta(
-      where: { receiver: { id: "60398efe451aeb5fdfb711dd" }, read: false }
-    ) {
+    _allMessagesMeta(where: { receiver: { id: $me }, read: false }) {
       count
     }
   }

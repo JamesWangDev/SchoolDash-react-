@@ -7,6 +7,8 @@ import SignOut from '../components/loginComponents/SignOut';
 import HomePageLinks from '../components/navagation/HomePageLinks';
 import { useUser } from '../components/User';
 import isAllowed from '../lib/isAllowed';
+import DisplayPbisCardWidget from '../components/PBIS/DisplayPbisCardsWidget';
+import StudentPbisData from '../components/PBIS/StudentPbisData';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -27,7 +29,14 @@ export default function Home() {
           {isAllowed(me || {}, 'isTeacher') && (
             <TeacherDashboard teacher={me || {}} />
           )}
-          {me && isAllowed(me, 'isStudent') && <StudentCallbacks />}
+          {me && isAllowed(me, 'isStudent') && (
+            <div>
+              <h2>Welcome to the NCUJHS Dashboard {me.name}</h2>
+              <StudentCallbacks />
+              <StudentPbisData student={me} />
+              <DisplayPbisCardWidget cards={me.studentPbisCards} />
+            </div>
+          )}
         </DashboardContainerStyles>
       </main>
 

@@ -5,6 +5,7 @@ import Search from '../Search';
 import { useUser } from '../User';
 import Nav from './Nav';
 import MessagesCount from '../Messages/MessagesCount';
+import isAllowed from '../../lib/isAllowed';
 
 const Logo = styled.h1`
   font-size: 4rem;
@@ -95,9 +96,11 @@ export default function Header() {
           </Logo>
           <Nav />
         </div>
-        <div className="sub-bar">
-          <Search />
-        </div>
+        {isAllowed(me, 'isStaff') && (
+          <div className="sub-bar">
+            <Search />
+          </div>
+        )}
       </HeaderStyles>
       <MessagesCount />
     </>

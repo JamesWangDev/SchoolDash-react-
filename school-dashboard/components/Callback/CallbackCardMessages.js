@@ -77,7 +77,7 @@ export default function CallbackCardMessages({ me, callback }) {
                 Student Message:
                 <input
                   id={`student - ${callback.id}`}
-                  placeholder="Message from Teacher"
+                  placeholder="Message from Student"
                   value={studentMessage}
                   onChange={(e) => {
                     //   console.log(e.target.value);
