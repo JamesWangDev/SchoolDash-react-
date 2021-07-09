@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const NavStyles = styled.ul`
   margin: 0;
+  margin-right: 40px;
   padding: 0;
   display: flex;
   justify-self: flex-end;

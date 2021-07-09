@@ -26,7 +26,10 @@ export default function NewUpdateUsers() {
 
   return (
     <div>
-      <GradientButton onClick={() => setShowForm(!showForm)}>
+      <GradientButton
+        style={{ marginTop: '10px' }}
+        onClick={() => setShowForm(!showForm)}
+      >
         User Update
       </GradientButton>
       <div>

@@ -21,10 +21,12 @@ export default function Home() {
   return (
     <div>
       <main>
-        <HomePageLinks me={me} />
+        <HomePageLinks me={me || {}} />
         <DashboardContainerStyles>
-          <WeeklyCalendar me={me} />
-          {isAllowed(me, 'isTeacher') && <TeacherDashboard teacher={me} />}
+          <WeeklyCalendar me={me || {}} />
+          {isAllowed(me || {}, 'isTeacher') && (
+            <TeacherDashboard teacher={me || {}} />
+          )}
           {me && isAllowed(me, 'isStudent') && <StudentCallbacks />}
         </DashboardContainerStyles>
       </main>

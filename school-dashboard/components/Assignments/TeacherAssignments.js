@@ -121,7 +121,7 @@ export default function TeacherAssignments() {
   );
   if (!me) return <Loading />;
   if (isLoading) return <Loading />;
-  const assignments = data.authenticatedItem;
+  const assignments = data.authenticatedItem || {};
   return (
     <>
       {showUpdater && (

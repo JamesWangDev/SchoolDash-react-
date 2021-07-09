@@ -104,7 +104,7 @@ export default function ViewStudentPage({ student }) {
   // console.log(user);
   return (
     <div>
-      <h3>Student info</h3>
+      <h3>Student info for {student.name}</h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />
       {user.parent.length > 0 && <h4>Parent Contact Info:</h4>}

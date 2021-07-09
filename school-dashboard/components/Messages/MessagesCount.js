@@ -10,8 +10,8 @@ import Loading from '../Loading';
 const MessageButtonStyles = styled.button`
   position: fixed;
   display: flex;
-  top: 20px;
-  right: 20px;
+  top: 5px;
+  right: 5px;
   z-index: 20;
   /* height: 100%; */
   border: none;
