@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import Table from '../Table';
 
 export default function CallbackTable({ callbacks }) {
+  console.log(callbacks);
   const columns = useMemo(
     () => [
       {
@@ -12,7 +13,9 @@ export default function CallbackTable({ callbacks }) {
             Header: 'Student',
             accessor: 'student.name',
             Cell: ({ cell }) => (
-              <Link href={`/userProfile/${cell.row.original.student.id}`}>
+              <Link
+                href={`/userProfile/${cell?.row?.original?.student?.id || ''}`}
+              >
                 {cell.value}
               </Link>
             ),
@@ -21,7 +24,9 @@ export default function CallbackTable({ callbacks }) {
             Header: 'Teacher',
             accessor: 'teacher.name',
             Cell: ({ cell }) => (
-              <Link href={`/userProfile/${cell.row.original.teacher.id}`}>
+              <Link
+                href={`/userProfile/${cell?.row?.original?.teacher?.id || ''}`}
+              >
                 {cell.value}
               </Link>
             ),
