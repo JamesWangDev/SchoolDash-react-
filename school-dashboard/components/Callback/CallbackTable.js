@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import Table from '../Table';
 
 export default function CallbackTable({ callbacks }) {
-  console.log(callbacks);
   const columns = useMemo(
     () => [
       {

@@ -9,6 +9,7 @@ import { useUser } from '../components/User';
 import isAllowed from '../lib/isAllowed';
 import DisplayPbisCardWidget from '../components/PBIS/DisplayPbisCardsWidget';
 import StudentPbisData from '../components/PBIS/StudentPbisData';
+import RequestReset from '../components/RequestReset';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -40,9 +41,7 @@ export default function Home() {
         </DashboardContainerStyles>
       </main>
 
-      <footer>
-        <SignOut />
-      </footer>
+      <footer>{me ? <SignOut /> : <RequestReset />}</footer>
     </div>
   );
 }

@@ -79,4 +79,4 @@ export default function Reset({ token }) {
     </Form>
   );
 }
-{"mode":"full","isActive":false}
+// {"mode":"full","isActive":false}

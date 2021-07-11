@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { useGQLQuery } from '../../lib/useGqlQuery';
+import Loading from '../../components/Loading';
 
 const GET_SINGLE_CALLBACK = gql`
   query GET_SINGLE_CALLBACK($id: ID!) {
@@ -16,7 +17,7 @@ export default function SingleCallbackPage({ query }) {
     GET_SINGLE_CALLBACK,
     { id: query.id }
   );
-  if (isLoading) return <p>... Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
   const callback = data.Callback;
   return (
