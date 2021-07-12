@@ -57,6 +57,7 @@ export default function WeeklyCalendar() {
     {
       starting: lastSunday,
       ending: nextSaturday,
+      initialData: [],
     }
   );
   if (!me) return <p />;

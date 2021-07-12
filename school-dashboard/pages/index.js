@@ -21,6 +21,7 @@ const DashboardContainerStyles = styled.div`
 
 export default function Home() {
   const me = useUser();
+  if (!me) return <RequestReset />;
   return (
     <div>
       <main>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function StudentPbisData({ student }) {
-  console.log(student);
+  // console.log(student);
   return (
     <div>
       <p>PBIS Cards to be counted: {student.PbisCardCount}</p>

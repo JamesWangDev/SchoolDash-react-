@@ -30,7 +30,8 @@ const HomePageLinkStyles = styled.div`
 export default function HomePageLinks() {
   const { data, isLoading, error } = useGQLQuery(
     'HomePageLinks',
-    GET_HOMEPAGE_LINKS
+    GET_HOMEPAGE_LINKS,
+    { initialData: [] }
   );
 
   if (isLoading) return <Loading />;

@@ -20,7 +20,9 @@ export default function SignOut() {
       type="button"
       onClick={async () => {
         await signout();
-        queryClient.refetchQueries();
+        queryClient.resetQueries();
+        // queryClient.clear();
+        // queryClient.refetchQueries();
       }}
     >
       Sign Out

@@ -36,7 +36,7 @@ export default function DisplayPbisCardsWidget({ cards }) {
       <h3 style={{ textAlign: 'center' }}>Recent PBIS Cards</h3>
       <PbisCardWidgetStyles>
         {cards.map((card) => {
-          console.log(card);
+          // console.log(card);
           const date = new Date(card.dateGiven).toLocaleDateString();
           return (
             <div className="singleCard" key={card.id}>

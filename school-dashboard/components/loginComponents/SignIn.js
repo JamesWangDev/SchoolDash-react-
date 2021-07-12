@@ -33,6 +33,7 @@ export default function SignIn() {
   const queryClient = useQueryClient();
   const [signin, { data, loading }] = useMutation(SIGNIN_MUTATION, {
     variables: inputs,
+    email: inputs.email.toLowerCase(),
     // refetch the currently logged in user
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });

@@ -12,7 +12,7 @@ export default function useForm(initial = {}) {
   }, [initialValues]);
 
   function handleChange(e) {
-    console.log(e.target);
+    // console.log(e.target);
     let { value, name, type, checked } = e.target;
     if (type === 'number') {
       value = parseInt(value);
@@ -23,7 +23,7 @@ export default function useForm(initial = {}) {
     if (type === 'date') {
       // console.log(value);
       const theDate = new Date(value);
-      theDate.setHours(theDate.getHours() + 5);
+      theDate.setHours(theDate.getHours() + 11);
       value = theDate.toISOString().split('T')[0];
       // value = new Date(value).toISOString();
       // console.log(`new ${value}`);

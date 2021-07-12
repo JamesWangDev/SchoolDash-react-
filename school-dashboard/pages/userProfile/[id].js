@@ -49,7 +49,9 @@ export default function UserProfile({ query }) {
     <div>
       <h1>{user.name}</h1>
       <ButtonStyles>
-        {isAllowed(me, 'isStaff') && <ResetPasswordToPassword />}
+        {isAllowed(me, 'isStaff') && (
+          <ResetPasswordToPassword userID={query.id} />
+        )}
         {isAllowed(me, 'isStaff') && <p> !! TODO !! edit account</p>}
       </ButtonStyles>
       {isAllowed(user, 'isStaff') && <ViewTeacherPage teacher={user} />}
