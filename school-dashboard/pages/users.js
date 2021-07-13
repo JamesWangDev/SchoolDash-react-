@@ -191,8 +191,8 @@ export default function Users() {
           Show Students
         </GradientButton>
       </ButtonStyles>
-      {isAllowed(me, 'isSuperAdmin') && <NewUpdateUsers />}
-      {isAllowed(me, 'isSuperAdmin') && <NewStaff />}
+      {/* {isAllowed(me, 'isSuperAdmin') && <NewUpdateUsers />}
+      {isAllowed(me, 'isSuperAdmin') && <NewStaff />} */}
       {userSortType === 'staff' && (
         <Table
           data={data?.teachers || []}

@@ -27,6 +27,9 @@ export default function Nav() {
           {isAllowed(me, 'isStaff') && (
             <Link href="/studentFocus">Student Focus</Link>
           )}
+          {isAllowed(me, 'isSuperAdmin') && (
+            <Link href="/superUserSettings">⚙️</Link>
+          )}
           {/* <MessagesCount /> */}
         </>
       )}
