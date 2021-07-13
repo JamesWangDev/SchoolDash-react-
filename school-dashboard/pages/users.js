@@ -10,6 +10,7 @@ import Loading from '../components/Loading';
 import NewUpdateUsers from '../components/users/NewUpdateUsers';
 import isAllowed from '../lib/isAllowed';
 import { useUser } from '../components/User';
+import NewStaff from '../components/users/NewStaff';
 
 const GET_ALL_USERS = gql`
   query GET_ALL_USERS {
@@ -191,6 +192,7 @@ export default function Users() {
         </GradientButton>
       </ButtonStyles>
       {isAllowed(me, 'isSuperAdmin') && <NewUpdateUsers />}
+      {isAllowed(me, 'isSuperAdmin') && <NewStaff />}
       {userSortType === 'staff' && (
         <Table
           data={data?.teachers || []}

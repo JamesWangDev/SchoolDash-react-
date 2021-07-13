@@ -7,13 +7,13 @@ import DisplayError from '../ErrorMessage';
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION($studentScheduleData: String!) {
-    updateStudentSchedules(studentScheduleData: $studentScheduleData) {
+    addStaff(staffData: $studentScheduleData) {
       name
     }
   }
 `;
 
-export default function NewUpdateUsers() {
+export default function NewStaff() {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm } = useForm();
   const [upateUsersFromJson, { loading, error, data }] = useMutation(
@@ -30,7 +30,7 @@ export default function NewUpdateUsers() {
         style={{ marginTop: '10px' }}
         onClick={() => setShowForm(!showForm)}
       >
-        Student Update
+        Add New Staff
       </GradientButton>
       <div>
         <FormContainerStyles>
