@@ -77,6 +77,10 @@ export default function Calendars({ dates }) {
               </Link>
             ),
           },
+          {
+            Header: 'visibility',
+            accessor: 'status',
+          },
         ],
       },
     ],
