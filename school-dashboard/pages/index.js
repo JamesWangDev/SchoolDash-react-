@@ -10,6 +10,7 @@ import isAllowed from '../lib/isAllowed';
 import DisplayPbisCardWidget from '../components/PBIS/DisplayPbisCardsWidget';
 import StudentPbisData from '../components/PBIS/StudentPbisData';
 import RequestReset from '../components/RequestReset';
+import PbisFalcon from '../components/PBIS/PbisFalcon';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ export default function Home() {
       <main>
         <HomePageLinks me={me || {}} />
         <DashboardContainerStyles>
+          <PbisFalcon />
           <WeeklyCalendar me={me || {}} />
           {isAllowed(me || {}, 'isTeacher') && (
             <TeacherDashboard teacher={me || {}} />
