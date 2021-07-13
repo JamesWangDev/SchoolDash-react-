@@ -13,7 +13,7 @@ import { useUser } from '../components/User';
 
 const GET_ALL_USERS = gql`
   query GET_ALL_USERS {
-    teachers: allUsers(where: { isTeacher: true }) {
+    teachers: allUsers(where: { isStaff: true }) {
       id
       name
 
