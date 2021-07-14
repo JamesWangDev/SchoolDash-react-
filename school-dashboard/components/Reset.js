@@ -29,6 +29,7 @@ export default function Reset({ token }) {
   });
   const [reset, { data, loading, error }] = useMutation(RESET_MUTATION, {
     variables: inputs,
+    email: inputs.email.toLowerCase(),
   });
   const successfulError = data?.redeemUserPasswordResetToken?.code
     ? data?.redeemUserPasswordResetToken

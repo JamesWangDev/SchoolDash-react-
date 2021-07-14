@@ -7,6 +7,7 @@ export default function Table({
   data,
   searchColumn,
   showSearch = true,
+  hiddenColumns,
 }) {
   const [filterInput, setFilterInput] = useState('');
   // Use the state and functions returned from useTable to build your UI
@@ -21,6 +22,9 @@ export default function Table({
     {
       columns,
       data,
+      initialState: {
+        hiddenColumns,
+      },
     },
     useFilters,
     useSortBy

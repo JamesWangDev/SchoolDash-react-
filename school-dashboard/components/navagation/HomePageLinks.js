@@ -4,10 +4,24 @@ import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import DisplayError from '../ErrorMessage';
 import Loading from '../Loading';
+import { useUser } from '../User';
 
 const GET_HOMEPAGE_LINKS = gql`
-  query GET_HOMEPAGE_LINKS {
-    allLinks(where: { onHomePage: true }) {
+  query GET_HOMEPAGE_LINKS(
+    $forParents: Boolean = false
+    $forStudents: Boolean = false
+    $forTeachers: Boolean = false
+  ) {
+    allLinks(
+      where: {
+        onHomePage: true
+        OR: [
+          { forParents: $forParents }
+          { forStudents: $forStudents }
+          { forTeachers: $forTeachers }
+        ]
+      }
+    ) {
       id
       link
       name
@@ -31,10 +45,16 @@ const HomePageLinkStyles = styled.div`
 `;
 
 export default function HomePageLinks() {
+  const me = useUser();
   const { data, isLoading, error } = useGQLQuery(
     'HomePageLinks',
     GET_HOMEPAGE_LINKS,
-    { initialData: [] }
+    {
+      forTeachers: me.isStaff,
+      forParents: me.isParent,
+      forStudents: me.isStudent,
+    },
+    { initialData: [], enabled: !!me }
   );
 
   if (isLoading) return <Loading />;
@@ -42,7 +62,7 @@ export default function HomePageLinks() {
 
   return (
     <HomePageLinkStyles>
-      {data.allLinks.map((link) => {
+      {data?.allLinks?.map((link) => {
         const linkToUse = link.link.startsWith('http')
           ? `${link.link}`
           : `http://${link.link}`;

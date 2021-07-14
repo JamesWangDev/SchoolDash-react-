@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { useQueryClient } from 'react-query';
 import { useUser } from '../User';
 import useRecalculateCallback from './recalculateCallback';
+import { SmallGradientButton } from '../styles/Button';
 
 const MARK_CALLBACK_COMPLETED = gql`
   mutation MARK_CALLBACK_COMPLETED(
@@ -41,7 +42,7 @@ export default function MarkCallbackCompleted({ callback }) {
   if (me.id === callback.teacher.id) {
     return (
       <div>
-        <button
+        <SmallGradientButton
           type="button"
           onClick={async () => {
             console.log('marking completed');
@@ -52,7 +53,7 @@ export default function MarkCallbackCompleted({ callback }) {
           }}
         >
           Mark Completed {daysLate} Days overdue
-        </button>
+        </SmallGradientButton>
       </div>
     );
   }

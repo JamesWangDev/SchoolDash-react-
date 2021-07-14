@@ -44,6 +44,7 @@ export const WeeklyCalendarContainerStyles = styled.div`
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   flex-wrap: nowrap;
+  margin-bottom: 5px;
   /* flex-flow: column; */
   div {
     padding: 0.2rem;

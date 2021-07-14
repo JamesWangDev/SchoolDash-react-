@@ -9,8 +9,11 @@ import Loading from '../Loading';
 import isAllowed from '../../lib/isAllowed';
 
 export const GET_CALENDARS = gql`
-  query GET_CALENDARS {
-    allCalendars(sortBy: date_ASC) {
+  query GET_CALENDARS($status: String) {
+    allCalendars(
+      sortBy: date_ASC
+      where: { OR: [{ status: $status }, { status: "Both" }] }
+    ) {
       name
       id
       description
@@ -28,10 +31,16 @@ export const GET_CALENDARS = gql`
 
 export default function Calendars({ dates }) {
   const me = useUser();
+  const status = me?.isStaff ? 'Teachers' : 'Students';
   const editor = isAllowed(me, 'canManageCalendar');
   const { data, isLoading, error, refetch } = useGQLQuery(
     'allCalendars',
-    GET_CALENDARS
+    GET_CALENDARS,
+    {
+      initialData: [],
+      status,
+      enabled: !!me,
+    }
   );
   //   console.log(data);
   const filteredCalendars = data?.allCalendars.filter(
@@ -100,6 +109,7 @@ export default function Calendars({ dates }) {
         data={filteredCalendars || []}
         columns={columns}
         searchColumn="name"
+        hiddenColumns={me?.isStaff ? '' : 'status'}
       />
     </>
   );

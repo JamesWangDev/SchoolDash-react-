@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import Link from 'next/link';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import { WeeklyCalendarContainerStyles } from '../styles/CalendarStyles';
 import { useUser } from '../User';
@@ -7,10 +6,18 @@ import SingleDayCalendar from './SingleDayCalendar';
 import Loading from '../Loading';
 
 export const GET_WEEK_CALENDARS = gql`
-  query GET_WEEK_CALENDARS($starting: String, $ending: String) {
+  query GET_WEEK_CALENDARS(
+    $starting: String
+    $ending: String
+    $status: String
+  ) {
     allCalendars(
       sortBy: date_ASC
-      where: { date_gte: $starting, date_lte: $ending }
+      where: {
+        date_gte: $starting
+        date_lte: $ending
+        OR: [{ status: $status }, { status: "Both" }]
+      }
     ) {
       name
       id
@@ -49,6 +56,7 @@ function getDatesFromDayOfTheWeek(data, day) {
 export default function WeeklyCalendar() {
   const today = new Date();
   const me = useUser();
+  const status = me.isStaff ? 'Teachers' : 'Students';
   const todaysDay = today.getDay();
   const { lastSunday, nextSaturday } = getLastAndNextSunday(today);
   const { data, isLoading, error } = useGQLQuery(
@@ -58,6 +66,7 @@ export default function WeeklyCalendar() {
       starting: lastSunday,
       ending: nextSaturday,
       initialData: [],
+      status,
     }
   );
   if (!me) return <p />;
