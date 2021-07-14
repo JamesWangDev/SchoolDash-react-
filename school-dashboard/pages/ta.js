@@ -6,6 +6,7 @@ import { useGQLQuery } from '../lib/useGqlQuery';
 import Loading from '../components/Loading';
 import ViewStudentTable from '../components/users/ViewStudentTable';
 import CallbackTable from '../components/Callback/CallbackTable';
+import CountPhysicalCards from '../components/PBIS/CountPhysicalCards';
 
 const TA_INFO_QUERY = gql`
   query TA_INFO_QUERY($id: ID!) {
@@ -130,10 +131,8 @@ export default function TA() {
   const students = data.taTeacher.taStudents || [];
   return (
     <div>
-      <TaTeacherInfo />
-      {students.map((student) => (
-        <p key={student.id}>{student.name}</p>
-      ))}
+      <h1>{me?.name}'s TA</h1>
+      <CountPhysicalCards />
       {students.length > 0 && (
         <>
           <ViewStudentTable users={students} title="TA Students" />

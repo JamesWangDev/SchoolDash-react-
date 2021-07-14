@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div>
       <main>
-        <h2 className="center">Welcome to the NCUJHS Dashboard {me.name}</h2>
+        <h1 className="center">Welcome to the NCUJHS Dashboard {me.name}</h1>
         <DashboardContainerStyles>
           {isAllowed(me || {}, 'isStaff') && (
             <PbisCardFormButton teacher={me} />

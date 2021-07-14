@@ -26,6 +26,7 @@ const HomePageLinkStyles = styled.div`
     padding: 0.1rem 1.5rem;
     height: max-content;
     border-radius: 2rem;
+    margin: 0.5rem;
   }
 `;
 
@@ -41,11 +42,16 @@ export default function HomePageLinks() {
 
   return (
     <HomePageLinkStyles>
-      {data.allLinks.map((link) => (
-        <Link key={link.id} href={`http://${link.link}`}>
-          {link.name}
-        </Link>
-      ))}
+      {data.allLinks.map((link) => {
+        const linkToUse = link.link.startsWith('http')
+          ? `${link.link}`
+          : `http://${link.link}`;
+        return (
+          <Link key={link.id} href={linkToUse}>
+            {link.name}
+          </Link>
+        );
+      })}
     </HomePageLinkStyles>
   );
 }
