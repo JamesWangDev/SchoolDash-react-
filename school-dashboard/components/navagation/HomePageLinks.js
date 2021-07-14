@@ -19,10 +19,12 @@ const HomePageLinkStyles = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 1.5rem;
+  padding-left: 2rem;
   a {
     background: linear-gradient(to top right, var(--red), var(--blue));
     color: white;
     padding: 0.1rem 1.5rem;
+    height: max-content;
     border-radius: 2rem;
   }
 `;

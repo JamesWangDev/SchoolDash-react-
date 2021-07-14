@@ -20,11 +20,12 @@ const ContainerStyles = styled.div`
   background-color: var(--red);
   border-radius: 50;
   margin: 50;
+  margin: 0.5rem;
   /* border-radius: 1rem; */
 
   .filler {
     width: 100%;
-    height: ${({ percentageFull }) => 100 - percentageFull * 200}%;
+    height: ${({ percentageLeft }) => percentageLeft}%;
     background-color: var(--blue);
     position: relative;
     bottom: 0px;
@@ -34,15 +35,30 @@ const ContainerStyles = styled.div`
   }
 
   .label {
-    padding: 5;
+    position: absolute;
+    /* padding: 5; */
     color: white;
     font-weight: bold;
+    left: 20px;
+    right: 20px;
+    text-align: center;
+  }
+  .total {
+    position: absolute;
+    /* padding: 5; */
+    color: white;
+    font-weight: bold;
+    left: 20px;
+    right: 20px;
+    bottom: 50px;
+    text-align: center;
   }
   img {
-    position: relative;
-    top: 0px;
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 2px;
+    left: 5%;
+    width: 90%;
+    /* height: 100%; */
   }
 `;
 
@@ -51,24 +67,22 @@ export default function PbisFalcon() {
     'totalPbisCards',
     TOTAL_PBIS_CARDS
   );
+  const cardGoal = 35000;
 
   if (isLoading) return <Loading />;
   if (error) return <DisplayError error={error} />;
   const percentageFull =
-    Math.round((data._allPbisCardsMeta.count / 34573) * 10000) / 100;
-
+    Math.round((data._allPbisCardsMeta.count / cardGoal) * 10000) / 100;
+  const percentageLeft = 100 - percentageFull;
   return (
     <div>
-      <ContainerStyles percentageFull={percentageFull}>
+      <ContainerStyles percentageLeft={percentageLeft}>
         <div className="filler">
-          <img src="/falcon.svg" />
+          <img src="/falcon.svg" alt="falcon" />
           <span className="label">{`${percentageFull}%`}</span>
+          <span className="total">{data._allPbisCardsMeta.count} cards</span>
         </div>
       </ContainerStyles>
-
-      <p>falcon goes here</p>
-      <p>{data._allPbisCardsMeta.count}</p>
-      <p>{percentageFull}%</p>
     </div>
   );
 }

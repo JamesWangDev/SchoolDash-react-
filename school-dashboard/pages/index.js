@@ -2,7 +2,6 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import WeeklyCalendar from '../components/calendars/WeeklyCalendar';
 import StudentCallbacks from '../components/Callback/StudentCallbacks';
-import TeacherDashboard from '../components/dashboard/TeacherDashboard';
 import SignOut from '../components/loginComponents/SignOut';
 import HomePageLinks from '../components/navagation/HomePageLinks';
 import { useUser } from '../components/User';
@@ -11,10 +10,15 @@ import DisplayPbisCardWidget from '../components/PBIS/DisplayPbisCardsWidget';
 import StudentPbisData from '../components/PBIS/StudentPbisData';
 import RequestReset from '../components/RequestReset';
 import PbisFalcon from '../components/PBIS/PbisFalcon';
+import PbisCardFormButton from '../components/PBIS/PbisCardFormButton';
+import TeacherAssignments from '../components/Assignments/TeacherAssignments';
+import TaCallbacks from '../components/Callback/TaCallback';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
   @media (max-width: 650px) {
     flex-wrap: wrap;
   }
@@ -26,16 +30,18 @@ export default function Home() {
   return (
     <div>
       <main>
-        <HomePageLinks me={me || {}} />
+        <h2 className="center">Welcome to the NCUJHS Dashboard {me.name}</h2>
         <DashboardContainerStyles>
-          <PbisFalcon />
-          <WeeklyCalendar me={me || {}} />
-          {isAllowed(me || {}, 'isTeacher') && (
-            <TeacherDashboard teacher={me || {}} />
+          {isAllowed(me || {}, 'isStaff') && (
+            <PbisCardFormButton teacher={me} />
           )}
+          <PbisFalcon />
+          <HomePageLinks me={me || {}} />
+          <WeeklyCalendar me={me || {}} />
+          {isAllowed(me, 'hasClasses') && <TeacherAssignments />}
+          {isAllowed(me, 'hasTA') && <TaCallbacks />}
           {me && isAllowed(me, 'isStudent') && (
             <div>
-              <h2>Welcome to the NCUJHS Dashboard {me.name}</h2>
               <StudentCallbacks />
               <StudentPbisData student={me} />
               <DisplayPbisCardWidget cards={me.studentPbisCards} />
