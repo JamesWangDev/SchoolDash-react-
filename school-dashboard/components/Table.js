@@ -7,7 +7,7 @@ export default function Table({
   data,
   searchColumn,
   showSearch = true,
-  hiddenColumns,
+  hiddenColumns = [],
 }) {
   const [filterInput, setFilterInput] = useState('');
   // Use the state and functions returned from useTable to build your UI
