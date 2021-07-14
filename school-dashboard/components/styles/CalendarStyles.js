@@ -78,6 +78,7 @@ export const WeeklyCalendarContainerStyles = styled.div`
       color: white;
       text-shadow: 1px 1px var(--grey);
       opacity: 1;
+      grid-column: span 1;
       border-radius: 1rem;
     }
   }
