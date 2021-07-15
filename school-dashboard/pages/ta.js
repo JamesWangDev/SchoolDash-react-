@@ -132,9 +132,9 @@ export default function TA() {
   return (
     <div>
       <h1>{me?.name}'s TA</h1>
-      <CountPhysicalCards />
       {students.length > 0 && (
         <>
+          <CountPhysicalCards taStudents={students} />
           <ViewStudentTable users={students} title="TA Students" />
           <CallbackTable callbacks={allTaCallbacks[0] || []} />
         </>

@@ -21,7 +21,8 @@ const ContainerStyles = styled.div`
   border-radius: 50;
   margin: 50;
   margin: 0.5rem;
-  /* border-radius: 1rem; */
+  border-radius: 3px;
+  border: 3px solid var(--red);
 
   .filler {
     width: 100%;
@@ -31,7 +32,7 @@ const ContainerStyles = styled.div`
     bottom: 0px;
     transition: width 1s ease-in-out;
     text-align: right;
-    /* border-radius: 1rem 1rem 0rem 0rem; */
+    border-radius: 3px 3px 0px 0px;
   }
 
   .label {
@@ -67,6 +68,7 @@ export default function PbisFalcon() {
     'totalPbisCards',
     TOTAL_PBIS_CARDS
   );
+  // last years card total
   const cardGoal = 35000;
 
   if (isLoading) return <Loading />;
