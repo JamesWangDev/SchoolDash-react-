@@ -38,6 +38,17 @@ const CURRENT_USER_QUERY = gql`
           }
           dateGiven
         }
+        taTeam {
+          id
+          teamName
+        }
+        taTeacher {
+          id
+          taTeam {
+            id
+            teamName
+          }
+        }
       }
     }
   }

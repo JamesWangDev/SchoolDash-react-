@@ -32,11 +32,11 @@ export default function DoughnutChart({ title, chartData }) {
     },
   };
   return (
-    <>
+    <div>
       <div className="header">
         <h4 className="title">{title}</h4>
       </div>
       <Doughnut data={data} options={options} />
-    </>
+    </div>
   );
 }
