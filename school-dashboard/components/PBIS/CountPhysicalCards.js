@@ -7,6 +7,7 @@ import DisplayError from '../ErrorMessage';
 import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles } from '../styles/Form';
 import { useUser } from '../User';
+import useRecalculatePBIS from './useRecalculatePbis';
 
 const CREATE_CARD_MUTATION = gql`
   mutation CREATE_CARD_MUTATION($cards: [PbisCardsCreateInput]) {
@@ -38,10 +39,10 @@ function createCards(users, teacherId) {
   //   console.log(cards);
   return cards;
 }
-export default function CountPhysicalCards({ taStudents }) {
+export default function CountPhysicalCards({ taStudents, refetch }) {
   const me = useUser();
   const [showForm, setShowForm] = useState(false);
-
+  const { recalculatePbisFromId } = useRecalculatePBIS();
   // creat an array of objects with keys taStudent.id and value of 0
   const taStudentCounts = {};
   taStudents.forEach((student) => {
@@ -76,12 +77,27 @@ export default function CountPhysicalCards({ taStudents }) {
               //   console.log(inputs);
               const cardsToCreate = await createCards(inputs, me.id);
               console.log(JSON.stringify(cardsToCreate));
-              //   const res = await countCardsMutation({
-              //     variables: { data: inputs },
-              //   });
-              //   console.log(res);
+              const res = await countCardsMutation({
+                variables: { cards: cardsToCreate },
+              });
+              console.log(res.data);
+              // get all the unique students from the cards
+              const studentIds = cardsToCreate.map(
+                (card) => card.data.student.connect.id
+              );
+              // get the unique student ids
+              const uniqueStudentIds = [...new Set(studentIds)];
+              console.log(uniqueStudentIds);
+              // recalculate pbis for each student
+
+              uniqueStudentIds.forEach((studentId) => {
+                recalculatePbisFromId(studentId);
+              });
+              setTimeout(() => {
+                refetch();
+              }, 2000);
               clearForm();
-              //   setShowForm(false);
+              setShowForm(false);
             }}
           >
             <h1>Log TA Cards</h1>

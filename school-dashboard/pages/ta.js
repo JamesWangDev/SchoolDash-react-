@@ -110,7 +110,7 @@ const TA_INFO_QUERY = gql`
 
 export default function TA() {
   const me = useUser();
-  const { data, isLoading, error } = useGQLQuery(
+  const { data, isLoading, error, refetch } = useGQLQuery(
     'TaInfo',
     TA_INFO_QUERY,
     {
@@ -134,7 +134,7 @@ export default function TA() {
       <h1>{me?.name}'s TA</h1>
       {students.length > 0 && (
         <>
-          <CountPhysicalCards taStudents={students} />
+          <CountPhysicalCards taStudents={students} refetch={refetch} />
           <ViewStudentTable users={students} title="TA Students" />
           <CallbackTable callbacks={allTaCallbacks[0] || []} />
         </>
