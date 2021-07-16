@@ -22,7 +22,6 @@ function createCards(users, teacherId) {
   const userToAddCards = Object.keys(users);
   const cards = [];
   userToAddCards.forEach((user) => {
-    // console.log(users);
     if (users[user] > 0) {
       const numberOfCards = users[user];
       for (let i = 0; i < numberOfCards; i++) {
@@ -36,7 +35,6 @@ function createCards(users, teacherId) {
       }
     }
   });
-  //   console.log(cards);
   return cards;
 }
 export default function CountPhysicalCards({ taStudents, refetch }) {
@@ -55,7 +53,6 @@ export default function CountPhysicalCards({ taStudents, refetch }) {
   const [countCardsMutation, { loading, error, data }] = useMutation(
     CREATE_CARD_MUTATION
   );
-  //   console.log(inputs);
 
   return (
     <div>
@@ -74,20 +71,16 @@ export default function CountPhysicalCards({ taStudents, refetch }) {
               e.preventDefault();
               // Submit the inputfields to the backend:
               //   const res = await countCardsMutation();
-              //   console.log(inputs);
               const cardsToCreate = await createCards(inputs, me.id);
-              console.log(JSON.stringify(cardsToCreate));
               const res = await countCardsMutation({
                 variables: { cards: cardsToCreate },
               });
-              console.log(res.data);
               // get all the unique students from the cards
               const studentIds = cardsToCreate.map(
                 (card) => card.data.student.connect.id
               );
               // get the unique student ids
               const uniqueStudentIds = [...new Set(studentIds)];
-              console.log(uniqueStudentIds);
               // recalculate pbis for each student
 
               uniqueStudentIds.forEach((studentId) => {
