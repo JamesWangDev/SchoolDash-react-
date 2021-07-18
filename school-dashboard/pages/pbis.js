@@ -14,7 +14,7 @@ const ChartContainerStyles = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `;
-const TeamCardStyles = styled.div`
+export const TeamCardStyles = styled.div`
   display: flex;
   flex-wrap: wrap;
   div {
@@ -177,7 +177,7 @@ export default function Pbis() {
       </TeamCardStyles>
       <div>
         {lastPbisCollection && (
-          <DisplayPbisCollectionData CollectionData={lastPbisCollection} />
+          <DisplayPbisCollectionData collectionData={lastPbisCollection} />
         )}
       </div>
     </div>
