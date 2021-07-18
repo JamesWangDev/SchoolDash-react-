@@ -59,6 +59,10 @@ const PBIS_COLLECTION_QUERY = gql`
       teamName
       currentLevel
       averageCardsPerStudent
+      taTeacher {
+        id
+        name
+      }
     }
     studentsWithCurrentCounts: allUsers(where: { isStudent: true }) {
       id
@@ -97,17 +101,22 @@ export default function usePbisCollection() {
 
   function getPersonalLevelWinners(students) {
     // check every student for a new level
-    students.map((student) => {
+    let personalLevelWinnersList = students.map((student) => {
       const oldLevel = student.individualPbisLevel;
       const newLevel = Math.floor(
         student._studentPbisCardsMeta.count / cardsPerPersonalLevel
       );
       if (oldLevel !== newLevel) {
         student.individualPbisLevel = newLevel;
-        setPersonalLevelWinners([...personalLevelWinners, student]);
+        console.log('new personal level winner:', student.name, newLevel);
+        return { student: student.id, name: student.name, level: newLevel };
       }
+      return null;
     });
-    console.log(personalLevelWinners);
+    // remove null values
+    personalLevelWinnersList = personalLevelWinnersList.filter(Boolean);
+
+    return personalLevelWinnersList;
   }
 
   function chooseRandomCardFromArrayOfCards(cards) {
@@ -119,13 +128,14 @@ export default function usePbisCollection() {
     arrayOfCards,
     previousWinner
   ) {
+    // console.log('arrayOfCards');
+    // console.log(arrayOfCards);
     // choose a random card from the cards that doesn't match the current winner
     if (arrayOfCards.length === 0) {
       return {};
     }
-
     const cardsToChooseFrom = arrayOfCards.filter(
-      (card) => card.student.id !== previousWinner.id
+      (card) => card?.student.id !== previousWinner?.id
     );
     if (cardsToChooseFrom.length === 0) {
       return arrayOfCards[0];
@@ -136,15 +146,87 @@ export default function usePbisCollection() {
   }
 
   function getTaWinnerAndCardsPerStudent(tas) {
-    tas.map((ta) => {
+    return tas.map((ta) => {
       const taId = ta.id;
       const oldCurrentWinner = ta.currentTaWinner;
-      const taCards = ta.taStudents.map((student) => student.studentPbisCards);
-      const taWinner = chooseARandomWinnerFromTaCardsThatDoesntMatchCurrentWinner(
+      // array of cards from each students array of cards
+      let taCards = [];
+      ta.taStudents.map((student) => {
+        taCards = [...taCards, ...student.studentPbisCards];
+      });
+      const winningCard = chooseARandomWinnerFromTaCardsThatDoesntMatchCurrentWinner(
         taCards,
         oldCurrentWinner
       );
+      const taWinner = {
+        ta: ta.id,
+        taName: ta.name,
+        studentName: winningCard?.student?.name || 'No Winner',
+        studentId: winningCard?.student?.id || null,
+      };
+      const newCardsPerStudent = taCards.length;
+      const numberOfStudentsInTa = ta.taStudents.length;
+      const oldLevel = ta.currentLevel;
+      const oldAverageCardsPerStudent = ta.averageCardsPerStudent;
+      const averageCardsPerStudentToAdd =
+        newCardsPerStudent / numberOfStudentsInTa;
+      const newAverageCardsPerStudent =
+        oldAverageCardsPerStudent + averageCardsPerStudentToAdd;
+      const newLevel = Math.floor(newAverageCardsPerStudent / cardsPerTaLevel);
+      const isNewLevel = oldLevel !== newLevel;
+
+      return {
+        taWinner,
+        newCardsPerStudent,
+        taId,
+        numberOfStudentsInTa,
+        isNewLevel,
+        newLevel,
+        newAverageCardsPerStudent,
+      };
     });
+  }
+
+  function getTaTeamCardsPerStudent(taTeams, taInfo) {
+    const taTeamInfo = taTeams.map((team) => {
+      const teachers = team.taTeacher.map((teacher) => {
+        const taId = teacher.id;
+        return taId;
+      });
+      const tasInTeam = taInfo.filter((ta) =>
+        // check if the current ta is in the team array
+        ta.taId.includes(teachers)
+      );
+      // get the number of students in the team from the number of students in each ta
+      const numberOfStudentsInTeam = tasInTeam.reduce(
+        (prev, curr) => prev + curr.numberOfStudentsInTa,
+        0
+      );
+      // get the nunmber of cards in the team from the number of cards in each ta
+      const cardsInTeam = tasInTeam.reduce(
+        (prev, curr) => prev + curr.newCardsPerStudent,
+        0
+      );
+      const oldLevel = team.currentLevel;
+      const oldAverageCardsPerStudent = team.averageCardsPerStudent;
+      const averageCardsPerStudentToAdd = cardsInTeam / numberOfStudentsInTeam;
+      const newAverageCardsPerStudent =
+        oldAverageCardsPerStudent + averageCardsPerStudentToAdd;
+      const newLevel = Math.floor(newAverageCardsPerStudent / cardsPerTaLevel);
+      const isNewLevel = oldLevel !== newLevel;
+
+      const teamInfo = {
+        id: team.id,
+        teamName: team.teamName,
+        cardsInTeam,
+        numberOfStudentsInTeam,
+        isNewLevel,
+        currentLevel: newLevel,
+        averageCardsPerStudent: newAverageCardsPerStudent,
+      };
+      return teamInfo;
+    });
+    return taTeamInfo;
   }
 
   async function runCardCollection() {
@@ -152,7 +234,12 @@ export default function usePbisCollection() {
     const studentWinners = getPersonalLevelWinners(
       data.studentsWithCurrentCounts
     );
-    const taWinners = getTaWinnerAndCardsPerStudent(data.taTeachers);
+    console.log('student winners', studentWinners);
+    const taWinnersAndCards = getTaWinnerAndCardsPerStudent(data.taTeachers);
+    setRandomDrawingWinners(taWinnersAndCards);
+    setPersonalLevelWinners(studentWinners);
+    const teamInfo = getTaTeamCardsPerStudent(data.taTeams, taWinnersAndCards);
+    setTaTeamLevels(teamInfo);
     setRunning(false);
   }
   const results = {

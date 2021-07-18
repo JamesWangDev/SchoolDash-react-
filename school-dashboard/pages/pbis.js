@@ -149,12 +149,12 @@ export default function Pbis() {
         )}
       </ChartContainerStyles>
       <TeamCardStyles>
-        {teams.map((team) => (
-          <div>
+        {teams?.map((team) => (
+          <div key={team.id}>
             <h3>{team.teamName}</h3>
             <p>
               {team.taTeacher.map((teacher) => (
-                <span>{teacher.name}</span>
+                <span key={teacher.id}>{teacher.name}</span>
               ))}
             </p>
             <h4>Level -{team.currentLevel}-</h4>
