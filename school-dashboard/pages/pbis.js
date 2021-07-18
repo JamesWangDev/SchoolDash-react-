@@ -5,6 +5,7 @@ import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import PbisFalcon from '../components/PBIS/PbisFalcon';
 import DoughnutChart from '../components/Chart/DonutChart';
+import DisplayPbisCollectionData from '../components/PBIS/DisplayPbisCollectionData';
 
 const ChartContainerStyles = styled.div`
   display: grid;
@@ -62,6 +63,16 @@ const PBIS_PAGE_QUERY = gql`
       currentLevel
       numberOfStudents
     }
+    lastCollection: allPbisCollections(sortBy: collectionDate_DESC, first: 1) {
+      id
+      name
+      collectionDate
+      personalLevelWinners
+      randomDrawingWinners
+      taTeamsLevels
+      taTeamNewLevelWinners
+      currentPbisTeamGoal
+    }
     teamData: allPbisCards(
       where: { student: { taTeacher: { taTeam: { id: $teamId } } } }
     ) {
@@ -103,6 +114,7 @@ export default function Pbis() {
   const totalTeamCards = data?.totalTeamCards?.count;
   const teams = data?.teams;
   const hasTeam = !!teamId;
+  const lastPbisCollection = data?.lastCollection[0];
 
   // get the possible categories for the cards
   const categories = cards?.map((card) => card.category);
@@ -163,6 +175,11 @@ export default function Pbis() {
           </div>
         ))}
       </TeamCardStyles>
+      <div>
+        {lastPbisCollection && (
+          <DisplayPbisCollectionData CollectionData={lastPbisCollection} />
+        )}
+      </div>
     </div>
   );
 }

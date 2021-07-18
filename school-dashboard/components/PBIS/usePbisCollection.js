@@ -1,6 +1,8 @@
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import React from 'react';
 import { useGQLQuery } from '../../lib/useGqlQuery';
+import setPbisCollection from './useCreateCollectionMutation';
 
 const cardsPerPersonalLevel = 50;
 const cardsPerTaLevel = 15;
@@ -83,15 +85,44 @@ const PBIS_COLLECTION_QUERY = gql`
   }
 `;
 
+const CREATE_PBIS_COLLECTION_MUTATION = gql`
+  mutation CREATE_PBIS_COLLECTION_MUTATION(
+    $name: String!
+    $randomDrawingWinners: String!
+    $personalLevelWinners: String!
+    $taTeamLevels: String!
+    $taTeamNewLevelWinners: String!
+    $currentPbisTeamGoal: String!
+  ) {
+    createPbisCollection(
+      data: {
+        name: $name
+        randomDrawingWinners: $randomDrawingWinners
+        personalLevelWinners: $personalLevelWinners
+        taTeamsLevels: $taTeamLevels
+        taTeamNewLevelWinners: $taTeamNewLevelWinners
+        currentPbisTeamGoal: $currentPbisTeamGoal
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 export default function usePbisCollection() {
-  const [running, setRunning] = React.useState(false);
+  // const [running, setRunning] = React.useState(false);
   const [getData, setGetData] = React.useState(false);
   const [randomDrawingWinners, setRandomDrawingWinners] = React.useState([]);
   const [personalLevelWinners, setPersonalLevelWinners] = React.useState([]);
   const [taTeamLevels, setTaTeamLevels] = React.useState([]);
   const [taTeamNewLevelWinners, setTaTeamNewLevelWinners] = React.useState([]);
   const [taCardPerStudent, setTaCardPerStudent] = React.useState([]);
+  const [currentPbisTeamGoal, setCurrentPbisTeamGoal] = React.useState(2);
 
+  const [createNewPbisCollection] = useMutation(
+    CREATE_PBIS_COLLECTION_MUTATION,
+    {}
+  );
   const { data, loading } = useGQLQuery(
     'pbisCollection',
     PBIS_COLLECTION_QUERY,
@@ -234,8 +265,7 @@ export default function usePbisCollection() {
     return newLevelTeams;
   }
 
-  async function runCardCollection() {
-    setRunning(true);
+  async function updateAllDataForWinners() {
     const studentWinners = getPersonalLevelWinners(
       data.studentsWithCurrentCounts
     );
@@ -248,13 +278,71 @@ export default function usePbisCollection() {
     const taTeamsAtNewLevel = getTaTeamsAtNewLevel(teamInfo);
     setTaTeamNewLevelWinners(taTeamsAtNewLevel);
 
-    setRunning(false);
+    // get the lowest level ta team
+    const lowestLevelTaTeam = teamInfo.reduce(
+      (prev, curr) => (prev.currentLevel > curr.currentLevel ? prev : curr),
+      {}
+    );
+    // if lowest level ta level is even then set currentPBIS level to lowest level +2 otherwise +1
+    const pbisGoal =
+      lowestLevelTaTeam.currentLevel % 2 === 0
+        ? lowestLevelTaTeam.currentLevel + 2
+        : lowestLevelTaTeam.currentLevel + 1;
+    setCurrentPbisTeamGoal(pbisGoal);
   }
+
+  async function runCardCollection() {
+    // await updateAllDataForWinners();
+    const thePersonalLevelWinners = getPersonalLevelWinners(
+      data.studentsWithCurrentCounts
+    );
+    const theRandomDrawingWinners = getTaWinnerAndCardsPerStudent(
+      data.taTeachers
+    );
+    const theTaTeamLevels = getTaTeamCardsPerStudent(
+      data.taTeams,
+      theRandomDrawingWinners
+    );
+    const theTaTeamNewLevelWinners = getTaTeamsAtNewLevel(theTaTeamLevels);
+
+    const today = new Date().toLocaleDateString();
+    const name = `Card Collection ${today}`;
+
+    const lowestLevelTaTeam = theTaTeamLevels.reduce(
+      (prev, curr) => (prev.currentLevel > curr.currentLevel ? prev : curr),
+      {}
+    );
+    const thePbisGoal =
+      lowestLevelTaTeam.currentLevel % 2 === 0
+        ? lowestLevelTaTeam.currentLevel + 2
+        : lowestLevelTaTeam.currentLevel + 1;
+    console.log(thePbisGoal);
+    createNewPbisCollection({
+      variables: {
+        name,
+        randomDrawingWinners: JSON.stringify(theRandomDrawingWinners),
+        personalLevelWinners: JSON.stringify(thePersonalLevelWinners),
+        taTeamLevels: JSON.stringify(theTaTeamLevels),
+        taTeamNewLevelWinners: JSON.stringify(theTaTeamNewLevelWinners),
+        currentPbisTeamGoal: thePbisGoal.toString(),
+      },
+    });
+    return name;
+  }
+
   const results = {
     randomDrawingWinners,
     personalLevelWinners,
     taTeamLevels,
     taTeamNewLevelWinners,
+    currentPbisTeamGoal,
   };
-  return { running, runCardCollection, data, setGetData, getData, results };
+
+  return {
+    runCardCollection,
+    data,
+    setGetData,
+    getData,
+    results,
+  };
 }

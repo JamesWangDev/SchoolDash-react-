@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/dist/client/router';
 import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
@@ -7,8 +8,9 @@ import usePbisCollection from './usePbisCollection';
 export default function WeeklyPbisCollection() {
   const [showForm, setShowForm] = React.useState(false);
   const { inputs, handleChange, clearForm } = useForm();
+  const [running, setRunning] = React.useState(false);
+  const router = useRouter();
   const {
-    running,
     runCardCollection,
     data,
     setGetData,
@@ -16,7 +18,8 @@ export default function WeeklyPbisCollection() {
     results,
   } = usePbisCollection();
   useEffect(() => {
-    if (running === false) {
+    console.log('running', running);
+    if (!running) {
       setShowForm(false);
     }
   }, [running]);
@@ -40,12 +43,18 @@ export default function WeeklyPbisCollection() {
               e.preventDefault();
               // Submit the inputfields to the backend:
               if (inputs.confirmation === 'yes') {
-                await runCardCollection();
+                setRunning(true);
+                const res = await runCardCollection();
                 // setShowForm(false);
-              } else {
-                setShowForm(false);
+                clearForm();
+                if (res) {
+                  console.log(res);
+                  setRunning(false);
+                  router.push({
+                    pathname: `/pbis`,
+                  });
+                }
               }
-              clearForm();
             }}
           >
             <h1>Run the weekly PBIS Card Collection</h1>
@@ -69,8 +78,6 @@ export default function WeeklyPbisCollection() {
           </Form>
         </FormContainerStyles>
       </div>
-      {JSON.stringify(results)}
-      {/* {data && JSON.stringify(data)} */}
     </div>
   );
 }
