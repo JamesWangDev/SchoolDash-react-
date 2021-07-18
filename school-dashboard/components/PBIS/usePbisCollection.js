@@ -229,6 +229,11 @@ export default function usePbisCollection() {
     return taTeamInfo;
   }
 
+  function getTaTeamsAtNewLevel(teamInfo) {
+    const newLevelTeams = teamInfo.filter((team) => team.isNewLevel);
+    return newLevelTeams;
+  }
+
   async function runCardCollection() {
     setRunning(true);
     const studentWinners = getPersonalLevelWinners(
@@ -240,6 +245,9 @@ export default function usePbisCollection() {
     setPersonalLevelWinners(studentWinners);
     const teamInfo = getTaTeamCardsPerStudent(data.taTeams, taWinnersAndCards);
     setTaTeamLevels(teamInfo);
+    const taTeamsAtNewLevel = getTaTeamsAtNewLevel(teamInfo);
+    setTaTeamNewLevelWinners(taTeamsAtNewLevel);
+
     setRunning(false);
   }
   const results = {

@@ -16,7 +16,7 @@ export default function WeeklyPbisCollection() {
     results,
   } = usePbisCollection();
   useEffect(() => {
-    if (!running) {
+    if (running === false) {
       setShowForm(false);
     }
   }, [running]);
@@ -45,7 +45,7 @@ export default function WeeklyPbisCollection() {
               } else {
                 setShowForm(false);
               }
-              // clearForm();
+              clearForm();
             }}
           >
             <h1>Run the weekly PBIS Card Collection</h1>
