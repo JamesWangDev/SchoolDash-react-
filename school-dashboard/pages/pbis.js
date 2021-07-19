@@ -6,6 +6,7 @@ import { useGQLQuery } from '../lib/useGqlQuery';
 import PbisFalcon from '../components/PBIS/PbisFalcon';
 import DoughnutChart from '../components/Chart/DonutChart';
 import DisplayPbisCollectionData from '../components/PBIS/DisplayPbisCollectionData';
+import PbisCardChart from '../components/PBIS/PbisCardChart';
 
 const ChartContainerStyles = styled.div`
   display: grid;
@@ -13,6 +14,25 @@ const ChartContainerStyles = styled.div`
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-evenly;
   align-items: center;
+`;
+
+const AnnouncementStyle = styled.h2`
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: red;
+  animation: color-change 3s infinite;
+  @keyframes color-change {
+    0% {
+      color: var(--red);
+    }
+    50% {
+      color: var(--blue);
+    }
+    100% {
+      color: var(--red);
+    }
+  }
 `;
 export const TeamCardStyles = styled.div`
   /* display: flex;
@@ -67,7 +87,7 @@ const PBIS_PAGE_QUERY = gql`
       currentLevel
       numberOfStudents
     }
-    lastCollection: allPbisCollections(sortBy: collectionDate_DESC, first: 1) {
+    lastCollection: allPbisCollections(sortBy: collectionDate_DESC, first: 2) {
       id
       name
       collectionDate
@@ -119,7 +139,11 @@ export default function Pbis() {
   const teams = data?.teams;
   const hasTeam = !!teamId;
   const lastPbisCollection = data?.lastCollection[0];
-
+  const previousPbisCollection = data?.lastCollection[1];
+  const newSchoelwideGoal = lastPbisCollection?.currentPbisTeamGoal || 2;
+  const previousSchoelwideGoal =
+    previousPbisCollection?.currentPbisTeamGoal || 2;
+  const didWeGetNewSchoolWideLevel = newSchoelwideGoal > previousSchoelwideGoal;
   // get the possible categories for the cards
   const categories = cards?.map((card) => card.category);
   const categoriesSet = new Set(categories);
@@ -164,6 +188,7 @@ export default function Pbis() {
           />
         )}
       </ChartContainerStyles>
+      <PbisCardChart />
       <TeamCardStyles>
         {teams?.map((team) => (
           <div key={team.id}>
@@ -180,10 +205,17 @@ export default function Pbis() {
         ))}
       </TeamCardStyles>
       <div>
+        {didWeGetNewSchoolWideLevel && (
+          <AnnouncementStyle>
+            We Reached A New School-Wide Goal!!: {newSchoelwideGoal}
+          </AnnouncementStyle>
+        )}
+
         {lastPbisCollection && (
           <DisplayPbisCollectionData collectionData={lastPbisCollection} />
         )}
       </div>
+      {/* {JSON.stringify(lastPbisCollection.taTeamsLevels)} */}
     </div>
   );
 }

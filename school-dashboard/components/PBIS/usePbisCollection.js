@@ -93,6 +93,7 @@ const CREATE_PBIS_COLLECTION_MUTATION = gql`
     $taTeamLevels: String!
     $taTeamNewLevelWinners: String!
     $currentPbisTeamGoal: String!
+    $collectedCards: String
   ) {
     createPbisCollection(
       data: {
@@ -102,12 +103,14 @@ const CREATE_PBIS_COLLECTION_MUTATION = gql`
         taTeamsLevels: $taTeamLevels
         taTeamNewLevelWinners: $taTeamNewLevelWinners
         currentPbisTeamGoal: $currentPbisTeamGoal
+        collectedCards: $collectedCards
       }
     ) {
       id
     }
   }
 `;
+// update teachers with new winner and update old winner
 
 const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION = gql`
   mutation UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION(
@@ -126,7 +129,7 @@ const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION = gql`
     }
   }
 `;
-
+// update teachers with new pbis winner
 const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS = gql`
   mutation UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS(
     $id: ID!
@@ -136,6 +139,44 @@ const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS = gql`
       id: $id
       data: { currentTaWinner: { connect: { id: $currentTaWinner } } }
     ) {
+      id
+    }
+  }
+`;
+// update PBIS Teams with new data
+const UPDATE_PBIS_TEAM_WITH_NEW_DATA_MUTATION = gql`
+  mutation UPDATE_PBIS_TEAM_WITH_NEW_DATA_MUTATION(
+    $data: [PbisTeamsUpdateInput]
+  ) {
+    updatePbisTeams(data: $data) {
+      id
+    }
+  }
+`;
+
+// update students who went up a personal level
+const UPDATE_STUDENT_WITH_NEW_PBIS_LEVEL_MUTATION = gql`
+  mutation UPDATE_STUDENT_WITH_NEW_PBIS_LEVEL_MUTATION(
+    $data: [UsersUpdateInput]
+  ) {
+    updateUsers(data: $data) {
+      id
+    }
+  }
+`;
+
+// mark all the cards as collected
+const COUNT_PBIS_CARD_MUTATION = gql`
+  mutation COUNT_PBIS_CARD_MUTATION($data: [PbisCardsUpdateInput]!) {
+    updatePbisCards(data: $data) {
+      id
+    }
+  }
+`;
+// recalculate the pbis cards from user
+const UPDATE_PBIS = gql`
+  mutation UPDATE_PBIS($userId: ID!) {
+    recalculatePBIS(userId: $userId) {
       id
     }
   }
@@ -151,12 +192,23 @@ export default function usePbisCollection() {
   const [taCardPerStudent, setTaCardPerStudent] = React.useState([]);
   const [currentPbisTeamGoal, setCurrentPbisTeamGoal] = React.useState(2);
 
+  const [countCardsMutation] = useMutation(COUNT_PBIS_CARD_MUTATION, {});
+  const [updateCardCount, { loading: cardLoading }] = useMutation(UPDATE_PBIS);
+
   const [updateTaTeacherWithoutPreviousWinner] = useMutation(
     UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS,
     {}
   );
+  const [updatePbisTeamData] = useMutation(
+    UPDATE_PBIS_TEAM_WITH_NEW_DATA_MUTATION,
+    {}
+  );
   const [updateTaTeacherWithPreviousWinner] = useMutation(
     UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION,
+    {}
+  );
+  const [updateUsersWithNewPersonalLevel] = useMutation(
+    UPDATE_STUDENT_WITH_NEW_PBIS_LEVEL_MUTATION,
     {}
   );
 
@@ -293,8 +345,6 @@ export default function usePbisCollection() {
   }
 
   function updateTaTeachersWithNewWinners(tas) {
-    console.log('updateTaTeachersWithNewWinners');
-    console.log(tas);
     return tas.forEach((ta) => {
       const oldCurrentWinner = ta.oldCurrentWinner || null;
       const newWinner = ta.taWinner.studentId;
@@ -356,6 +406,17 @@ export default function usePbisCollection() {
     setCurrentPbisTeamGoal(pbisGoal);
   }
 
+  async function updatePbisDataFromListOfStudentsWhoGotCards(
+    listOfStudentsWhoGotCards
+  ) {
+    const users = await listOfStudentsWhoGotCards.map((student) =>
+      updateCardCount({
+        variables: { userId: student },
+      })
+    );
+    console.log('users', users);
+  }
+
   async function runCardCollection() {
     // await updateAllDataForWinners();
     const thePersonalLevelWinners = getPersonalLevelWinners(
@@ -374,15 +435,79 @@ export default function usePbisCollection() {
     const name = `Card Collection ${today}`;
 
     const lowestLevelTaTeam = theTaTeamLevels.reduce(
-      (prev, curr) => (prev.currentLevel > curr.currentLevel ? prev : curr),
+      (prev, curr) => (prev.currentLevel < curr.currentLevel ? prev : curr),
       {}
     );
+    console.log('lowest level ta team', lowestLevelTaTeam);
     const thePbisGoal =
       lowestLevelTaTeam.currentLevel % 2 === 0
         ? lowestLevelTaTeam.currentLevel + 2
         : lowestLevelTaTeam.currentLevel + 1;
 
-    createNewPbisCollection({
+    const cardsToCheckOff = data.uncountedCards.map((card) => ({
+      id: card.id,
+      data: {
+        counted: true,
+      },
+    }));
+    const studentsToUpdatePbis = data.uncountedCards.map((card) => ({
+      id: card.student.id,
+    }));
+
+    const newPersonalLevelsForUpdateMutation = thePersonalLevelWinners.map(
+      (student) => ({
+        id: student.student,
+        data: {
+          individualPbisLevel: student.level,
+        },
+      })
+    );
+    const pbisTeamsDataForUpdateMutation = theTaTeamLevels.map((team) => ({
+      id: team.id,
+      data: {
+        currentLevel: team.currentLevel,
+        numberOfStudents: team.numberOfStudentsInTeam,
+        averageCardsPerStudent: team.averageCardsPerStudent,
+      },
+    }));
+
+    console.log(newPersonalLevelsForUpdateMutation);
+    const updatedStudentLevels = await updateUsersWithNewPersonalLevel({
+      variables: {
+        data: newPersonalLevelsForUpdateMutation,
+      },
+    });
+
+    // get unique students to update by ids
+    const studentsToUpdatePbisUnique = studentsToUpdatePbis.reduce(
+      (prev, curr) => {
+        if (prev.includes(curr.id)) {
+          return prev;
+        }
+        return prev.concat(curr.id);
+      },
+      []
+    );
+    const cardsCheckedOff = await countCardsMutation({
+      variables: { data: cardsToCheckOff },
+    });
+    const collectedCards = data.uncountedCards.map((card) => ({
+      category: card.category,
+    }));
+    const listOfCardCategories = collectedCards.reduce((prev, curr) => {
+      if (prev.includes(curr.category)) {
+        return prev;
+      }
+      return prev.concat(curr.category);
+    }, []);
+    // for each card category, get the number of cards in that category
+    const cardCounts = listOfCardCategories.map((category) => ({
+      category,
+      count: collectedCards.filter((card) => card.category === category).length,
+    }));
+    // console.log('card counts', cardCounts);
+
+    const newCollection = await createNewPbisCollection({
       variables: {
         name,
         randomDrawingWinners: JSON.stringify(theRandomDrawingWinners),
@@ -390,13 +515,25 @@ export default function usePbisCollection() {
         taTeamLevels: JSON.stringify(theTaTeamLevels),
         taTeamNewLevelWinners: JSON.stringify(theTaTeamNewLevelWinners),
         currentPbisTeamGoal: thePbisGoal.toString(),
+        collectedCards: JSON.stringify(cardCounts),
       },
     });
 
-    updateTaTeachersWithNewWinners(theRandomDrawingWinners);
+    const updatedStudents = await updatePbisDataFromListOfStudentsWhoGotCards(
+      studentsToUpdatePbisUnique
+    );
+    const updatedTas = await updateTaTeachersWithNewWinners(
+      theRandomDrawingWinners
+    );
+
+    const updatedTeams = await updatePbisTeamData({
+      variables: {
+        data: pbisTeamsDataForUpdateMutation,
+      },
+    });
+
     return name;
   }
-
   const results = {
     randomDrawingWinners,
     personalLevelWinners,

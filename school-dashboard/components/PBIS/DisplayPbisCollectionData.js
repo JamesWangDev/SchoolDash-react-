@@ -1,3 +1,4 @@
+import ProgressBar from '@ramonak/react-progress-bar';
 import { TeamCardStyles } from '../../pages/pbis';
 
 export default function DisplayPbisCollectionData({ collectionData }) {
@@ -13,18 +14,25 @@ export default function DisplayPbisCollectionData({ collectionData }) {
     (acc, curr) => (curr.currentLevel >= currentTeamLevelGoal ? acc + 1 : acc),
     0
   );
+  const percentageOfTaTeamsAtCurrentGoalLevel = Math.round(
+    (teamsAtCurrentGoalLevel / taTeamsLevels.length) * 100
+  );
 
   return (
     <div>
       <h2>Stats at last collection: {collectionData.name}</h2>
       <h3>
-        {teamsAtCurrentGoalLevel} of {totalNumberOfTas} have reached level{' '}
-        {currentTeamLevelGoal}
+        {teamsAtCurrentGoalLevel} of {taTeamsLevels.length} TA's have reached
+        level {currentTeamLevelGoal}
       </h3>
 
       <h3>
         {teamsThatWentUpLevel.length} of {taTeamsLevels.length} TA Teams and{' '}
         {studentsWhoWentUpLevel.length} students have gone up a level
+        <ProgressBar
+          completed={percentageOfTaTeamsAtCurrentGoalLevel}
+          bgColor="var(--blue)"
+        />
       </h3>
       <TeamCardStyles>
         {teamsThatWentUpLevel.map((team) => (
