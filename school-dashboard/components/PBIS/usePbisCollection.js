@@ -118,9 +118,23 @@ const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION = gql`
     updateUser(
       id: $id
       data: {
-        currentTaWinner: $currentTaWinner
-        previousTaWinner: $previousTaWinner
+        currentTaWinner: { connect: { id: $currentTaWinner } }
+        previousTaWinner: { connect: { id: $previousTaWinner } }
       }
+    ) {
+      id
+    }
+  }
+`;
+
+const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS = gql`
+  mutation UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS(
+    $id: ID!
+    $currentTaWinner: ID!
+  ) {
+    updateUser(
+      id: $id
+      data: { currentTaWinner: { connect: { id: $currentTaWinner } } }
     ) {
       id
     }
@@ -137,7 +151,11 @@ export default function usePbisCollection() {
   const [taCardPerStudent, setTaCardPerStudent] = React.useState([]);
   const [currentPbisTeamGoal, setCurrentPbisTeamGoal] = React.useState(2);
 
-  const [updateTaTeacher] = useMutation(
+  const [updateTaTeacherWithoutPreviousWinner] = useMutation(
+    UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS,
+    {}
+  );
+  const [updateTaTeacherWithPreviousWinner] = useMutation(
     UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION,
     {}
   );
@@ -274,6 +292,39 @@ export default function usePbisCollection() {
     return taTeamInfo;
   }
 
+  function updateTaTeachersWithNewWinners(tas) {
+    console.log('updateTaTeachersWithNewWinners');
+    console.log(tas);
+    return tas.forEach((ta) => {
+      const oldCurrentWinner = ta.oldCurrentWinner || null;
+      const newWinner = ta.taWinner.studentId;
+      const { taId } = ta;
+      // console.log('old winner:', oldCurrentWinner);
+      // console.log('new winner:', newWinner);
+      // console.log('taId:', taId);
+      if (!newWinner) {
+        return;
+      }
+      if (oldCurrentWinner) {
+        const updatedTA = updateTaTeacherWithPreviousWinner({
+          variables: {
+            id: taId,
+            currentTaWinner: newWinner,
+            previousTaWinner: oldCurrentWinner.id,
+          },
+        });
+      } else {
+        console.log('no old winner');
+        const updatedTA = updateTaTeacherWithoutPreviousWinner({
+          variables: {
+            id: taId,
+            currentTaWinner: newWinner,
+          },
+        });
+      }
+    });
+  }
+
   function getTaTeamsAtNewLevel(teamInfo) {
     const newLevelTeams = teamInfo.filter((team) => team.isNewLevel);
     return newLevelTeams;
@@ -330,7 +381,6 @@ export default function usePbisCollection() {
       lowestLevelTaTeam.currentLevel % 2 === 0
         ? lowestLevelTaTeam.currentLevel + 2
         : lowestLevelTaTeam.currentLevel + 1;
-    console.log(thePbisGoal);
 
     createNewPbisCollection({
       variables: {
@@ -342,6 +392,8 @@ export default function usePbisCollection() {
         currentPbisTeamGoal: thePbisGoal.toString(),
       },
     });
+
+    updateTaTeachersWithNewWinners(theRandomDrawingWinners);
     return name;
   }
 

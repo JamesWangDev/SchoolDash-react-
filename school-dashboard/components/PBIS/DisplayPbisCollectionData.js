@@ -28,20 +28,28 @@ export default function DisplayPbisCollectionData({ collectionData }) {
       </h3>
       <TeamCardStyles>
         {teamsThatWentUpLevel.map((team) => (
-          <div key={team.teamId}>
+          <div key={team.id}>
+            <h3>Team Level-Up</h3>
             <h4>{team.teamName}</h4>
             <h4>Level {team.currentLevel}</h4>
             <p>{team.averageCardsPerStudent} cards per student</p>
           </div>
         ))}
         {studentsWhoWentUpLevel.map((student) => (
-          <div key={student.studentId}>
+          <div key={student.student}>
+            <h3>Student Level-Up</h3>
             <h4>{student.name}</h4>
             <h4>Level {student.level}</h4>
           </div>
         ))}
+        {taWinners.map((ta) => (
+          <div key={ta.taId}>
+            <h3>Random Drawing Winner</h3>
+            <h4>{ta.taWinner.taName}</h4>
+            <p>{ta.taWinner.studentName}</p>
+          </div>
+        ))}
       </TeamCardStyles>
-      <p>{JSON.stringify(taWinners)}</p>
     </div>
   );
 }

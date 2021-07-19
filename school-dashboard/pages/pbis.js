@@ -15,8 +15,12 @@ const ChartContainerStyles = styled.div`
   align-items: center;
 `;
 export const TeamCardStyles = styled.div`
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
+  justify-content: space-around; */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
   div {
     text-align: center;
     padding: 5px;
