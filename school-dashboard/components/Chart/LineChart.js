@@ -8,38 +8,39 @@ const options = {
       {
         ticks: {
           beginAtZero: true,
-          display: false,
+          display: true,
         },
       },
     ],
     xAxes: [
       {
         ticks: {
-          display: false,
+          display: true,
         },
       },
     ],
   },
   animation: {
     easing: 'easeInBounce',
-    duration: 2500,
+    duration: 1500,
   },
   responsive: true,
-  maintainAspectRatio: true,
+
+  maintainAspectRatio: false,
   legend: {
-    display: false,
+    display: true,
   },
 };
 
 export default function LineChart({ title, chartData }) {
-  const labels = chartData.map((item) => item.item);
+  const labels = chartData.map((item) => item.item.slice(16));
   const dataToChart = chartData.map((item) => item.data);
-  console.log(labels);
+  // console.log(labels);
   const data = {
     labels,
     datasets: [
       {
-        label: '# of Votes',
+        label: 'Cards Collected This Week',
         data: dataToChart,
         backgroundColor: backgroundColors,
         borderColor: borderColors,
@@ -50,9 +51,9 @@ export default function LineChart({ title, chartData }) {
 
   return (
     <>
-      <div className="header">
+      {/* <div className="header">
         <h3 className="title">{title}</h3>
-      </div>
+      </div> */}
       <Line data={data} options={options} />
     </>
   );

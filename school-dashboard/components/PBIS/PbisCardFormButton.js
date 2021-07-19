@@ -35,7 +35,7 @@ const CardFormContainerStyles = styled.div`
     position: absolute;
     margin-left: 20px;
     border-radius: 1rem;
-    background: linear-gradient(to top left, var(--redTrans), var(--blueTrans));
+    background: linear-gradient(to top left, var(--red), var(--blue));
   }
   button:disabled,
   button[disabled] {
@@ -136,7 +136,7 @@ function CardForm({ visible, hide }) {
             />
             Responsability
           </label>
-          <label htmlFor="perserverance">
+          <label htmlFor="perseverance">
             <input
               type="radio"
               name="category"
@@ -144,9 +144,9 @@ function CardForm({ visible, hide }) {
               value="perseverance"
               onChange={handleChange}
             />
-            Perserverance
+            Perseverance
           </label>
-          <button
+          <GradientButton
             type="submit"
             disabled={!studentCardIsFor || !inputs.category}
             onClick={async (e) => {
@@ -170,7 +170,7 @@ function CardForm({ visible, hide }) {
           >
             Give {studentCardIsFor && `${studentCardIsFor.userName} `}A PBIS
             Card
-          </button>
+          </GradientButton>
         </Form>
       </div>
     </CardFormContainerStyles>

@@ -4,6 +4,8 @@ import { useGQLQuery } from '../../lib/useGqlQuery';
 import DisciplineCharts from './DisciplineCharts';
 import DisciplineTable from './DisciplineTable';
 import NewDiscipline from './DisciplineButton';
+import { useUser } from '../User';
+import isAllowed from '../../lib/isAllowed';
 
 const DisciplinePageContainer = styled.div`
   h2 {
@@ -63,12 +65,21 @@ const DISCIPLINE_DATA = gql`
 `;
 
 export default function DisciplineData() {
+  const me = useUser();
+
   const { data, isLoading, isError, refetch } = useGQLQuery(
     'allDisciplines',
     DISCIPLINE_DATA
   );
 
   if (isLoading) return <p>Loading...</p>;
+  const { allDisciplines } = data;
+  const canSeeAllDisciplines = isAllowed(me, 'canSeeAllDiscipline');
+  const disciplinesToShow = canSeeAllDisciplines
+    ? allDisciplines
+    : allDisciplines.filter((d) => d.teacher.id === me.id);
+
+  // get disciplines from current user
   const totalDisciplines = data.allDisciplines.length;
   return (
     <>
@@ -76,10 +87,10 @@ export default function DisciplineData() {
       <DisciplinePageContainer>
         <div>
           <h2>{totalDisciplines} Total Referrals</h2>
-          <DisciplineTable disciplines={data.allDisciplines} />
+          <DisciplineTable disciplines={disciplinesToShow} />
         </div>
         <div>
-          <DisciplineCharts disciplines={data.allDisciplines} />
+          <DisciplineCharts disciplines={allDisciplines} />
         </div>
       </DisciplinePageContainer>
     </>

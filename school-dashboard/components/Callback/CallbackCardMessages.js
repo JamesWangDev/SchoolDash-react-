@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import Form, { FormGroupStyles } from '../styles/Form';
 
 const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
@@ -17,6 +18,46 @@ const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
       }
     ) {
       id
+    }
+  }
+`;
+
+const AnimatedInput = styled.p`
+  position: relative;
+  /* width: 100%; */
+  /* height: 100%; */
+  border: none;
+  /* border-bottom: 1px solid #e1e1e1; */
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: #4d4d4d;
+  text-align: center;
+  transition: all 0.3s;
+  input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #4d4d4d;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .inputUpdating {
+    animation: color-change 0.5s infinite;
+    @keyframes color-change {
+      0% {
+        color: var(--red);
+      }
+      50% {
+        color: var(--blue);
+        font-size: 16px;
+      }
+      100% {
+        color: var(--red);
+      }
     }
   }
 `;
@@ -60,47 +101,49 @@ export default function CallbackCardMessages({ me, callback }) {
       <FormGroupStyles>
         <fieldset>
           {!isStudent && (
-            <p>
+            <AnimatedInput>
               Student:
               <span> {callback.messageFromStudent || '----'}</span>
-            </p>
+            </AnimatedInput>
           )}
           {!isTeacher && (
-            <p>
+            <AnimatedInput>
               Teacher:
               <span> {callback.messageFromTeacher || '----'}</span>
-            </p>
+            </AnimatedInput>
           )}
           {isStudent && (
             <>
-              <p>
+              <AnimatedInput>
                 Student Message:
                 <input
                   id={`student - ${callback.id}`}
                   placeholder="Message from Student"
                   value={studentMessage}
+                  className={loading ? 'inputUpdating' : ''}
                   onChange={(e) => {
                     //   console.log(e.target.value);
                     setStudentMessage(e.target.value);
                   }}
                 />
-              </p>
+              </AnimatedInput>
             </>
           )}
           {isTeacher && (
             <>
-              <p>
+              <AnimatedInput>
                 Teacher:
                 <input
                   id={`teacher-${callback.id}`}
                   placeholder="Message from Teacher"
                   value={teacherMessage}
+                  className={loading ? 'inputUpdating' : ''}
                   onChange={(e) => {
                     //   console.log(e.target.value);
                     setTeacherMessage(e.target.value);
                   }}
                 />
-              </p>
+              </AnimatedInput>
             </>
           )}
         </fieldset>
