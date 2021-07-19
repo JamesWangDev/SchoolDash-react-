@@ -41,7 +41,7 @@ export default function DisplayPbisCollectionData({ collectionData }) {
           </div>
         ))}
       </TeamCardStyles>
-      {/* <p>{JSON.stringify(taWinners)}</p> */}
+      <p>{JSON.stringify(taWinners)}</p>
     </div>
   );
 }

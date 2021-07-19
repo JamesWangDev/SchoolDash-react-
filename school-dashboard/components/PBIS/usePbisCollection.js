@@ -109,6 +109,24 @@ const CREATE_PBIS_COLLECTION_MUTATION = gql`
   }
 `;
 
+const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION = gql`
+  mutation UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION(
+    $id: ID!
+    $currentTaWinner: ID!
+    $previousTaWinner: ID!
+  ) {
+    updateUser(
+      id: $id
+      data: {
+        currentTaWinner: $currentTaWinner
+        previousTaWinner: $previousTaWinner
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 export default function usePbisCollection() {
   // const [running, setRunning] = React.useState(false);
   const [getData, setGetData] = React.useState(false);
@@ -118,6 +136,11 @@ export default function usePbisCollection() {
   const [taTeamNewLevelWinners, setTaTeamNewLevelWinners] = React.useState([]);
   const [taCardPerStudent, setTaCardPerStudent] = React.useState([]);
   const [currentPbisTeamGoal, setCurrentPbisTeamGoal] = React.useState(2);
+
+  const [updateTaTeacher] = useMutation(
+    UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION,
+    {}
+  );
 
   const [createNewPbisCollection] = useMutation(
     CREATE_PBIS_COLLECTION_MUTATION,
@@ -176,7 +199,7 @@ export default function usePbisCollection() {
     return randomCard;
   }
 
-  function getTaWinnerAndCardsPerStudent(tas) {
+  async function getTaWinnerAndCardsPerStudent(tas) {
     return tas.map((ta) => {
       const taId = ta.id;
       const oldCurrentWinner = ta.currentTaWinner;
@@ -184,6 +207,7 @@ export default function usePbisCollection() {
       let taCards = [];
       ta.taStudents.map((student) => {
         taCards = [...taCards, ...student.studentPbisCards];
+        return null;
       });
       const winningCard = chooseARandomWinnerFromTaCardsThatDoesntMatchCurrentWinner(
         taCards,
@@ -197,23 +221,13 @@ export default function usePbisCollection() {
       };
       const newCardsPerStudent = taCards.length;
       const numberOfStudentsInTa = ta.taStudents.length;
-      const oldLevel = ta.currentLevel;
-      const oldAverageCardsPerStudent = ta.averageCardsPerStudent;
-      const averageCardsPerStudentToAdd =
-        newCardsPerStudent / numberOfStudentsInTa;
-      const newAverageCardsPerStudent =
-        oldAverageCardsPerStudent + averageCardsPerStudentToAdd;
-      const newLevel = Math.floor(newAverageCardsPerStudent / cardsPerTaLevel);
-      const isNewLevel = oldLevel !== newLevel;
 
       return {
         taWinner,
         newCardsPerStudent,
         taId,
         numberOfStudentsInTa,
-        isNewLevel,
-        newLevel,
-        newAverageCardsPerStudent,
+        oldCurrentWinner,
       };
     });
   }
@@ -296,10 +310,10 @@ export default function usePbisCollection() {
     const thePersonalLevelWinners = getPersonalLevelWinners(
       data.studentsWithCurrentCounts
     );
-    const theRandomDrawingWinners = getTaWinnerAndCardsPerStudent(
+    const theRandomDrawingWinners = await getTaWinnerAndCardsPerStudent(
       data.taTeachers
     );
-    const theTaTeamLevels = getTaTeamCardsPerStudent(
+    const theTaTeamLevels = await getTaTeamCardsPerStudent(
       data.taTeams,
       theRandomDrawingWinners
     );
@@ -317,6 +331,7 @@ export default function usePbisCollection() {
         ? lowestLevelTaTeam.currentLevel + 2
         : lowestLevelTaTeam.currentLevel + 1;
     console.log(thePbisGoal);
+
     createNewPbisCollection({
       variables: {
         name,
