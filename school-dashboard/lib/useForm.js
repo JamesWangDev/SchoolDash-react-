@@ -23,7 +23,7 @@ export default function useForm(initial = {}) {
     if (type === 'date') {
       // console.log(value);
       const theDate = new Date(value);
-      theDate.setDate(theDate.getDate() + 1);
+      theDate.setDate(theDate.getDate());
       value = theDate.toISOString().split('T')[0];
       // value = new Date(value).toISOString();
       // console.log(`new ${value}`);

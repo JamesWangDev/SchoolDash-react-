@@ -37,8 +37,8 @@ const CREATE_CALENDAR_MUTATION = gql`
 export default function NewCalendar({ refetchCalendars, hidden }) {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
-    name: 'Event Title',
-    description: 'What is going on?',
+    name: '',
+    description: '',
     status: 'Both',
     date: todaysDateForForm(),
   });
@@ -47,7 +47,11 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
   const [createCalendar, { loading, error, data }] = useMutation(
     CREATE_CALENDAR_MUTATION,
     {
-      variables: { ...inputs, author: user?.id },
+      variables: {
+        ...inputs,
+        author: user?.id,
+        date: inputs.date.concat('T24:00:00.000Z'),
+      },
     }
   );
   if (hidden) return null;
