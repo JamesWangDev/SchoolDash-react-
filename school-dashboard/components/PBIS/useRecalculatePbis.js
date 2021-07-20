@@ -18,8 +18,8 @@ export default function useRecalculatePBIS() {
   });
   useEffect(() => {
     if (studentIdToRecalculatePbis) {
-      console.log('updating');
-      console.log(`id: ${studentIdToRecalculatePbis}`);
+      // console.log('updating');
+      // console.log(`id: ${studentIdToRecalculatePbis}`);
       updateCardCount();
     }
   }, [studentIdToRecalculatePbis]);

@@ -13,6 +13,7 @@ import PbisFalcon from '../components/PBIS/PbisFalcon';
 import PbisCardFormButton from '../components/PBIS/PbisCardFormButton';
 import TeacherAssignments from '../components/Assignments/TeacherAssignments';
 import TaCallbacks from '../components/Callback/TaCallback';
+import UpdateMyPassword from '../components/users/UpdateMyPassword';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -50,7 +51,15 @@ export default function Home() {
         </DashboardContainerStyles>
       </main>
 
-      <footer>{me ? <SignOut /> : <RequestReset />}</footer>
+      <footer>
+        {me ? (
+          <>
+            <SignOut /> <UpdateMyPassword />{' '}
+          </>
+        ) : (
+          <RequestReset />
+        )}
+      </footer>
     </div>
   );
 }

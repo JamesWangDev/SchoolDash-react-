@@ -17,7 +17,12 @@ const SEARCH_PRODUCTS_QUERY = gql`
   }
 `;
 
-export default function SearchForUserName({ name, value, updateUser }) {
+export default function SearchForUserName({
+  name,
+  value,
+  updateUser,
+  userType,
+}) {
   const router = useRouter();
   const [findItems, { loading, data, error }] = useLazyQuery(
     SEARCH_PRODUCTS_QUERY,
@@ -25,7 +30,11 @@ export default function SearchForUserName({ name, value, updateUser }) {
       fetchPolicy: 'no-cache',
     }
   );
-  const items = data?.searchTerms || [];
+  const items =
+    data?.searchTerms.filter((item) =>
+      userType ? item[userType] === true : true
+    ) || [];
+
   const findItemsButChill = debounce(findItems, 350);
   resetIdCounter();
   const {

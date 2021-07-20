@@ -104,6 +104,7 @@ function CardForm({ visible, hide }) {
             name="studentName"
             // value={inputs.studentName}
             updateUser={setStudentCardIsFor}
+            userType="isStudent"
           />
           <label htmlFor="message">
             message

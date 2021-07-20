@@ -8,6 +8,7 @@ import ViewTeacherPage from '../../components/users/ViewTeacherPage';
 import ViewStudentPage from '../../components/users/ViewStudentPage';
 import ViewParentPage from '../../components/users/ViewParentPage';
 import ResetPasswordToPassword from '../../components/users/ResetPasswordToPassword';
+import SendParentEmailSignupButton from '../../components/users/SendParentEmailSignup';
 
 const ButtonStyles = styled.div`
   display: flex;
@@ -50,7 +51,10 @@ export default function UserProfile({ query }) {
       <h1>{user.name}</h1>
       <ButtonStyles>
         {isAllowed(me, 'isStaff') && (
-          <ResetPasswordToPassword userID={query.id} />
+          <>
+            <ResetPasswordToPassword userID={query.id} />
+            <SendParentEmailSignupButton student={query.id} />
+          </>
         )}
         {isAllowed(me, 'isStaff') && <p> !! TODO !! edit account</p>}
       </ButtonStyles>

@@ -103,6 +103,7 @@ export default function NewCallback({ refetch }) {
                   name="studentName"
                   // value={inputs.studentName}
                   updateUser={setStudentCallbackIsFor}
+                  userType="isStudent"
                 />
               </div>
 

@@ -10,7 +10,12 @@ export default function AssignmentViewCardsStudent({ student }) {
         {[...Array(5)].map((e, i) => {
           const num = i + 1;
           if (!student[`block${num}Teacher`]) {
-            return <div className="singleMessage" />;
+            return (
+              <div
+                className="singleMessage"
+                key={`key for student - ${student.id} - ${num}`}
+              />
+            );
           }
           const today = new Date();
           const messageDate = new Date(
@@ -24,7 +29,7 @@ export default function AssignmentViewCardsStudent({ student }) {
               className={
                 newUpdate ? 'singleMessage needsUpdate' : 'singleMessage '
               }
-              key={`key for student${student.id} - ${num}`}
+              key={`key for student - ${student.id} - ${num}`}
             >
               <h4>Block {num}</h4>
               <p>{student[`block${num}Teacher`].name}</p>

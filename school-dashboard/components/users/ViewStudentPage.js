@@ -113,7 +113,7 @@ export default function ViewStudentPage({ student }) {
       <StudentPbisData student={user} />
       {user.parent.length > 0 && <h4>Parent Contact Info:</h4>}
       {user.parent.map((parent) => (
-        <p>
+        <p key={`parentID -${parent.id}`}>
           {parent.name} - {parent.email}
         </p>
       ))}
