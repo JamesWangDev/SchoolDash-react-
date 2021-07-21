@@ -19,6 +19,7 @@ import {
 import FormCheckboxArray from '../../lib/FormCheckboxArray';
 import { todaysDateForForm } from '../calendars/formatTodayForForm';
 import useSendEmail from '../../lib/useSendEmail';
+import useEmailAdmin from '../../lib/useEmailAdmin';
 
 const CREATE_DISCIPLINE_MUTATION = gql`
   mutation CREATE_DISCIPLINE_MUTATION(
@@ -104,7 +105,8 @@ export default function NewDiscipline({ refetch }) {
   const [classType, setClassType] = useState('');
   const [location, setLocation] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
-  const { setEmail, emailLoading } = useSendEmail();
+
+  const { setEmailAdmin, emailLoading } = useEmailAdmin();
   //   console.log(`user ${user.id}`);
   const [createDiscipline, { loading, error, data }] = useMutation(
     CREATE_DISCIPLINE_MUTATION,
@@ -136,9 +138,11 @@ export default function NewDiscipline({ refetch }) {
             // Submit the input fields to the backend:
             console.log(inputs);
             const res = await createDiscipline();
+
             clearForm();
             refetch();
             if (res.data.createDiscipline.id) {
+              setEmailAdmin('email');
               setShowForm(false);
             }
             // setShowForm(false);
@@ -153,6 +157,7 @@ export default function NewDiscipline({ refetch }) {
                 <label htmlFor="studentName">Student Name</label>
                 <SearchForUserName
                   name="studentName"
+                  userType="isStudent"
                   // value={inputs.studentName}
                   updateUser={setStudentReferralIsFor}
                 />

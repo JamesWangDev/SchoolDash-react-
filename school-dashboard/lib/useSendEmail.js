@@ -14,22 +14,22 @@ export default function useSendEmail() {
   const [email, setEmail] = useState('');
 
   const [sendEmail, { loading: emailLoading }] = useMutation(
-    SEND_EMAIL_MUTATION,
-
-    useEffect(() => {
-      if (email) {
-        console.log('emailing');
-        console.log(email);
-        const emailToSend = JSON.stringify(email);
-        console.log(emailToSend);
-        sendEmail({
-          variables: {
-            emailData: emailToSend,
-          },
-        });
-      }
-    }, [email])
+    SEND_EMAIL_MUTATION
   );
+
+  useEffect(() => {
+    if (email) {
+      console.log('emailing');
+      console.log(email);
+      const emailToSend = JSON.stringify(email);
+      console.log(emailToSend);
+      sendEmail({
+        variables: {
+          emailData: emailToSend,
+        },
+      });
+    }
+  }, [email]);
 
   return { setEmail, emailLoading };
 }

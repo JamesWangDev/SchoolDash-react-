@@ -77,7 +77,7 @@ export default function DisciplineData() {
   const canSeeAllDisciplines = isAllowed(me, 'canSeeAllDiscipline');
   const disciplinesToShow = canSeeAllDisciplines
     ? allDisciplines
-    : allDisciplines.filter((d) => d.teacher.id === me.id);
+    : allDisciplines.filter((d) => d?.teacher.id === me?.id);
 
   // get disciplines from current user
   const totalDisciplines = data.allDisciplines.length;
