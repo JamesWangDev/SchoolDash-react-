@@ -162,7 +162,7 @@ export default function NewDiscipline({ refetch }) {
                   subject: `New Discipline Referral for ${res.data.createDiscipline.student.name}`,
                   body: `
                 <p>There is a new Disciplie Referral for ${res.data.createDiscipline.student.name} at NCUJHS.TECH created by ${me.name}. </p>
-                <p><a href="ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
+                <p><a href="https://ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
                  `,
                 };
                 console.log(emailToSend);
