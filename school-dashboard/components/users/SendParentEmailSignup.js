@@ -45,7 +45,7 @@ export default function SendParentEmailSignupButton({ student }) {
                 subject: 'NCUJHS.TECH Parent Account Signup',
                 body: `
                 <p>You have been invited to register for a parent account for ${student.name} at NCUJHS.TECH. </p>
-                <p><a href="ncujhs.tech/parentRegistration/${student.id}">Click here to register</a></p>
+                <p><a href="https://ncujhs.tech/parentRegistration/${student.id}">Click here to register</a></p>
                 `,
               };
               const res = await setEmail(emailToSend);
