@@ -18,6 +18,7 @@ import {
 } from '../../lib/disciplineData';
 import FormCheckboxArray from '../../lib/FormCheckboxArray';
 import { todaysDateForForm } from '../calendars/formatTodayForForm';
+import useSendEmail from '../../lib/useSendEmail';
 
 const CREATE_DISCIPLINE_MUTATION = gql`
   mutation CREATE_DISCIPLINE_MUTATION(
@@ -103,6 +104,7 @@ export default function NewDiscipline({ refetch }) {
   const [classType, setClassType] = useState('');
   const [location, setLocation] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
+  const { setEmail, emailLoading } = useSendEmail();
   //   console.log(`user ${user.id}`);
   const [createDiscipline, { loading, error, data }] = useMutation(
     CREATE_DISCIPLINE_MUTATION,
@@ -136,7 +138,10 @@ export default function NewDiscipline({ refetch }) {
             const res = await createDiscipline();
             clearForm();
             refetch();
-            setShowForm(false);
+            if (res.data.createDiscipline.id) {
+              setShowForm(false);
+            }
+            // setShowForm(false);
             console.log(inputs);
           }}
         >

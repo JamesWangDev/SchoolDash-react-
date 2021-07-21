@@ -19,7 +19,7 @@ const DisciplinePageContainer = styled.div`
   }
 `;
 
-const DISCIPLINE_DATA = gql`
+export const DISCIPLINE_DATA = gql`
   query DISCIPLINE_DATA {
     allDisciplines {
       id

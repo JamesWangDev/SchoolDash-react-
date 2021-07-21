@@ -11,10 +11,20 @@ export default function DisciplineTable({ disciplines }) {
           {
             Header: 'Student',
             accessor: 'student.name',
+            Cell: ({ cell }) => (
+              <Link href={`/discipline/${cell?.row?.original?.id || ''}`}>
+                {cell.value}
+              </Link>
+            ),
           },
           {
             Header: 'Teacher',
             accessor: 'teacher.name',
+            Cell: ({ cell }) => (
+              <Link href={`/discipline/${cell?.row?.original?.id || ''}`}>
+                {cell.value}
+              </Link>
+            ),
           },
 
           {
