@@ -22,18 +22,18 @@ const SEND_EMAIL_MUTATION = gql`
 `;
 
 export default async function useEmailAdmin() {
-  const [email, setEmailAdmin] = useState();
+  const [adminEmail, setEmailAdmin] = useState();
   const [sendEmail, { loading: emailLoading }] = useMutation(
     SEND_EMAIL_MUTATION
   );
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
   const adminEmailArray = data?.allUsers?.map((u) => u.email);
   useEffect(() => {
-    console.log(email);
-    if (email?.toAddress) {
+    console.log(adminEmail);
+    if (adminEmail?.toAddress) {
       console.log('emailing');
-      console.log(email);
-      const emailToSend = JSON.stringify(email);
+      console.log(adminEmail);
+      const emailToSend = JSON.stringify(adminEmail);
       console.log(emailToSend);
       // const emailToSendd = {
       //   toAddress: email,
@@ -46,6 +46,6 @@ export default async function useEmailAdmin() {
       // };
       // sendEmail({});
     }
-  }, [email]);
+  }, [adminEmail]);
   return { setEmailAdmin, emailLoading };
 }

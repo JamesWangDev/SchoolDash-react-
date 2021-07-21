@@ -19,7 +19,18 @@ import {
 import FormCheckboxArray from '../../lib/FormCheckboxArray';
 import { todaysDateForForm } from '../calendars/formatTodayForForm';
 import useSendEmail from '../../lib/useSendEmail';
-import useEmailAdmin from '../../lib/useEmailAdmin';
+import { useGQLQuery } from '../../lib/useGqlQuery';
+// import useEmailAdmin from '../../lib/useEmailAdmin';
+
+const GET_ADMIN_EMAILS = gql`
+  query GET_ADMIN_EMAILS {
+    allUsers(where: { canManageDiscipline: true }) {
+      id
+      name
+      email
+    }
+  }
+`;
 
 const CREATE_DISCIPLINE_MUTATION = gql`
   mutation CREATE_DISCIPLINE_MUTATION(
@@ -91,11 +102,17 @@ const CREATE_DISCIPLINE_MUTATION = gql`
       }
     ) {
       id
+      student {
+        name
+      }
     }
   }
 `;
 
 export default function NewDiscipline({ refetch }) {
+  const me = useUser();
+  const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
+  const adminEmailArray = data?.allUsers?.map((u) => u.email);
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     date: todaysDateForForm(),
@@ -106,9 +123,9 @@ export default function NewDiscipline({ refetch }) {
   const [location, setLocation] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
 
-  const { setEmailAdmin, emailLoading } = useEmailAdmin();
+  const { setEmail, emailLoading } = useSendEmail();
   //   console.log(`user ${user.id}`);
-  const [createDiscipline, { loading, error, data }] = useMutation(
+  const [createDiscipline, { loading, error }] = useMutation(
     CREATE_DISCIPLINE_MUTATION,
     {
       variables: {
@@ -136,17 +153,26 @@ export default function NewDiscipline({ refetch }) {
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the input fields to the backend:
-            console.log(inputs);
             const res = await createDiscipline();
-
+            if (res.data.createDiscipline.id) {
+              adminEmailArray.map((email) => {
+                const emailToSend = {
+                  toAddress: email,
+                  fromAddress: me.email,
+                  subject: `New Discipline Referral for ${res.data.createDiscipline.student.name}`,
+                  body: `
+                <p>There is a new Disciplie Referral for ${res.data.createDiscipline.student.name} at NCUJHS.TECH created by ${me.name}. </p>
+                <p><a href="ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
+                 `,
+                };
+                console.log(emailToSend);
+                setEmail(emailToSend);
+                return null;
+              });
+            }
             clearForm();
             refetch();
-            if (res.data.createDiscipline.id) {
-              setEmailAdmin('email');
-              setShowForm(false);
-            }
-            // setShowForm(false);
-            console.log(inputs);
+            setShowForm(false);
           }}
         >
           <h2>Add a New Referral</h2>
