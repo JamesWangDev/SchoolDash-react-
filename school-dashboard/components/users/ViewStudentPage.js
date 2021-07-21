@@ -71,6 +71,7 @@ const GET_SINGLE_TEACHER = gql`
       }
 
       parent {
+        id
         name
         email
       }

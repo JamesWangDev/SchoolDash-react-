@@ -14,6 +14,7 @@ import PbisCardFormButton from '../components/PBIS/PbisCardFormButton';
 import TeacherAssignments from '../components/Assignments/TeacherAssignments';
 import TaCallbacks from '../components/Callback/TaCallback';
 import UpdateMyPassword from '../components/users/UpdateMyPassword';
+import ViewStudentPage from '../components/users/ViewStudentPage';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -48,6 +49,13 @@ export default function Home() {
               <DisplayPbisCardWidget cards={me.studentPbisCards} />
             </div>
           )}
+          {me &&
+            isAllowed(me, 'isParent') &&
+            me.children.map((child) => (
+              <div key={child.id}>
+                <ViewStudentPage student={child} />
+              </div>
+            ))}
         </DashboardContainerStyles>
       </main>
 

@@ -29,6 +29,10 @@ const CURRENT_USER_QUERY = gql`
         isSuperAdmin
         PbisCardCount
         YearPbisCount
+        children {
+          id
+          name
+        }
         studentPbisCards {
           id
           cardMessage
