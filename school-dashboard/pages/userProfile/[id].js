@@ -53,7 +53,7 @@ export default function UserProfile({ query }) {
         {isAllowed(me, 'isStaff') && (
           <>
             <ResetPasswordToPassword userID={query.id} />
-            <SendParentEmailSignupButton student={query.id} />
+            <SendParentEmailSignupButton student={user} />
           </>
         )}
         {isAllowed(me, 'isStaff') && <p> !! TODO !! edit account</p>}
