@@ -43,7 +43,10 @@ export default function SendParentEmailSignupButton({ student }) {
                 toAddress: email,
                 fromAddress: me.email,
                 subject: 'NCUJHS.TECH Parent Account Signup',
-                body: `asdf`,
+                body: `
+                <p>You have been invited to register for a parent account for ${student.name} at NCUJHS.TECH. </p>
+                <p><a href="ncujhs.tech/parentRegistration/${student.id}">Click here to register</a></p>
+                `,
               };
               const res = await setEmail(emailToSend);
               clearForm();
