@@ -22,6 +22,23 @@ const GET_ALL_USERS = gql`
       PbisCardCount
       YearPbisCount
       averageTimeToCompleteCallback
+      _callbackAssignedMeta(where: { dateCompleted: null }) {
+        count
+      }
+      _taStudentsMeta {
+        count
+      }
+      currentTaWinner {
+        name
+        id
+      }
+      previousTaWinner {
+        name
+        id
+      }
+      virtualCards: _teacherPbisCardsMeta(where: { category_not: "physical" }) {
+        count
+      }
     }
     students: allUsers(where: { isStudent: true }) {
       id
@@ -160,6 +177,26 @@ export default function Users() {
           {
             Header: 'Yearly PBIS',
             accessor: 'YearPbisCount',
+          },
+          {
+            Header: 'Virtual PBIS Given',
+            accessor: 'virtualCards.count',
+          },
+          {
+            Header: 'Latest PBIS Winner',
+            accessor: 'currentTaWinner.name',
+          },
+          {
+            Header: 'Previous PBIS Winner',
+            accessor: 'previousTaWinner.name',
+          },
+          {
+            Header: 'TA Count',
+            accessor: '_taStudentsMeta.count',
+          },
+          {
+            Header: 'Assigned Callback',
+            accessor: '_callbackAssignedMeta.count',
           },
         ],
       },

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import { useRouter } from 'next/dist/client/router';
 import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
-
 import SearchForUserName from '../SearchForUserName';
 import { todaysDateForForm } from '../calendars/formatTodayForForm';
 import useRecalculateCallback from './recalculateCallback';
@@ -37,6 +37,7 @@ const CREATE_CALLBACK_MUTATION = gql`
 `;
 
 export default function NewCallback({ refetch }) {
+  const router = useRouter();
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     dateAssigned: todaysDateForForm(),
@@ -77,8 +78,8 @@ export default function NewCallback({ refetch }) {
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await createCallback();
-            // console.log(callbackID);
-            // console.log(res.data.createCallback.id);
+            console.log(res);
+            console.log(res.data.createCallback.id);
             setCallbackID(res.data.createCallback.id);
             // console.log(res);
             createMessage({
@@ -90,7 +91,10 @@ export default function NewCallback({ refetch }) {
             refetch();
             // recalculateCallback();
             clearForm();
-            setShowForm(false);
+            router.push({
+              pathname: `/callback/${res.data.createCallback.id}`,
+            });
+            // setShowForm(false);
             // console.log(inputs);
           }}
         >

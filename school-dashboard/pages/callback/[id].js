@@ -10,6 +10,7 @@ import CallbackCardMessages from '../../components/Callback/CallbackCardMessages
 import MarkCallbackCompleted from '../../components/Callback/MarkCallbackCompleted';
 import { SmallGradientButton } from '../../components/styles/Button';
 import CallbackEditor from '../../components/Callback/CallbackEditor';
+import DuplicateCallback from '../../components/Callback/DuplicateCallback';
 
 const GET_SINGLE_CALLBACK = gql`
   query GET_SINGLE_CALLBACK($id: ID!) {
@@ -85,7 +86,7 @@ export default function SingleCallbackPage({ query }) {
     }
   );
   const [editing, setEditing] = useState(false);
-
+  const [duplicating, setDuplicating] = useState(false);
   if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
   const callback = data?.Callback;
@@ -96,7 +97,6 @@ export default function SingleCallbackPage({ query }) {
   return (
     <SingleCallbackStyles>
       <h1>
-        {callback.title}{' '}
         {me.id === callback.teacher.id && (
           <SmallGradientButton
             onClick={() => {
@@ -106,8 +106,18 @@ export default function SingleCallbackPage({ query }) {
             Edit
           </SmallGradientButton>
         )}
+        {callback.title}{' '}
+        {me.id === callback.teacher.id && (
+          <SmallGradientButton
+            onClick={() => {
+              setDuplicating(!duplicating);
+            }}
+          >
+            Duplicate
+          </SmallGradientButton>
+        )}
       </h1>
-      {!editing && (
+      {!editing && !duplicating && (
         <>
           <h2>Assigned By: {callback.teacher.name}</h2>
           <h2>{callback.student.name}</h2>
@@ -151,6 +161,14 @@ export default function SingleCallbackPage({ query }) {
             callback={callback}
             refetch={refetch}
             setEditing={setEditing}
+          />
+        </>
+      )}
+      {duplicating && (
+        <>
+          <DuplicateCallback
+            callback={callback}
+            setDuplicating={setDuplicating}
           />
         </>
       )}
