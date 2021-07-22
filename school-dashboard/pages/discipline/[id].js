@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import Loading from '../../components/Loading';
@@ -34,6 +34,9 @@ export const SINGLE_DISCIPLINE_DATA = gql`
       student {
         name
         id
+        _studentDisciplineMeta {
+          count
+        }
       }
       teacherComments
       classType
@@ -75,6 +78,7 @@ export default function SingleDisciplineReferralPage({ query }) {
       id: query.id,
     }
   );
+  const [editing, setEditing] = useState(false);
   if (isLoading) return <Loading />;
   const discipline = data?.Discipline;
   const date = new Date(discipline?.date).toLocaleDateString();
@@ -105,7 +109,7 @@ export default function SingleDisciplineReferralPage({ query }) {
   return (
     <div>
       <h1>
-        Referral for {discipline?.student?.name} on {date}
+        Referral for {discipline?.student?.name} on {date}{' '}
       </h1>
       <DisplaySingleDiscipline>
         <div>
@@ -115,6 +119,10 @@ export default function SingleDisciplineReferralPage({ query }) {
         <div>
           <h3>Date:</h3>
           <h3>{date}</h3>
+          <p>
+            Student's Referrals:{' '}
+            {discipline.student._studentDisciplineMeta.count}
+          </p>
         </div>
         <div>
           <p>Class Type: {discipline.classType}</p>

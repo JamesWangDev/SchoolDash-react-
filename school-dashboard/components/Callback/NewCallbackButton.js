@@ -49,6 +49,7 @@ export default function NewCallback({ refetch }) {
     {
       variables: {
         ...inputs,
+        dateAssigned: inputs.dateAssigned.concat('T24:00:00.000Z'),
         teacher: user?.id,
         student: studentCallbackIsFor?.userId,
       },

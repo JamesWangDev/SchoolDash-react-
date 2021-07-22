@@ -1,11 +1,15 @@
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { useState } from 'react';
+import { useMutation } from '@apollo/client';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import Loading from '../../components/Loading';
 import { useUser } from '../../components/User';
 import CallbackCardMessages from '../../components/Callback/CallbackCardMessages';
 import MarkCallbackCompleted from '../../components/Callback/MarkCallbackCompleted';
+import { SmallGradientButton } from '../../components/styles/Button';
+import CallbackEditor from '../../components/Callback/CallbackEditor';
 
 const GET_SINGLE_CALLBACK = gql`
   query GET_SINGLE_CALLBACK($id: ID!) {
@@ -73,11 +77,15 @@ const SingleCallbackStyles = styled.div`
 
 export default function SingleCallbackPage({ query }) {
   const me = useUser();
-  const { data, isLoading, error } = useGQLQuery(
+  const { data, isLoading, error, refetch } = useGQLQuery(
     `SingleCallback-${query.id}`,
     GET_SINGLE_CALLBACK,
-    { id: query.id }
+    {
+      id: query.id,
+    }
   );
+  const [editing, setEditing] = useState(false);
+
   if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
   const callback = data?.Callback;
@@ -87,38 +95,65 @@ export default function SingleCallbackPage({ query }) {
     : 'Not Yet Completed';
   return (
     <SingleCallbackStyles>
-      <h1>{callback.title}</h1>
-      <h2>Assigned By: {callback.teacher.name}</h2>
-      <h2>{callback.student.name}</h2>
-      <p>
-        Average Time For {callback.student.name} To Complete Callback:{' '}
-        {callback.student.averageTimeToCompleteCallback
-          ? callback.student.averageTimeToCompleteCallback
-          : 'N/A'}{' '}
-        Days
-      </p>
-      <p>{callback.description}</p>
-      <p>
-        Assigned on {dateAssigned} - Completed on {dateCompleted}
-      </p>
-
-      {callback.link && (
-        <Link
-          href={
-            callback.link?.startsWith('http')
-              ? callback.link
-              : `http://${callback.link}`
-          }
-        >
-          <a className="link">
-            {callback.link ? `Link to ${callback.link}` : ''}
-          </a>
-        </Link>
+      <h1>
+        {callback.title}{' '}
+        {me.id === callback.teacher.id && (
+          <SmallGradientButton
+            onClick={() => {
+              setEditing(!editing);
+            }}
+          >
+            Edit
+          </SmallGradientButton>
+        )}
+      </h1>
+      {!editing && (
+        <>
+          <h2>Assigned By: {callback.teacher.name}</h2>
+          <h2>{callback.student.name}</h2>
+          <p>
+            Average Time For {callback.student.name} To Complete Callback:{' '}
+            {callback.student.averageTimeToCompleteCallback
+              ? callback.student.averageTimeToCompleteCallback
+              : 'N/A'}{' '}
+            Days
+          </p>
+          <p>{callback.description}</p>
+          <p>
+            Assigned on {dateAssigned} - Completed on {dateCompleted}
+          </p>
+          {callback.link && (
+            <Link
+              href={
+                callback.link?.startsWith('http')
+                  ? callback.link
+                  : `http://${callback.link}`
+              }
+            >
+              <a className="link">
+                {callback.link ? `Link to ${callback.link}` : ''}
+              </a>
+            </Link>
+          )}
+          <div>
+            <CallbackCardMessages callback={callback} me={me} />
+          </div>
+          {!callback.dateCompleted && (
+            <MarkCallbackCompleted callback={callback} />
+          )}{' '}
+        </>
       )}
-      <div>
-        <CallbackCardMessages callback={callback} me={me} />
-      </div>
-      {!callback.dateCompleted && <MarkCallbackCompleted callback={callback} />}
+
+      {/* editing form */}
+      {editing && (
+        <>
+          <CallbackEditor
+            callback={callback}
+            refetch={refetch}
+            setEditing={setEditing}
+          />
+        </>
+      )}
     </SingleCallbackStyles>
   );
 }
