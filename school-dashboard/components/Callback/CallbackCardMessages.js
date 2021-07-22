@@ -44,6 +44,7 @@ const AnimatedInput = styled.p`
     color: #4d4d4d;
     text-align: center;
     transition: all 0.3s;
+    border-radius: 5px;
   }
   .inputUpdating {
     animation: color-change 0.5s infinite;

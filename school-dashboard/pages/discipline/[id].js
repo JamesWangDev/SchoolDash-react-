@@ -76,18 +76,18 @@ export default function SingleDisciplineReferralPage({ query }) {
     }
   );
   if (isLoading) return <Loading />;
-  const { Discipline } = data;
-  const date = new Date(Discipline?.date).toLocaleDateString();
+  const discipline = data?.Discipline;
+  const date = new Date(discipline?.date).toLocaleDateString();
 
   // get list of items in Discipline that are also in the others involved list
   const othersInvolvedListItems = othersInvolvedList.map((item) =>
-    Discipline[item] ? `☑️ ${item} ` : null
+    discipline[item] ? `☑️ ${item} ` : null
   );
   const studentConductListItems = studentConductList.map((item) =>
-    Discipline[item] ? `☑️ ${item} ` : null
+    discipline[item] ? `☑️ ${item} ` : null
   );
   const teacherActionListItems = teacherActionList.map((item) =>
-    Discipline[item] ? `☑️ ${item} ` : null
+    discipline[item] ? `☑️ ${item} ` : null
   );
 
   //  function take array of strings in camelcase and return words with spaces
@@ -105,21 +105,21 @@ export default function SingleDisciplineReferralPage({ query }) {
   return (
     <div>
       <h1>
-        Referral for {Discipline?.student?.name} on {date}
+        Referral for {discipline?.student?.name} on {date}
       </h1>
       <DisplaySingleDiscipline>
         <div>
-          <h2>Teacher: {Discipline.teacher.name}</h2>
-          <h2>Student: {Discipline.student.name}</h2>
+          <h2>Teacher: {discipline.teacher.name}</h2>
+          <h2>Student: {discipline.student.name}</h2>
         </div>
         <div>
           <h3>Date:</h3>
           <h3>{date}</h3>
         </div>
         <div>
-          <p>Class Type: {Discipline.classType}</p>
-          <p>Location: {Discipline.location}</p>
-          <p>Time Of Day: {Discipline.timeOfDay}</p>
+          <p>Class Type: {discipline.classType}</p>
+          <p>Location: {discipline.location}</p>
+          <p>Time Of Day: {discipline.timeOfDay}</p>
         </div>
         <div>
           <h3>Others Involved:</h3>
@@ -135,7 +135,7 @@ export default function SingleDisciplineReferralPage({ query }) {
         </div>
       </DisplaySingleDiscipline>
       <h2>Teacher Comments:</h2>
-      <p>{Discipline.teacherComments}</p>
+      <p>{discipline.teacherComments}</p>
     </div>
   );
 }
