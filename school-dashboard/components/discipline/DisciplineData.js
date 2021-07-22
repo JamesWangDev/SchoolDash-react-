@@ -80,7 +80,7 @@ export default function DisciplineData() {
     : allDisciplines.filter((d) => d?.teacher.id === me?.id);
 
   // get disciplines from current user
-  const totalDisciplines = data.allDisciplines.length;
+  const totalDisciplines = data?.allDisciplines?.length;
   return (
     <>
       <NewDiscipline refetch={refetch} />

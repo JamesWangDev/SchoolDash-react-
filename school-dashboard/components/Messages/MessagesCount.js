@@ -93,7 +93,7 @@ export default function MessagesCount() {
   const [viewAllMessages, setViewAllMessages] = useState(false);
   if (isLoading) return <Loading />;
   return (
-    <AnimationStyles>
+    <AnimationStyles className="hidePrint">
       <TransitionGroup>
         <CSSTransition
           unmountOnExit
