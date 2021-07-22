@@ -73,7 +73,7 @@ export default function SingleCallbackCard({ callback }) {
         </Link>
       )}
       <CallbackCardMessages me={me} callback={callback} />
-      <MarkCallbackCompleted callback={callback} />
+      {!callback.dateCompleted && <MarkCallbackCompleted callback={callback} />}
     </SingleCardStyles>
   );
 }

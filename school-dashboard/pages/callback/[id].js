@@ -118,7 +118,7 @@ export default function SingleCallbackPage({ query }) {
       <div>
         <CallbackCardMessages callback={callback} me={me} />
       </div>
-      <MarkCallbackCompleted callback={callback} />
+      {!callback.dateCompleted && <MarkCallbackCompleted callback={callback} />}
     </SingleCallbackStyles>
   );
 }
