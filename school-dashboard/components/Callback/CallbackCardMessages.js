@@ -64,8 +64,8 @@ const AnimatedInput = styled.p`
 `;
 
 export default function CallbackCardMessages({ me, callback }) {
-  const isTeacher = me.id === callback.teacher.id;
-  const isStudent = me.id === callback.student.id;
+  const isTeacher = me?.id === callback.teacher.id;
+  const isStudent = me?.id === callback.student.id;
   const [teacherMessage, setTeacherMessage] = useState(
     callback.messageFromTeacher || ''
   );

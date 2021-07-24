@@ -97,7 +97,7 @@ export default function SingleCallbackPage({ query }) {
   return (
     <SingleCallbackStyles>
       <h1>
-        {me.id === callback.teacher.id && (
+        {me?.id === callback.teacher.id && (
           <SmallGradientButton
             onClick={() => {
               setEditing(!editing);
@@ -107,7 +107,7 @@ export default function SingleCallbackPage({ query }) {
           </SmallGradientButton>
         )}
         {callback.title}{' '}
-        {me.id === callback.teacher.id && (
+        {me?.id === callback.teacher.id && (
           <SmallGradientButton
             onClick={() => {
               setDuplicating(!duplicating);

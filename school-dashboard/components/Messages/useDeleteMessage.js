@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 const MARK_MESSAGE_READ_MUTATION = gql`
   mutation MARK_MESSAGE_READ_MUTATION($id: ID!) {
-    updateMessage(id: $id, data: { read: true }) {
+    deleteMessage(id: $id) {
       id
     }
   }
@@ -12,7 +12,7 @@ const MARK_MESSAGE_READ_MUTATION = gql`
 export default function useMarkMessageRead() {
   //   console.log(`message: ${JSON.stringify(message)}`);
 
-  const [markMessageRead] = useMutation(MARK_MESSAGE_READ_MUTATION, {});
+  const [deleteMessage] = useMutation(MARK_MESSAGE_READ_MUTATION, {});
 
-  return markMessageRead;
+  return deleteMessage;
 }

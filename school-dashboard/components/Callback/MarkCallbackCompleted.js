@@ -39,7 +39,7 @@ export default function MarkCallbackCompleted({ callback }) {
   );
 
   //   console.log(`late: ${daysLate}`);
-  if (me.id === callback.teacher.id) {
+  if (me?.id === callback.teacher.id) {
     return (
       <div>
         <SmallGradientButton
