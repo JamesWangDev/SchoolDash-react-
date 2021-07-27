@@ -206,6 +206,7 @@ export default function Users() {
 
   useEffect(() => refetch(), [userSortType]);
   const me = useUser();
+  if (!me?.isStaff) return <p>User does not have access</p>;
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.mesage}</DisplayError>;
   return (

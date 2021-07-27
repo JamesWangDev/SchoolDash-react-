@@ -33,7 +33,11 @@ const CURRENT_USER_QUERY = gql`
           id
           name
         }
-        studentPbisCards {
+        studentPbisCards(
+          sortBy: dateGiven_ASC
+          first: 20
+          where: { category_not: "physical" }
+        ) {
           id
           cardMessage
           category

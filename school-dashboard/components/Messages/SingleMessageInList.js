@@ -6,10 +6,14 @@ import useMarkMessageRead from './MarkMessageRead';
 import useDeleteMessage from './useDeleteMessage';
 
 const MessageContainerStyles = styled.div`
-  margin: 0px 100px;
+  margin: 0px 10px;
+  border-bottom: 1px solid var(--lightGrey);
+  /* border-radius: 10px; */
+  /* border: 2px solid var(--lightGrey); */
   div {
-    background: red;
+    background: var(--gray);
     transition: all ease 0.5s;
+    margin: 0;
   }
   .hide {
     height: 0;
@@ -17,19 +21,37 @@ const MessageContainerStyles = styled.div`
     opacity: 0;
   }
   .show {
-    padding: 0;
+    padding: 15px;
     height: min-content;
+    color: white;
   }
   .unread {
     font-size: 3rem;
   }
   h3 {
     font-size: 2rem;
+    margin: 10px;
   }
   a {
     :before {
       display: none;
     }
+  }
+  p {
+    margin: 0;
+  }
+  button {
+    // small red button
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    border-radius: 200px;
+    cursor: pointer;
+    width: min-content;
+    height: min-content;
+    display: inline;
   }
 `;
 
@@ -39,7 +61,7 @@ export default function SingleMessageInList({ message }) {
   const queryClient = useQueryClient();
   const [viewMessage, setViewMessage] = useState(false);
   const date = new Date(message.sent).toLocaleDateString();
-  console.log(message);
+  // console.log(message);
   return (
     <MessageContainerStyles key={message.id}>
       <h3
@@ -72,7 +94,7 @@ export default function SingleMessageInList({ message }) {
             queryClient.refetchQueries('myMessages');
           }}
         >
-          Delete
+          &times;
         </button>
       </div>
     </MessageContainerStyles>

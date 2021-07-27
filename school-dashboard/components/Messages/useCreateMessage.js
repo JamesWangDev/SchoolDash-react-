@@ -36,7 +36,7 @@ export default function useCreateMessage() {
     variables: {
       subject: message?.subject,
       message: message?.message,
-      sender: me.id,
+      sender: me?.id,
       receiver: message?.receiver,
       link: message?.link,
     },

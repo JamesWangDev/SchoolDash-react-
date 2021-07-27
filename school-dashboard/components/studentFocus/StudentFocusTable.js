@@ -1,10 +1,10 @@
 import gql from 'graphql-tag';
 import { useMemo } from 'react';
-import Table from './Table';
+import Table from '../Table';
 
-import { useGQLQuery } from '../lib/useGqlQuery';
-import DisplayError from './ErrorMessage';
-import Loading from './Loading';
+import { useGQLQuery } from '../../lib/useGqlQuery';
+import DisplayError from '../ErrorMessage';
+import Loading from '../Loading';
 
 const ALL_STUDENT_FOCUS_QUERY = gql`
   query ALL_STUDENT_FOCUS_QUERY {
