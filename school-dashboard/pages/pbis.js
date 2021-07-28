@@ -42,10 +42,11 @@ export const TeamCardStyles = styled.div`
   flex-wrap: wrap;
   justify-content: space-around; */
   display: grid;
-  grid-template-columns: repeat(6, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
   page-break-before: always;
-
+  width: 100%;
   div {
+    page-break-inside: avoid;
     text-align: center;
     padding: 5px;
     margin: 5px;
@@ -202,7 +203,7 @@ export default function Pbis() {
       <PbisCardChart className="hidePrint" />
       <TeamCardStyles>
         {teams?.map((team) => (
-          <div key={team.id}>
+          <div key={team.id} className="gridCard">
             <h3>{team.teamName}</h3>
             <p>
               {team.taTeacher.map((teacher) => (

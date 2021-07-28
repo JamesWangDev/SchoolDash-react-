@@ -51,6 +51,11 @@ const GlobalStyles = createGlobalStyle`
     display: none;
     @page { margin: 0; }
   }
+  .gridCard {
+    page-break-inside: avoid !important;
+    background: red;
+    width: 80%;
+  }
   }
 
 `;
