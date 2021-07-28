@@ -206,7 +206,7 @@ export default function Pbis() {
             <h3>{team.teamName}</h3>
             <p>
               {team.taTeacher.map((teacher) => (
-                <span key={teacher.id}>{teacher.name}</span>
+                <span key={teacher.id}>{` ${teacher.name} `} </span>
               ))}
             </p>
             <h4>Level -{team.currentLevel}-</h4>
