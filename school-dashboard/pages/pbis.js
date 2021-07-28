@@ -14,6 +14,9 @@ const ChartContainerStyles = styled.div`
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-evenly;
   align-items: center;
+  @media print {
+    display: none;
+  }
 `;
 
 const AnnouncementStyle = styled.h2`
@@ -39,7 +42,8 @@ export const TeamCardStyles = styled.div`
   flex-wrap: wrap;
   justify-content: space-around; */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(6, minmax(200px, 1fr));
+  page-break-before: always;
 
   div {
     text-align: center;
@@ -47,6 +51,10 @@ export const TeamCardStyles = styled.div`
     margin: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    h3 {
+      color: var(--blue);
+      text-shadow: 2px 2px var(--red);
+    }
   }
 `;
 
@@ -171,15 +179,18 @@ export default function Pbis() {
 
   return (
     <div>
-      <h1>School-Wide PBIS Data</h1>
+      <h1 className="hidePrint">School-Wide PBIS Data</h1>
       {/* <p>{JSON.stringify(data.teamData)}</p> */}
-      <h2>School-Wide Cards: {totalSchoolCards}</h2>
-      {hasTeam && <h2>Total Team Cards: {totalTeamCards}</h2>}
-      <ChartContainerStyles>
-        <PbisFalcon />
+      <h2 className="hidePrint">School-Wide Cards: {totalSchoolCards}</h2>
+      {hasTeam && (
+        <h2 className="hidePrint">Total Team Cards: {totalTeamCards}</h2>
+      )}
+      <ChartContainerStyles className="hidePrint">
+        <PbisFalcon className="hidePrint" />
         <DoughnutChart
           title="School-Wide Cards By Category"
           chartData={schoolWideCardsInCategories}
+          className="hidePrint"
         />
         {hasTeam && (
           <DoughnutChart
@@ -188,7 +199,7 @@ export default function Pbis() {
           />
         )}
       </ChartContainerStyles>
-      <PbisCardChart />
+      <PbisCardChart className="hidePrint" />
       <TeamCardStyles>
         {teams?.map((team) => (
           <div key={team.id}>

@@ -28,12 +28,13 @@ export default function DisplayPbisCollectionData({ collectionData }) {
         level {currentTeamLevelGoal}
       </h3>
 
-      <h3>
+      <h3 className="hidePrint">
         {teamsThatWentUpLevel.length} of {taTeamsLevels.length} TA Teams and{' '}
         {studentsWhoWentUpLevel.length} students have gone up a level
         <ProgressBar
           completed={percentageOfTaTeamsAtCurrentGoalLevel}
           bgColor="var(--blue)"
+          className="hidePrint"
         />
       </h3>
       {viewAllData && (

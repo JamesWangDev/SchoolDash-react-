@@ -13,6 +13,9 @@ const LineChartStyles = styled.div`
   padding: 0;
   /* background-color: var(y); */
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  @media print {
+    display: none;
+  }
 `;
 
 const CARD_COLLECTION_DATA_FOR_CHART_QUERY = gql`
