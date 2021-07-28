@@ -75,6 +75,9 @@ const TitleBarStyles = styled.div`
     align-items: center;
     width: 100%;
     flex-wrap: wrap;
+    button {
+      margin: 5px;
+    }
   }
 `;
 
@@ -247,7 +250,7 @@ export default function Pbis() {
                     : `http://${link.link}`
                 }
               >
-                <SmallGradientButton title={link}>
+                <SmallGradientButton title={link.description}>
                   <h3 className="pbis-link-title">{link.name}</h3>
                 </SmallGradientButton>
               </Link>
