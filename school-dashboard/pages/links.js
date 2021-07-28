@@ -42,20 +42,28 @@ export default function Links() {
           {
             Header: 'Name',
             accessor: 'name',
-            Cell: ({ row }) => (
-              <Link href={`http://${row.original.link}`}>
-                {row.original.name}
-              </Link>
-            ),
+            Cell: ({ row }) => {
+              const linkRaw = row.original.link;
+
+              const link = linkRaw.startsWith('http')
+                ? linkRaw
+                : `http://${linkRaw}`;
+
+              return <Link href={link}>{row.original.name}</Link>;
+            },
           },
           {
             Header: 'description',
             accessor: 'description',
-            Cell: ({ row }) => (
-              <Link href={`http://${row.original.link}`}>
-                {row.original.description}
-              </Link>
-            ),
+            Cell: ({ row }) => {
+              const linkRaw = row.original.link;
+
+              const link = linkRaw.startsWith('http')
+                ? linkRaw
+                : `http://${linkRaw}`;
+
+              return <Link href={link}>{row.original.description}</Link>;
+            },
           },
           {
             Header: 'Edit',
