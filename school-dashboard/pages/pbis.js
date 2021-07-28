@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+import Link from 'next/link';
 import Loading from '../components/Loading';
 import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
@@ -7,6 +8,9 @@ import PbisFalcon from '../components/PBIS/PbisFalcon';
 import DoughnutChart from '../components/Chart/DonutChart';
 import DisplayPbisCollectionData from '../components/PBIS/DisplayPbisCollectionData';
 import PbisCardChart from '../components/PBIS/PbisCardChart';
+import GradientButton, {
+  SmallGradientButton,
+} from '../components/styles/Button';
 
 const ChartContainerStyles = styled.div`
   display: grid;
@@ -58,9 +62,30 @@ export const TeamCardStyles = styled.div`
     }
   }
 `;
+const TitleBarStyles = styled.div`
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  .pbisLinks {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+`;
 
 const PBIS_PAGE_QUERY = gql`
-  query PBIS_PAGE_QUERY($teamId: ID, $countId: ID) {
+  query PBIS_PAGE_QUERY(
+    $teamId: ID
+    $countId: ID
+    $forStudents: Boolean
+    $forTeachers: Boolean
+    $forParents: Boolean
+  ) {
     cards: allPbisCards {
       id
       dateGiven
@@ -122,6 +147,21 @@ const PBIS_PAGE_QUERY = gql`
       }
       counted
     }
+    pbisLinks: allLinks(
+      where: {
+        forPbis: true
+        OR: [
+          { forParents: $forParents }
+          { forStudents: $forStudents }
+          { forTeachers: $forTeachers }
+        ]
+      }
+    ) {
+      id
+      link
+      name
+      description
+    }
   }
 `;
 
@@ -136,6 +176,9 @@ export default function Pbis() {
     {
       teamId,
       countId: teamId,
+      forTeachers: me?.isStaff,
+      forStudents: me?.isStudent,
+      forParents: me?.isParent,
     },
     {
       enabled: !!me,
@@ -180,12 +223,38 @@ export default function Pbis() {
 
   return (
     <div>
-      <h1 className="hidePrint">School-Wide PBIS Data</h1>
-      {/* <p>{JSON.stringify(data.teamData)}</p> */}
-      <h2 className="hidePrint">School-Wide Cards: {totalSchoolCards}</h2>
-      {hasTeam && (
-        <h2 className="hidePrint">Total Team Cards: {totalTeamCards}</h2>
-      )}
+      <TitleBarStyles>
+        <div>
+          <h1 className="hidePrint">School-Wide PBIS Data</h1>
+          {/* <p>{JSON.stringify(data.teamData)}</p> */}
+          <h2 className="hidePrint">School-Wide Cards: {totalSchoolCards}</h2>
+          {hasTeam && (
+            <h2 className="hidePrint">Total Team Cards: {totalTeamCards}</h2>
+          )}
+        </div>
+        <div>
+          <h2 className="hidePrint">Links</h2>
+          <div className="pbisLinks">
+            {data?.pbisLinks.map((link) => (
+              <Link
+                key={link.id}
+                to={link.link}
+                className="pbis-link"
+                target="_blank"
+                href={
+                  link.link.startsWith('http')
+                    ? link.link
+                    : `http://${link.link}`
+                }
+              >
+                <SmallGradientButton title={link}>
+                  <h3 className="pbis-link-title">{link.name}</h3>
+                </SmallGradientButton>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </TitleBarStyles>
       <ChartContainerStyles className="hidePrint">
         <PbisFalcon className="hidePrint" />
         <DoughnutChart

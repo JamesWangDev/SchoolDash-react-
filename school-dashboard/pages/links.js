@@ -10,8 +10,20 @@ import Loading from '../components/Loading';
 import isAllowed from '../lib/isAllowed';
 
 const GET_ALL_LINKS_QUERY = gql`
-  query GET_ALL_LINKS_QUERY {
-    allLinks {
+  query GET_ALL_LINKS_QUERY(
+    $forStudents: Boolean
+    $forTeachers: Boolean
+    $forParents: Boolean
+  ) {
+    allLinks(
+      where: {
+        OR: [
+          { forParents: $forParents }
+          { forStudents: $forStudents }
+          { forTeachers: $forTeachers }
+        ]
+      }
+    ) {
       id
       name
       link
@@ -31,7 +43,13 @@ export default function Links() {
   const editor = isAllowed(me, 'canManageLinks');
   const { data, isLoading, error, refetch } = useGQLQuery(
     'allLinks',
-    GET_ALL_LINKS_QUERY
+    GET_ALL_LINKS_QUERY,
+    {
+      forTeachers: me?.isStaff,
+      forStudents: me?.isStudent,
+      forParents: me?.isParent,
+    },
+    { enabled: !!me }
   );
 
   const columns = useMemo(
