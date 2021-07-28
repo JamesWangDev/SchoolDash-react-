@@ -17,6 +17,7 @@ const CREATE_LINK_MUTATION = gql`
     $forStudents: Boolean!
     $forParents: Boolean!
     $onHomePage: Boolean!
+    $forPbis: Boolean!
     $link: String
     $modifiedBy: ID!
   ) {
@@ -29,6 +30,7 @@ const CREATE_LINK_MUTATION = gql`
         forParents: $forParents
         onHomePage: $onHomePage
         link: $link
+        forPbis: $forPbis
         modifiedBy: { connect: { id: $modifiedBy } }
       }
     ) {
@@ -44,6 +46,7 @@ export default function NewLink({ refetchLinks, hidden }) {
     forStudents: false,
     forParents: false,
     onHomePage: false,
+    forPbis: false,
   });
   const user = useUser();
   //   console.log(`user ${user.id}`);
@@ -147,6 +150,15 @@ export default function NewLink({ refetchLinks, hidden }) {
                 id="onHomePage"
                 name="onHomePage"
                 checked={inputs.onHomePage}
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="forPbis">
+              <span>Show on The PBIS Page </span>
+              <Toggle
+                id="forPbis"
+                name="forPbis"
+                checked={inputs.forPbis}
                 onChange={handleChange}
               />
             </label>
