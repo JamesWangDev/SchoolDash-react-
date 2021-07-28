@@ -53,7 +53,11 @@ export default function PbisCardChart() {
   //   console.log(dataToUse);
   return (
     <LineChartStyles>
-      <LineChart title="Cards Collected Per Week" chartData={dataToUse} />
+      <LineChart
+        title="Marbles Per Week"
+        chartData={dataToUse}
+        label="Marbles Per Week"
+      />
     </LineChartStyles>
   );
 }
