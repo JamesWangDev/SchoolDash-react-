@@ -46,7 +46,7 @@ export default function EditLink({ link, refetch }) {
   return (
     <div>
       <SmallGradientButton onClick={() => setShowForm(!showForm)}>
-        Edit
+        {showForm ? 'close' : 'Edit Link'}
       </SmallGradientButton>
       <FormContainerStyles>
         <Form
