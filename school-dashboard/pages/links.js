@@ -5,9 +5,10 @@ import DisplayError from '../components/ErrorMessage';
 import Table from '../components/Table';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import { useUser } from '../components/User';
-import NewLink from '../components/NewLink';
+import NewLink from '../components/links/NewLink';
 import Loading from '../components/Loading';
 import isAllowed from '../lib/isAllowed';
+import EditLink from '../components/links/EditLink';
 
 const GET_ALL_LINKS_QUERY = gql`
   query GET_ALL_LINKS_QUERY(
@@ -41,6 +42,7 @@ const GET_ALL_LINKS_QUERY = gql`
 export default function Links() {
   const me = useUser();
   const editor = isAllowed(me, 'canManageLinks');
+  const hiddenColumns = editor ? '' : 'Edit';
   const { data, isLoading, error, refetch } = useGQLQuery(
     'allLinks',
     GET_ALL_LINKS_QUERY,
@@ -55,8 +57,14 @@ export default function Links() {
   const columns = useMemo(
     () => [
       {
-        Header: 'Users',
+        Header: 'Links',
         columns: [
+          {
+            Header: 'Edit',
+            Cell: ({ row }) => (
+              <EditLink link={row.original} refetch={refetch} />
+            ),
+          },
           {
             Header: 'Name',
             accessor: 'name',
@@ -83,25 +91,23 @@ export default function Links() {
               return <Link href={link}>{row.original.description}</Link>;
             },
           },
-          {
-            Header: 'Edit',
-            Cell: ({ row }) => {
-              if (!editor) return <p />;
-              return <Link href={`/editLink/${row.original.id}`}>Edit</Link>;
-            },
-          },
         ],
       },
     ],
     []
   );
-
+  console.log('editor', editor);
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   return (
     <div>
       <NewLink hidden={!editor} refetchLinks={refetch} />
-      <Table data={data.allLinks} columns={columns} searchColumn="name" />
+      <Table
+        data={data?.allLinks || []}
+        columns={columns}
+        searchColumn="name"
+        hiddenColumns={hiddenColumns}
+      />
     </div>
   );
 }

@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import Toggle from 'react-toggle';
-import GradientButton from './styles/Button';
-import Form, { FormContainerStyles } from './styles/Form';
-import useForm from '../lib/useForm';
-import DisplayError from './ErrorMessage';
-import { useUser } from './User';
+import GradientButton from '../styles/Button';
+import Form, { FormContainerStyles } from '../styles/Form';
+import useForm from '../../lib/useForm';
+import DisplayError from '../ErrorMessage';
+import { useUser } from '../User';
 import 'react-toggle/style.css';
 
 const CREATE_LINK_MUTATION = gql`
