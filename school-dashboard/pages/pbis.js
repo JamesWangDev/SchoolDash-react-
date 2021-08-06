@@ -179,9 +179,9 @@ export default function Pbis() {
     {
       teamId,
       countId: teamId,
-      forTeachers: me?.isStaff,
-      forStudents: me?.isStudent,
-      forParents: me?.isParent,
+      forTeachers: me?.isStaff || null,
+      forStudents: me?.isStudent || null,
+      forParents: me?.isParent || null,
     },
     {
       enabled: !!me,

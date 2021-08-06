@@ -50,9 +50,9 @@ export default function HomePageLinks() {
     'HomePageLinks',
     GET_HOMEPAGE_LINKS,
     {
-      forTeachers: me.isStaff,
-      forParents: me.isParent,
-      forStudents: me.isStudent,
+      forTeachers: me.isStaff || null,
+      forParents: me.isParent || null,
+      forStudents: me.isStudent || null,
     },
     { initialData: [], enabled: !!me }
   );
