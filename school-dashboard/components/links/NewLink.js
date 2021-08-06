@@ -74,7 +74,7 @@ export default function NewLink({ refetchLinks, hidden }) {
             e.preventDefault();
             // Submit the inputfields to the backend:
             const res = await createLink();
-            clearForm();
+            resetForm();
             refetchLinks();
             setShowForm(false);
           }}
