@@ -47,9 +47,9 @@ export default function Links() {
     'allLinks',
     GET_ALL_LINKS_QUERY,
     {
-      forTeachers: me?.isStaff,
-      forStudents: me?.isStudent,
-      forParents: me?.isParent,
+      forTeachers: me?.isStaff || null,
+      forStudents: me?.isStudent || null,
+      forParents: me?.isParent || null,
     },
     { enabled: !!me }
   );
