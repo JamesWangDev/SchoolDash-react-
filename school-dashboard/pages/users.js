@@ -12,34 +12,8 @@ import isAllowed from '../lib/isAllowed';
 import { useUser } from '../components/User';
 import NewStaff from '../components/users/NewStaff';
 
-const GET_ALL_USERS = gql`
-  query GET_ALL_USERS {
-    teachers: allUsers(where: { isStaff: true }) {
-      id
-      name
-
-      callbackCount
-      PbisCardCount
-      YearPbisCount
-      averageTimeToCompleteCallback
-      _callbackAssignedMeta(where: { dateCompleted: null }) {
-        count
-      }
-      _taStudentsMeta {
-        count
-      }
-      currentTaWinner {
-        name
-        id
-      }
-      previousTaWinner {
-        name
-        id
-      }
-      virtualCards: _teacherPbisCardsMeta(where: { category_not: "physical" }) {
-        count
-      }
-    }
+const GET_ALL_STUDENTS = gql`
+  query GET_ALL_STUDENTS {
     students: allUsers(where: { isStudent: true }) {
       id
       name
@@ -53,6 +27,37 @@ const GET_ALL_USERS = gql`
       YearPbisCount
       averageTimeToCompleteCallback
       individualPbisLevel
+    }
+  }
+`;
+
+const GET_ALL_TEACHERS = gql`
+  query GET_ALL_TEACHERS {
+    teachers: allUsers(where: { isStaff: true }) {
+      id
+      name
+
+      callbackCount
+      PbisCardCount
+      YearPbisCount
+      averageTimeToCompleteCallback
+      _callbackAssignedMeta(where: { dateCompleted: null }) {
+        count
+      }
+      # _taStudentsMeta {
+      #   count
+      # }
+      currentTaWinner {
+        name
+        id
+      }
+      # previousTaWinner {
+      #   name
+      #   id
+      # }
+      # virtualCards: _teacherPbisCardsMeta(where: { category_not: "physical" }) {
+      #   count
+      # }
     }
   }
 `;
@@ -88,11 +93,20 @@ const ArrayValues = ({ values }) => (
 
 export default function Users() {
   const [userSortType, setUserSortType] = useState('student');
-  const { data, isLoading, error, refetch } = useGQLQuery(
-    'users',
-    GET_ALL_USERS,
+  const { data: students, isLoading: studentLoading, error } = useGQLQuery(
+    'allStudents',
+    GET_ALL_STUDENTS,
+    {},
     {
-      searchTerm: userSortType,
+      enabled: userSortType === 'student',
+    }
+  );
+  const { data: teachers, isLoading: teacherLoading } = useGQLQuery(
+    'allTeachers',
+    GET_ALL_TEACHERS,
+    {},
+    {
+      enabled: userSortType === 'staff',
     }
   );
   const studentColumns = useMemo(
@@ -183,22 +197,22 @@ export default function Users() {
             Header: 'Yearly PBIS',
             accessor: 'YearPbisCount',
           },
-          {
-            Header: 'Virtual PBIS Given',
-            accessor: 'virtualCards.count',
-          },
+          // {
+          //   Header: 'Virtual PBIS Given',
+          //   accessor: 'virtualCards.count',
+          // },
           {
             Header: 'Latest PBIS Winner',
             accessor: 'currentTaWinner.name',
           },
-          {
-            Header: 'Previous PBIS Winner',
-            accessor: 'previousTaWinner.name',
-          },
-          {
-            Header: 'TA Count',
-            accessor: '_taStudentsMeta.count',
-          },
+          // {
+          //   Header: 'Previous PBIS Winner',
+          //   accessor: 'previousTaWinner.name',
+          // },
+          // {
+          //   Header: 'TA Count',
+          //   accessor: '_taStudentsMeta.count',
+          // },
           {
             Header: 'Assigned Callback',
             accessor: '_callbackAssignedMeta.count',
@@ -209,10 +223,11 @@ export default function Users() {
     []
   );
 
-  useEffect(() => refetch(), [userSortType]);
+  const isLoading = studentLoading || teacherLoading;
+
   const me = useUser();
   if (!me?.isStaff) return <p>User does not have access</p>;
-  if (isLoading) return <Loading />;
+  if (studentLoading) return <Loading />;
   if (error) return <DisplayError>{error.mesage}</DisplayError>;
   return (
     <div>
@@ -238,14 +253,14 @@ export default function Users() {
       {isAllowed(me, 'isSuperAdmin') && <NewStaff />} */}
       {userSortType === 'staff' && (
         <Table
-          data={data?.teachers || []}
+          data={teachers?.teachers || []}
           columns={teacherColumns}
           searchColumn="name"
         />
       )}
       {userSortType === 'student' && (
         <Table
-          data={data?.students || []}
+          data={students?.students || []}
           columns={studentColumns}
           searchColumn="name"
         />
