@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import Table from '../Table';
+import DeliveredCake from './DeliveredCake';
+import getThisWeeksBirthdays from './getThisWeeksBirthdays';
 
 export default function BirthdaysTable({ birthdays }) {
   const columns = useMemo(
@@ -29,29 +31,28 @@ export default function BirthdaysTable({ birthdays }) {
               return isToday ? `📆 Today 📆` : displayDate;
             },
           },
-          {
-            Header: 'Chosen Cake',
-            accessor: 'hasChosen',
-            Cell: ({ cell: { value } }) => (
-              <>{value ? '🧁🧁🧁🧁🧁🧁🧁🧁' : 'no'}</>
-            ),
-          },
+
           {
             Header: 'Delivered Cake',
             accessor: 'hasDelivered',
-            Cell: ({ cell: { value } }) => (
-              <>{value ? '🧁🧁🧁🧁🧁🧁🧁🧁' : 'no'}</>
-            ),
+            Cell: ({ cell }) => <DeliveredCake cake={cell.row.original} />,
           },
         ],
       },
     ],
     []
   );
+  const thisWeeksBirthdays = getThisWeeksBirthdays(birthdays);
 
   return (
     <div>
-      <p>here be the birthdays</p>
+      <h2>This weeks Birthdays</h2>
+      <Table
+        columns={columns}
+        data={thisWeeksBirthdays || []}
+        searchColumn="student.name"
+      />
+      <h2>All Birthdays</h2>
       <Table
         data={birthdays || []}
         searchColumn="student.name"
