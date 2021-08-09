@@ -10,13 +10,13 @@ const NavStyles = styled.ul`
 
   a,
   button {
-    padding: 1rem 2rem;
+    padding: 0rem 2rem;
     display: flex;
     align-items: center;
     position: relative;
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: white;
     background: none;
     border: 0;
@@ -71,7 +71,11 @@ const NavStyles = styled.ul`
     /* border-top: 1px solid var(--lightGrey); */
     width: 100%;
     justify-content: flex-end;
-    font-size: 1.5rem;
+    a,
+    button {
+      font-size: 1.15rem;
+    }
+    font-size: 1.1rem;
   }
   @media (max-width: 1150px) {
     align-items: center;

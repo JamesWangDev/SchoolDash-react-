@@ -8,7 +8,7 @@ import MessagesCount from '../Messages/MessagesCount';
 import isAllowed from '../../lib/isAllowed';
 
 const Logo = styled.h1`
-  font-size: 4rem;
+  font-size: 3.5rem;
   margin-left: 3rem;
   padding-left: 1rem;
   position: relative;
@@ -31,6 +31,7 @@ const Logo = styled.h1`
 
 const HeaderStyles = styled.header`
   background: linear-gradient(to top right, var(--blue), var(--red));
+
   .bar {
     border-bottom: 10px solid var(--black, black);
     display: grid;
