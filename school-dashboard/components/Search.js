@@ -79,7 +79,7 @@ export default function Search() {
                 highlighted={index === highlightedIndex}
               >
                 {item.name}
-                {isStudent && <QuickPbisButton id={item.id} />}
+                {/* {isStudent && <QuickPbisButton id={item.id} />} */}
               </DropDownItem>
             );
           })}
