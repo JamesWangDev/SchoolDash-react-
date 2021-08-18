@@ -135,7 +135,7 @@ function CardForm({ visible, hide }) {
               value="responsibility"
               onChange={handleChange}
             />
-            Responsability
+            Responsibility
           </label>
           <label htmlFor="perseverance">
             <input
