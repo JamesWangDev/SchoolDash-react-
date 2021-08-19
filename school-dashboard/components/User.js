@@ -61,6 +61,7 @@ const CURRENT_USER_QUERY = gql`
         birthday {
           id
           cakeType
+          date
         }
       }
     }

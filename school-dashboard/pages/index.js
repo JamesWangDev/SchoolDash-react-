@@ -45,7 +45,9 @@ export default function Home() {
           {isAllowed(me, 'hasTA') && <TaCallbacks />}
           {me && isAllowed(me, 'isStudent') && (
             <div>
-              {!me?.birthday?.cakeType && <StudentCakeChooser />}
+              {me?.birthday && !me?.birthday?.cakeType && (
+                <StudentCakeChooser birthday={me.birthday} />
+              )}
               <StudentCallbacks />
               <StudentPbisData student={me} />
               <DisplayPbisCardWidget cards={me.studentPbisCards} />
