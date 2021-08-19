@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import Table from '../Table';
 import DeliveredCake from './DeliveredCake';
 import getThisWeeksBirthdays from './getThisWeeksBirthdays';
+import MissingBirthdays from './MissingBirthdays';
 
 export default function BirthdaysTable({ birthdays }) {
   const columns = useMemo(
@@ -52,6 +53,8 @@ export default function BirthdaysTable({ birthdays }) {
         data={thisWeeksBirthdays || []}
         searchColumn="student.name"
       />
+      <h2>Missing Birthdays</h2>
+      <MissingBirthdays />
       <h2>All Birthdays</h2>
       <Table
         data={birthdays || []}
