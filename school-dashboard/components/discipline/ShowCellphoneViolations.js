@@ -38,7 +38,7 @@ function getDisplayCellData(cellViolations) {
       };
     }
   );
-  console.log(cellViolationsWithCounts);
+  //   console.log(cellViolationsWithCounts);
   return cellViolationsWithCounts;
 }
 
@@ -78,7 +78,7 @@ export default function ShowCellphoneViolations({ cellViolations }) {
               const today = new Date().toLocaleDateString();
               const displayDate = new Date(value).toLocaleDateString();
               const isToday = today === displayDate;
-              return isToday ? `📆 Today 📆` : displayDate;
+              return isToday ? `📆 Today` : displayDate;
             },
           },
           {
@@ -96,7 +96,7 @@ export default function ShowCellphoneViolations({ cellViolations }) {
   );
 
   return (
-    <div>
+    <div className={ShowCellphoneViolations ? 'big' : ''}>
       <GradientButton
         onClick={() => setShowCellphoneViolations(!ShowCellphoneViolations)}
       >
@@ -105,8 +105,9 @@ export default function ShowCellphoneViolations({ cellViolations }) {
           : 'Show Cell Violations'}
       </GradientButton>
       {ShowCellphoneViolations && (
-        <div>
+        <div className="big">
           <Table
+            className="big"
             columns={columns}
             data={getDisplayCellData(cellViolations) || []}
             searchColumn="student.name"

@@ -58,7 +58,7 @@ export default function CellPhoneAddButton() {
         style={{ margin: '5px' }}
         onClick={() => setShowForm(!showForm)}
       >
-        {showForm ? 'close' : 'Cell Phone Violation'}
+        {showForm ? 'close' : 'New Cell Phone Violation'}
       </GradientButton>
       <FormContainerStyles>
         <Form

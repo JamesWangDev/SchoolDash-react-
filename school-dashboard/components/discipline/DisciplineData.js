@@ -19,6 +19,12 @@ const DisciplinePageContainer = styled.div`
   div {
     max-width: 500px;
   }
+  .big {
+    flex-basis: 100%;
+
+    width: 1000px;
+    /* background-color: red; */
+  }
 `;
 
 export const DISCIPLINE_DATA = gql`
@@ -98,9 +104,13 @@ export default function DisciplineData() {
   const totalDisciplines = data?.allDisciplines?.length;
   return (
     <>
-      <NewDiscipline refetch={refetch} />
-      <CellPhoneAddButton refetch={refetch} />
-      <ShowCellphoneViolations cellViolations={data?.allCellPhoneViolations} />
+      <DisciplinePageContainer>
+        <NewDiscipline refetch={refetch} />
+        <CellPhoneAddButton refetch={refetch} />
+        <ShowCellphoneViolations
+          cellViolations={data?.allCellPhoneViolations}
+        />
+      </DisciplinePageContainer>
       <DisciplinePageContainer>
         <div>
           <h2>{totalDisciplines} Total Referrals</h2>
