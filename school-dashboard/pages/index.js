@@ -15,6 +15,7 @@ import TeacherAssignments from '../components/Assignments/TeacherAssignments';
 import TaCallbacks from '../components/Callback/TaCallback';
 import UpdateMyPassword from '../components/users/UpdateMyPassword';
 import ViewStudentPage from '../components/users/ViewStudentPage';
+import StudentCakeChooser from '../components/Birthdays/StudentCakeChooser';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ export default function Home() {
           {isAllowed(me, 'hasTA') && <TaCallbacks />}
           {me && isAllowed(me, 'isStudent') && (
             <div>
+              {!me?.birthday?.cakeType && <StudentCakeChooser />}
               <StudentCallbacks />
               <StudentPbisData student={me} />
               <DisplayPbisCardWidget cards={me.studentPbisCards} />

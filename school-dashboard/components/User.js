@@ -58,6 +58,10 @@ const CURRENT_USER_QUERY = gql`
             teamName
           }
         }
+        birthday {
+          id
+          cakeType
+        }
       }
     }
   }
