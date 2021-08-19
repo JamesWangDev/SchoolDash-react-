@@ -6,6 +6,8 @@ import DisciplineTable from './DisciplineTable';
 import NewDiscipline from './DisciplineButton';
 import { useUser } from '../User';
 import isAllowed from '../../lib/isAllowed';
+import CellPhoneAddButton from './CellPhoneAddButton';
+import ShowCellphoneViolations from './ShowCellphoneViolations';
 
 const DisciplinePageContainer = styled.div`
   h2 {
@@ -61,6 +63,19 @@ export const DISCIPLINE_DATA = gql`
       unknown
       othersInvolved
     }
+    allCellPhoneViolations {
+      id
+      description
+      dateGiven
+      teacher {
+        id
+        name
+      }
+      student {
+        id
+        name
+      }
+    }
   }
 `;
 
@@ -84,6 +99,8 @@ export default function DisciplineData() {
   return (
     <>
       <NewDiscipline refetch={refetch} />
+      <CellPhoneAddButton refetch={refetch} />
+      <ShowCellphoneViolations cellViolations={data?.allCellPhoneViolations} />
       <DisciplinePageContainer>
         <div>
           <h2>{totalDisciplines} Total Referrals</h2>
