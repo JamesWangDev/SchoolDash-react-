@@ -5,9 +5,20 @@ import GradientButton, { SmallGradientButton } from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
-
 import { useUser } from '../User';
 import SearchForUserName from '../SearchForUserName';
+import { useGQLQuery } from '../../lib/useGqlQuery';
+import useSendEmail from '../../lib/useSendEmail';
+
+const GET_ADMIN_EMAILS = gql`
+  query GET_ADMIN_EMAILS {
+    allUsers(where: { canManageDiscipline: true }) {
+      id
+      name
+      email
+    }
+  }
+`;
 
 const ADD_CELLPHONE_MUTATION = gql`
   mutation ADD_CELLPHONE_MUTATION(
@@ -23,11 +34,21 @@ const ADD_CELLPHONE_MUTATION = gql`
       }
     ) {
       id
+      student {
+        id
+        name
+      }
     }
   }
 `;
 
 export default function CellPhoneAddButton() {
+  const { data: adminEmails, isLoading } = useGQLQuery(
+    `AdminEmails`,
+    GET_ADMIN_EMAILS
+  );
+  const adminEmailArray = adminEmails?.allUsers?.map((u) => u.email);
+  console.log(adminEmailArray);
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     description: '',
@@ -37,7 +58,7 @@ export default function CellPhoneAddButton() {
   const teacher = me?.id;
   const [studentCardIsFor, setStudentCardIsFor] = useState();
   // console.log(studentCardIsFor);
-
+  const { setEmail, emailLoading } = useSendEmail();
   const [createCellViolation, { loading, error, data }] = useMutation(
     ADD_CELLPHONE_MUTATION,
     {
@@ -69,7 +90,23 @@ export default function CellPhoneAddButton() {
             // Submit the input fields to the backend:
             console.log(inputs);
             const res = await createCellViolation();
-
+            console.log(res);
+            if (res.data.createCellPhoneViolation.id) {
+              adminEmailArray.map((email) => {
+                const emailToSend = {
+                  toAddress: email,
+                  fromAddress: me.email,
+                  subject: `New Cell Phone Violation for ${res.data.createCellPhoneViolation.student.name}`,
+                  body: `
+                <p>There is a new Cell Phone Violation for ${res.data.createCellPhoneViolation.student.name} at NCUJHS.TECH created by ${me.name}. </p>
+                <p><a href="https://ncujhs.tech/discipline">Click Here to View</a></p>
+                 `,
+                };
+                console.log(emailToSend);
+                setEmail(emailToSend);
+                return null;
+              });
+            }
             // refetch();
             setShowForm(false);
             // console.log(inputs);
