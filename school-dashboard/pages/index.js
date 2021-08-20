@@ -66,10 +66,10 @@ export default function Home() {
 
       <footer>
         {me ? (
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          <div style={{ display: 'flex', justifyContent: 'start' }}>
+            <SignOut />
             <NewBugReportButton />
             <UpdateMyPassword />
-            <SignOut />
           </div>
         ) : (
           <RequestReset />
