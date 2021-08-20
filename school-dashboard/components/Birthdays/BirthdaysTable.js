@@ -78,15 +78,15 @@ export default function BirthdaysTable({ birthdays }) {
         searchColumn="student.name"
       />
       <h2>Types Of Cakes Left To Deliver</h2>
-      {Object.keys(typesOfCakes).map((cakeType) => (
-        <div key={cakeType}>
-          {cakeType}: {typesOfCakes[cakeType]}
-        </div>
-      ))}
-      <h2>Types Of Cakes Total For The Year</h2>
       {Object.keys(typesOfUndeliverdCakes).map((cakeType) => (
         <div key={cakeType}>
           {cakeType}: {typesOfUndeliverdCakes[cakeType]}
+        </div>
+      ))}
+      <h2>Types Of Cakes Total For The Year</h2>
+      {Object.keys(typesOfCakes).map((cakeType) => (
+        <div key={cakeType}>
+          {cakeType}: {typesOfCakes[cakeType]}
         </div>
       ))}
       <h2>Missing Birthdays</h2>
