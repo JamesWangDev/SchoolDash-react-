@@ -44,6 +44,28 @@ export default function BirthdaysTable({ birthdays }) {
     []
   );
   const thisWeeksBirthdays = getThisWeeksBirthdays(birthdays);
+  const typesOfCakes = birthdays.reduce((acc, birthday) => {
+    const { cakeType } = birthday;
+    if (!acc[cakeType]) {
+      acc[cakeType] = 1;
+    } else {
+      acc[cakeType] += 1;
+    }
+    return acc;
+  }, {});
+
+  const undeliiveredCakes = thisWeeksBirthdays.filter(
+    (birthday) => !birthday.hasDelivered
+  );
+  const typesOfUndeliverdCakes = undeliiveredCakes.reduce((acc, birthday) => {
+    const { cakeType } = birthday;
+    if (!acc[cakeType]) {
+      acc[cakeType] = 1;
+    } else {
+      acc[cakeType] += 1;
+    }
+    return acc;
+  }, {});
 
   return (
     <div>
@@ -53,6 +75,18 @@ export default function BirthdaysTable({ birthdays }) {
         data={thisWeeksBirthdays || []}
         searchColumn="student.name"
       />
+      <h2>Types Of Cakes Left To Deliver</h2>
+      {Object.keys(typesOfCakes).map((cakeType) => (
+        <div key={cakeType}>
+          {cakeType}: {typesOfCakes[cakeType]}
+        </div>
+      ))}
+      <h2>Types Of Cakes Total For The Year</h2>
+      {Object.keys(typesOfUndeliverdCakes).map((cakeType) => (
+        <div key={cakeType}>
+          {cakeType}: {typesOfUndeliverdCakes[cakeType]}
+        </div>
+      ))}
       <h2>Missing Birthdays</h2>
       <MissingBirthdays />
       <h2>All Birthdays</h2>
