@@ -170,7 +170,7 @@ export default function NewDiscipline({ refetch }) {
                 return null;
               });
             }
-            clearForm();
+            resetForm();
             refetch();
             setShowForm(false);
           }}

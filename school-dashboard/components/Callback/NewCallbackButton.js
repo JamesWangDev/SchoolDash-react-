@@ -90,7 +90,7 @@ export default function NewCallback({ refetch }) {
             });
             refetch();
             // recalculateCallback();
-            clearForm();
+            resetForm();
             router.push({
               pathname: `/callback/${res.data.createCallback.id}`,
             });

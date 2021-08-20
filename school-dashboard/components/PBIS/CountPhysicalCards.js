@@ -49,7 +49,9 @@ export default function CountPhysicalCards({ taStudents, refetch }) {
   // create an object with key of taStudent.id and value of 0
 
   //   const studentIds = taStudents.map((student) => student.id);
-  const { inputs, handleChange, clearForm } = useForm(taStudentCounts);
+  const { inputs, handleChange, clearForm, resetForm } = useForm(
+    taStudentCounts
+  );
   const [countCardsMutation, { loading, error, data }] = useMutation(
     CREATE_CARD_MUTATION
   );
@@ -89,7 +91,7 @@ export default function CountPhysicalCards({ taStudents, refetch }) {
               setTimeout(() => {
                 refetch();
               }, 2000);
-              clearForm();
+              resetForm();
               setShowForm(false);
             }}
           >

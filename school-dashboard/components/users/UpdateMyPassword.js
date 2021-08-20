@@ -18,7 +18,7 @@ const RESET_PASSWORD_TO_PASSWORD_MUTATION = gql`
 export default function UpdateMyPassword() {
   const me = useUser();
   const [showForm, setShowForm] = React.useState(false);
-  const { inputs, handleChange, clearForm } = useForm({ newPassword: '' });
+  const { inputs, handleChange, resetForm } = useForm({ newPassword: '' });
   const [resetThePassword, { loading, error, data }] = useMutation(
     RESET_PASSWORD_TO_PASSWORD_MUTATION,
     {
@@ -45,7 +45,7 @@ export default function UpdateMyPassword() {
               e.preventDefault();
               // Submit the inputfields to the backend:
               const res = await resetThePassword();
-              clearForm();
+              resetForm();
               setShowForm(false);
             }}
           >

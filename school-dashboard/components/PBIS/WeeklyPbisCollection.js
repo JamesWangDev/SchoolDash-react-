@@ -7,7 +7,7 @@ import usePbisCollection from './usePbisCollection';
 
 export default function WeeklyPbisCollection() {
   const [showForm, setShowForm] = React.useState(false);
-  const { inputs, handleChange, clearForm } = useForm();
+  const { inputs, handleChange, clearForm, resetForm } = useForm();
   const [running, setRunning] = React.useState(false);
   const router = useRouter();
   const {
@@ -46,7 +46,7 @@ export default function WeeklyPbisCollection() {
                 setRunning(true);
                 const res = await runCardCollection();
                 // setShowForm(false);
-                clearForm();
+                resetForm();
                 if (res) {
                   console.log(res);
                   setRunning(false);
