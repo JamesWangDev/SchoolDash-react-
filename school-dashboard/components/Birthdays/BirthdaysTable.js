@@ -44,28 +44,30 @@ export default function BirthdaysTable({ birthdays }) {
     []
   );
   const thisWeeksBirthdays = getThisWeeksBirthdays(birthdays);
-  const typesOfCakes = birthdays.reduce((acc, birthday) => {
-    const { cakeType } = birthday;
-    if (!acc[cakeType]) {
-      acc[cakeType] = 1;
-    } else {
-      acc[cakeType] += 1;
-    }
-    return acc;
-  }, {});
+  const typesOfCakes =
+    birthdays?.reduce((acc, birthday) => {
+      const { cakeType } = birthday;
+      if (!acc[cakeType]) {
+        acc[cakeType] = 1;
+      } else {
+        acc[cakeType] += 1;
+      }
+      return acc;
+    }, {}) || {};
 
-  const undeliiveredCakes = thisWeeksBirthdays.filter(
+  const undeliiveredCakes = thisWeeksBirthdays?.filter(
     (birthday) => !birthday.hasDelivered
   );
-  const typesOfUndeliverdCakes = undeliiveredCakes.reduce((acc, birthday) => {
-    const { cakeType } = birthday;
-    if (!acc[cakeType]) {
-      acc[cakeType] = 1;
-    } else {
-      acc[cakeType] += 1;
-    }
-    return acc;
-  }, {});
+  const typesOfUndeliverdCakes =
+    undeliiveredCakes?.reduce((acc, birthday) => {
+      const { cakeType } = birthday;
+      if (!acc[cakeType]) {
+        acc[cakeType] = 1;
+      } else {
+        acc[cakeType] += 1;
+      }
+      return acc;
+    }, {}) || {};
 
   return (
     <div>
