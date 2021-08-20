@@ -16,6 +16,7 @@ import TaCallbacks from '../components/Callback/TaCallback';
 import UpdateMyPassword from '../components/users/UpdateMyPassword';
 import ViewStudentPage from '../components/users/ViewStudentPage';
 import StudentCakeChooser from '../components/Birthdays/StudentCakeChooser';
+import NewBugReportButton from '../components/bugreports/NewBugReportButton';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -65,9 +66,11 @@ export default function Home() {
 
       <footer>
         {me ? (
-          <>
-            <SignOut /> <UpdateMyPassword />{' '}
-          </>
+          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <NewBugReportButton />
+            <UpdateMyPassword />
+            <SignOut />
+          </div>
         ) : (
           <RequestReset />
         )}
