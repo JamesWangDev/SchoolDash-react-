@@ -71,7 +71,7 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
             e.preventDefault();
             // Submit the inputfields to the backend:
             const res = await createCalendar();
-            clearForm();
+            resetForm();
             refetchCalendars();
             setShowForm(false);
           }}

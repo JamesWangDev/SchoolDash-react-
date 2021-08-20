@@ -112,6 +112,8 @@ export default function CountPhysicalCards({ taStudents, refetch }) {
                   </label>
                   <input
                     type="number"
+                    min="0"
+                    max="15"
                     id={student.id}
                     name={student.id}
                     placeholder="Enter number of cards"

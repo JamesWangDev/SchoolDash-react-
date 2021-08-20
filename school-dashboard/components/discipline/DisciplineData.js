@@ -8,7 +8,7 @@ import { useUser } from '../User';
 import isAllowed from '../../lib/isAllowed';
 import CellPhoneAddButton from './CellPhoneAddButton';
 import ShowCellphoneViolations from './ShowCellphoneViolations';
-import { SmallGradientButton } from '../styles/Button';
+import GradientButton, { SmallGradientButton } from '../styles/Button';
 
 const DisciplinePageContainer = styled.div`
   h2 {
@@ -107,7 +107,7 @@ export default function DisciplineData() {
     <>
       <DisciplinePageContainer>
         <NewDiscipline refetch={refetch} />
-        <SmallGradientButton>HHB Form </SmallGradientButton>
+        <GradientButton>HHB Form </GradientButton>
         <CellPhoneAddButton refetch={refetch} />
         <ShowCellphoneViolations
           cellViolations={data?.allCellPhoneViolations}
