@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import styled from 'styled-components';
+import gql from 'graphql-tag';
 import WeeklyCalendar from '../components/calendars/WeeklyCalendar';
 import StudentCallbacks from '../components/Callback/StudentCallbacks';
 import SignOut from '../components/loginComponents/SignOut';
@@ -17,6 +18,8 @@ import UpdateMyPassword from '../components/users/UpdateMyPassword';
 import ViewStudentPage from '../components/users/ViewStudentPage';
 import StudentCakeChooser from '../components/Birthdays/StudentCakeChooser';
 import NewBugReportButton from '../components/bugreports/NewBugReportButton';
+import { useGQLQuery } from '../lib/useGqlQuery';
+import AssignmentViewCardsStudent from '../components/Assignments/AssignmentViewCardsStudent';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -28,8 +31,60 @@ const DashboardContainerStyles = styled.div`
   }
 `;
 
+const GET_STUDENT_CLASSSWORK_QUERY = gql`
+  query GET_SINGLE_TEACHER($id: ID!) {
+    user: User(where: { id: $id }) {
+      id
+      name
+      email
+
+      block1Teacher {
+        name
+        id
+        block1ClassName
+        block1Assignment
+        block1AssignmentLastUpdated
+      }
+      block2Teacher {
+        name
+        id
+        block2ClassName
+        block2Assignment
+        block2AssignmentLastUpdated
+      }
+      block3Teacher {
+        name
+        id
+        block3ClassName
+        block3Assignment
+        block3AssignmentLastUpdated
+      }
+      block4Teacher {
+        name
+        id
+        block4ClassName
+        block4Assignment
+        block4AssignmentLastUpdated
+      }
+      block5Teacher {
+        name
+        id
+        block5ClassName
+        block5Assignment
+        block5AssignmentLastUpdated
+      }
+    }
+  }
+`;
+
 export default function Home() {
   const me = useUser();
+  const { data, isLoading, error } = useGQLQuery(
+    `SingleStudentClasswork-${me?.id}`,
+    GET_STUDENT_CLASSSWORK_QUERY,
+    { id: me?.id },
+    { enabled: me?.isStudent }
+  );
   if (!me) return <RequestReset />;
   return (
     <div>
@@ -50,7 +105,9 @@ export default function Home() {
                 <StudentCakeChooser birthday={me.birthday} />
               )}
               <StudentCallbacks />
-              {/* <AssignmentViewCardsStudent student={me} /> */}
+              {data?.user && (
+                <AssignmentViewCardsStudent student={data?.user} />
+              )}
               <StudentPbisData student={me} />
               <DisplayPbisCardWidget cards={me.studentPbisCards} />
             </div>
