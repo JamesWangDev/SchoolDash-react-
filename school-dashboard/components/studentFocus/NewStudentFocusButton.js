@@ -12,6 +12,18 @@ import { todaysDateForForm } from '../calendars/formatTodayForForm';
 
 import { useUser } from '../User';
 import useCreateMessage from '../Messages/useCreateMessage';
+import { useGQLQuery } from '../../lib/useGqlQuery';
+import useSendEmail from '../../lib/useSendEmail';
+
+const GET_GUIDANCE_EMAILS = gql`
+  query GET_GUIDANCE_EMAILS {
+    allUsers(where: { isGuidance: true }) {
+      id
+      name
+      email
+    }
+  }
+`;
 
 const CREATE_STUDENT_FOCUS = gql`
   mutation CREATE_STUDENT_FOCUS(
@@ -50,7 +62,14 @@ export default function NewStudentFocusButton({ refetch }) {
   });
   const user = useUser();
   const [studentWhoIsFor, setStudentWhoIsFor] = useState(null);
-
+  const { data: guidance, isLoading } = useGQLQuery(
+    `GuidanceEmails`,
+    GET_GUIDANCE_EMAILS
+  );
+  const guidanceAccounts = (guidance && guidance.allUsers) || [];
+  const guidanceEmailList = guidanceAccounts.map((g) => g.email);
+  console.log('guidanceEmailList', guidanceEmailList);
+  const { setEmail, emailLoading } = useSendEmail();
   const [createStudentFocus, { loading, error, data }] = useMutation(
     CREATE_STUDENT_FOCUS,
     {
@@ -92,6 +111,22 @@ export default function NewStudentFocusButton({ refetch }) {
               receiver: res?.data?.createStudentFocus?.student.taTeacher?.id,
               link: ``,
             });
+
+            if (res.data.createStudentFocus.id) {
+              guidanceEmailList.map((email) => {
+                const emailToSend = {
+                  toAddress: email,
+                  fromAddress: user.email,
+                  subject: `New Student Focus for ${res.data.createStudentFocus.student.name}`,
+                  body: `
+                <p>There is a new Student Focus Entry for ${res.data.createStudentFocus.student.name} at NCUJHS.TECH created by ${user.name}. </p>
+                 `,
+                };
+                console.log(emailToSend);
+                setEmail(emailToSend);
+                return null;
+              });
+            }
             queryClient.refetchQueries('allStudentFocus');
             // recalculateCallback();
             clearForm();
