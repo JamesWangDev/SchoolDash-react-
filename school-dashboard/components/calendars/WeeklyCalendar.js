@@ -35,13 +35,24 @@ export const GET_WEEK_CALENDARS = gql`
 `;
 
 function getLastAndNextSunday(d) {
+  const lastSunday = new Date(
+    d.getFullYear(),
+    d.getMonth(),
+    d.getDate() - d.getDay()
+  );
+  const nextSunday = new Date(
+    d.getFullYear(),
+    d.getMonth(),
+    d.getDate() + (7 - d.getDay())
+  );
+  // console.log(d, lastSunday, nextSunday);
   const l = new Date(d);
   l.setDate(l.getDate() - l.getDay());
   const n = new Date(d);
   n.setDate(n.getDate() + ((5 - n.getDay() + 7) % 7) + 1);
   return {
-    lastSunday: l.toISOString().slice(0, -14),
-    nextSaturday: n.toISOString().slice(0, -14),
+    lastSunday: lastSunday.toISOString().slice(0, -14),
+    nextSaturday: nextSunday.toISOString().slice(0, -14),
   };
 }
 

@@ -61,7 +61,7 @@ export default function NewBugReportButton() {
     <div>
       <GradientButton
         onClick={() => setShowForm(!showForm)}
-        style={{ display: 'block', marginTop: '1rem' }}
+        style={{ display: 'block' }}
       >
         {showForm ? 'Close the form' : 'Bug Report / Feature Request'}
       </GradientButton>

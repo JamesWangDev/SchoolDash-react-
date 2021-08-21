@@ -7,11 +7,12 @@ const GradientButton = styled.button`
   border: 0;
   border-radius: 1rem;
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 1.8rem;
   padding: 0.8rem 1.5rem;
   transform: skew(-2deg);
   display: inline-block;
   transition: all 0.5s;
+  margin: 2px;
   outline: none;
   &[disabled] {
     opacity: 0.5;

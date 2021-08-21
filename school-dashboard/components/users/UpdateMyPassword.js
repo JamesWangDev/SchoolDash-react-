@@ -31,10 +31,7 @@ export default function UpdateMyPassword() {
 
   return (
     <div>
-      <GradientButton
-        style={{ marginTop: '10px', marginBottom: '10px' }}
-        onClick={() => setShowForm(!showForm)}
-      >
+      <GradientButton style={{}} onClick={() => setShowForm(!showForm)}>
         {showForm ? 'Hide  Update  Password  ' : 'Update My Password'}
       </GradientButton>
       <div style={{ position: 'relative', marginTop: '-320px' }}>
