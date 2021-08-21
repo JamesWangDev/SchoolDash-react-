@@ -34,7 +34,7 @@ function DisplayEvent({ event }) {
               ''
             )}
             <p>
-              Created by: {event.author.name} on{' '}
+              Created by: {event?.author?.name} on{' '}
               {createdDate.toLocaleDateString()}
             </p>
           </div>

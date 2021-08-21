@@ -103,6 +103,7 @@ export default function DisciplineData() {
 
   // get disciplines from current user
   const totalDisciplines = data?.allDisciplines?.length;
+  if (!me || !me?.isStaff) return <p>Not available</p>;
   return (
     <>
       <DisciplinePageContainer>

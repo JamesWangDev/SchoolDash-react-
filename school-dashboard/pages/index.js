@@ -50,6 +50,7 @@ export default function Home() {
                 <StudentCakeChooser birthday={me.birthday} />
               )}
               <StudentCallbacks />
+              {/* <AssignmentViewCardsStudent student={me} /> */}
               <StudentPbisData student={me} />
               <DisplayPbisCardWidget cards={me.studentPbisCards} />
             </div>
