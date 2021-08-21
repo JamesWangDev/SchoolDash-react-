@@ -48,7 +48,7 @@ export default function CellPhoneAddButton() {
     GET_ADMIN_EMAILS
   );
   const adminEmailArray = adminEmails?.allUsers?.map((u) => u.email);
-  console.log(adminEmailArray);
+  // console.log(adminEmailArray);
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     description: '',

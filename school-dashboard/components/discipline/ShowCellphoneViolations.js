@@ -11,8 +11,8 @@ function getDisplayCellData(cellViolations) {
   const getStudentIds = (cellViolations) => {
     const studentIds = [];
     cellViolations.forEach((cellViolation) => {
-      if (studentIds.indexOf(cellViolation.student.id) === -1) {
-        studentIds.push(cellViolation.student.id);
+      if (studentIds.indexOf(cellViolation?.student?.id) === -1) {
+        studentIds.push(cellViolation?.student?.id);
       }
     });
     return studentIds;
@@ -22,7 +22,7 @@ function getDisplayCellData(cellViolations) {
   // get the number of times each unique student comes up in the array of cell violations
   const getStudentCount = uniqueStudentIds.map((studentId) => {
     const cellViolationTotals = cellViolationsSortedByDate.filter(
-      (cellViolation) => cellViolation.student.id === studentId
+      (cellViolation) => cellViolation?.student?.id === studentId
     ).length;
     return { id: studentId, count: cellViolationTotals };
   });
@@ -30,7 +30,7 @@ function getDisplayCellData(cellViolations) {
     (cellViolation) => {
       // get count that goes with this cell violation
       const cellViolationCount = getStudentCount.filter(
-        (student) => student.id === cellViolation.student.id
+        (student) => student?.id === cellViolation?.student?.id
       )[0].count;
       return {
         ...cellViolation,
@@ -38,7 +38,7 @@ function getDisplayCellData(cellViolations) {
       };
     }
   );
-  //   console.log(cellViolationsWithCounts);
+  console.log(cellViolationsWithCounts);
   return cellViolationsWithCounts;
 }
 
