@@ -83,7 +83,7 @@ export default function Home() {
     `SingleStudentClasswork-${me?.id}`,
     GET_STUDENT_CLASSSWORK_QUERY,
     { id: me?.id },
-    { enabled: me?.isStudent }
+    { enabled: !!me?.isStudent }
   );
   if (!me) return <RequestReset />;
   return (

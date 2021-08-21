@@ -220,7 +220,7 @@ export default function usePbisCollection() {
     'pbisCollection',
     PBIS_COLLECTION_QUERY,
     {},
-    { enabled: getData }
+    { enabled: !!getData }
   );
 
   function getPersonalLevelWinners(students) {

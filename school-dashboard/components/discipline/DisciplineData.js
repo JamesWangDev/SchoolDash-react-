@@ -95,7 +95,7 @@ export default function DisciplineData() {
   );
 
   if (isLoading) return <p>Loading...</p>;
-  const { allDisciplines } = data;
+  const { allDisciplines } = data || [];
   const canSeeAllDisciplines = isAllowed(me, 'canSeeAllDiscipline');
   const disciplinesToShow = canSeeAllDisciplines
     ? allDisciplines
