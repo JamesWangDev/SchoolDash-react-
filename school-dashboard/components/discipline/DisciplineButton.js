@@ -36,8 +36,8 @@ const CREATE_DISCIPLINE_MUTATION = gql`
   mutation CREATE_DISCIPLINE_MUTATION(
     $teacherComments: String!
     $date: String
-    $teacher: ID!
-    $student: ID!
+    $teacher: ID
+    $student: ID
     $classType: String!
     $location: String!
     $timeOfDay: String!
