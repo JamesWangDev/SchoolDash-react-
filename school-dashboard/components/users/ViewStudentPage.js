@@ -69,7 +69,10 @@ const GET_SINGLE_TEACHER = gql`
         block5Assignment
         block5AssignmentLastUpdated
       }
-
+      taTeacher {
+        id
+        name
+      }
       parent {
         id
         name
@@ -109,7 +112,9 @@ export default function ViewStudentPage({ student }) {
   // console.log(user);
   return (
     <div>
-      <h3>Student info for {student.name}</h3>
+      <h3>
+        Student info for {student.name} TA: {user?.taTeacher?.name}
+      </h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />
       {user.parent.length > 0 && <h4>Parent Contact Info:</h4>}
