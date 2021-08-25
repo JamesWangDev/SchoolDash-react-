@@ -32,14 +32,19 @@ export default function SignIn() {
   });
   const queryClient = useQueryClient();
   const [signin, { data, loading }] = useMutation(SIGNIN_MUTATION, {
-    variables: inputs,
-    email: inputs.email.toLowerCase(),
+    variables: {
+      email: inputs.email.toLowerCase(),
+      password: inputs.password,
+    },
     // refetch the currently logged in user
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
+  // console.log(lowercaseEmail);
   async function handleSubmit(e) {
     e.preventDefault(); // stop the form from submitting
-    // console.log(inputs);
+    console.log(inputs);
+    const lowercaseEmail = inputs.email.toLowerCase();
+    const { password } = inputs;
     const res = await signin();
     // console.log(res);
     queryClient.refetchQueries();

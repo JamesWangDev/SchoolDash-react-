@@ -35,7 +35,7 @@ const BULLYING_DATA_QUERY = gql`
 export default function Bullying() {
   const me = useUser();
   const { data, isLoading, isError, refetch } = useGQLQuery(
-    'allDisciplines',
+    'allBullyings',
     BULLYING_DATA_QUERY
   );
   if (isLoading) return <Loading />;
