@@ -43,8 +43,7 @@ export default function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault(); // stop the form from submitting
     console.log(inputs);
-    const lowercaseEmail = inputs.email.toLowerCase();
-    const { password } = inputs;
+
     const res = await signin();
     // console.log(res);
     queryClient.refetchQueries();
