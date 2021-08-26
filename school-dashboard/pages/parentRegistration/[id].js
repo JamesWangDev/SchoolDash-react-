@@ -6,14 +6,14 @@ import DisplayError from '../../components/ErrorMessage';
 import Form, { FormContainerStyles } from '../../components/styles/Form';
 import useForm from '../../lib/useForm';
 
-const GET_STUDENT_FOR_PARENT = gql`
-  query GET_STUDENT_FOR_PARENT($id: ID!) {
-    User(where: { id: $id }) {
-      id
-      name
-    }
-  }
-`;
+// const GET_STUDENT_FOR_PARENT = gql`
+//   query GET_STUDENT_FOR_PARENT($id: ID!) {
+//     User(where: { id: $id }) {
+//       id
+//       name
+//     }
+//   }
+// `;
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
@@ -47,11 +47,11 @@ export default function SingleCallbackPage({ query }) {
     children: { connect: [{ id: query.id }] },
     isParent: true,
   });
-  const { data, isLoading, error } = useGQLQuery(
-    `StudentForParent-${query.id}`,
-    GET_STUDENT_FOR_PARENT,
-    { id: query.id }
-  );
+  // const { data, isLoading, error } = useGQLQuery(
+  //   `StudentForParent-${query.id}`,
+  //   GET_STUDENT_FOR_PARENT,
+  //   { id: query.id }
+  // );
 
   const [createNewUser, { loading, data: newUser }] = useMutation(
     SIGNUP_MUTATION,
@@ -59,9 +59,10 @@ export default function SingleCallbackPage({ query }) {
       variables: inputs,
     }
   );
-  if (isLoading) return <Loading />;
-  if (error) return <p>{error.message}</p>;
-  const student = data.User;
+  console.log(query);
+  // if (isLoading) return <Loading />;
+  // if (error) return <p>{error.message}</p>;
+  // const student = data.User;
   return (
     <div>
       <FormContainerStyles>
@@ -80,10 +81,10 @@ export default function SingleCallbackPage({ query }) {
             //   setShowForm(false);
           }}
         >
-          <h1>Register for a parent account for {student.name}</h1>
-          <DisplayError error={error} />
+          <h1>Register for a parent account for {query.name}</h1>
+          {/* <DisplayError error={error} /> */}
           <fieldset disabled={loading} aria-busy={loading}>
-            {data?.createUser && (
+            {newUser?.createUser && (
               <p>
                 Signed up with {newUser.createUser.email} - Please Go Sign in!
               </p>

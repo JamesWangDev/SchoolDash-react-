@@ -17,7 +17,7 @@ const GET_ALL_STUDENTS = gql`
     students: allUsers(where: { isStudent: true }) {
       id
       name
-
+      preferredName
       taTeacher {
         name
         id
@@ -117,11 +117,23 @@ export default function Users() {
           {
             Header: 'Name',
             accessor: 'name',
-            Cell: ({ row }) => (
-              <Link href={`/userProfile/${row.original.id}`}>
-                {row.original.name}
-              </Link>
-            ),
+            Cell: ({ row }) => {
+              const { name } = row.original;
+              const nameWithFirstLetterUpperCase = name
+                .split(' ')
+                .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                .join(' ');
+
+              const { preferredName } = row.original;
+              const nameToShow = preferredName
+                ? `${nameWithFirstLetterUpperCase} - (${preferredName})`
+                : nameWithFirstLetterUpperCase;
+              return (
+                <Link href={`/userProfile/${row.original.id}`}>
+                  {nameToShow}
+                </Link>
+              );
+            },
           },
           // {
           //   Header: 'Type',

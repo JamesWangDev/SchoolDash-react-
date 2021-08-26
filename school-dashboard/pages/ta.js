@@ -33,6 +33,7 @@ const TA_INFO_QUERY = gql`
         }
         id
         name
+        preferredName
         parent {
           name
           email
