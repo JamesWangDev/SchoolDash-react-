@@ -55,7 +55,7 @@ export default function BirthdaysTable({ birthdays }) {
       return acc;
     }, {}) || {};
 
-  const undeliiveredCakes = thisWeeksBirthdays?.filter(
+  const undeliiveredCakes = birthdays?.filter(
     (birthday) => !birthday.hasDelivered
   );
   const typesOfUndeliverdCakes =
@@ -68,7 +68,7 @@ export default function BirthdaysTable({ birthdays }) {
       }
       return acc;
     }, {}) || {};
-
+  console.log(undeliiveredCakes);
   return (
     <div>
       <h2>This weeks Birthdays</h2>
@@ -80,13 +80,15 @@ export default function BirthdaysTable({ birthdays }) {
       <h2>Types Of Cakes Left To Deliver</h2>
       {Object.keys(typesOfUndeliverdCakes).map((cakeType) => (
         <div key={cakeType}>
-          {cakeType}: {typesOfUndeliverdCakes[cakeType]}
+          {cakeType !== 'null' ? cakeType : 'Not Yet Chosen'}:{' '}
+          {typesOfUndeliverdCakes[cakeType]}
         </div>
       ))}
       <h2>Types Of Cakes Total For The Year</h2>
       {Object.keys(typesOfCakes).map((cakeType) => (
         <div key={cakeType}>
-          {cakeType}: {typesOfCakes[cakeType]}
+          {cakeType !== 'null' ? cakeType : 'Not Yet Chosen'}:{' '}
+          {typesOfCakes[cakeType]}
         </div>
       ))}
       <h2>Missing Birthdays</h2>
