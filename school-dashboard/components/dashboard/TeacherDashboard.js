@@ -13,6 +13,7 @@ export default function TeacherDashboard({ teacher }) {
   return (
     <div>
       <PbisCardFormButton teacher={teacher} />
+
       {isAllowed(me, 'hasClasses') && <TeacherAssignments />}
       <TaCallbacks />
     </div>

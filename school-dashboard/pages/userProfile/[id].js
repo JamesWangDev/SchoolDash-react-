@@ -50,13 +50,13 @@ export default function UserProfile({ query }) {
     <div>
       <h1>{user.name}</h1>
       <ButtonStyles>
-        {isAllowed(me, 'isStaff') && (
+        {isAllowed(me, 'isStaff') && me.id !== user.id && (
           <>
             <ResetPasswordToPassword userID={query.id} />
             <SendParentEmailSignupButton student={user} />
+            <p> !! TODO !! edit account</p>
           </>
         )}
-        {isAllowed(me, 'isStaff') && <p> !! TODO !! edit account</p>}
       </ButtonStyles>
       {isAllowed(user, 'isStaff') && <ViewTeacherPage teacher={user} />}
       {isAllowed(user, 'isStudent') && <ViewStudentPage student={user} />}

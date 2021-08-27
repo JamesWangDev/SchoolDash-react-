@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
+import Link from 'next/link';
 import WeeklyCalendar from '../components/calendars/WeeklyCalendar';
 import StudentCallbacks from '../components/Callback/StudentCallbacks';
 import SignOut from '../components/loginComponents/SignOut';
@@ -20,6 +21,7 @@ import StudentCakeChooser from '../components/Birthdays/StudentCakeChooser';
 import NewBugReportButton from '../components/bugreports/NewBugReportButton';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import AssignmentViewCardsStudent from '../components/Assignments/AssignmentViewCardsStudent';
+import GradientButton from '../components/styles/Button';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -93,6 +95,11 @@ export default function Home() {
         <DashboardContainerStyles>
           {isAllowed(me || {}, 'isStaff') && (
             <PbisCardFormButton teacher={me} />
+          )}
+          {isAllowed(me || {}, 'hasClasses') && (
+            <GradientButton>
+              <Link href={`/userProfile/${me?.id}`}>My Students</Link>
+            </GradientButton>
           )}
           <PbisFalcon />
           <HomePageLinks me={me || {}} />
