@@ -33,6 +33,7 @@ const GET_SINGLE_TEACHER = gql`
       taStudents {
         id
         name
+        preferredName
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
@@ -52,6 +53,7 @@ const GET_SINGLE_TEACHER = gql`
       block1Students {
         id
         name
+        preferredName
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
@@ -64,6 +66,7 @@ const GET_SINGLE_TEACHER = gql`
       }
       block2Students {
         name
+        preferredName
         id
         callbackCount
         totalCallbackCount
@@ -78,6 +81,7 @@ const GET_SINGLE_TEACHER = gql`
       block3Students {
         id
         name
+        preferredName
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
@@ -104,6 +108,7 @@ const GET_SINGLE_TEACHER = gql`
       block5Students {
         id
         name
+        preferredName
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
