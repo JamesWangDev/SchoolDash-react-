@@ -33,14 +33,37 @@ const GET_ADMIN_EMAILS = gql`
 `;
 
 const CREATE_HHB_MUTATION = gql`
-  mutation CREATE_HHB_MUTATION($disciplineId: ID!) {
+  mutation CREATE_HHB_MUTATION(
+    $teacher: ID!
+    $student: ID!
+    $dateOfEvent: String
+    $dateReported: String
+    $studentReporter: String
+    $employeeWitness: String
+    $studentWitness: String
+    $initialActions: String
+    $nextSteps: String
+    $teacherComments: String
+  ) {
     createBullying(
       data: {
-        teacher: { connect: { id: $teacher } }
-        student: { connect: { id: $student } }
+        teacherAuthor: { connect: { id: $teacher } }
+        studentOffender: { connect: { id: $student } }
+        dateOfEvent: $dateOfEvent
+        dateReported: $dateReported
+        studentReporter: $studentReporter
+        employeeWitness: $employeeWitness
+        studentWitness: $studentWitness
+        initialActions: $initialActions
+        nextSteps: $nextSteps
+        description: $teacherComments
       }
     ) {
       id
+      studentOffender {
+        id
+        name
+      }
     }
   }
 `;
@@ -54,6 +77,11 @@ export default function NewBullying({ refetch }) {
     dateReported: todaysDateForForm(),
     dateOfEvent: todaysDateForForm(),
     studentReporter: '',
+    employeeWitness: '',
+    studentWitness: '',
+    initialActions: '',
+    nextSteps: '',
+    teacherComments: '',
   });
   const user = useUser();
   const [studentReferralIsFor, setStudentReferralIsFor] = useState(null);
@@ -88,9 +116,9 @@ export default function NewBullying({ refetch }) {
                 const emailToSend = {
                   toAddress: email,
                   fromAddress: me.email,
-                  subject: `New HHB Referral for ${res.data.createBullying.student.name}`,
+                  subject: `New HHB Referral for ${res.data.createBullying.studentOffender.name}`,
                   body: `
-                <p>There is a new HHB Referral for ${res.data.createBullying.student.name} at NCUJHS.TECH created by ${me.name}. </p>
+                <p>There is a new HHB Referral for ${res.data.createBullying.studentOffender.name} at NCUJHS.TECH created by ${me.name}. </p>
                 <p><a href="https://ncujhs.tech/hhb/${res.data.createBullying.id}">Click Here to View</a></p>
                  `,
                 };

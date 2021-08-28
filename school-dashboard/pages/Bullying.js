@@ -1,8 +1,10 @@
 import gql from 'graphql-tag';
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 import NewBullying from '../components/discipline/BullyingButton';
 import Loading from '../components/Loading';
+import Table from '../components/Table';
 import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
 
@@ -28,6 +30,15 @@ const BULLYING_DATA_QUERY = gql`
   query BULLYING_DATA_QUERY {
     allBullyings {
       id
+      studentOffender {
+        id
+        name
+      }
+      teacherAuthor {
+        id
+        name
+      }
+      dateReported
     }
   }
 `;
@@ -38,12 +49,57 @@ export default function Bullying() {
     'allBullyings',
     BULLYING_DATA_QUERY
   );
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Discipline',
+        columns: [
+          {
+            Header: 'Student',
+            accessor: 'studentOffender.name',
+            Cell: ({ cell }) => (
+              <Link href={`/hhb/${cell?.row?.original?.id || ''}`}>
+                {cell.value}
+              </Link>
+            ),
+          },
+          {
+            Header: 'Teacher',
+            accessor: 'teacherAuthor.name',
+            Cell: ({ cell }) => (
+              <Link href={`/hhb/${cell?.row?.original?.id || ''}`}>
+                {cell.value}
+              </Link>
+            ),
+          },
+
+          {
+            Header: 'Date ',
+            accessor: 'dateReported',
+            Cell: ({ cell: { value } }) => {
+              const today = new Date().toLocaleDateString();
+              const displayDate = new Date(value).toLocaleDateString();
+              const isToday = today === displayDate;
+              return isToday ? `📆 Today 📆` : displayDate;
+            },
+          },
+        ],
+      },
+    ],
+    []
+  );
   if (isLoading) return <Loading />;
   return (
     <BullyingPageContainer>
       <NewBullying refetch={refetch} />
       <h2>Hazing Harassment Bullying</h2>
-      <p>{JSON.stringify(data, null, 2)}</p>
+      <Table
+        className="big"
+        columns={columns}
+        data={data?.allBullyings}
+        searchColumn="studentOffender.name"
+      />
     </BullyingPageContainer>
   );
 }
