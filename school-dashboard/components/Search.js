@@ -9,7 +9,9 @@ import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 
 const SEARCH_PRODUCTS_QUERY = gql`
   query SEARCH_USERS_QUERY($searchTerm: String!) {
-    searchTerms: allUsers(where: { name_contains_i: $searchTerm }) {
+    searchTerms: allUsers(
+      where: { AND: [{ name_contains_i: $searchTerm }, { isParent: false }] }
+    ) {
       id
       name
       isStaff
