@@ -4,7 +4,7 @@ import TaTeacherInfo from '../components/TA/TaTeacherInfo';
 import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import Loading from '../components/Loading';
-import ViewStudentTable from '../components/users/ViewStudentTable';
+import ViewTaStudentTable from '../components/users/ViewTaStudentTable';
 import CallbackTable from '../components/Callback/CallbackTable';
 import CountPhysicalCards from '../components/PBIS/CountPhysicalCards';
 
@@ -35,6 +35,7 @@ const TA_INFO_QUERY = gql`
         name
         preferredName
         parent {
+          id
           name
           email
         }
@@ -136,7 +137,7 @@ export default function TA() {
       {students.length > 0 && (
         <>
           <CountPhysicalCards taStudents={students} refetch={refetch} />
-          <ViewStudentTable users={students} title="TA Students" />
+          <ViewTaStudentTable users={students} title="TA Students" />
           <CallbackTable callbacks={allTaCallbacks[0] || []} />
         </>
       )}

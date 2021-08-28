@@ -15,6 +15,7 @@ const BullyingPageContainer = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  flex-direction: column;
   div {
     max-width: 500px;
   }

@@ -93,19 +93,23 @@ export default function Home() {
       <main>
         <h1 className="center">Welcome to the NCUJHS Dashboard {me.name}</h1>
         <DashboardContainerStyles>
-          {isAllowed(me || {}, 'isStaff') && (
+          {me && isAllowed(me || {}, 'isStaff') && (
             <PbisCardFormButton teacher={me} />
           )}
-          {isAllowed(me || {}, 'hasClasses') && (
+          {me && isAllowed(me || {}, 'hasClasses') && (
             <GradientButton>
               <Link href={`/userProfile/${me?.id}`}>My Students</Link>
             </GradientButton>
           )}
-          <PbisFalcon />
-          <HomePageLinks me={me || {}} />
-          <WeeklyCalendar me={me || {}} />
-          {isAllowed(me, 'hasClasses') && <TeacherAssignments />}
-          {isAllowed(me, 'hasTA') && <TaCallbacks />}
+          {!!me && (
+            <>
+              <PbisFalcon />
+              <HomePageLinks me={me || {}} />
+              <WeeklyCalendar me={me || {}} />
+              {isAllowed(me, 'hasClasses') && <TeacherAssignments />}
+              {isAllowed(me, 'hasTA') && <TaCallbacks />}
+            </>
+          )}
           {me && isAllowed(me, 'isStudent') && (
             <div>
               {me?.birthday && !me?.birthday?.cakeType && (
