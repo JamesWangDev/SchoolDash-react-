@@ -33,8 +33,8 @@ const SIGNUP_MUTATION = gql`
       }
     ) {
       id
-      email
       name
+      email
     }
   }
 `;
@@ -44,7 +44,7 @@ export default function SingleCallbackPage({ query }) {
     name: '',
     email: '',
     password: '',
-    children: { connect: [{ id: query.id }] },
+    children: { connect: { id: query.id } },
     isParent: true,
   });
   // const { data, isLoading, error } = useGQLQuery(
@@ -53,16 +53,15 @@ export default function SingleCallbackPage({ query }) {
   //   { id: query.id }
   // );
 
-  const [createNewUser, { loading, data: newUser }] = useMutation(
+  const [createNewUser, { loading, data: newUser, error }] = useMutation(
     SIGNUP_MUTATION,
-    {
-      variables: inputs,
-    }
+    {}
   );
-  console.log(query);
+  console.log(query.id);
   // if (isLoading) return <Loading />;
   // if (error) return <p>{error.message}</p>;
   // const student = data.User;
+  console.log(error);
   return (
     <div>
       <FormContainerStyles>
@@ -72,7 +71,16 @@ export default function SingleCallbackPage({ query }) {
             e.preventDefault();
             // Submit the inputfields to the backend:
             console.log(inputs);
-            const res = await createNewUser();
+            const res = await createNewUser({
+              variables: {
+                name: inputs.name,
+                email: inputs.email,
+                password: inputs.password,
+                children: { connect: [{ id: query.id }] },
+                isParent: true,
+              },
+            });
+
             console.log(res);
             //   setResultOfUpdate(
             //     JSON.parse(res.data.updateStudentSchedules.name)
@@ -82,7 +90,7 @@ export default function SingleCallbackPage({ query }) {
           }}
         >
           <h1>Register for a parent account for {query.name}</h1>
-          {/* <DisplayError error={error} /> */}
+          <DisplayError error={error} />
           <fieldset disabled={loading} aria-busy={loading}>
             {newUser?.createUser && (
               <p>
@@ -127,7 +135,7 @@ export default function SingleCallbackPage({ query }) {
               />
             </label>
 
-            <button type="submit">update Data</button>
+            <button type="submit">Register</button>
           </fieldset>
         </Form>
       </FormContainerStyles>

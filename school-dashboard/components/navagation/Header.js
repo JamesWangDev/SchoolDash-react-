@@ -103,7 +103,7 @@ export default function Header() {
           </div>
         )}
       </HeaderStyles>
-      <MessagesCount />
+      {!!me && <MessagesCount />}
     </>
   );
 }
