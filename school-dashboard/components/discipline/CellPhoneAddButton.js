@@ -88,9 +88,9 @@ export default function CellPhoneAddButton() {
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the input fields to the backend:
-            console.log(inputs);
+            // console.log(inputs);
             const res = await createCellViolation();
-            console.log(res);
+            // console.log(res);
             if (res.data.createCellPhoneViolation.id) {
               adminEmailArray.map((email) => {
                 const emailToSend = {
@@ -102,7 +102,7 @@ export default function CellPhoneAddButton() {
                 <p><a href="https://ncujhs.tech/discipline">Click Here to View</a></p>
                  `,
                 };
-                console.log(emailToSend);
+                // console.log(emailToSend);
                 setEmail(emailToSend);
                 return null;
               });

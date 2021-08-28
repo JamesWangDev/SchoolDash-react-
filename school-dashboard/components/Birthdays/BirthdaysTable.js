@@ -68,7 +68,7 @@ export default function BirthdaysTable({ birthdays }) {
       }
       return acc;
     }, {}) || {};
-  console.log(undeliiveredCakes);
+  // console.log(undeliiveredCakes);
   return (
     <div>
       <h2>This weeks Birthdays</h2>

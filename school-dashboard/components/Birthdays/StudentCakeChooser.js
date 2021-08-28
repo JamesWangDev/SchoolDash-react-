@@ -49,7 +49,7 @@ export default function StudentCakeChooser({ birthday }) {
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the input fields to the backend:
-            console.log(inputs);
+            // console.log(inputs);
             const res = await updateLink();
 
             // refetch();

@@ -364,7 +364,7 @@ export default function usePbisCollection() {
           },
         });
       } else {
-        console.log('no old winner');
+        // console.log('no old winner');
         const updatedTA = updateTaTeacherWithoutPreviousWinner({
           variables: {
             id: taId,

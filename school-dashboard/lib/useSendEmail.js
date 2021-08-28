@@ -19,10 +19,10 @@ export default function useSendEmail() {
 
   useEffect(() => {
     if (email) {
-      console.log('emailing');
-      console.log(email);
+      // console.log('emailing');
+      // console.log(email);
       const emailToSend = JSON.stringify(email);
-      console.log(emailToSend);
+      // console.log(emailToSend);
       sendEmail({
         variables: {
           emailData: emailToSend,

@@ -165,7 +165,7 @@ export default function NewDiscipline({ refetch }) {
                 <p><a href="https://ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
                  `,
                 };
-                console.log(emailToSend);
+                // console.log(emailToSend);
                 setEmail(emailToSend);
                 return null;
               });

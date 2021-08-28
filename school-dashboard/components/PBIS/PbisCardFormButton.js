@@ -154,8 +154,8 @@ function CardForm({ visible, hide }) {
               e.preventDefault();
               // console.log(inputs);
               const res = await createCard();
-              console.log(`res res `);
-              console.log(res?.data?.createPbisCard.id);
+              // console.log(`res res `);
+              // console.log(res?.data?.createPbisCard.id);
               createMessage({
                 subject: 'New PBIS Card',
                 message: `you received a new PBIS Card from ${me.name} for ${inputs.category}`,

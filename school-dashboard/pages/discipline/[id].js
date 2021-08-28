@@ -97,7 +97,7 @@ export default function SingleDisciplineReferralPage({ query }) {
   //  function take array of strings in camelcase and return words with spaces
   const getListItems = (list) => {
     const listWithoutNulls = list.filter((item) => item !== null);
-    console.log(listWithoutNulls);
+    // console.log(listWithoutNulls);
     const listAddSpaceBeforeEachCapital = listWithoutNulls.map((item) =>
       item.replace(/([A-Z])/g, ' $1')
     );

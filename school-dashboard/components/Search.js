@@ -73,7 +73,7 @@ export default function Search() {
         {isOpen &&
           items.map((item, index) => {
             const { isStudent } = item;
-            console.log(item);
+            // console.log(item);
             return (
               <DropDownItem
                 {...getItemProps({ item, index })}

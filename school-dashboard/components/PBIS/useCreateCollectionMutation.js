@@ -46,8 +46,8 @@ export default function useCreateMessage() {
   );
   useEffect(() => {
     if (collection) {
-      console.log('creating new pbis collection');
-      console.log(`collection: ${JSON.stringify(collection)}`);
+      // console.log('creating new pbis collection');
+      // console.log(`collection: ${JSON.stringify(collection)}`);
       createNewPbisCollection();
       setTimeout(() => {
         queryClient.refetchQueries();

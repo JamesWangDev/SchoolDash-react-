@@ -42,7 +42,7 @@ export default function SignIn() {
   // console.log(lowercaseEmail);
   async function handleSubmit(e) {
     e.preventDefault(); // stop the form from submitting
-    console.log(inputs);
+    // console.log(inputs);
 
     const res = await signin();
     // console.log(res);

@@ -68,7 +68,7 @@ export default function NewStudentFocusButton({ refetch }) {
   );
   const guidanceAccounts = (guidance && guidance.allUsers) || [];
   const guidanceEmailList = guidanceAccounts.map((g) => g.email);
-  console.log('guidanceEmailList', guidanceEmailList);
+  // console.log('guidanceEmailList', guidanceEmailList);
   const { setEmail, emailLoading } = useSendEmail();
   const [createStudentFocus, { loading, error, data }] = useMutation(
     CREATE_STUDENT_FOCUS,
@@ -102,7 +102,7 @@ export default function NewStudentFocusButton({ refetch }) {
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await createStudentFocus();
-            console.log(res);
+            // console.log(res);
 
             // Todo: send message when callback assigned
             createMessage({
@@ -122,7 +122,7 @@ export default function NewStudentFocusButton({ refetch }) {
                 <p>There is a new Student Focus Entry for ${res.data.createStudentFocus.student.name} at NCUJHS.TECH created by ${user.name}. </p>
                  `,
                 };
-                console.log(emailToSend);
+                // console.log(emailToSend);
                 setEmail(emailToSend);
                 return null;
               });

@@ -57,7 +57,7 @@ export default function SingleCallbackPage({ query }) {
     SIGNUP_MUTATION,
     {}
   );
-  console.log(query.id);
+  // console.log(query.id);
   // if (isLoading) return <Loading />;
   // if (error) return <p>{error.message}</p>;
   // const student = data.User;
@@ -70,7 +70,7 @@ export default function SingleCallbackPage({ query }) {
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the inputfields to the backend:
-            console.log(inputs);
+            // console.log(inputs);
             const res = await createNewUser({
               variables: {
                 name: inputs.name,
@@ -81,7 +81,7 @@ export default function SingleCallbackPage({ query }) {
               },
             });
 
-            console.log(res);
+            // console.log(res);
             //   setResultOfUpdate(
             //     JSON.parse(res.data.updateStudentSchedules.name)
             //   );

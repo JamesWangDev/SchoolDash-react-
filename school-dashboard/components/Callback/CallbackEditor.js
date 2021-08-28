@@ -69,7 +69,7 @@ export default function CallbackEditor({ callback, refetch, setEditing }) {
         onSubmit={async (e) => {
           e.preventDefault();
           // Submit the input fields to the backend:
-          console.log(inputs);
+          // console.log(inputs);
           const res = await updateCallback();
 
           createMessage({

@@ -38,7 +38,7 @@ function getDisplayCellData(cellViolations) {
       };
     }
   );
-  console.log(cellViolationsWithCounts);
+  // console.log(cellViolationsWithCounts);
   return cellViolationsWithCounts;
 }
 

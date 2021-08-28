@@ -78,8 +78,8 @@ export default function NewCallback({ refetch }) {
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await createCallback();
-            console.log(res);
-            console.log(res.data.createCallback.id);
+            // console.log(res);
+            // console.log(res.data.createCallback.id);
             setCallbackID(res.data.createCallback.id);
             // console.log(res);
             createMessage({
