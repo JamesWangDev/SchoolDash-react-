@@ -50,6 +50,7 @@ const GET_SINGLE_TEACHER = gql`
         id
         name
         preferredName
+        individualPbisLevel
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
@@ -70,6 +71,7 @@ const GET_SINGLE_TEACHER = gql`
         id
         name
         preferredName
+        individualPbisLevel
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
@@ -84,6 +86,7 @@ const GET_SINGLE_TEACHER = gql`
         name
         preferredName
         id
+        individualPbisLevel
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
@@ -97,6 +100,7 @@ const GET_SINGLE_TEACHER = gql`
       block3Students {
         id
         name
+        individualPbisLevel
         preferredName
         callbackCount
         totalCallbackCount
@@ -111,6 +115,7 @@ const GET_SINGLE_TEACHER = gql`
       block4Students {
         id
         name
+        individualPbisLevel
         callbackCount
         totalCallbackCount
         averageTimeToCompleteCallback
@@ -124,6 +129,7 @@ const GET_SINGLE_TEACHER = gql`
       block5Students {
         id
         name
+        individualPbisLevel
         preferredName
         callbackCount
         totalCallbackCount

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import Table from '../Table';
+import QuickPbisButton from '../PBIS/QuickPbisButton';
 
 export default function ViewStudentTable({ users, title }) {
   const columns = useMemo(
@@ -23,9 +24,12 @@ export default function ViewStudentTable({ users, title }) {
                 ? `${nameWithFirstLetterUpperCase} - (${preferredName})`
                 : nameWithFirstLetterUpperCase;
               return (
-                <Link href={`/userProfile/${row.original.id}`}>
-                  {nameToShow}
-                </Link>
+                <>
+                  <Link href={`/userProfile/${row.original.id}`}>
+                    {nameToShow}
+                  </Link>
+                  <QuickPbisButton id={row.original.id} />
+                </>
               );
             },
           },
@@ -47,16 +51,20 @@ export default function ViewStudentTable({ users, title }) {
           },
 
           {
-            Header: 'Callback',
-            accessor: 'callbackCount',
-          },
-          {
             Header: 'Weekly PBIS',
             accessor: 'PbisCardCount',
           },
           {
             Header: 'Yearly PBIS',
             accessor: 'YearPbisCount',
+          },
+          {
+            Header: 'Individual PBIS Level',
+            accessor: 'individualPbisLevel',
+          },
+          {
+            Header: 'Callback',
+            accessor: 'callbackCount',
           },
           {
             Header: 'Average days on callback',

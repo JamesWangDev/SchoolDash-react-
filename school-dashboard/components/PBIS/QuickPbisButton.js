@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import React from 'react';
+import { useQueryClient } from 'react-query';
 import { UPDATE_PBIS } from '../../lib/pbisUtils';
 import { SmallGradientButton } from '../styles/Button';
 import { useUser } from '../User';
@@ -37,9 +38,11 @@ export default function QuickPbisButton({ id, displayName = false }) {
   const [updateCardCount, { loading: cardLoading }] = useMutation(UPDATE_PBIS, {
     variables: { userId: id },
   });
+  const queryClient = useQueryClient();
   return (
     <SmallGradientButton
       style={{ marginLeft: '1rem' }}
+      disabled={loading || cardLoading}
       onClick={async (e) => {
         e.preventDefault();
         // console.log(teacher);
@@ -47,6 +50,7 @@ export default function QuickPbisButton({ id, displayName = false }) {
         const res = await createCard();
         // console.log(res);
         await updateCardCount();
+        queryClient.refetchQueries();
       }}
     >
       {loading || cardLoading ? 'Please Wait' : ''}
