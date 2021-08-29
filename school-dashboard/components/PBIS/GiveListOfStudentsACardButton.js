@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import React from 'react';
 import { useQueryClient } from 'react-query';
+import { UPDATE_PBIS } from '../../lib/pbisUtils';
 import GradientButton from '../styles/Button';
 import { useUser } from '../User';
 import useRecalculatePBIS from './useRecalculatePbis';
@@ -42,6 +43,10 @@ export default function GiveListOfStudentsACardButton({ students, title }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const listOfStudentIds = students.map((student) => student.id);
   const { recalculatePbisFromId } = useRecalculatePBIS();
+  const [updateCardCount, { loading: cardLoading }] = useMutation(
+    UPDATE_PBIS,
+    {}
+  );
 
   const [createCard, { loading, error, data }] = useMutation(
     CREATE_CLASS_PBIS_CARD,
@@ -52,7 +57,7 @@ export default function GiveListOfStudentsACardButton({ students, title }) {
     return <GradientButton disabled>{title}</GradientButton>;
   }
   return (
-    <div>
+    <>
       <GradientButton
         disabled={isLoading}
         onClick={async () => {
@@ -65,8 +70,9 @@ export default function GiveListOfStudentsACardButton({ students, title }) {
             cardsToCreate.map(async (card) => {
               //   console.log('card', card);
               const res = await createCard({ variables: card });
-              recalculatePbisFromId(card.student);
-              //   console.log(res);
+              const update = await updateCardCount({
+                variables: { userId: card.student },
+              });
             })
           );
           await queryClient.refetchQueries(`SingleTeacher-${me.id}`);
@@ -75,6 +81,6 @@ export default function GiveListOfStudentsACardButton({ students, title }) {
       >
         {title}
       </GradientButton>
-    </div>
+    </>
   );
 }

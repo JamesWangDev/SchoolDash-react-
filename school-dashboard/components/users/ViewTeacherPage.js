@@ -12,9 +12,14 @@ import GiveListOfStudentsACardButton from '../PBIS/GiveListOfStudentsACardButton
 const ClassCardButtonStyle = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: space-around;
   align-items: center;
-  margin-bottom: 5px;
+  max-width: 80%;
+  flex-wrap: wrap;
+  border-radius: 2rem;
+  border: 2px solid var(--red);
+  padding: 10px;
+  margin: 0;
 `;
 
 const GET_SINGLE_TEACHER = gql`
@@ -172,7 +177,7 @@ export default function ViewTeacherPage({ teacher }) {
     <div>
       {me.id === teacher.id && (
         <ClassCardButtonStyle>
-          <h3>Give a whole class a card(not working yet)</h3>
+          <h3>Give a whole class a card</h3>
           <GiveListOfStudentsACardButton title="TA" students={taStudents} />
           <GiveListOfStudentsACardButton
             title="Block 1"
