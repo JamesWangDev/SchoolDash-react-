@@ -29,7 +29,7 @@ export default function BirthdayPage() {
     'AllBirthdays',
     ALL_BIRTHDAYS_QUERY,
     {},
-    { initialData: [], enabled: !!me }
+    { enabled: !!me }
   );
   return (
     <div>

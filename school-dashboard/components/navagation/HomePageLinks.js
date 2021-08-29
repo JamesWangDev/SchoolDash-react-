@@ -54,7 +54,7 @@ export default function HomePageLinks() {
       forParents: me.isParent || null,
       forStudents: me.isStudent || null,
     },
-    { initialData: [], enabled: !!me }
+    { enabled: !!me }
   );
 
   if (isLoading) return <Loading />;

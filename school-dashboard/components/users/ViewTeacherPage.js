@@ -1,10 +1,21 @@
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import { useUser } from '../User';
 import Loading from '../Loading';
 import AssignmentViewCards from '../Assignments/AssignmentViewCards';
 import ViewStudentTable from './ViewStudentTable';
 import CallbackCards from '../Callback/CallbackCards';
+import GradientButton from '../styles/Button';
+import GiveListOfStudentsACardButton from '../PBIS/GiveListOfStudentsACardButton';
+
+const ClassCardButtonStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 5px;
+`;
 
 const GET_SINGLE_TEACHER = gql`
   query GET_SINGLE_TEACHER($id: ID!) {
@@ -143,14 +154,48 @@ export default function ViewTeacherPage({ teacher }) {
   const { data, isLoading, error } = useGQLQuery(
     `SingleTeacher-${teacher.id}`,
     GET_SINGLE_TEACHER,
-    { id: teacher.id }
+    {
+      id: teacher.id,
+    }
   );
   const me = useUser();
   if (isLoading) return <Loading />;
   //   console.log(data.user);
   const { user } = data;
+  const { taStudents } = user;
+  const { block1Students } = user;
+  const { block2Students } = user;
+  const { block3Students } = user;
+  const { block4Students } = user;
+  const { block5Students } = user;
   return (
     <div>
+      {me.id === teacher.id && (
+        <ClassCardButtonStyle>
+          <h3>Give a whole class a card(not working yet)</h3>
+          <GiveListOfStudentsACardButton title="TA" students={taStudents} />
+          <GiveListOfStudentsACardButton
+            title="Block 1"
+            students={block1Students}
+          />
+          <GiveListOfStudentsACardButton
+            title="Block 2"
+            students={block2Students}
+          />
+          <GiveListOfStudentsACardButton
+            title="Block 3"
+            students={block3Students}
+          />
+          <GiveListOfStudentsACardButton
+            title="Block 4"
+            students={block4Students}
+          />
+          <GiveListOfStudentsACardButton
+            title="Block 5"
+            students={block5Students}
+          />
+        </ClassCardButtonStyle>
+      )}
       <h3>Teacher info</h3>
       <AssignmentViewCards assignments={user} />
       {user.taStudents[0] && (

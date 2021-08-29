@@ -13,7 +13,9 @@ import Page from '../components/Page';
 import withData from '../lib/withData';
 
 const queryClient = new QueryClient();
-
+queryClient.setDefaultOptions({ queries: { staleTime: 10000 } });
+console.log('MyApp.js');
+console.log(queryClient.getDefaultOptions());
 function MyApp({ Component, pageProps, apollo }) {
   return (
     <>

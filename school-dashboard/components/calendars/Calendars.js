@@ -37,7 +37,6 @@ export default function Calendars({ dates }) {
     'allCalendars',
     GET_CALENDARS,
     {
-      initialData: [],
       status,
       enabled: !!me,
     }

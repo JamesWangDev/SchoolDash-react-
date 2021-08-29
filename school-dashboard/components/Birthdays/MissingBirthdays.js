@@ -31,7 +31,7 @@ export default function MissingBirthdays() {
     'missingBirthdays',
     MISSING_BIRTHDAYS_QUERY,
     {},
-    { initialData: [], enabled: !!me }
+    { enabled: !!me }
   );
   const needsToChooseCake = data?.allUsers?.filter(
     (user) => !user.birthday?.cakeType

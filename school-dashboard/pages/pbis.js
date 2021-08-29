@@ -277,11 +277,11 @@ export default function Pbis() {
         {teams?.map((team) => (
           <div key={team.id} className="gridCard">
             <h3>{team.teamName}</h3>
-            <p>
-              {team.taTeacher.map((teacher) => (
-                <p key={teacher.id}>{` ${teacher.name} `} </p>
-              ))}
-            </p>
+
+            {team.taTeacher.map((teacher) => (
+              <p key={teacher.id}>{` ${teacher.name} `} </p>
+            ))}
+
             <h4>Level -{team.currentLevel}-</h4>
             <p>{team.averageCardsPerStudent} cards per student</p>
             <p>Total of {team.numberOfStudents} students</p>
