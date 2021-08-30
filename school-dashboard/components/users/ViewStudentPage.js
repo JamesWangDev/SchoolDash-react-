@@ -7,6 +7,7 @@ import ViewStudentTable from './ViewStudentTable';
 import CallbackCards from '../Callback/CallbackCards';
 import StudentPbisData from '../PBIS/StudentPbisData';
 import DisplayPbisCardsWidget from '../PBIS/DisplayPbisCardsWidget';
+import EmailParentsAboutCallback from '../Callback/EmailParentsAboutCallback';
 
 const GET_SINGLE_TEACHER = gql`
   query GET_SINGLE_TEACHER($id: ID!) {
@@ -114,6 +115,7 @@ export default function ViewStudentPage({ student }) {
     <div>
       <h3>
         Student info for {student.name} TA: {user?.taTeacher?.name}
+        <EmailParentsAboutCallback student={user} />
       </h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />

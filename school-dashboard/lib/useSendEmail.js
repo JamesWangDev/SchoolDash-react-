@@ -31,5 +31,5 @@ export default function useSendEmail() {
     }
   }, [email]);
 
-  return { setEmail, emailLoading };
+  return { setEmail, emailLoading, sendEmail };
 }
