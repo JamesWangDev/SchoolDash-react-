@@ -74,7 +74,7 @@ export default function NewBugReportButton() {
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await createBugReport();
-            console.log(res);
+            // console.log(res);
 
             // Todo: send message when callback assigned
             createMessage({

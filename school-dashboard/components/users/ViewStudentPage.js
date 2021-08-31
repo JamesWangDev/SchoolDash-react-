@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import { useUser } from '../User';
 import Loading from '../Loading';
@@ -9,6 +10,11 @@ import StudentPbisData from '../PBIS/StudentPbisData';
 import DisplayPbisCardsWidget from '../PBIS/DisplayPbisCardsWidget';
 import EmailParentsAboutCallback from '../Callback/EmailParentsAboutCallback';
 
+const ParentInfoStyles = styled.div`
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--blue);
+`;
 const GET_SINGLE_TEACHER = gql`
   query GET_SINGLE_TEACHER($id: ID!) {
     user: User(where: { id: $id }) {
@@ -119,12 +125,14 @@ export default function ViewStudentPage({ student }) {
       </h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />
-      {user.parent.length > 0 && <h4>Parent Contact Info:</h4>}
-      {user.parent.map((parent) => (
-        <p key={`parentID -${parent.id}`}>
-          {parent.name} - {parent.email}
-        </p>
-      ))}
+      <ParentInfoStyles>
+        {user.parent.length > 0 && <h4>Parent Contact Info:</h4>}
+        {user.parent.map((parent) => (
+          <p key={`parentID -${parent.id}`}>
+            {parent.name} - {parent.email}
+          </p>
+        ))}
+      </ParentInfoStyles>
 
       <CallbackCards callbacks={user.callbackItems || []} />
       <DisplayPbisCardsWidget cards={user.studentPbisCards || []} />

@@ -1,7 +1,37 @@
+import { useMutation } from '@apollo/client';
+import gql from 'graphql-tag';
 import React from 'react';
 import useSendEmail from '../../lib/useSendEmail';
 import GradientButton from '../styles/Button';
 import { useUser } from '../User';
+
+const CREATE_STUDENT_FOCUS = gql`
+  mutation CREATE_STUDENT_FOCUS(
+    $comments: String!
+    $teacher: ID!
+    $student: ID!
+    $category: String!
+  ) {
+    createStudentFocus(
+      data: {
+        comments: $comments
+        teacher: { connect: { id: $teacher } }
+        student: { connect: { id: $student } }
+        category: $category
+      }
+    ) {
+      id
+      student {
+        id
+        name
+        taTeacher {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
 
 function createEmail({ toAddress, fromAddress, studentName, callbackNumber }) {
   const email = {
@@ -17,7 +47,7 @@ function createEmail({ toAddress, fromAddress, studentName, callbackNumber }) {
 }
 export default function EmailParentsAboutCallback({ student }) {
   const [loading, setLoading] = React.useState(false);
-  //   console.log('student', student);
+  const [createStudentFocus] = useMutation(CREATE_STUDENT_FOCUS);
   const me = useUser();
   const { sendEmail, emailLoading } = useSendEmail();
   const studentName = student.name;
@@ -26,8 +56,8 @@ export default function EmailParentsAboutCallback({ student }) {
   const parentEmails = student.parent.map((parent) => parent.email);
   return (
     <GradientButton
-      disabled={loading || emailLoading || true}
-      onClick={() => {
+      disabled={loading || emailLoading}
+      onClick={async () => {
         setLoading(true);
         // Map over all parents
         parentEmails.map(async (email) => {
@@ -40,7 +70,7 @@ export default function EmailParentsAboutCallback({ student }) {
           });
           // Send email
           console.log('sending email to', emailToSend);
-          sendEmail({
+          await sendEmail({
             variables: {
               emailData: JSON.stringify(emailToSend),
             },
@@ -48,6 +78,15 @@ export default function EmailParentsAboutCallback({ student }) {
           return emailToSend;
         });
         // add note to student focus about parent emails
+        const studentFocusRes = await createStudentFocus({
+          variables: {
+            comments: `Emailed parents ${parentEmails} about ${callbackCount} items on Callback`,
+            category: 'Parent Contact',
+            teacher: me?.id,
+            student: student.id,
+          },
+        });
+        console.log('studentFocusRes', studentFocusRes);
         setLoading(false);
       }}
     >
