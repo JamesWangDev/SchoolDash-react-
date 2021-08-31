@@ -125,14 +125,16 @@ export default function ViewStudentPage({ student }) {
       </h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />
-      <ParentInfoStyles>
-        {user.parent.length > 0 && <h4>Parent Contact Info:</h4>}
-        {user.parent.map((parent) => (
-          <p key={`parentID -${parent.id}`}>
-            {parent.name} - {parent.email}
-          </p>
-        ))}
-      </ParentInfoStyles>
+      {user.parent.length > 0 && (
+        <ParentInfoStyles>
+          <h4>Parent Contact Info:</h4>
+          {user.parent.map((parent) => (
+            <p key={`parentID -${parent.id}`}>
+              {parent.name} - {parent.email}
+            </p>
+          ))}
+        </ParentInfoStyles>
+      )}
 
       <CallbackCards callbacks={user.callbackItems || []} />
       <DisplayPbisCardsWidget cards={user.studentPbisCards || []} />
