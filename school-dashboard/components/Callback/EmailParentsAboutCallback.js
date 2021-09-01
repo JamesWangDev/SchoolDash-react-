@@ -56,7 +56,7 @@ export default function EmailParentsAboutCallback({ student }) {
   const parentEmails = student.parent.map((parent) => parent.email);
   return (
     <GradientButton
-      disabled={loading || emailLoading}
+      disabled={loading || emailLoading || !parentEmails.length}
       onClick={async () => {
         setLoading(true);
         // Map over all parents
