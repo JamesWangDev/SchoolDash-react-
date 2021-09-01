@@ -93,14 +93,14 @@ const PBIS_PAGE_QUERY = gql`
       id
       dateGiven
       category
-      teacher {
-        id
-        name
-      }
-      student {
-        id
-        name
-      }
+      # teacher {
+      #   id
+      #   name
+      # }
+      # student {
+      #   id
+      #   name
+      # }
       counted
     }
     totalSchoolCards: _allPbisCardsMeta {
@@ -140,14 +140,14 @@ const PBIS_PAGE_QUERY = gql`
       id
       dateGiven
       category
-      teacher {
-        id
-        name
-      }
-      student {
-        id
-        name
-      }
+      # teacher {
+      #   id
+      #   name
+      # }
+      # student {
+      #   id
+      #   name
+      # }
       counted
     }
     pbisLinks: allLinks(

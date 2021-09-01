@@ -136,7 +136,7 @@ export default function ViewTaStudentTable({ users, title }) {
             accessor: 'parent',
             Cell: ({ cell }) => {
               const parentAcountExist = cell.value?.length > 0;
-              console.log(parentAcountExist);
+              // console.log(parentAcountExist);
               return parentAcountExist ? '✅' : '❌';
             },
           },
