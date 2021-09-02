@@ -1,11 +1,12 @@
 import gql from 'graphql-tag';
 import React from 'react';
 import Loading from '../../components/Loading';
+import { useUser } from '../../components/User';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 
 const SINGLE_BULLYING_DATA_QUERY = gql`
-  query SINGLE_BULLYING_DATA_QUERY {
-    Bullying(where: { id: "612a25ae2e442acf37eab4f1" }) {
+  query SINGLE_BULLYING_DATA_QUERY($id: ID!) {
+    Bullying(where: { id: $id }) {
       id
       studentOffender {
         id
@@ -28,15 +29,20 @@ const SINGLE_BULLYING_DATA_QUERY = gql`
   }
 `;
 
-export default function ViewSingleHHB(query) {
+export default function ViewSingleHHB({ query }) {
+  const me = useUser();
   const { data, isLoading, isError, refetch } = useGQLQuery(
     `singleBullying${query.id}`,
-    SINGLE_BULLYING_DATA_QUERY
+    SINGLE_BULLYING_DATA_QUERY,
+
+    { id: query.id }
+
+    // { enabled: !!me }
   );
   if (isLoading) return <Loading />;
-  const bullying = data.Bullying;
-  const dateReported = new Date(bullying.dateReported).toLocaleDateString();
-  const dateOfEvent = new Date(bullying.dateOfEvent).toLocaleDateString();
+  const bullying = data?.Bullying;
+  const dateReported = new Date(bullying?.dateReported).toLocaleDateString();
+  const dateOfEvent = new Date(bullying?.dateOfEvent).toLocaleDateString();
   const nameWithFirstLetterOfBothNamesCapitalized = (name) => {
     const nameArray = name.split(' ');
     const firstName = nameArray[0];
