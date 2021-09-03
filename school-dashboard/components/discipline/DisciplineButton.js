@@ -123,7 +123,7 @@ export default function NewDiscipline({ refetch }) {
   const [location, setLocation] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
 
-  const { setEmail, emailLoading } = useSendEmail();
+  const { sendEmail, emailLoading } = useSendEmail();
   //   console.log(`user ${user.id}`);
   const [createDiscipline, { loading, error }] = useMutation(
     CREATE_DISCIPLINE_MUTATION,
@@ -166,7 +166,11 @@ export default function NewDiscipline({ refetch }) {
                  `,
                 };
                 // console.log(emailToSend);
-                setEmail(emailToSend);
+                sendEmail({
+                  variables: {
+                    emailData: JSON.stringify(emailToSend),
+                  },
+                });
                 return null;
               });
             }
