@@ -42,23 +42,23 @@ export default function DisplayPbisCollectionData({ collectionData }) {
           {teamsThatWentUpLevel.map((team) => (
             <div key={team.id}>
               <h3>Team Level-Up</h3>
-              <h4>{team.teamName}</h4>
-              <h4>Level {team.currentLevel}</h4>
-              <p>{team.averageCardsPerStudent} cards per student</p>
+              <h4>{team.name}</h4>
+              <h4>Level {team.currentTaLevel}</h4>
+              <p>{Math.round(team.averageCardsPerStudent)} cards per student</p>
             </div>
           ))}
           {studentsWhoWentUpLevel.map((student) => (
             <div key={student.student}>
               <h3>Student Level-Up</h3>
               <h4>{student.name}</h4>
-              <h4>Level {student.level}</h4>
+              <h4>Level {student.individualPbisLevel}</h4>
             </div>
           ))}
           {taWinners.map((ta) => (
             <div key={ta.taId}>
               <h3>Random Drawing Winner</h3>
-              <h4>{ta.taWinner.taName}</h4>
-              <p>{ta.taWinner.studentName}</p>
+              <h4>{ta.name}</h4>
+              <p>{ta.randomWinner.name}</p>
             </div>
           ))}
         </TeamCardStyles>

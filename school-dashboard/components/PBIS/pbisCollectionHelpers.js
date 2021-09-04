@@ -152,8 +152,28 @@ export function getRandomWinners(data) {
       id: teacher.id,
       randomWinner,
     };
+    if (teacher.currentTaWinner) {
+      newTeacher.previousTaWinner = teacher.currentTaWinner;
+    }
     return newTeacher;
   });
   console.log('randomWinners', randomWinners);
-  return 'winners';
+  return randomWinners;
+}
+
+export function getLowestTaTeamLevel(data) {
+  console.log('getting lowest PBIS Team Level');
+  const lowestTaTeamLevel = data.reduce((a, b) =>
+    a.currentTaLevel < b.currentTaLevel ? a : b
+  ).currentTaLevel;
+  console.log('lowestTaTeamLevel', lowestTaTeamLevel);
+
+  return lowestTaTeamLevel;
+}
+
+export function getNewTaTeamLevelGoal(lowestTeam) {
+  const newTaTeamLevelGoal =
+    lowestTeam % levelsPerSchoolWideLevel ? lowestTeam + 1 : lowestTeam + 2;
+  console.log('newTaTeamLevelGoal', newTaTeamLevelGoal);
+  return newTaTeamLevelGoal;
 }

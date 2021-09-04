@@ -39,16 +39,12 @@ export default function PbisCardChart() {
   // parse the data array into Json object
   const chartData = chartDataRaw.map((singleCollection) => ({
     name: singleCollection.name,
-    collectionData: JSON.parse(singleCollection.collectedCards),
+    collectionData: singleCollection.collectedCards,
   }));
   const dataToUse = chartData.map((singleCollection) => ({
     item: singleCollection.name,
     // Get total of each collection count
-    data:
-      singleCollection?.collectionData?.reduce(
-        (acc, curr) => acc + curr.count,
-        0
-      ) || 0,
+    data: Number(singleCollection.collectionData),
   }));
   //   console.log(dataToUse);
   return (

@@ -6,6 +6,8 @@ import {
   getTaTeamData,
   getPersonalLevel,
   getRandomWinners,
+  getLowestTaTeamLevel,
+  getNewTaTeamLevelGoal,
 } from './pbisCollectionHelpers';
 
 const PBIS_COLLECTION_QUERY = gql`
@@ -40,6 +42,17 @@ const PBIS_COLLECTION_QUERY = gql`
           }
         }
       }
+    }
+    totalCards: _allPbisCardsMeta(where: { counted: false }) {
+      count
+    }
+    lastCollection: allPbisCollections {
+      id
+      name
+      collectionDate
+      personalLevelWinners
+      randomDrawingWinners
+      taTeamsLevels
     }
   }
 `;
@@ -194,6 +207,26 @@ export default function usePbisCollection() {
     const randomDrawingWinners = getRandomWinners(data.taTeamCards);
     console.log('Random drawing winners', randomDrawingWinners);
 
+    const lowestTaTeamLevel = getLowestTaTeamLevel(taTeamData);
+    console.log('Lowest ta team level', lowestTaTeamLevel);
+
+    const newTaTeamLevelGoal = getNewTaTeamLevelGoal(lowestTaTeamLevel);
+    console.log('New ta team level goal', newTaTeamLevelGoal);
+
+    const pbisCollectionData = {
+      name: `PBIS Collection ${new Date().toLocaleDateString()}`,
+      personalLevelWinners: JSON.stringify(studentsWithNewPersonalLevel),
+      randomDrawingWinners: JSON.stringify(randomDrawingWinners),
+      taTeamLevels: JSON.stringify(taTeamData),
+      taTeamNewLevelWinners: JSON.stringify(taTeamsAtNewLevel),
+      currentPbisTeamGoal: JSON.stringify(newTaTeamLevelGoal),
+      collectedCards: String(data.totalCards.count),
+    };
+
+    const latestCollection = await createNewPbisCollection({
+      variables: pbisCollectionData,
+    });
+    console.log('Latest collection', latestCollection);
     setLoading(false);
     return 'it Worked';
   }
