@@ -12,6 +12,7 @@ import {
   getTaTeamsToUpdate,
   getPbisCardsToMarkCollected,
   getListOfStudentsToUpdate,
+  chunk,
 } from './pbisCollectionHelpers';
 
 const PBIS_COLLECTION_QUERY = gql`
@@ -266,13 +267,26 @@ export default function usePbisCollection() {
     console.log('Updated pbis teams', updatedPbisTeams);
     // mark all new cards as collected
     const cardsToUpdate = getPbisCardsToMarkCollected(data.individualPbisCards);
+    // divide the cards into chunks of 50
+    const chunks = chunk(cardsToUpdate, 50);
+    console.log('Chunks', chunks);
     // console.log('Cards to update', cardsToUpdate);
-    const updatedCards = await countCardsMutation({
-      variables: {
-        data: cardsToUpdate,
-      },
-    });
-    console.log('Updated cards', updatedCards);
+    // update each chunk of cards
+    for (let i = 0; i < chunks.length; i++) {
+      const updatedCards = await countCardsMutation({
+        variables: {
+          data: chunks[i],
+        },
+      });
+      console.log('Updated cards', updatedCards);
+    }
+
+    // const updatedCards = await countCardsMutation({
+    //   variables: {
+    //     data: cardsToUpdate,
+    //   },
+    // });
+    // console.log('Updated cards', updatedCards);
     // update the pbis cards for each student
     const studentsToUpdate = getListOfStudentsToUpdate(data.taTeamCards);
     const recalculatedPBIS = await Promise.all(

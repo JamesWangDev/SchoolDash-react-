@@ -261,3 +261,11 @@ export function getListOfStudentsToUpdate(data) {
   console.log('allStudents', allStudents);
   return allStudents;
 }
+
+export function chunk(data, size) {
+  const chunkedArray = [];
+  for (let i = 0; i < data.length; i += size) {
+    chunkedArray.push(data.slice(i, i + size));
+  }
+  return chunkedArray;
+}
