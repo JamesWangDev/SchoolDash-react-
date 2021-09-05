@@ -8,6 +8,10 @@ import {
   getRandomWinners,
   getLowestTaTeamLevel,
   getNewTaTeamLevelGoal,
+  getTeachersToUpdate,
+  getTaTeamsToUpdate,
+  getPbisCardsToMarkCollected,
+  getListOfStudentsToUpdate,
 } from './pbisCollectionHelpers';
 
 const PBIS_COLLECTION_QUERY = gql`
@@ -53,6 +57,9 @@ const PBIS_COLLECTION_QUERY = gql`
       personalLevelWinners
       randomDrawingWinners
       taTeamsLevels
+    }
+    individualPbisCards: allPbisCards(where: { counted: false }) {
+      id
     }
   }
 `;
@@ -127,10 +134,8 @@ const UPDATE_PBIS_TEAM_WITH_NEW_DATA_MUTATION = gql`
 `;
 
 // update students who went up a personal level
-const UPDATE_STUDENT_WITH_NEW_PBIS_LEVEL_MUTATION = gql`
-  mutation UPDATE_STUDENT_WITH_NEW_PBIS_LEVEL_MUTATION(
-    $data: [UsersUpdateInput]
-  ) {
+const BULK_UPDATE_USERS_MUTATION = gql`
+  mutation BULK_UPDATE_USERS_MUTATION($data: [UsersUpdateInput]) {
     updateUsers(data: $data) {
       id
     }
@@ -174,10 +179,7 @@ export default function usePbisCollection() {
     UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION,
     {}
   );
-  const [updateUsersWithNewPersonalLevel] = useMutation(
-    UPDATE_STUDENT_WITH_NEW_PBIS_LEVEL_MUTATION,
-    {}
-  );
+  const [bulkUpdateUsers] = useMutation(BULK_UPDATE_USERS_MUTATION, {});
 
   const [createNewPbisCollection] = useMutation(
     CREATE_PBIS_COLLECTION_MUTATION,
@@ -192,24 +194,25 @@ export default function usePbisCollection() {
 
   async function runCardCollection() {
     setLoading(true);
+    // get all the level data for each PBIS team
     const taTeamData = getTaTeamData(data.taTeamCards);
     console.log('Team Data', taTeamData);
-
+    // get all the teams that went up a level for rewards
     const taTeamsAtNewLevel = taTeamData.filter((taTeam) => taTeam.isNewLevel);
     console.log('Teams at new level', taTeamsAtNewLevel);
-
+    // get all the studets who went up a level for rewards
     const studentsWithNewPersonalLevel = getPersonalLevel(data.taTeamCards);
     console.log(
       'Students with new personal level',
       studentsWithNewPersonalLevel
     );
-
+    // get all the random drawing winners
     const randomDrawingWinners = getRandomWinners(data.taTeamCards);
     console.log('Random drawing winners', randomDrawingWinners);
-
+    // get the lowest PBIS team level
     const lowestTaTeamLevel = getLowestTaTeamLevel(taTeamData);
     console.log('Lowest ta team level', lowestTaTeamLevel);
-
+    // get the team PBIS  level goal
     const newTaTeamLevelGoal = getNewTaTeamLevelGoal(lowestTaTeamLevel);
     console.log('New ta team level goal', newTaTeamLevelGoal);
 
@@ -223,10 +226,66 @@ export default function usePbisCollection() {
       collectedCards: String(data.totalCards.count),
     };
 
+    // create the new PBIS Collection
     const latestCollection = await createNewPbisCollection({
       variables: pbisCollectionData,
     });
     console.log('Latest collection', latestCollection);
+
+    // update the students who went up a level
+    const studentsToUpdateLevel = studentsWithNewPersonalLevel.map(
+      (student) => ({
+        id: student.id,
+        data: {
+          individualPbisLevel: student.individualPbisLevel,
+        },
+      })
+    );
+    const updatedStudents = await bulkUpdateUsers({
+      variables: { data: studentsToUpdateLevel },
+    });
+    console.log('Updated students', updatedStudents);
+    // update each ta teacher with their new pbis winner
+    const teachersToUpdate = getTeachersToUpdate(randomDrawingWinners);
+
+    const updatedTeachers = await bulkUpdateUsers({
+      variables: {
+        data: teachersToUpdate,
+      },
+    });
+    console.log('Updated teachers', updatedTeachers);
+
+    // update each ta team with their new data
+    const taTeamsToUpdate = getTaTeamsToUpdate(taTeamData);
+    console.log('Ta teams to update', taTeamsToUpdate);
+    const updatedPbisTeams = await updatePbisTeamData({
+      variables: {
+        data: taTeamsToUpdate,
+      },
+    });
+    console.log('Updated pbis teams', updatedPbisTeams);
+    // mark all new cards as collected
+    const cardsToUpdate = getPbisCardsToMarkCollected(data.individualPbisCards);
+    // console.log('Cards to update', cardsToUpdate);
+    const updatedCards = await countCardsMutation({
+      variables: {
+        data: cardsToUpdate,
+      },
+    });
+    console.log('Updated cards', updatedCards);
+    // update the pbis cards for each student
+    const studentsToUpdate = getListOfStudentsToUpdate(data.taTeamCards);
+    const recalculatedPBIS = await Promise.all(
+      studentsToUpdate.map((student) =>
+        updateCardCount({
+          variables: {
+            userId: student,
+          },
+        })
+      )
+    );
+    console.log('Recalculated PBIS', recalculatedPBIS);
+
     setLoading(false);
     return 'it Worked';
   }

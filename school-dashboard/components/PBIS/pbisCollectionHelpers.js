@@ -177,3 +177,87 @@ export function getNewTaTeamLevelGoal(lowestTeam) {
   console.log('newTaTeamLevelGoal', newTaTeamLevelGoal);
   return newTaTeamLevelGoal;
 }
+
+export function getTeachersToUpdate(data) {
+  console.log('getting teachers to update');
+  const teachersToUpdate = data
+    .map((teacher) => {
+      const dataToReturn = {};
+      if (teacher.randomWinner?.id && teacher.previousTaWinner?.id) {
+        dataToReturn.id = teacher.id;
+        dataToReturn.data = {
+          currentTaWinner: {
+            connect: {
+              id: teacher.randomWinner.id,
+            },
+          },
+          previousTaWinner: {
+            connect: {
+              id: teacher.previousTaWinner.id,
+            },
+          },
+        };
+        return dataToReturn;
+      }
+      if (teacher.randomWinner?.id) {
+        dataToReturn.id = teacher.id;
+        dataToReturn.data = {
+          currentTaWinner: {
+            connect: {
+              id: teacher.randomWinner.id,
+            },
+          },
+        };
+        return dataToReturn;
+      }
+      return null;
+    })
+    .filter((teacher) => teacher);
+  return teachersToUpdate;
+}
+
+export function getTaTeamsToUpdate(data) {
+  const taTeamsToUpdate = data.map((team) => {
+    const dataToReturn = {};
+
+    dataToReturn.id = team.id;
+    dataToReturn.data = {
+      currentLevel: team.currentTaLevel,
+      averageCardsPerStudent: Math.round(team.averageCardsPerStudent),
+      numberOfStudents: team.numberOfStudents,
+    };
+    return dataToReturn;
+  });
+  return taTeamsToUpdate;
+}
+
+export function getPbisCardsToMarkCollected(data) {
+  const pbisCardsToMarkCollected = data.map((card) => {
+    const dataToReturn = {};
+    dataToReturn.id = card.id;
+    dataToReturn.data = {
+      counted: true,
+    };
+    return dataToReturn;
+  });
+  return pbisCardsToMarkCollected;
+}
+
+export function getListOfStudentsToUpdate(data) {
+  console.log('getting list of students to update');
+  const allStudents = [];
+  const students = data.map((team) => {
+    // for each team get all the ta teachers
+    const allTeachers = team.taTeacher.map((ta) => {
+      // for each ta teacher get all the students
+      const allTAStudents = ta.taStudents.map((student) => {
+        allStudents.push(student.id);
+        return student;
+      });
+      return allTAStudents;
+    });
+    return allTeachers;
+  });
+  console.log('allStudents', allStudents);
+  return allStudents;
+}
