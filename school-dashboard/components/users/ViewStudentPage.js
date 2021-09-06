@@ -103,6 +103,10 @@ const GET_SINGLE_TEACHER = gql`
         }
         dateGiven
       }
+      studentFocusStudent(first: 2) {
+        id
+        comments
+      }
     }
   }
 `;
@@ -116,12 +120,17 @@ export default function ViewStudentPage({ student }) {
   const me = useUser();
   if (isLoading) return <Loading />;
   const { user } = data;
+  const canSendCallbackEmail = !(data.user.callbackItems.length > 0);
+  console.log(data.user.callbackItems.length);
   // console.log(user);
   return (
     <div>
       <h3>
         Student info for {student.name} TA: {user?.taTeacher?.name}
-        <EmailParentsAboutCallback student={user} />
+        <EmailParentsAboutCallback
+          student={user}
+          disabled={canSendCallbackEmail}
+        />
       </h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />
