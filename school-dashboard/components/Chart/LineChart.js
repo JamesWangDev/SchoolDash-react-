@@ -18,6 +18,9 @@ const options = {
         id: 'B',
         type: 'linear',
         position: 'left',
+        ticks: {
+          beginAtZero: true,
+        },
       },
     ],
   },
