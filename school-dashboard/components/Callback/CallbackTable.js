@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
 import Table from '../Table';
+import { useUser } from '../User';
+import MarkCallbackCompleted from './MarkCallbackCompleted';
 
 export default function CallbackTable({ callbacks }) {
+  const me = useUser();
   const columns = useMemo(
     () => [
       {
@@ -104,6 +107,22 @@ export default function CallbackTable({ callbacks }) {
                 {cell.value || '-----'}
               </Link>
             ),
+          },
+        ],
+      },
+      {
+        Header: 'Complete',
+        columns: [
+          {
+            Header: 'Mark Completed',
+            accessor: 'id',
+            Cell: ({ cell }) => {
+              console.log(cell.row);
+              const isTeacher = me.id === cell.row.original.teacher.id;
+              return isTeacher ? (
+                <MarkCallbackCompleted callback={cell.row.original} />
+              ) : null;
+            },
           },
         ],
       },
