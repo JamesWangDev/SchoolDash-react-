@@ -129,7 +129,9 @@ export default function TA() {
   const allTaCallbacks = data.taTeacher.taStudents.map(
     (student) => student.callbackItems || null
   );
-  // console.log(allTaCallbacks);
+  const allTaCallbacksFlattened = [].concat(...allTaCallbacks);
+
+  console.log('callbacks', allTaCallbacksFlattened);
   const students = data.taTeacher.taStudents || [];
   return (
     <div>
@@ -138,7 +140,7 @@ export default function TA() {
         <>
           <CountPhysicalCards taStudents={students} refetch={refetch} />
           <ViewTaStudentTable users={students} title="TA Students" />
-          <CallbackTable callbacks={allTaCallbacks[0] || []} />
+          <CallbackTable callbacks={allTaCallbacksFlattened || []} />
         </>
       )}
     </div>

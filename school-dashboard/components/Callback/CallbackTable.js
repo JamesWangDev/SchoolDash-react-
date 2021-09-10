@@ -117,7 +117,7 @@ export default function CallbackTable({ callbacks }) {
             Header: 'Mark Completed',
             accessor: 'id',
             Cell: ({ cell }) => {
-              console.log(cell.row);
+              // console.log(cell.row);
               const isTeacher = me.id === cell.row.original.teacher.id;
               return isTeacher ? (
                 <MarkCallbackCompleted callback={cell.row.original} />
