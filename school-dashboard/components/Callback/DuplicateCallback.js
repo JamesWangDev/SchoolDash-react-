@@ -41,6 +41,8 @@ const DUPLICATE_CALLBACK_MUTATION = gql`
 export default function DuplicateCallback({ callback, setDuplicating }) {
   const router = useRouter();
   const date = new Date(callback.dateAssigned);
+  // set date to the day before
+  date.setDate(date.getDate() - 1);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     dateAssigned: date.toISOString().split('T')[0],
     title: callback.title,
