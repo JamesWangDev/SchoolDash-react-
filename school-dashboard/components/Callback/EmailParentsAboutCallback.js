@@ -48,6 +48,7 @@ function createEmail({ toAddress, fromAddress, studentName, callbackNumber }) {
 export default function EmailParentsAboutCallback({ student, disabled }) {
   const [loading, setLoading] = React.useState(false);
   const [createStudentFocus] = useMutation(CREATE_STUDENT_FOCUS);
+  const [emailSent, setEmailSent] = React.useState(false);
   const me = useUser();
   const { sendEmail, emailLoading } = useSendEmail();
   const studentName = student.name;
@@ -56,7 +57,9 @@ export default function EmailParentsAboutCallback({ student, disabled }) {
   const parentEmails = student.parent.map((parent) => parent.email);
   return (
     <GradientButton
-      disabled={loading || emailLoading || !parentEmails.length || disabled}
+      disabled={
+        loading || emailLoading || !parentEmails.length || disabled || emailSent
+      }
       onClick={async () => {
         setLoading(true);
         // Map over all parents
@@ -87,10 +90,12 @@ export default function EmailParentsAboutCallback({ student, disabled }) {
           },
         });
         console.log('studentFocusRes', studentFocusRes);
+        setEmailSent(true);
         setLoading(false);
       }}
     >
-      Email Parents about Callback
+      {loading ? 'Sending...' : null}
+      {!emailSent ? 'Email Parents about Callback' : 'Email Sent'}
     </GradientButton>
   );
 }

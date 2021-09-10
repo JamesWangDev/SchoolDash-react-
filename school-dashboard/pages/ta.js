@@ -131,7 +131,7 @@ export default function TA() {
   );
   const allTaCallbacksFlattened = [].concat(...allTaCallbacks);
 
-  console.log('callbacks', allTaCallbacksFlattened);
+  // console.log('callbacks', allTaCallbacksFlattened);
   const students = data.taTeacher.taStudents || [];
   return (
     <div>
