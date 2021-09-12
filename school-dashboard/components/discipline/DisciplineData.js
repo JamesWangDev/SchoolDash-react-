@@ -32,7 +32,7 @@ const DisciplinePageContainer = styled.div`
 
 export const DISCIPLINE_DATA = gql`
   query DISCIPLINE_DATA {
-    allDisciplines {
+    allDisciplines(sortBy: date_DESC) {
       id
       date
       teacher {

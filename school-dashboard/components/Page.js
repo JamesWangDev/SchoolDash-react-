@@ -48,13 +48,17 @@ const GlobalStyles = createGlobalStyle`
   }
   @media print {
   header, .hidePrint {
-    display: none;
+    display: none !important;
     @page { margin: 0; }
   }
   .gridCard {
     page-break-inside: avoid !important;
     background: red;
     width: 80%;
+  }
+  .hidePrint{
+    display: none !important;
+    @page {margin: 0;}
   }
   }
 

@@ -11,6 +11,7 @@ import {
   teacherActionList,
   timeOfDayList,
 } from '../../lib/disciplineData';
+import AdminDisciplineData from '../../components/discipline/AdminDisciplineData';
 
 const DisplaySingleDiscipline = styled.div`
   display: grid;
@@ -20,6 +21,11 @@ const DisplaySingleDiscipline = styled.div`
     margin: 10px;
   }
   flex-wrap: wrap;
+  @media print {
+    .hidePrint {
+      display: none;
+    }
+  }
 `;
 
 export const SINGLE_DISCIPLINE_DATA = gql`
@@ -66,6 +72,7 @@ export const SINGLE_DISCIPLINE_DATA = gql`
       substitute
       unknown
       othersInvolved
+      adminComments
     }
   }
 `;
@@ -142,8 +149,11 @@ export default function SingleDisciplineReferralPage({ query }) {
           <p>{getListItems(teacherActionListItems)}</p>
         </div>
       </DisplaySingleDiscipline>
-      <h2>Teacher Comments:</h2>
-      <p>{discipline.teacherComments}</p>
+      <h2 className="hidePrint">
+        Teacher Comments (This is the original. It does not print):
+      </h2>
+      <p className="hidePrint">{discipline.teacherComments}</p>
+      <AdminDisciplineData discipline={discipline} refetch={refetch} />
     </div>
   );
 }
