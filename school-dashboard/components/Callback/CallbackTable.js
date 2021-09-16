@@ -6,6 +6,7 @@ import MarkCallbackCompleted from './MarkCallbackCompleted';
 
 export default function CallbackTable({ callbacks }) {
   const me = useUser();
+  const callbacksMemo = useMemo(() => callbacks, [callbacks]);
   const columns = useMemo(
     () => [
       {
@@ -133,11 +134,11 @@ export default function CallbackTable({ callbacks }) {
   return (
     <div>
       <p>
-        You have {callbacks.length} item{callbacks.length === 1 ? '' : 's'} on
-        Callback{' '}
+        You have {callbacksMemo.length} item
+        {callbacksMemo.length === 1 ? '' : 's'} on Callback{' '}
       </p>
       <Table
-        data={callbacks || []}
+        data={callbacksMemo || []}
         searchColumn="student.name"
         columns={columns}
       />

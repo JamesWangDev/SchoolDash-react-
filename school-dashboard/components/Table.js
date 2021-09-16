@@ -25,6 +25,7 @@ export default function Table({
       initialState: {
         hiddenColumns,
       },
+      autoResetSortBy: false,
     },
     useFilters,
     useSortBy
