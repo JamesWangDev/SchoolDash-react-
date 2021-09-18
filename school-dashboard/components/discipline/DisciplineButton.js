@@ -155,7 +155,7 @@ export default function NewDiscipline({ refetch }) {
             // Submit the input fields to the backend:
             const res = await createDiscipline();
             if (res.data.createDiscipline.id) {
-              adminEmailArray.map((email) => {
+              adminEmailArray.map(async (email) => {
                 const emailToSend = {
                   toAddress: email,
                   fromAddress: me.email,
@@ -166,11 +166,12 @@ export default function NewDiscipline({ refetch }) {
                  `,
                 };
                 // console.log(emailToSend);
-                sendEmail({
+                const emailRes = await sendEmail({
                   variables: {
                     emailData: JSON.stringify(emailToSend),
                   },
                 });
+                console.log(emailRes);
                 return null;
               });
             }

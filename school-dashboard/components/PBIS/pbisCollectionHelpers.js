@@ -63,7 +63,7 @@ export function getPersonalLevel(data) {
     return allTeachers;
   });
   const newStudentData = allStudents.map((student) => {
-    const newCardsPerStudent = student.uncountedCards.count;
+    const newCardsPerStudent = student.totalCards.count;
     const newPersonalLevel = Math.floor(
       newCardsPerStudent / cardsPerPersonalLevel
     );

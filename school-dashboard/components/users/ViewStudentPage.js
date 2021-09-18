@@ -9,6 +9,7 @@ import CallbackCards from '../Callback/CallbackCards';
 import StudentPbisData from '../PBIS/StudentPbisData';
 import DisplayPbisCardsWidget from '../PBIS/DisplayPbisCardsWidget';
 import EmailParentsAboutCallback from '../Callback/EmailParentsAboutCallback';
+import QuickPbisButton from '../PBIS/QuickPbisButton';
 
 const ParentInfoStyles = styled.div`
   border-radius: 1rem;
@@ -131,6 +132,7 @@ export default function ViewStudentPage({ student }) {
           student={user}
           disabled={canSendCallbackEmail}
         />
+        {me.isStaff && <QuickPbisButton id={user.id} displayName={user.name} />}
       </h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />
