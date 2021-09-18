@@ -36,7 +36,7 @@ export function getTaTeamData(data) {
       averageCardsPerStudent: totalAverageCardsPerStudent,
       numberOfStudents: numberOfStudentInTeam,
       currentTaLevel: newTeamLevel || 0,
-      isNewLevel: newTeamLevel > (team.currentTaLevel || 0),
+      isNewLevel: newTeamLevel > (team.currentLevel || 0),
     };
 
     return taTeam;

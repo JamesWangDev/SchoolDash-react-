@@ -13,7 +13,8 @@ export default function DisplayPbisCollectionData({ collectionData }) {
   const teamsThatWentUpLevel = JSON.parse(collectionData.taTeamNewLevelWinners);
   const totalNumberOfTas = taWinners.length;
   const teamsAtCurrentGoalLevel = taTeamsLevels.reduce(
-    (acc, curr) => (curr.currentLevel >= currentTeamLevelGoal ? acc + 1 : acc),
+    (acc, curr) =>
+      curr.currentTaLevel >= currentTeamLevelGoal ? acc + 1 : acc,
     0
   );
   const percentageOfTaTeamsAtCurrentGoalLevel = Math.round(
