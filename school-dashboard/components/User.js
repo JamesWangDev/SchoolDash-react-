@@ -34,7 +34,7 @@ const CURRENT_USER_QUERY = gql`
           name
         }
         studentPbisCards(
-          sortBy: dateGiven_ASC
+          sortBy: dateGiven_DESC
           first: 20
           where: { category_not: "physical" }
         ) {

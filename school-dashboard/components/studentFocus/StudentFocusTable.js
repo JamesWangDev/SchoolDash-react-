@@ -8,7 +8,7 @@ import Loading from '../Loading';
 
 const ALL_STUDENT_FOCUS_QUERY = gql`
   query ALL_STUDENT_FOCUS_QUERY {
-    allStudentFoci(sortBy: dateCreated_ASC) {
+    allStudentFoci(sortBy: dateCreated_DESC) {
       id
       comments
       category
