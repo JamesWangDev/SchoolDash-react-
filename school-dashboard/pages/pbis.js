@@ -11,6 +11,7 @@ import PbisCardChart from '../components/PBIS/PbisCardChart';
 import GradientButton, {
   SmallGradientButton,
 } from '../components/styles/Button';
+import isAllowed from '../lib/isAllowed';
 
 const ChartContainerStyles = styled.div`
   display: grid;
@@ -238,6 +239,13 @@ export default function Pbis() {
         <div>
           <h2 className="hidePrint">Links</h2>
           <div className="pbisLinks">
+            {isAllowed(me, 'canManagePbis') && (
+              <Link to="/PbisWeeklyReading" href="/PbisWeeklyReading">
+                <SmallGradientButton title="Weekly Reading">
+                  Weekly Reading
+                </SmallGradientButton>
+              </Link>
+            )}
             {data?.pbisLinks.map((link) => (
               <Link
                 key={link.id}
