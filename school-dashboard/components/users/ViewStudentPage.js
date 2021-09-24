@@ -128,10 +128,12 @@ export default function ViewStudentPage({ student }) {
     <div>
       <h3>
         Student info for {student.name} TA: {user?.taTeacher?.name}
-        <EmailParentsAboutCallback
-          student={user}
-          disabled={canSendCallbackEmail}
-        />
+        {me.isStaff && (
+          <EmailParentsAboutCallback
+            student={user}
+            disabled={canSendCallbackEmail}
+          />
+        )}
         {me.isStaff && <QuickPbisButton id={user.id} displayName={user.name} />}
       </h3>
       <AssignmentViewCardsStudent student={user} />
