@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Loading from '../components/Loading';
 import SortingHatQuestions from '../components/SortingHatQuestions';
 import { useGQLQuery } from '../lib/useGqlQuery';
+import { useUser } from '../components/User';
+import SortedHouse from '../components/SortedHouse';
 
 const SORTING_HAT_QUESTION_QUERY = gql`
   query SORTING_HAT_QUESTION_QUERY {
@@ -22,7 +24,7 @@ const SORTING_HAT_QUESTION_QUERY = gql`
   }
 `;
 
-const SortingHatStyles = styled.div`
+export const SortingHatStyles = styled.div`
   @import url('http://fonts.cdnfonts.com/css/parry-hotter');
 
   font-family: 'HarryPotter7';
@@ -34,6 +36,7 @@ const SortingHatStyles = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   font-size: 2rem;
+  transition: all 0.3s ease-in-out;
 
   h1 {
     flex-basis: 100%;
@@ -74,8 +77,63 @@ const SortingHatStyles = styled.div`
     justify-content: space-around;
     align-items: center;
   }
+  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 2s; /* Firefox < 16 */
+  -ms-animation: fadein 2s; /* Internet Explorer */
+  -o-animation: fadein 2s; /* Opera < 12.1 */
+  animation: fadein 2s;
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Firefox < 16 */
+  @-moz-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Safari, Chrome and Opera > 12.1 */
+  @-webkit-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Internet Explorer */
+  @-ms-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Opera < 12.1 */
+  @-o-keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 export default function GetSorted() {
+  const me = useUser();
   const [questionNumber, setQuestionNumber] = useState(0);
   const [housePoints, setHousePoints] = useState({
     gryffindor: 0,
@@ -123,6 +181,7 @@ export default function GetSorted() {
     }
     setQuestionNumber(questionNumber + 1);
   }
+  if (me?.sortingHat) return <SortedHouse house={me.sortingHat} />;
 
   return (
     <>

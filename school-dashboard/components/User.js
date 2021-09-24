@@ -29,6 +29,7 @@ const CURRENT_USER_QUERY = gql`
         isSuperAdmin
         PbisCardCount
         YearPbisCount
+        sortingHat
         children {
           id
           name
