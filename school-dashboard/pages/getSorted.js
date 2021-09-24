@@ -214,7 +214,7 @@ export default function GetSorted() {
       />
 
       <SortingHatStyles>
-        <h1>Get Snorted into your house</h1>
+        <h1>Get Sorted into your house</h1>
         {questionNumber <= maxQuestionNumber ? (
           <SortingHatQuestions
             currentQuestion={currentQuestion}

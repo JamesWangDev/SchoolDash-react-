@@ -4,6 +4,7 @@ import { SortingHatStyles } from '../pages/getSorted';
 
 export default function SortedHouse({ house, updateHouse, me }) {
   const queryClient = useQueryClient();
+  const houseCapitalized = house.charAt(0).toUpperCase() + house.slice(1);
   return (
     <>
       <link
