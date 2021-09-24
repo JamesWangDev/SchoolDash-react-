@@ -122,7 +122,7 @@ export default function ViewStudentPage({ student }) {
   if (isLoading) return <Loading />;
   const { user } = data;
   const canSendCallbackEmail = !(data.user.callbackItems.length > 0);
-  console.log(data.user.callbackItems.length);
+  // console.log(data.user.callbackItems.length);
   // console.log(user);
   return (
     <div>

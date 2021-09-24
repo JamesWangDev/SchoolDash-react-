@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { useMutation } from '@apollo/client';
+import { useQueryClient } from 'react-query';
 import Loading from '../components/Loading';
 import SortingHatQuestions from '../components/SortingHatQuestions';
 import { useGQLQuery } from '../lib/useGqlQuery';
@@ -20,6 +22,14 @@ const SORTING_HAT_QUESTION_QUERY = gql`
         id
         name
       }
+    }
+  }
+`;
+
+const UPDATE_HOUSE = gql`
+  mutation UPDATE_HOUSE($id: ID!, $house: String) {
+    updateUser(id: $id, data: { sortingHat: $house }) {
+      id
     }
   }
 `;
@@ -134,6 +144,7 @@ export const SortingHatStyles = styled.div`
 `;
 export default function GetSorted() {
   const me = useUser();
+  const queryClient = useQueryClient();
   const [questionNumber, setQuestionNumber] = useState(0);
   const [housePoints, setHousePoints] = useState({
     gryffindor: 0,
@@ -142,18 +153,26 @@ export default function GetSorted() {
     slytherin: 0,
   });
 
+  const [updateHouse] = useMutation(UPDATE_HOUSE);
+
   const { data, isLoading, refetch } = useGQLQuery(
     'SortingHatQuestions',
     SORTING_HAT_QUESTION_QUERY,
     {}
   );
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) return <Loading />;
   const maxQuestionNumber = data.allSortingHatQuestions.length - 1;
+
   const currentQuestion = data?.allSortingHatQuestions[questionNumber];
   console.log(housePoints);
   console.log(questionNumber);
+  const winningHouse = Object.keys(housePoints).reduce((a, b) =>
+    housePoints[a] > housePoints[b] ? a : b
+  );
+  console.log('house', winningHouse);
+
   function onAnswer(answer) {
     if (answer === currentQuestion.gryffindorChoice) {
       setHousePoints((prev) => ({
@@ -181,7 +200,11 @@ export default function GetSorted() {
     }
     setQuestionNumber(questionNumber + 1);
   }
-  if (me?.sortingHat) return <SortedHouse house={me.sortingHat} />;
+
+  if (me?.sortingHat)
+    return (
+      <SortedHouse house={me.sortingHat} updateHouse={updateHouse} me={me} />
+    );
 
   return (
     <>
@@ -191,12 +214,35 @@ export default function GetSorted() {
       />
 
       <SortingHatStyles>
-        <h1>Get Sorted into your house</h1>
-        {questionNumber <= maxQuestionNumber && (
+        <h1>Get Snorted into your house</h1>
+        {questionNumber <= maxQuestionNumber ? (
           <SortingHatQuestions
             currentQuestion={currentQuestion}
             onAnswer={onAnswer}
           />
+        ) : (
+          <>
+            <h2>You are {winningHouse}</h2>
+            <button
+              type="button"
+              onClick={async () => {
+                await updateHouse({
+                  variables: {
+                    id: me.id,
+                    house: winningHouse,
+                  },
+                });
+                await queryClient.refetchQueries('me');
+                setQuestionNumber(0);
+              }}
+            >
+              Accept your choice
+            </button>
+            <button type="button" onClick={() => setQuestionNumber(0)}>
+              {' '}
+              Start Over
+            </button>
+          </>
         )}
       </SortingHatStyles>
     </>

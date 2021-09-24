@@ -12,10 +12,10 @@ export default function SortingHatQuestions({ currentQuestion, onAnswer }) {
           {currentQuestion.slytherinChoice}
         </button>
         <button onClick={() => onAnswer(currentQuestion.hufflepuffChoice)}>
-          {currentQuestion.ravenclawChoice}
+          {currentQuestion.hufflepuffChoice}
         </button>
         <button onClick={() => onAnswer(currentQuestion.ravenclawChoice)}>
-          {currentQuestion.hufflepuffChoice}
+          {currentQuestion.ravenclawChoice}
         </button>
       </div>
     </>

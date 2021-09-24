@@ -1,7 +1,9 @@
 import React from 'react';
+import { useQueryClient } from 'react-query';
 import { SortingHatStyles } from '../pages/getSorted';
 
-export default function SortedHouse({ house }) {
+export default function SortedHouse({ house, updateHouse, me }) {
+  const queryClient = useQueryClient();
   return (
     <>
       <link
@@ -11,6 +13,20 @@ export default function SortedHouse({ house }) {
       <SortingHatStyles>
         <h1>You are in</h1>
         <h2>{house}</h2>
+        <button
+          type="button"
+          onClick={async () => {
+            await updateHouse({
+              variables: {
+                id: me.id,
+                house: '',
+              },
+            });
+            queryClient.refetchQueries('me');
+          }}
+        >
+          Reset your choice
+        </button>
       </SortingHatStyles>
     </>
   );
