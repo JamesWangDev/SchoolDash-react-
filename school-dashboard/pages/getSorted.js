@@ -266,7 +266,18 @@ export default function GetSorted() {
             >
               Accept your choice
             </button>
-            <button type="button" onClick={() => setQuestionNumber(0)}>
+            <button
+              type="button"
+              onClick={() => {
+                setHousePoints({
+                  gryffindor: 0,
+                  hufflepuff: 0,
+                  ravenclaw: 0,
+                  slytherin: 0,
+                });
+                setQuestionNumber(0);
+              }}
+            >
               {' '}
               Start Over
             </button>
