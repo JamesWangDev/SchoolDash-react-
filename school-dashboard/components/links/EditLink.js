@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import { useQueryClient } from 'react-query';
 import GradientButton, { SmallGradientButton } from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
@@ -23,6 +24,13 @@ const UPDATE_LINK_MUTATION = gql`
     }
   }
 `;
+const DELETE_LINK_MUTATION = gql`
+  mutation DELETE_LINK_MUTATION($id: ID!) {
+    deleteLink(id: $id) {
+      id
+    }
+  }
+`;
 
 export default function EditLink({ link, refetch }) {
   const [showForm, setShowForm] = useState(false);
@@ -33,16 +41,21 @@ export default function EditLink({ link, refetch }) {
   });
   const user = useUser();
 
-  const [updateLink, { loading, error, data }] = useMutation(
-    UPDATE_LINK_MUTATION,
-    {
-      variables: {
-        ...inputs,
-        id: link.id,
-      },
-    }
-  );
-
+  const [updateLink, { loading, error }] = useMutation(UPDATE_LINK_MUTATION, {
+    variables: {
+      ...inputs,
+      id: link.id,
+    },
+  });
+  const [
+    deleteLink,
+    { loading: deleteLoading, error: deleteError },
+  ] = useMutation(DELETE_LINK_MUTATION, {
+    variables: {
+      id: link.id,
+    },
+  });
+  const queryClient = useQueryClient();
   return (
     <div>
       <SmallGradientButton onClick={() => setShowForm(!showForm)}>
@@ -105,6 +118,16 @@ export default function EditLink({ link, refetch }) {
               />
             </label>
             <button type="submit">+ Publish</button>
+            <button
+              type="button"
+              onClick={async () => {
+                const res = await deleteLink();
+                // console.log(res);
+                queryClient.refetchQueries('allLinks');
+              }}
+            >
+              Delete
+            </button>
           </fieldset>
         </Form>
       </FormContainerStyles>
