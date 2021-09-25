@@ -14,7 +14,9 @@ import NewStaff from '../components/users/NewStaff';
 
 const GET_ALL_STUDENTS = gql`
   query GET_ALL_STUDENTS {
-    students: allUsers(where: { isStudent: true }) {
+    students: allUsers(
+      where: { AND: [{ taTeacher_is_null: false }, { isStudent: true }] }
+    ) {
       id
       name
       preferredName
