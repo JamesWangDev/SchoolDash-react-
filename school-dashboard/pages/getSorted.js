@@ -9,6 +9,10 @@ import { useGQLQuery } from '../lib/useGqlQuery';
 import { useUser } from '../components/User';
 import SortedHouse from '../components/SortedHouse';
 
+function arrayOfNumbersOneToFourInRandomOrder() {
+  return [1, 2, 3, 4].sort(() => Math.random() - 0.5);
+}
+
 const SORTING_HAT_QUESTION_QUERY = gql`
   query SORTING_HAT_QUESTION_QUERY {
     allSortingHatQuestions {
@@ -89,6 +93,18 @@ export const SortingHatStyles = styled.div`
     align-items: center;
     flex-wrap: wrap;
   }
+  button :nth-child(1) {
+    order: ${(props) => props.gryffindorOrder};
+  }
+  button :nth-child(2) {
+    order: ${(props) => props.slytherinOrder};
+  }
+  button :nth-child(3) {
+    order: ${(props) => props.ravenclawOrder};
+  }
+  button :nth-child(4) {
+    order: ${(props) => props.hufflepuffOrder};
+  }
   -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 2s; /* Firefox < 16 */
   -ms-animation: fadein 2s; /* Internet Explorer */
@@ -155,6 +171,10 @@ export default function GetSorted() {
     slytherin: 0,
   });
 
+  const [randomOrder, setRandomOrder] = useState(
+    arrayOfNumbersOneToFourInRandomOrder()
+  );
+
   const [updateHouse] = useMutation(UPDATE_HOUSE);
 
   const { data, isLoading, refetch } = useGQLQuery(
@@ -200,6 +220,7 @@ export default function GetSorted() {
         slytherin: prev.slytherin + 1,
       }));
     }
+    setRandomOrder(arrayOfNumbersOneToFourInRandomOrder());
     setQuestionNumber(questionNumber + 1);
   }
 
@@ -215,7 +236,12 @@ export default function GetSorted() {
         rel="stylesheet"
       />
 
-      <SortingHatStyles>
+      <SortingHatStyles
+        gryffindorOrder={randomOrder[0]}
+        hufflepuffOrder={randomOrder[1]}
+        ravenclawOrder={randomOrder[2]}
+        slytherinOrder={randomOrder[3]}
+      >
         <h1>Get Sorted into your house</h1>
         {questionNumber <= maxQuestionNumber ? (
           <SortingHatQuestions
