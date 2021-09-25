@@ -54,6 +54,7 @@ export const SortingHatStyles = styled.div`
   }
   h2 {
     font-size: 3.5rem;
+    text-align: center;
   }
 
   button {
@@ -86,6 +87,7 @@ export const SortingHatStyles = styled.div`
     width: 100%;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
   }
   -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 2s; /* Firefox < 16 */

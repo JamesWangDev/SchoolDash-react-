@@ -46,6 +46,12 @@ const AnimatedInput = styled.p`
     transition: all 0.3s;
     border-radius: 5px;
   }
+  .hasText {
+    border-bottom: 1px solid #e1e1e1;
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem;
+  }
   .inputUpdating {
     animation: color-change 0.5s infinite;
     @keyframes color-change {
@@ -104,13 +110,17 @@ export default function CallbackCardMessages({ me, callback }) {
           {!isStudent && (
             <AnimatedInput>
               Student:
-              <span> {callback.messageFromStudent || '----'}</span>
+              <span className={!!callback?.messageFromStudent && 'hasText'}>
+                {callback.messageFromStudent || '----'}
+              </span>
             </AnimatedInput>
           )}
           {!isTeacher && (
             <AnimatedInput>
               Teacher:
-              <span> {callback.messageFromTeacher || '----'}</span>
+              <span className={!!callback?.messageFromTeacher && 'hasText'}>
+                {callback.messageFromTeacher || '----'}
+              </span>
             </AnimatedInput>
           )}
           {isStudent && (
