@@ -8,6 +8,8 @@ import SortingHatQuestions from '../components/SortingHatQuestions';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import { useUser } from '../components/User';
 import SortedHouse from '../components/SortedHouse';
+import isAllowed from '../lib/isAllowed';
+import NewSortingHatQuestion from '../components/NewSortingHatQuestionButton';
 
 function arrayOfNumbersOneToFourInRandomOrder() {
   return [1, 2, 3, 4].sort(() => Math.random() - 0.5);
@@ -235,7 +237,7 @@ export default function GetSorted() {
         href="http://fonts.cdnfonts.com/css/harrypotter7"
         rel="stylesheet"
       />
-
+      {isAllowed(me, 'isStaff') && <NewSortingHatQuestion />}
       <SortingHatStyles
         gryffindorOrder={randomOrder[0]}
         hufflepuffOrder={randomOrder[1]}
