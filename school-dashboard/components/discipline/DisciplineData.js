@@ -72,7 +72,7 @@ export const DISCIPLINE_DATA = gql`
       unknown
       othersInvolved
     }
-    allCellPhoneViolations {
+    allCellPhoneViolations(sortBy: dateGiven_DESC) {
       id
       description
       dateGiven
