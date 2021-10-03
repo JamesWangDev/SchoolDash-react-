@@ -17,13 +17,14 @@ export const UserTableStyles = styled.div`
     border-bottom: 1px solid #ededed;
     border-right: 1px solid #ededed;
     position: relative;
+    color: var(--textColor);
   }
   table th:last-child,
   table td:last-child {
     border-right: 0;
   }
   table tr:nth-child(even) {
-    background-color: #fafafa;
+    background-color: var(--tableAccentColor);
   }
 
   table th::before {
@@ -67,5 +68,7 @@ export const UserTableStyles = styled.div`
     border-radius: 5px;
     border: 1px solid #ddd;
     box-shadow: none;
+    color: var(--textColor);
+    background-color: var(--tableAccentColor);
   }
 `;

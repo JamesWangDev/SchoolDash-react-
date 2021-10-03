@@ -36,7 +36,7 @@ const HomePageLinkStyles = styled.div`
   padding-left: 2rem;
   a {
     background: linear-gradient(to top right, var(--red), var(--blue));
-    color: white;
+    color: var(--navTextColor);
     padding: 0.1rem 1.5rem;
     height: max-content;
     border-radius: 2rem;
