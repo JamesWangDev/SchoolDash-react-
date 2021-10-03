@@ -9,7 +9,8 @@ const DropDown = styled.div`
 
 const DropDownItem = styled.div`
   border-bottom: 1px solid var(--lightGrey);
-  background: ${(props) => (props.highlighted ? '#f7f7f7' : 'white')};
+  background: ${(props) =>
+    props.highlighted ? '#f7f7f7' : 'var(--tableAccentColor)'};
   padding: 1rem;
   transition: all 0.2s;
   ${(props) => (props.highlighted ? 'padding-left: 2rem;' : null)};
@@ -29,11 +30,13 @@ const glow = keyframes`
   to {
     box-shadow: 0 0 10px 1px yellow;
   }
-`;
+  `;
 
 const SearchStyles = styled.div`
   position: relative;
   input {
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
     width: 100%;
     padding: 10px;
     border: 0;

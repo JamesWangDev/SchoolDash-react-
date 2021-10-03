@@ -19,7 +19,7 @@ const Logo = styled.h1`
   transform: skew(-20deg);
   max-width: min-content;
   a {
-    color: white;
+    color: var(--navTextColor);
     text-decoration: none;
     text-transform: uppercase;
     padding: 0.5rem 1rem;

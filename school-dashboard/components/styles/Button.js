@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const GradientButton = styled.button`
   background-image: linear-gradient(to top left, var(--red), var(--blue));
-  color: white;
+  color: var(--navTextColor);
   font-weight: 500;
   border: 0;
   border-radius: 1rem;
@@ -20,7 +20,7 @@ const GradientButton = styled.button`
 `;
 export const SmallGradientButton = styled.button`
   background-image: linear-gradient(to top left, var(--red), var(--blue));
-  color: white;
+  color: var(--navTextColor);
   font-weight: 500;
   border: 0;
   border-radius: 1rem;
@@ -44,7 +44,7 @@ export const LeftEdgeButton = styled.button`
   border-radius: 1rem;
   opacity: 0.9;
   font-size: 1.5rem;
-  color: white;
+  color: var(--navTextColor);
 
   /* writing-mode: vertical-rl;
     text-orientation: upright; */

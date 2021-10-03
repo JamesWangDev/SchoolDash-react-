@@ -7,6 +7,7 @@ const NavStyles = styled.ul`
   display: flex;
   justify-self: flex-end;
   font-size: 2rem;
+  color: var(--navTextColor);
 
   a,
   button {
@@ -17,7 +18,7 @@ const NavStyles = styled.ul`
     text-transform: uppercase;
     font-weight: 900;
     font-size: 1.4rem;
-    color: white;
+    color: var(--navTextColor);
     background: none;
     border: 0;
     white-space: nowrap;
