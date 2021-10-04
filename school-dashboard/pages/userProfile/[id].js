@@ -9,6 +9,7 @@ import ViewStudentPage from '../../components/users/ViewStudentPage';
 import ViewParentPage from '../../components/users/ViewParentPage';
 import ResetPasswordToPassword from '../../components/users/ResetPasswordToPassword';
 import SendParentEmailSignupButton from '../../components/users/SendParentEmailSignup';
+import EditStudent from '../../components/users/EditStudent';
 
 const ButtonStyles = styled.div`
   display: flex;
@@ -28,6 +29,31 @@ const GET_SINGLE_USER = gql`
         id
         name
       }
+      block1Teacher {
+        name
+        id
+      }
+      block2Teacher {
+        name
+        id
+      }
+      block3Teacher {
+        name
+        id
+      }
+      block4Teacher {
+        name
+        id
+      }
+      block5Teacher {
+        name
+        id
+      }
+      taTeacher {
+        name
+        id
+      }
+
       isStaff
       isParent
       isStudent
@@ -46,15 +72,16 @@ export default function UserProfile({ query }) {
   if (error) return <p>{error.message}</p>;
   if (!isAllowed(me, 'isStaff')) return null;
   const user = data.User;
+  const { isStudent } = user;
   return (
     <div>
       <h1>{user.name}</h1>
       <ButtonStyles>
         {isAllowed(me, 'isStaff') && me.id !== user.id && (
           <>
-            <ResetPasswordToPassword userID={query.id} />
+            {isStudent && <EditStudent student={user} />}
             <SendParentEmailSignupButton student={user} />
-            <p> !! TODO !! edit account</p>
+            <ResetPasswordToPassword userID={query.id} />
           </>
         )}
       </ButtonStyles>
