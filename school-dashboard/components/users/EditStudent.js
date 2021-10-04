@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useState } from 'react';
+import { useQueryClient } from 'react-query';
 import useForm from '../../lib/useForm';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import DisplayError from '../ErrorMessage';
@@ -11,12 +12,24 @@ const UPDATE_STUDENT_MUTATION = gql`
   mutation UPDATE_STUDENT_MUTATION(
     $id: ID!
     $name: String!
-    $description: String
-    $link: String
+    $ta: ID!
+    $block1: ID!
+    $block2: ID!
+    $block3: ID!
+    $block4: ID!
+    $block5: ID!
   ) {
-    updateLink(
+    updateUser(
       id: $id
-      data: { name: $name, description: $description, link: $link }
+      data: {
+        name: $name
+        taTeacher: { connect: { id: $ta } }
+        block1Teacher: { connect: { id: $block1 } }
+        block2Teacher: { connect: { id: $block2 } }
+        block3Teacher: { connect: { id: $block3 } }
+        block4Teacher: { connect: { id: $block4 } }
+        block5Teacher: { connect: { id: $block5 } }
+      }
     ) {
       id
     }
@@ -34,6 +47,7 @@ const LIST_OF_TEACHERS_QUERY = gql`
   }
 `;
 export default function EditStudent({ student }) {
+  const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const { data, isLoading, error } = useGQLQuery(
     `ListOfTeachers`,
@@ -54,6 +68,7 @@ export default function EditStudent({ student }) {
   const [updateStudent, { loading }] = useMutation(UPDATE_STUDENT_MUTATION, {
     variables: {
       ...inputs,
+      id: student.id,
     },
   });
   const teacherList = data?.teacherList || [];
@@ -72,7 +87,7 @@ export default function EditStudent({ student }) {
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await updateStudent();
-
+            queryClient.refetchQueries();
             setShowForm(false);
             // console.log(inputs);
           }}
@@ -192,7 +207,7 @@ export default function EditStudent({ student }) {
               </select>
             </label>
 
-            <button type="submit">+ Publish(doesnt work)</button>
+            <button type="submit">+ Publish</button>
             <button type="button" onClick={resetForm}>
               Undo
             </button>
