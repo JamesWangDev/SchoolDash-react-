@@ -117,6 +117,7 @@ export default function DisciplineData() {
               pathname: `Bullying`,
             })
           }
+          style={{ maxHeight: '4rem' }}
         >
           Hazing Harassment Bullying
         </GradientButton>
