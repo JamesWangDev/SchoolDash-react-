@@ -71,7 +71,11 @@ export default function EditStudent({ student }) {
       id: student.id,
     },
   });
-  const teacherList = data?.teacherList || [];
+  const teacherListRaw = data?.teacherList || [];
+  const teacherList = teacherListRaw.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   console.log(inputs.taName);
   return (
     <div>
