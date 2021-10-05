@@ -13,6 +13,7 @@ const GradientButton = styled.button`
   display: inline-block;
   transition: all 0.5s;
   margin: 2px;
+  height: 4rem;
   outline: none;
   &[disabled] {
     opacity: 0.5;

@@ -43,7 +43,12 @@ export const UserTableStyles = styled.div`
   table th.sort-desc::before {
     border-top: 5px solid #22543d;
   }
-
+  table th {
+    position: sticky;
+    top: 0;
+    background-color: var(--backgroundColor);
+    z-index: 100;
+  }
   .App {
     display: flex;
     flex-direction: column;
