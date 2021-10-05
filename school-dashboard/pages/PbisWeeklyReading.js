@@ -77,6 +77,15 @@ export default function PbisWeeklyReading() {
           <li key={winner.id}>{winner.name}</li>
         ))}
       </ul>
+      <h3>
+        <span className="strong">Congratulations</span> to the following Random
+        Drawing Winners! Please report to the gym to claim your reward.
+      </h3>
+      <ul>
+        {randomDrawingWinners.map((winner) => (
+          <li key={winner.id}>{winner?.randomWinner?.name}</li>
+        ))}
+      </ul>
       {hasPersonalLevelWinners && (
         <h3>
           The following students have Leveled-Up and should report to the gym to
@@ -86,15 +95,6 @@ export default function PbisWeeklyReading() {
       <ul>
         {personalLevelWinners.map((winner) => (
           <li key={winner.id}>{winner.name}</li>
-        ))}
-      </ul>
-      <h3>
-        <span className="strong">Congratulations</span> to the following Random
-        Drawing Winners! Please report to the gym to claim your reward.
-      </h3>
-      <ul>
-        {randomDrawingWinners.map((winner) => (
-          <li key={winner.id}>{winner?.randomWinner?.name}</li>
         ))}
       </ul>
     </PbisReadingStyles>
