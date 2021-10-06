@@ -46,7 +46,7 @@ export const FormContainerStyles = styled.div`
 const Form = styled.form`
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
   background: rgba(0, 0, 0, 0.02);
-  border: 5px solid white;
+  border: 5px solid var(--tableAccentColor);
   padding: 20px;
   font-size: 1.8rem;
   line-height: 1.5;
@@ -64,6 +64,8 @@ const Form = styled.form`
     width: 100%;
     padding: 0.5rem;
     font-size: 1rem;
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
     border: 1px solid black;
     &:focus {
       outline: 0;
