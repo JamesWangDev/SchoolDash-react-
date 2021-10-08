@@ -81,8 +81,9 @@ const NavStyles = styled.ul`
   @media (max-width: 1150px) {
     align-items: center;
     flex-wrap: wrap;
-
+    position: relative;
     justify-content: space-around;
+    width: auto;
     a {
       background: rgba(255, 255, 255, 0.1);
       border-radius: 1rem;

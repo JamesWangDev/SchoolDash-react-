@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useIsFetching } from 'react-query';
+import { GiFalconMoon } from 'react-icons/gi';
 import Search from '../Search';
 import { useUser } from '../User';
 import Nav from './Nav';
@@ -13,11 +14,14 @@ const Logo = styled.h1`
   padding-left: 1rem;
   position: relative;
   z-index: 4;
-  margin-right: 1rem;
+  margin-right: 7rem;
   background-image: linear-gradient(to top left, var(--red), var(--blue));
   border-radius: 1rem;
   transform: skew(-20deg);
   max-width: min-content;
+  .small {
+    display: none;
+  }
   a {
     color: var(--navTextColor);
     text-decoration: none;
@@ -27,6 +31,18 @@ const Logo = styled.h1`
   @media (max-width: 1100px) {
     font-size: 3rem;
   }
+  @media (max-width: 800px) {
+    display: none;
+  }
+  /* .small {
+    @media (max-width: 800px) {
+      display: block;
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+  } */
 `;
 
 const HeaderStyles = styled.header`
@@ -93,7 +109,11 @@ export default function Header() {
       <HeaderStyles>
         <div className="bar">
           <Logo className={isFetching ? 'loading' : ''}>
-            <Link href="/">NCUJHS Dashboard</Link>
+            <div className="big">
+              <Link className="big" href="/">
+                NCUJHS Dashboard
+              </Link>
+            </div>
           </Logo>
           <Nav />
         </div>
