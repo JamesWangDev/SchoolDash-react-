@@ -22,6 +22,10 @@ export const TeacherMessagesStyles = styled.div`
   .messageContainer {
     display: grid;
     grid-template-columns: repeat(5, auto);
+
+    @media (max-width: 600px){
+   grid-template-columns: 1fr;
+  }
   }
   .singleMessage {
     display: flex;
@@ -82,6 +86,7 @@ export const TeacherMessagesStyles = styled.div`
       background-position: 0% 57%;
     }
   }
+ 
 `;
 
 const GET_MESSAGES = gql`

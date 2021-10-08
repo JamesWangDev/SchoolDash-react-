@@ -87,7 +87,7 @@ export const WeeklyCalendarContainerStyles = styled.div`
     background: linear-gradient(to top right, var(--red), var(--blue));
     padding: 1rem;
     border-radius: 2rem;
-    /* min-width: min-content; */
+    min-width: min-content;
     /* width: 300px; */
     border: none;
     color: rgba(255, 255, 255, 0.5);
@@ -104,6 +104,19 @@ export const WeeklyCalendarContainerStyles = styled.div`
     flex-basis: 10%;
     div {
       /* display: none; */
+    }
+  }
+
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(4, 1fr);
+    /* div.today {
+      grid-column: span 1;
+    } */
+  }
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+    div.today {
+      grid-column: span 1;
     }
   }
 `;
