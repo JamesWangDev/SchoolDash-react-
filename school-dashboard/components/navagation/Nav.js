@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FaHome } from 'react-icons/fa';
 import NavStyles from '../styles/NavStyles';
 import { useUser } from '../User';
 import SignIn from '../loginComponents/SignIn';
@@ -14,6 +15,11 @@ export default function Nav() {
     <NavStyles>
       {true && (
         <>
+          <Link href="/">
+            <a className="home">
+              <FaHome />
+            </a>
+          </Link>
           <Link href="/calendar">Calendar</Link>
           <Link href="/links">Links</Link>
           <Link href="/pbis">PBIS</Link>

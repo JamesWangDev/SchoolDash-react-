@@ -8,12 +8,18 @@ const NavStyles = styled.ul`
   justify-self: flex-end;
   font-size: 2rem;
   color: var(--navTextColor);
-
+  .home {
+    @media (min-width: 800px) {
+      display: none;
+    }
+  }
   a,
   button {
     padding: 0rem 2rem;
     display: flex;
     align-items: center;
+    text-align: center;
+    justify-content: center;
     position: relative;
     text-transform: uppercase;
     font-weight: 900;
