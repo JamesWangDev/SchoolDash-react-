@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const UserTableStyles = styled.div`
+    
   table {
     width: 100%;
     border-spacing: 0;
@@ -13,7 +14,7 @@ export const UserTableStyles = styled.div`
   table td {
     margin: 0;
     padding: 0.5rem;
-    min-width: 8rem;
+    min-width: 3rem;
     border-bottom: 1px solid #ededed;
     border-right: 1px solid #ededed;
     position: relative;
@@ -67,7 +68,7 @@ export const UserTableStyles = styled.div`
   input {
     padding: 10px;
     margin-top: 10px;
-    margin-left: 100px;
+    margin-left: 75px;
     margin-bottom: 20px;
     font-size: 18px;
     border-radius: 5px;
@@ -76,4 +77,7 @@ export const UserTableStyles = styled.div`
     color: var(--textColor);
     background-color: var(--tableAccentColor);
   }
+  @media (max-width: 700px) {
+    font-size: 1rem;
+    overflow-x: scroll;
 `;
