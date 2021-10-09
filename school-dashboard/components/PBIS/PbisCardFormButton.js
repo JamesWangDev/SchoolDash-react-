@@ -19,10 +19,14 @@ const CardButtonContainer = styled.div`
 const CardFormContainerStyles = styled.div`
   z-index: 1;
   text-shadow: 1px 1px 2px var(--red);
+  position: relative;
   .visible {
     /* background: red; */
     opacity: 1;
     transition: all ease-in-out 0.6s;
+    /* left: -100px; */
+    /* top: 50px; */
+    transform: scale(1) translateX(-150px) translateY(50px);
   }
   .invisible {
     opacity: 1;

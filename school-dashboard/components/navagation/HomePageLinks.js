@@ -34,6 +34,7 @@ const HomePageLinkStyles = styled.div`
   flex-wrap: wrap;
   margin-bottom: 1.5rem;
   padding-left: 2rem;
+  justify-content: space-around;
   a {
     background: linear-gradient(to top right, var(--red), var(--blue));
     color: var(--navTextColor);
