@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const UserTableStyles = styled.div`
-    
   table {
     width: 100%;
     border-spacing: 0;
@@ -79,5 +78,13 @@ export const UserTableStyles = styled.div`
   }
   @media (max-width: 700px) {
     font-size: 1rem;
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
+  }
+  @media (max-width: 500px) {
+    font-size: 0.8rem;
+    table th,
+    table td {
+      padding: 0.2rem;
+    }
+  }
 `;
