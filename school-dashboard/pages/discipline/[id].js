@@ -88,8 +88,12 @@ export default function SingleDisciplineReferralPage({ query }) {
   const [editing, setEditing] = useState(false);
   if (isLoading) return <Loading />;
   const discipline = data?.Discipline;
-  const date = new Date(discipline?.date).toLocaleDateString();
-
+  const date = new Date(discipline?.date);
+  console.log(date);
+  const dayAfterDate = date?.setDate(date.getDate() + 1).toLocaleString();
+  console.log(date);
+  const dateToShow = date?.toDateString();
+  console.log(dateToShow);
   // get list of items in Discipline that are also in the others involved list
   const othersInvolvedListItems = othersInvolvedList.map((item) =>
     discipline[item] ? `☑️ ${item} ` : null
@@ -116,7 +120,7 @@ export default function SingleDisciplineReferralPage({ query }) {
   return (
     <div>
       <h1>
-        Referral for {discipline?.student?.name} on {date}{' '}
+        Referral for {discipline?.student?.name} on {dateToShow}{' '}
       </h1>
       <DisplaySingleDiscipline>
         <div>
@@ -125,7 +129,7 @@ export default function SingleDisciplineReferralPage({ query }) {
         </div>
         <div>
           <h3>Date:</h3>
-          <h3>{date}</h3>
+          <h3>{dateToShow}</h3>
           <p>
             Student's Referrals:{' '}
             {discipline.student._studentDisciplineMeta.count}

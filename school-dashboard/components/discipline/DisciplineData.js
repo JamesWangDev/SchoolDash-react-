@@ -99,10 +99,18 @@ export default function DisciplineData() {
 
   if (isLoading) return <Loading />;
   const { allDisciplines } = data || [];
+  const disciplinesWithDateIncrimented = allDisciplines.map((d) => {
+    const date = new Date(d.date);
+    const dateIncrimented = new Date(date.setDate(date.getDate() + 1));
+    return {
+      ...d,
+      date: dateIncrimented,
+    };
+  });
   const canSeeAllDisciplines = isAllowed(me, 'canSeeAllDiscipline');
   const disciplinesToShow = canSeeAllDisciplines
-    ? allDisciplines
-    : allDisciplines.filter((d) => d?.teacher.id === me?.id);
+    ? disciplinesWithDateIncrimented
+    : disciplinesWithDateIncrimented.filter((d) => d?.teacher.id === me?.id);
 
   // get disciplines from current user
   const totalDisciplines = data?.allDisciplines?.length;
@@ -132,7 +140,7 @@ export default function DisciplineData() {
           <DisciplineTable disciplines={disciplinesToShow} />
         </div>
         <div>
-          <DisciplineCharts disciplines={allDisciplines} />
+          <DisciplineCharts disciplines={disciplinesWithDateIncrimented} />
         </div>
       </DisciplinePageContainer>
     </>
