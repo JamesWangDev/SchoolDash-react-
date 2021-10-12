@@ -110,7 +110,7 @@ export default function CallbackCardMessages({ me, callback }) {
           {!isStudent && (
             <AnimatedInput>
               Student:
-              <span className={!!callback?.messageFromStudent && 'hasText'}>
+              <span className={callback?.messageFromStudent ? 'hasText' : ''}>
                 {callback.messageFromStudent || '----'}
               </span>
             </AnimatedInput>
@@ -118,7 +118,7 @@ export default function CallbackCardMessages({ me, callback }) {
           {!isTeacher && (
             <AnimatedInput>
               Teacher:
-              <span className={!!callback?.messageFromTeacher && 'hasText'}>
+              <span className={callback?.messageFromTeacher ? 'hasText' : ''}>
                 {callback.messageFromTeacher || '----'}
               </span>
             </AnimatedInput>
