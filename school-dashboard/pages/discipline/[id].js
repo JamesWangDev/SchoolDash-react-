@@ -89,11 +89,11 @@ export default function SingleDisciplineReferralPage({ query }) {
   if (isLoading) return <Loading />;
   const discipline = data?.Discipline;
   const date = new Date(discipline?.date);
-  console.log(date);
+  // console.log(date);
   const dayAfterDate = date?.setDate(date.getDate() + 1).toLocaleString();
-  console.log(date);
+  // console.log(date);
   const dateToShow = date?.toDateString();
-  console.log(dateToShow);
+  // console.log(dateToShow);
   // get list of items in Discipline that are also in the others involved list
   const othersInvolvedListItems = othersInvolvedList.map((item) =>
     discipline[item] ? `☑️ ${item} ` : null
