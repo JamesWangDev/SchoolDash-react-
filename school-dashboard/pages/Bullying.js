@@ -29,7 +29,7 @@ const BullyingPageContainer = styled.div`
 
 const BULLYING_DATA_QUERY = gql`
   query BULLYING_DATA_QUERY {
-    allBullyings(sortBy: date_DESC) {
+    allBullyings(sortBy: dateReported_DESC) {
       id
       studentOffender {
         id
