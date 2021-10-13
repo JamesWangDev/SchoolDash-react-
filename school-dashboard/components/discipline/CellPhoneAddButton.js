@@ -50,6 +50,7 @@ export default function CellPhoneAddButton() {
   const adminEmailArray = adminEmails?.allUsers?.map((u) => u.email);
   // console.log(adminEmailArray);
   const [showForm, setShowForm] = useState(false);
+  const [emailSending, setEmailSending] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     description: '',
   });
@@ -58,7 +59,7 @@ export default function CellPhoneAddButton() {
   const teacher = me?.id;
   const [studentCardIsFor, setStudentCardIsFor] = useState();
   // console.log(studentCardIsFor);
-  const { setEmail, emailLoading } = useSendEmail();
+  const { sendEmail, emailLoading } = useSendEmail();
   const [createCellViolation, { loading, error, data }] = useMutation(
     ADD_CELLPHONE_MUTATION,
     {
@@ -89,10 +90,11 @@ export default function CellPhoneAddButton() {
             e.preventDefault();
             // Submit the input fields to the backend:
             // console.log(inputs);
+            setEmailSending(true);
             const res = await createCellViolation();
             // console.log(res);
             if (res.data.createCellPhoneViolation.id) {
-              adminEmailArray.map((email) => {
+              for (const email of adminEmailArray) {
                 const emailToSend = {
                   toAddress: email,
                   fromAddress: me.email,
@@ -103,18 +105,27 @@ export default function CellPhoneAddButton() {
                  `,
                 };
                 // console.log(emailToSend);
-                setEmail(emailToSend);
-                return null;
-              });
+                const emailRes = await sendEmail({
+                  variables: {
+                    emailData: JSON.stringify(emailToSend),
+                  },
+                });
+                console.log(emailRes);
+              }
             }
             // refetch();
+            setEmailSending(false);
+            resetForm();
             setShowForm(false);
             // console.log(inputs);
           }}
         >
           <DisplayError error={error} />
           <h2>Cell Phone Violation</h2>
-          <fieldset disabled={loading} aria-busy={loading}>
+          <fieldset
+            disabled={loading || emailSending}
+            aria-busy={loading || emailSending}
+          >
             <SearchForUserName
               name="studentName"
               // value={inputs.studentName}
