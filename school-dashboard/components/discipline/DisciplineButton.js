@@ -114,6 +114,7 @@ export default function NewDiscipline({ refetch }) {
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
   const adminEmailArray = data?.allUsers?.map((u) => u.email);
   const [showForm, setShowForm] = useState(false);
+  const [emailSending, setEmailSending] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     date: todaysDateForForm(),
   });
@@ -154,16 +155,18 @@ export default function NewDiscipline({ refetch }) {
             e.preventDefault();
             // Submit the input fields to the backend:
             const res = await createDiscipline();
+            setEmailSending(true);
             if (res.data.createDiscipline.id) {
-              adminEmailArray.map(async (email) => {
+              // loop over each email in adminEmailArray and send an email to each one async and await
+              for (const email of adminEmailArray) {
                 const emailToSend = {
                   toAddress: email,
                   fromAddress: me.email,
                   subject: `New Discipline Referral for ${res.data.createDiscipline.student.name}`,
                   body: `
-                <p>There is a new Disciplie Referral for ${res.data.createDiscipline.student.name} at NCUJHS.TECH created by ${me.name}. </p>
-                <p><a href="https://ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
-                 `,
+              <p>There is a new Discipline Referral for ${res.data.createDiscipline.student.name} at NCUJHS.TECH created by ${me.name}. </p>
+              <p><a href="https://ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
+               `,
                 };
                 // console.log(emailToSend);
                 const emailRes = await sendEmail({
@@ -171,18 +174,42 @@ export default function NewDiscipline({ refetch }) {
                     emailData: JSON.stringify(emailToSend),
                   },
                 });
-                console.log(emailRes);
-                return null;
-              });
+                // console.log(emailRes);
+              }
+              // console.log(res);
+
+              //   adminEmailArray.map(async (email) => {
+              //     const emailToSend = {
+              //       toAddress: email,
+              //       fromAddress: me.email,
+              //       subject: `New Discipline Referral for ${res.data.createDiscipline.student.name}`,
+              //       body: `
+              //     <p>There is a new Discipline Referral for ${res.data.createDiscipline.student.name} at NCUJHS.TECH created by ${me.name}. </p>
+              //     <p><a href="https://ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
+              //      `,
+              //     };
+              //     // console.log(emailToSend);
+              //     const emailRes = await sendEmail({
+              //       variables: {
+              //         emailData: JSON.stringify(emailToSend),
+              //       },
+              //     });
+              //     console.log(emailRes);
+              //     return null;
+              //   });
             }
             resetForm();
             refetch();
+            setEmailSending(false);
             setShowForm(false);
           }}
         >
           <h2>Add a New Referral</h2>
           <DisplayError error={error} />
-          <fieldset disabled={loading} aria-busy={loading}>
+          <fieldset
+            disabled={loading || emailSending}
+            aria-busy={loading || emailSending}
+          >
             <FormGroupStyles>
               <div>
                 <label htmlFor="studentName">Student Name</label>
