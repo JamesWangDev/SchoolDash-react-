@@ -57,6 +57,7 @@ export default function NewStudentFocusButton({ refetch }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
+  const [emailSending, setEmailSending] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     category: 'General Comments',
   });
@@ -69,7 +70,7 @@ export default function NewStudentFocusButton({ refetch }) {
   const guidanceAccounts = (guidance && guidance.allUsers) || [];
   const guidanceEmailList = guidanceAccounts.map((g) => g.email);
   // console.log('guidanceEmailList', guidanceEmailList);
-  const { setEmail, emailLoading } = useSendEmail();
+  const { sendEmail, emailLoading } = useSendEmail();
   const [createStudentFocus, { loading, error, data }] = useMutation(
     CREATE_STUDENT_FOCUS,
     {
@@ -101,6 +102,7 @@ export default function NewStudentFocusButton({ refetch }) {
             e.preventDefault();
             // Submit the input fields to the backend:
             // console.log(inputs);
+            setEmailSending(true);
             const res = await createStudentFocus();
             // console.log(res);
 
@@ -113,7 +115,7 @@ export default function NewStudentFocusButton({ refetch }) {
             });
 
             if (res.data.createStudentFocus.id) {
-              guidanceEmailList.map((email) => {
+              for (const email of guidanceEmailList) {
                 const emailToSend = {
                   toAddress: email,
                   fromAddress: user.email,
@@ -123,20 +125,28 @@ export default function NewStudentFocusButton({ refetch }) {
                  `,
                 };
                 // console.log(emailToSend);
-                setEmail(emailToSend);
-                return null;
-              });
+                const emailRes = await sendEmail({
+                  variables: {
+                    emailData: JSON.stringify(emailToSend),
+                  },
+                });
+                console.log(emailRes);
+              }
             }
             queryClient.refetchQueries('allStudentFocus');
             // recalculateCallback();
             clearForm();
             setStudentWhoIsFor(null);
+            setEmailSending(false);
             setShowForm(false);
           }}
         >
           <h2>Add a New Student Focus</h2>
           <DisplayError error={error} />
-          <fieldset disabled={loading} aria-busy={loading}>
+          <fieldset
+            disabled={loading || emailSending}
+            aria-busy={loading || emailSending}
+          >
             <FormGroupStyles>
               <div>
                 <label htmlFor="studentName">Student Name</label>
