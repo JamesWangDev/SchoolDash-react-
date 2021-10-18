@@ -14,7 +14,17 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($taTeacher: ID!) {
     allCallbacks(
       sortBy: dateAssigned_ASC
-      where: { student: { taTeacher: { id: $taTeacher } } }
+      where: {
+        OR: [
+          { student: { taTeacher: { id: $taTeacher } } }
+          {
+            AND: [
+              { teacher: { id: $taTeacher } }
+              { messageFromStudent_not: null }
+            ]
+          }
+        ]
+      }
     ) {
       id
       teacher {
