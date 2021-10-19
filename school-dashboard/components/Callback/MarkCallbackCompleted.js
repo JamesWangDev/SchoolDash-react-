@@ -28,11 +28,11 @@ const DeleteCallbackButtonStyles = styled.div`
   justify-content: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  transition: all 0.8s ease-in-out;
 
   .deleting {
     transform: scale(0.1);
     opacity: 0;
-    transition: all 0.3s ease-in-out;
   }
 `;
 
