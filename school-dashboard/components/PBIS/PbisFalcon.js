@@ -45,14 +45,15 @@ const ContainerStyles = styled.div`
     text-align: center;
   }
   .total {
-    position: relative;
+    position: fixed;
     /* padding: 5; */
     color: white;
     font-weight: bold;
-    left: 20px;
-    right: 20px;
-    bottom: 80px;
-    text-align: center;
+    /* left: 20px; */
+    /* right: 20px; */
+    /* bottom: 00px; */
+    transform: translate(30px, -30px);
+    /* text-align: center; */
   }
   img {
     position: absolute;
