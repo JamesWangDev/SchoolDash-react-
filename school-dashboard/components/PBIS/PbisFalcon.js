@@ -45,13 +45,13 @@ const ContainerStyles = styled.div`
     text-align: center;
   }
   .total {
-    position: absolute;
+    position: relative;
     /* padding: 5; */
     color: white;
     font-weight: bold;
     left: 20px;
     right: 20px;
-    bottom: 50px;
+    bottom: 80px;
     text-align: center;
   }
   img {
@@ -82,8 +82,8 @@ export default function PbisFalcon() {
         <div className="filler">
           <img src="/falcon.svg" alt="falcon" />
           <span className="label">{`${percentageFull}%`}</span>
-          <span className="total">{data._allPbisCardsMeta.count} cards</span>
         </div>
+        <span className="total">{data._allPbisCardsMeta.count} cards</span>
       </ContainerStyles>
     </div>
   );
