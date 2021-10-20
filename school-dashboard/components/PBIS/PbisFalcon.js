@@ -45,7 +45,7 @@ const ContainerStyles = styled.div`
     text-align: center;
   }
   .total {
-    position: fixed;
+    position: absolute;
     /* padding: 5; */
     color: white;
     font-weight: bold;
