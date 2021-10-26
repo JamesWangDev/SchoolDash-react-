@@ -15,8 +15,15 @@ const GradientButton = styled.button`
   margin: 2px;
   max-height: auto;
   outline: none;
+  border: 1px solid var(--backgroundColor);
   &[disabled] {
     opacity: 0.5;
+  }
+  &:hover {
+    cursor: pointer;
+    /* transform: skew(0deg); */
+    transition: all 0.1s;
+    border: 1px solid var(--red);
   }
 `;
 export const SmallGradientButton = styled.button`
@@ -32,8 +39,15 @@ export const SmallGradientButton = styled.button`
   display: inline-block;
   transition: all 0.5s;
   outline: none;
+  border: 1px solid var(--backgroundColor);
   &[disabled] {
     opacity: 0.5;
+  }
+  &:hover {
+    cursor: pointer;
+    /* transform: skew(0deg); */
+    transition: all 0.1s;
+    border: 1px solid var(--red);
   }
 `;
 

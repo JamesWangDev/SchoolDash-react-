@@ -65,10 +65,24 @@ const GET_ALL_TEACHERS = gql`
 `;
 
 const ButtonStyles = styled.div`
-  button {
-    border: 2px solid white;
-    position: absolute;
+  display: flex;
+  margin-bottom: 3.5rem;
+  .hide {
+    opacity: 0;
+    visibility: hidden;
     transition: all 1s ease-in-out;
+  }
+  .show {
+    opacity: 1;
+    transition: all 1s ease-in-out;
+  }
+  button {
+    transition: all 1s ease-in-out;
+    position: absolute;
+  }
+  /* button {
+    border: 1px solid var(--background-color);
+    position: absolute;
     :hover {
       border: 2px solid var(--red);
     }
@@ -80,7 +94,7 @@ const ButtonStyles = styled.div`
   .show {
     opacity: 1;
   }
-  padding-bottom: 3.5rem;
+  padding-bottom: 3.5rem; */
 `;
 
 const ArrayValues = ({ values }) => (
