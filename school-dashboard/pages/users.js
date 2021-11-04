@@ -35,12 +35,20 @@ const GET_ALL_STUDENTS = gql`
 
 const GET_ALL_TEACHERS = gql`
   query GET_ALL_TEACHERS {
-    teachers: allUsers(where: { isStaff: true }) {
+    teachers: allUsers(
+      where: { OR: [{ hasTA: true }, { isTeacher: true }] }
+      sortBy: name_ASC
+    ) {
       id
       name
 
       callbackCount
       PbisCardCount
+      virtualCards: _teacherPbisCardsMeta(
+        where: { category_not_contains: "physical" }
+      ) {
+        count
+      }
       YearPbisCount
       averageTimeToCompleteCallback
       _callbackAssignedMeta(where: { dateCompleted: null }) {
@@ -53,10 +61,10 @@ const GET_ALL_TEACHERS = gql`
         name
         id
       }
-      # previousTaWinner {
-      #   name
-      #   id
-      # }
+      previousTaWinner {
+        name
+        id
+      }
       # virtualCards: _teacherPbisCardsMeta(where: { category_not: "physical" }) {
       #   count
       # }
@@ -217,26 +225,26 @@ export default function Users() {
             Header: 'Callback',
             accessor: 'callbackCount',
           },
-          {
-            Header: 'Weekly PBIS',
-            accessor: 'PbisCardCount',
-          },
-          {
-            Header: 'Yearly PBIS',
-            accessor: 'YearPbisCount',
-          },
           // {
-          //   Header: 'Virtual PBIS Given',
-          //   accessor: 'virtualCards.count',
+          //   Header: 'Weekly PBIS',
+          //   accessor: 'PbisCardCount',
           // },
+          // {
+          //   Header: 'Yearly PBIS',
+          //   accessor: 'YearPbisCount',
+          // },
+          {
+            Header: 'Virtual PBIS Given',
+            accessor: 'virtualCards.count',
+          },
           {
             Header: 'Latest PBIS Winner',
             accessor: 'currentTaWinner.name',
           },
-          // {
-          //   Header: 'Previous PBIS Winner',
-          //   accessor: 'previousTaWinner.name',
-          // },
+          {
+            Header: 'Previous PBIS Winner',
+            accessor: 'previousTaWinner.name',
+          },
           // {
           //   Header: 'TA Count',
           //   accessor: '_taStudentsMeta.count',
