@@ -101,6 +101,11 @@ export default function Home() {
               <Link href={`/userProfile/${me?.id}`}>My Students</Link>
             </GradientButton>
           )}
+          {me && isAllowed(me || {}, 'hasClasses') && (
+            <GradientButton>
+              <Link href="/trimesterAwards">Trimester Awards</Link>
+            </GradientButton>
+          )}
           {!!me && (
             <>
               <PbisFalcon />

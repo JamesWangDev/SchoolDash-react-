@@ -42,6 +42,7 @@ export default function Table({
     <UserTableStyles>
       {showSearch && (
         <input
+          className="hidePrint"
           value={filterInput}
           onChange={handleFilterChange}
           placeholder={`Search ${searchColumn.replace('.', ' ')}`}
