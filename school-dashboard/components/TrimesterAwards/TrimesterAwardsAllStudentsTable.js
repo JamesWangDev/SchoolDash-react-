@@ -7,7 +7,9 @@ import TrimesterAwardButton from './TrimesterAwardButton';
 
 export const ToolTipStyles = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .toolTipText {
     visibility: hidden;
     width: clamp(200px, 30vw, 60vw);
@@ -19,11 +21,24 @@ export const ToolTipStyles = styled.div`
 
     /* Position the tooltip */
     position: absolute;
-    z-index: 1;
+    //set os right edge is even with the right edge of the parent
+    right: 0;
+    z-index: 100;
   }
 
   :hover .toolTipText {
     visibility: visible;
+  }
+  .infoAvailable {
+    display: inline-block;
+    text-align: center;
+    color: white;
+    border-radius: 1000px;
+    background: linear-gradient(to top right, var(--red), var(--blue));
+    width: 4rem;
+    height: 3rem;
+    margin: 1rem;
+    /* padding: 0rem; */
   }
 `;
 
@@ -54,7 +69,7 @@ export default function TrimesterAwardsAllStudentsTable({
           },
           {
             Header: 'Give Awards',
-            accessor: 'awards',
+            accessor: 'giveAwards',
             Cell: ({ cell }) => (
               // console.log(cell.row.original);
               // <p>test</p>
@@ -68,6 +83,27 @@ export default function TrimesterAwardsAllStudentsTable({
           {
             Header: 'Awards',
             accessor: 'awards.length',
+            Cell: ({ cell }) => {
+              const awards = cell.row.original.awards.map(
+                (award) => `${award.teacher.name} - ${award.howl.toUpperCase()}`
+              );
+              const numberOfAwards = cell.row.original.awards.length;
+              return (
+                <ToolTipStyles>
+                  <span>{numberOfAwards}</span>
+                  {numberOfAwards > 0 && (
+                    <>
+                      <span className="infoAvailable">info</span>
+                      <div className="toolTipText">
+                        {awards.map((award) => (
+                          <p>{award}</p>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </ToolTipStyles>
+              );
+            },
           },
         ],
       },
