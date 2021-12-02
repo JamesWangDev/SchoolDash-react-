@@ -17,13 +17,17 @@ const TeacherWorkPageContainer = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
   div {
-    max-width: 500px;
+    max-width: 100%;
   }
-  .big {
-    flex-basis: 100%;
-
-    width: 1000px;
-    /* background-color: red; */
+  h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+  }
+  p {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem;
   }
 `;
 
@@ -66,9 +70,9 @@ function DisplayClasswork({ data, block }) {
       <div>
         {wasUpdatedInLastYear ? (
           <>
-            <p>
+            <h3>
               <strong>{classname}</strong>
-            </p>
+            </h3>
             <p>
               <strong>{assignment}</strong>
             </p>
@@ -77,7 +81,7 @@ function DisplayClasswork({ data, block }) {
             </p>
           </>
         ) : (
-          <p>Not Updated</p>
+          <h3>Not Updated</h3>
         )}
       </div>
     );
