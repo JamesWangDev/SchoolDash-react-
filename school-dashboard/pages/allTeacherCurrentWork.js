@@ -33,7 +33,7 @@ const TeacherWorkPageContainer = styled.div`
 
 const ALL_TEACHERS_QUERY = gql`
   query BULLYING_DATA_QUERY {
-    allUsers(where: { hasClasses: true }, sortBy: name_DESC) {
+    allUsers(where: { hasClasses: true }, sortBy: name_ASC) {
       id
       name
       block1ClassName
