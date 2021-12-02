@@ -106,6 +106,11 @@ export default function Home() {
               <Link href="/trimesterAwards">Trimester Awards</Link>
             </GradientButton>
           )}
+          {me && isAllowed(me || {}, 'isStaff') && (
+            <GradientButton>
+              <Link href="/allTeacherCurrentWork">Current Work</Link>
+            </GradientButton>
+          )}
           {!!me && (
             <>
               <PbisFalcon />
