@@ -51,6 +51,39 @@ const ALL_TEACHERS_QUERY = gql`
   }
 `;
 
+function DisplayClasswork({ data, block }) {
+  console.log(data);
+  if (data) {
+    const classname = data[`block${block}ClassName`];
+    const assignment = data[`block${block}Assignment`];
+    const lastUpdated = data[`block${block}AssignmentLastUpdated`];
+    const daysSinceLastUpdated = Math.floor(
+      (Date.now() - new Date(lastUpdated).getTime()) / (1000 * 60 * 60 * 24)
+    );
+    const wasUpdatedInLastYear = daysSinceLastUpdated < 365;
+
+    return (
+      <div>
+        {wasUpdatedInLastYear ? (
+          <>
+            <p>
+              <strong>{classname}</strong>
+            </p>
+            <p>
+              <strong>{assignment}</strong>
+            </p>
+            <p>
+              <strong>Updated {daysSinceLastUpdated} days ago</strong>
+            </p>
+          </>
+        ) : (
+          <p>Not Updated</p>
+        )}
+      </div>
+    );
+  }
+}
+
 export default function AllTeacherCurrentWork() {
   const me = useUser();
   const { data, isLoading, isError, refetch } = useGQLQuery(
@@ -75,27 +108,37 @@ export default function AllTeacherCurrentWork() {
           {
             Header: 'Block 1',
             accessor: 'block1Assignment',
-            Cell: ({ cell }) => <div>{cell.value}</div>,
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="1" />
+            ),
           },
           {
             Header: 'Block 2',
             accessor: 'block2Assignment',
-            Cell: ({ cell }) => <div>{cell.value}</div>,
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="2" />
+            ),
           },
           {
             Header: 'Block 3',
             accessor: 'block3Assignment',
-            Cell: ({ cell }) => <div>{cell.value}</div>,
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="3" />
+            ),
           },
           {
             Header: 'Block 4',
             accessor: 'block4Assignment',
-            Cell: ({ cell }) => <div>{cell.value}</div>,
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="4" />
+            ),
           },
           {
             Header: 'Block 5',
             accessor: 'block5Assignment',
-            Cell: ({ cell }) => <div>{cell.value}</div>,
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="5" />
+            ),
           },
         ],
       },
