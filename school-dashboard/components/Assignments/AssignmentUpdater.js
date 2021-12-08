@@ -155,7 +155,8 @@ export default function AssignmentUpdater({
             updateData[`block${block}Assignment`] = inputs.assignment;
             updateData[`block${block}ClassName`] = inputs.classTitle;
             updateData.id = me.id;
-            await updateAssignment();
+            console.log(updateData);
+            await updateAssignment({ variables: updateData });
             await refetch();
             hide(false);
           }}
