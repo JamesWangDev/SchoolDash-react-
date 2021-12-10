@@ -57,12 +57,12 @@ export default function EditStudent({ student }) {
   );
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     name: student.name,
-    ta: student.taTeacher.id,
-    block1: student.block1Teacher.id,
-    block2: student.block2Teacher.id,
-    block3: student.block3Teacher.id,
-    block4: student.block4Teacher.id,
-    block5: student.block5Teacher.id,
+    ta: student.taTeacher?.id,
+    block1: student.block1Teacher?.id,
+    block2: student.block2Teacher?.id,
+    block3: student.block3Teacher?.id,
+    block4: student.block4Teacher?.id,
+    block5: student.block5Teacher?.id,
   });
 
   const [updateStudent, { loading }] = useMutation(UPDATE_STUDENT_MUTATION, {
