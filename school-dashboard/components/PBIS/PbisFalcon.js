@@ -70,7 +70,7 @@ export default function PbisFalcon() {
     TOTAL_PBIS_CARDS
   );
   // last years card total
-  const cardGoal = 35000;
+  const cardGoal = 60000;
 
   if (isLoading) return <Loading />;
   if (error) return <DisplayError error={error} />;
