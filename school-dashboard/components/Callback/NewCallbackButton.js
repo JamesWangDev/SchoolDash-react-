@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/dist/client/router';
+import toast from 'react-hot-toast';
 import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
@@ -69,6 +70,7 @@ export default function NewCallback({ refetch }) {
       >
         {showForm ? 'Close the form' : 'New Callback Assignment'}
       </GradientButton>
+
       <FormContainerStyles>
         <Form
           className={showForm ? 'visible' : 'hidden'}
@@ -91,6 +93,9 @@ export default function NewCallback({ refetch }) {
             refetch();
             // recalculateCallback();
             resetForm();
+            toast.success(
+              `Created Callback for ${studentCallbackIsFor?.userName}`
+            );
             router.push({
               pathname: `/callback/${res.data.createCallback.id}`,
             });
