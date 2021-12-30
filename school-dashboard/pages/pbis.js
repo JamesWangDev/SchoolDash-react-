@@ -87,10 +87,7 @@ const TitleBarStyles = styled.div`
 const PBIS_PAGE_QUERY = gql`
   query PBIS_PAGE_QUERY(
     $teamId: ID
-    $countId: ID
-    $forStudents: Boolean
-    $forTeachers: Boolean
-    $forParents: Boolean
+    $countId: ID # $forStudents: Boolean # $forTeachers: Boolean # $forParents: Boolean
   ) {
     # cards: allPbisCards {
     #   id
@@ -153,21 +150,21 @@ const PBIS_PAGE_QUERY = gql`
       # }
       counted
     }
-    pbisLinks: allLinks(
-      where: {
-        forPbis: true
-        OR: [
-          { forParents: $forParents }
-          { forStudents: $forStudents }
-          { forTeachers: $forTeachers }
-        ]
-      }
-    ) {
-      id
-      link
-      name
-      description
-    }
+    # pbisLinks: allLinks(
+    #   where: {
+    #     forPbis: true
+    #     OR: [
+    #       { forParents: $forParents }
+    #       { forStudents: $forStudents }
+    #       { forTeachers: $forTeachers }
+    #     ]
+    #   }
+    # ) {
+    #   id
+    #   link
+    #   name
+    #   description
+    # }
   }
 `;
 
@@ -208,11 +205,14 @@ const PBIS_PAGE_STATIC_QUERY = gql`
       currentPbisTeamGoal
     }
 
-    pbisLinks: allLinks {
+    pbisLinks: allLinks(where: { forPbis: true }) {
       id
       link
       name
       description
+      forParents
+      forTeachers
+      forStudents
     }
   }
 `;
@@ -237,24 +237,25 @@ export default function Pbis(props) {
       enabled: !!me,
     }
   );
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
   // const cards = data?.cards;
   const totalSchoolCards = props?.totalSchoolCards;
   const schoolWideCardsInCategories = props?.schoolWideCardsInCategories;
-  const totalTeamCards = data?.totalTeamCards?.count;
   const teams = props?.teams;
   const hasTeam = !!teamId;
+  const categoriesArray = props?.categoriesArray;
   const lastPbisCollection = props?.lastPbisCollection;
   const previousPbisCollection = props?.previousPbisCollection;
-  const newSchoelwideGoal = lastPbisCollection?.currentPbisTeamGoal || 2;
-  const previousSchoelwideGoal =
+  const rawListOfLinks = props?.pbisLinks;
+  const newSchoolwideGoal = lastPbisCollection?.currentPbisTeamGoal || 2;
+  const previousSchoolwideGoal =
     previousPbisCollection?.currentPbisTeamGoal || 2;
-  const didWeGetNewSchoolWideLevel = newSchoelwideGoal > previousSchoelwideGoal;
+  const didWeGetNewSchoolWideLevel = newSchoolwideGoal > previousSchoolwideGoal;
 
+  const totalTeamCards = data?.totalTeamCards?.count;
   // get the possible categories for the cards
   // const categories = cards?.map((card) => card.category);
   // const categoriesSet = new Set(categories);
-  const categoriesArray = props?.categoriesArray;
   // alpha sort the categories
   // categoriesArray.sort();
   // get the number of cards in each category for whole school
@@ -277,9 +278,18 @@ export default function Pbis(props) {
     };
   });
 
+  // filter raw links to only show links for the user's role
+  const links = rawListOfLinks?.filter((link) => {
+    if (link.forParents && me?.isParent) return link;
+    if (link.forTeachers && me?.isStaff) return link;
+    if (link.forStudents && me?.isStudent) return link;
+    return null;
+  });
+
   return (
     <div>
       <TitleBarStyles>
+        {/* {JSON.stringify(rawListOfLinks)} */}
         <div>
           <h1 className="hidePrint">School-Wide PBIS Data</h1>
           {/* <p>{JSON.stringify(data.teamData)}</p> */}
@@ -298,7 +308,7 @@ export default function Pbis(props) {
                 </SmallGradientButton>
               </Link>
             )}
-            {data?.pbisLinks.map((link) => (
+            {links.map((link) => (
               <Link
                 key={link.id}
                 to={link.link}
@@ -405,6 +415,7 @@ export async function getStaticProps(context) {
 
   const lastPbisCollection = data?.lastCollection[0];
   const previousPbisCollection = data?.lastCollection[1];
+  const pbisLinks = data?.pbisLinks;
 
   return {
     props: {
@@ -414,6 +425,7 @@ export async function getStaticProps(context) {
       teams,
       lastPbisCollection,
       previousPbisCollection,
+      pbisLinks,
     }, // will be passed to the page component as props
   };
 }
