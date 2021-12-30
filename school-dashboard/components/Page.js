@@ -2,8 +2,10 @@ import styled, { createGlobalStyle } from 'styled-components';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { Toaster, ToastBar, toast } from 'react-hot-toast';
 import Header from './navagation/Header';
 import ThemeSwitcher from './styles/ThemeSwitcher';
+import { SmallGradientButton } from './styles/Button';
 
 const GlobalLightStyles = createGlobalStyle`
   @font-face {
@@ -173,6 +175,42 @@ export default function Page({ children }) {
       {theme === 'dark' && <GlobalDarkStyles />}
       <Header />
       <ThemeSwitcher theme={theme} setTheme={setLocalTheme} />
+      <Toaster
+        toastOptions={{
+          style: {
+            backgroundColor: 'var(--blueTrans)',
+            border: `1px solid var(--red)`,
+            padding: '.5rem',
+            color: 'var(--textColor)',
+            fontWeight: 'lighter',
+            letterSpacing: '1px',
+          },
+          success: {
+            duration: 3000,
+            icon: '👍',
+            ariaProps: {
+              role: 'status',
+              'aria-live': 'polite',
+            },
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== 'loading' && (
+                  <SmallGradientButton onClick={() => toast.dismiss(t.id)}>
+                    &times;
+                  </SmallGradientButton>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
       <InnerStyles>{children}</InnerStyles>
     </div>
   );

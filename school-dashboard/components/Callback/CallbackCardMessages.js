@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { toast } from 'react-hot-toast';
 import Form, { FormGroupStyles } from '../styles/Form';
 
 const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
@@ -99,7 +100,11 @@ export default function CallbackCardMessages({ me, callback }) {
         // Submit the input fields to the backend:
         // console.log(inputs);
         const res = await updateCallback();
-        console.log(res);
+        if (res) {
+          toast.success(
+            `Updated Callback Message for ${callback.student.name}`
+          );
+        }
         // refetch();
         // setShowForm(false);
         // console.log(inputs);

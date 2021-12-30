@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import toast from 'react-hot-toast';
 import styled from 'styled-components';
 import useForm from '../../lib/useForm';
 import { useUser } from '../User';
@@ -157,6 +158,7 @@ export default function AssignmentUpdater({
             updateData.id = me.id;
             console.log(updateData);
             await updateAssignment({ variables: updateData });
+            toast.success(`Updated Assignment for Block ${block}`);
             await refetch();
             hide(false);
           }}

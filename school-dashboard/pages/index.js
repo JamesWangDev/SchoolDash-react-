@@ -2,6 +2,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 import WeeklyCalendar from '../components/calendars/WeeklyCalendar';
 import StudentCallbacks from '../components/Callback/StudentCallbacks';
 import SignOut from '../components/loginComponents/SignOut';
@@ -93,6 +94,17 @@ export default function Home() {
       <main>
         <h1 className="center">Welcome to the NCUJHS Dashboard {me.name}</h1>
         <DashboardContainerStyles>
+          {/* <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() =>
+              toast.success(
+                'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.'
+              )
+            }
+          >
+            toast
+          </button> */}
           {me && isAllowed(me || {}, 'isStaff') && (
             <PbisCardFormButton teacher={me} />
           )}

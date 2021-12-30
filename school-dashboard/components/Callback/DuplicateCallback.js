@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/dist/client/router';
+import { toast } from 'react-hot-toast';
 import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
-
 import SearchForUserName from '../SearchForUserName';
 import useRecalculateCallback from './recalculateCallback';
 import { useUser } from '../User';
@@ -51,7 +51,7 @@ export default function DuplicateCallback({ callback, setDuplicating }) {
   });
   const user = useUser();
   const [studentCallbackIsFor, setStudentCallbackIsFor] = useState(null);
-
+  // console.log(studentCallbackIsFor);
   const [updateCallback, { loading, error, data }] = useMutation(
     DUPLICATE_CALLBACK_MUTATION,
     {
@@ -77,9 +77,9 @@ export default function DuplicateCallback({ callback, setDuplicating }) {
         onSubmit={async (e) => {
           e.preventDefault();
           // Submit the input fields to the backend:
-          console.log(inputs);
+          // console.log(inputs);
           const res = await updateCallback();
-          console.log(res);
+          // console.log(res);
           createMessage({
             subject: 'New Callback Assignment',
             message: `you received a new callback item from ${user.name}`,
@@ -91,6 +91,11 @@ export default function DuplicateCallback({ callback, setDuplicating }) {
           router.push({
             pathname: `/callback/${res.data.createCallback.id}`,
           });
+          if (res) {
+            toast.success(
+              `Created Callback for ${studentCallbackIsFor?.userName}`
+            );
+          }
           setDuplicating(false);
           // console.log(inputs);
         }}

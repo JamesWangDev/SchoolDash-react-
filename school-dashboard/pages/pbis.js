@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { GraphQLClient } from 'graphql-request';
 import Loading from '../components/Loading';
 import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
@@ -12,6 +13,7 @@ import GradientButton, {
   SmallGradientButton,
 } from '../components/styles/Button';
 import isAllowed from '../lib/isAllowed';
+import { endpoint, prodEndpoint } from '../config';
 
 const ChartContainerStyles = styled.div`
   display: grid;
@@ -85,12 +87,56 @@ const TitleBarStyles = styled.div`
 const PBIS_PAGE_QUERY = gql`
   query PBIS_PAGE_QUERY(
     $teamId: ID
-    $countId: ID
-    $forStudents: Boolean
-    $forTeachers: Boolean
-    $forParents: Boolean
+    $countId: ID # $forStudents: Boolean # $forTeachers: Boolean # $forParents: Boolean
   ) {
-    cards: allPbisCards {
+    # cards: allPbisCards {
+    #   id
+    #   dateGiven
+    #   category
+    #   # teacher {
+    #   #   id
+    #   #   name
+    #   # }
+    #   # student {
+    #   #   id
+    #   #   name
+    #   # }
+    #   counted
+    # }
+    # totalSchoolCards: _allPbisCardsMeta {
+    #   count
+    # }
+    totalTeamCards: _allPbisCardsMeta(
+      where: { student: { taTeacher: { taTeam: { id: $countId } } } }
+    ) {
+      count
+    }
+    # teams: allPbisTeams {
+    #   id
+    #   teamName
+    #   taTeacher {
+    #     id
+    #     name
+    #   }
+    #   averageCardsPerStudent
+    #   uncountedCards
+    #   countedCards
+    #   currentLevel
+    #   numberOfStudents
+    # }
+    # lastCollection: allPbisCollections(sortBy: collectionDate_DESC, first: 2) {
+    #   id
+    #   name
+    #   collectionDate
+    #   personalLevelWinners
+    #   randomDrawingWinners
+    #   taTeamsLevels
+    #   taTeamNewLevelWinners
+    #   currentPbisTeamGoal
+    # }
+    teamData: allPbisCards(
+      where: { student: { taTeacher: { taTeam: { id: $teamId } } } }
+    ) {
       id
       dateGiven
       category
@@ -104,14 +150,37 @@ const PBIS_PAGE_QUERY = gql`
       # }
       counted
     }
+    # pbisLinks: allLinks(
+    #   where: {
+    #     forPbis: true
+    #     OR: [
+    #       { forParents: $forParents }
+    #       { forStudents: $forStudents }
+    #       { forTeachers: $forTeachers }
+    #     ]
+    #   }
+    # ) {
+    #   id
+    #   link
+    #   name
+    #   description
+    # }
+  }
+`;
+
+const PBIS_PAGE_STATIC_QUERY = gql`
+  query PBIS_PAGE_STATIC_QUERY {
+    cards: allPbisCards {
+      id
+      dateGiven
+      category
+
+      counted
+    }
     totalSchoolCards: _allPbisCardsMeta {
       count
     }
-    totalTeamCards: _allPbisCardsMeta(
-      where: { student: { taTeacher: { taTeam: { id: $countId } } } }
-    ) {
-      count
-    }
+
     teams: allPbisTeams {
       id
       teamName
@@ -135,41 +204,21 @@ const PBIS_PAGE_QUERY = gql`
       taTeamNewLevelWinners
       currentPbisTeamGoal
     }
-    teamData: allPbisCards(
-      where: { student: { taTeacher: { taTeam: { id: $teamId } } } }
-    ) {
-      id
-      dateGiven
-      category
-      # teacher {
-      #   id
-      #   name
-      # }
-      # student {
-      #   id
-      #   name
-      # }
-      counted
-    }
-    pbisLinks: allLinks(
-      where: {
-        forPbis: true
-        OR: [
-          { forParents: $forParents }
-          { forStudents: $forStudents }
-          { forTeachers: $forTeachers }
-        ]
-      }
-    ) {
+
+    pbisLinks: allLinks(where: { forPbis: true }) {
       id
       link
       name
       description
+      forParents
+      forTeachers
+      forStudents
     }
   }
 `;
 
-export default function Pbis() {
+export default function Pbis(props) {
+  // console.log(props.data);
   const me = useUser();
   const teamId = me?.taTeam?.id || me?.taTeacher?.taTeam?.id || null;
   const teamName =
@@ -188,46 +237,59 @@ export default function Pbis() {
       enabled: !!me,
     }
   );
-  if (isLoading) return <Loading />;
-  const cards = data?.cards;
-  const totalSchoolCards = data?.totalSchoolCards?.count;
-  const totalTeamCards = data?.totalTeamCards?.count;
-  const teams = data?.teams;
+  // if (isLoading) return <Loading />;
+  // const cards = data?.cards;
+  const totalSchoolCards = props?.totalSchoolCards;
+  const schoolWideCardsInCategories = props?.schoolWideCardsInCategories;
+  const teams = props?.teams;
   const hasTeam = !!teamId;
-  const lastPbisCollection = data?.lastCollection[0];
-  const previousPbisCollection = data?.lastCollection[1];
-  const newSchoelwideGoal = lastPbisCollection?.currentPbisTeamGoal || 2;
-  const previousSchoelwideGoal =
+  const categoriesArray = props?.categoriesArray;
+  const lastPbisCollection = props?.lastPbisCollection;
+  const previousPbisCollection = props?.previousPbisCollection;
+  const rawListOfLinks = props?.pbisLinks;
+  const newSchoolwideGoal = lastPbisCollection?.currentPbisTeamGoal || 2;
+  const previousSchoolwideGoal =
     previousPbisCollection?.currentPbisTeamGoal || 2;
-  const didWeGetNewSchoolWideLevel = newSchoelwideGoal > previousSchoelwideGoal;
+  const didWeGetNewSchoolWideLevel = newSchoolwideGoal > previousSchoolwideGoal;
+
+  const totalTeamCards = data?.totalTeamCards?.count;
   // get the possible categories for the cards
-  const categories = cards?.map((card) => card.category);
-  const categoriesSet = new Set(categories);
-  const categoriesArray = Array.from(categoriesSet);
+  // const categories = cards?.map((card) => card.category);
+  // const categoriesSet = new Set(categories);
   // alpha sort the categories
-  categoriesArray.sort();
+  // categoriesArray.sort();
   // get the number of cards in each category for whole school
-  const schoolWideCardsInCategories = categoriesArray.map((category) => {
-    const cardsInCategory = cards.filter((card) => card.category === category);
-    return {
-      word: category,
-      total: cardsInCategory.length,
-    };
-  });
+  // const schoolWideCardsInCategories = categoriesArray.map((category) => {
+  //   const cardsInCategory = cards.filter((card) => card.category === category);
+  //   return {
+  //     word: category,
+  //     total: cardsInCategory.length,
+  //   };
+  // });
+
   // get the number of cards in each category for the team
   const teamWideCardsInCategories = categoriesArray.map((category) => {
-    const cardsInCategory = data.teamData.filter(
+    const cardsInCategory = data?.teamData?.filter(
       (card) => card.category === category
     );
     return {
       word: category,
-      total: cardsInCategory.length,
+      total: cardsInCategory?.length,
     };
+  });
+
+  // filter raw links to only show links for the user's role
+  const links = rawListOfLinks?.filter((link) => {
+    if (link.forParents && me?.isParent) return link;
+    if (link.forTeachers && me?.isStaff) return link;
+    if (link.forStudents && me?.isStudent) return link;
+    return null;
   });
 
   return (
     <div>
       <TitleBarStyles>
+        {/* {JSON.stringify(rawListOfLinks)} */}
         <div>
           <h1 className="hidePrint">School-Wide PBIS Data</h1>
           {/* <p>{JSON.stringify(data.teamData)}</p> */}
@@ -246,7 +308,7 @@ export default function Pbis() {
                 </SmallGradientButton>
               </Link>
             )}
-            {data?.pbisLinks.map((link) => (
+            {links.map((link) => (
               <Link
                 key={link.id}
                 to={link.link}
@@ -310,4 +372,60 @@ export default function Pbis() {
       {/* {JSON.stringify(lastPbisCollection.taTeamsLevels)} */}
     </div>
   );
+}
+
+export async function getStaticProps(context) {
+  // console.log(context);
+  // fetch PBIS Page data from the server
+  const headers = {
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      authorization: `test auth for keystone`,
+    },
+  };
+
+  const graphQLClient = new GraphQLClient(
+    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    headers
+  );
+  // console.log(GraphQLClient);
+  const fetchData = async () => graphQLClient.request(PBIS_PAGE_STATIC_QUERY);
+  const data = await fetchData();
+  // console.log(data);
+  const cards = data?.cards;
+  const totalSchoolCards = data?.totalSchoolCards?.count;
+
+  // gat card data by category
+  const categories = cards?.map((card) => card.category);
+  const categoriesSet = new Set(categories);
+  const categoriesArray = Array.from(categoriesSet);
+  // alpha sort the categories
+  categoriesArray.sort();
+  // get the number of cards in each category for whole school
+  const schoolWideCardsInCategories = categoriesArray.map((category) => {
+    const cardsInCategory = cards.filter((card) => card.category === category);
+    return {
+      word: category,
+      total: cardsInCategory.length,
+    };
+  });
+
+  const teams = data?.teams;
+
+  const lastPbisCollection = data?.lastCollection[0];
+  const previousPbisCollection = data?.lastCollection[1];
+  const pbisLinks = data?.pbisLinks;
+
+  return {
+    props: {
+      totalSchoolCards,
+      schoolWideCardsInCategories,
+      categoriesArray,
+      teams,
+      lastPbisCollection,
+      previousPbisCollection,
+      pbisLinks,
+    }, // will be passed to the page component as props
+  };
 }
