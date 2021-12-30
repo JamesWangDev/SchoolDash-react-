@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request';
+import { gql, GraphQLClient } from 'graphql-request';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import NewUpdateUsers from '../components/users/NewUpdateUsers';
 import isAllowed from '../lib/isAllowed';
 import { useUser } from '../components/User';
 import NewStaff from '../components/users/NewStaff';
+import { endpoint, prodEndpoint } from '../config';
 
 const GET_ALL_STUDENTS = gql`
   query GET_ALL_STUDENTS {
@@ -115,14 +116,20 @@ const ArrayValues = ({ values }) => (
   </>
 );
 
-export default function Users() {
+export default function Users(props) {
   const [userSortType, setUserSortType] = useState('student');
+  const cachedStudents = props?.students;
+  const cachedTeachers = props?.teachers;
+  // stale time of 2 minutes
+  const staleTime = 2 * 60 * 1000;
   const { data: students, isLoading: studentLoading, error } = useGQLQuery(
     'allStudents',
     GET_ALL_STUDENTS,
     {},
     {
       enabled: userSortType === 'student',
+      initialData: cachedStudents,
+      staleTime,
     }
   );
   const { data: teachers, isLoading: teacherLoading } = useGQLQuery(
@@ -131,6 +138,8 @@ export default function Users() {
     {},
     {
       enabled: userSortType === 'staff',
+      initialData: cachedTeachers,
+      staleTime,
     }
   );
   const studentColumns = useMemo(
@@ -263,7 +272,7 @@ export default function Users() {
 
   const me = useUser();
   if (!me?.isStaff) return <p>User does not have access</p>;
-  if (studentLoading) return <Loading />;
+  // if (studentLoading) return <Loading />;
   if (error) return <DisplayError>{error.mesage}</DisplayError>;
   return (
     <div>
@@ -303,4 +312,33 @@ export default function Users() {
       )}
     </div>
   );
+}
+
+export async function getStaticProps(context) {
+  // console.log(context);
+  // fetch PBIS Page data from the server
+  const headers = {
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      authorization: `test auth for keystone`,
+    },
+  };
+
+  const graphQLClient = new GraphQLClient(
+    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    headers
+  );
+  const fetchStudents = async () => graphQLClient.request(GET_ALL_STUDENTS);
+  const fetchTeachers = async () => graphQLClient.request(GET_ALL_TEACHERS);
+
+  const students = await fetchStudents();
+  const teachers = await fetchTeachers();
+
+  return {
+    props: {
+      students,
+      teachers,
+    }, // will be passed to the page component as props
+  };
 }
