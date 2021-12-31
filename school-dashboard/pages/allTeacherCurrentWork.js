@@ -2,11 +2,13 @@ import gql from 'graphql-tag';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { GraphQLClient } from 'graphql-request';
 import NewBullying from '../components/discipline/BullyingButton';
 import Loading from '../components/Loading';
 import Table from '../components/Table';
 import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
+import { endpoint, prodEndpoint } from '../config';
 
 const TeacherWorkPageContainer = styled.div`
   h2 {
@@ -56,7 +58,7 @@ const ALL_TEACHERS_QUERY = gql`
 `;
 
 function DisplayClasswork({ data, block }) {
-  console.log(data);
+  // console.log(data);
   if (data) {
     const classname = data[`block${block}ClassName`];
     const assignment = data[`block${block}Assignment`];
@@ -88,11 +90,17 @@ function DisplayClasswork({ data, block }) {
   }
 }
 
-export default function AllTeacherCurrentWork() {
+export default function AllTeacherCurrentWork(props) {
   const me = useUser();
+
   const { data, isLoading, isError, refetch } = useGQLQuery(
     'allTeachers',
-    ALL_TEACHERS_QUERY
+    ALL_TEACHERS_QUERY,
+    {},
+    {
+      staleTime: 1000 * 60 * 3,
+      initialData: props?.initialWorkData,
+    }
   );
 
   const columns = useMemo(
@@ -149,7 +157,7 @@ export default function AllTeacherCurrentWork() {
     ],
     []
   );
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
   return (
     <TeacherWorkPageContainer>
       <h1>All Teachers Current Work</h1>
@@ -160,4 +168,31 @@ export default function AllTeacherCurrentWork() {
       />
     </TeacherWorkPageContainer>
   );
+}
+
+export async function getStaticProps(context) {
+  // console.log(context);
+  // fetch PBIS Page data from the server
+  const headers = {
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      authorization: `test auth for keystone`,
+    },
+  };
+
+  const graphQLClient = new GraphQLClient(
+    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    headers
+  );
+  const fetchTeacherWork = async () =>
+    graphQLClient.request(ALL_TEACHERS_QUERY);
+
+  const initialWorkData = await fetchTeacherWork();
+
+  return {
+    props: {
+      initialWorkData,
+    }, // will be passed to the page component as props
+  };
 }
