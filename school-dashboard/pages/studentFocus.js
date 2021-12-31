@@ -1,11 +1,14 @@
 import { gql, GraphQLClient } from 'graphql-request';
+import { useMemo } from 'react';
 import NewStudentFocusButton from '../components/studentFocus/NewStudentFocusButton';
 import StudentFocusTable from '../components/studentFocus/StudentFocusTable';
 import { useUser } from '../components/User';
 import { endpoint, prodEndpoint } from '../config';
+import { useGQLQuery } from '../lib/useGqlQuery';
+import Table from '../components/Table';
 
-const STATIC_STUDENT_FOCUS_QUERY = gql`
-  query STATIC_STUDENT_FOCUS_QUERY {
+const ALL_STUDENT_FOCUS_QUERY = gql`
+  query ALL_STUDENT_FOCUS_QUERY {
     allStudentFoci(sortBy: dateCreated_DESC) {
       id
       comments
@@ -32,14 +35,72 @@ const STATIC_STUDENT_FOCUS_QUERY = gql`
   }
 `;
 
-export default function studentFocus(props) {
+export default function StudentFocus(props) {
+  // console.log(props.initialData);
   const me = useUser();
-  const { initialStudentFoci } = props;
+  const cachedStudentFoci = props?.initialStudentFoci;
+  console.log('cachedStudentFoci', cachedStudentFoci);
+  const { data, isLoading, error } = useGQLQuery(
+    'allStudentFocus',
+    ALL_STUDENT_FOCUS_QUERY,
+    {},
+    {
+      initialData: cachedStudentFoci,
+      staleTime: 1000 * 60 * 3,
+    }
+  );
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Student Focus',
+        columns: [
+          {
+            Header: 'Name',
+            accessor: 'student.name',
+          },
+          {
+            Header: 'Teacher',
+            accessor: 'teacher.name',
+          },
+          {
+            Header: 'TA Teacher',
+            accessor: 'student.taTeacher.name',
+          },
+          {
+            Header: 'Comments',
+            accessor: 'comments',
+          },
+          {
+            Header: 'Catergory',
+            accessor: 'category',
+          },
+          {
+            Header: 'Date',
+            accessor: 'dateCreated',
+            Cell: ({ cell: { value } }) => {
+              const today = new Date().toLocaleDateString();
+              const displayDate = new Date(value).toLocaleDateString();
+              const isToday = today === displayDate;
+              return isToday ? `📆 Today 📆` : displayDate;
+            },
+          },
+        ],
+      },
+    ],
+    []
+  );
+
   return (
     <div>
       <h1>Student Focus</h1>
       {!!me && <NewStudentFocusButton />}
-      <StudentFocusTable initialData={initialStudentFoci} />
+
+      <Table
+        data={data?.allStudentFoci || []}
+        columns={columns}
+        searchColumn="student.name"
+      />
     </div>
   );
 }
@@ -60,13 +121,13 @@ export async function getStaticProps(context) {
     headers
   );
   const fetchStudentFoci = async () =>
-    graphQLClient.request(STATIC_STUDENT_FOCUS_QUERY);
+    graphQLClient.request(ALL_STUDENT_FOCUS_QUERY);
 
   const initialStudentFoci = await fetchStudentFoci();
 
   return {
     props: {
-      initialStudentFoci: initialStudentFoci.allStudentFoci,
+      initialStudentFoci,
     }, // will be passed to the page component as props
   };
 }
