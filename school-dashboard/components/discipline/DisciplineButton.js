@@ -21,6 +21,7 @@ import { todaysDateForForm } from '../calendars/formatTodayForForm';
 import useSendEmail from '../../lib/useSendEmail';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 // import useEmailAdmin from '../../lib/useEmailAdmin';
+import useRebuildWebsite from '../../lib/useRebuildWebsite';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
@@ -110,6 +111,7 @@ const CREATE_DISCIPLINE_MUTATION = gql`
 `;
 
 export default function NewDiscipline({ refetch }) {
+  const rebuildWebsite = useRebuildWebsite();
   const me = useUser();
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
   const adminEmailArray = data?.allUsers?.map((u) => u.email);
@@ -201,6 +203,7 @@ export default function NewDiscipline({ refetch }) {
             resetForm();
             refetch();
             setEmailSending(false);
+            rebuildWebsite();
             setShowForm(false);
           }}
         >
