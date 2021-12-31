@@ -9,6 +9,7 @@ import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
 import SearchForUserName from '../SearchForUserName';
 import { todaysDateForForm } from '../calendars/formatTodayForForm';
+import useRebuildWebsite from '../../lib/useRebuildWebsite';
 
 import { useUser } from '../User';
 import useCreateMessage from '../Messages/useCreateMessage';
@@ -54,6 +55,7 @@ const CREATE_STUDENT_FOCUS = gql`
 `;
 
 export default function NewStudentFocusButton({ refetch }) {
+  const rebuildWebsite = useRebuildWebsite();
   const router = useRouter();
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
@@ -94,6 +96,7 @@ export default function NewStudentFocusButton({ refetch }) {
       >
         {showForm ? 'Close the form' : 'New Student Focus'}
       </GradientButton>
+
       <FormContainerStyles>
         <Form
           className={showForm ? 'visible' : 'hidden'}
@@ -138,6 +141,7 @@ export default function NewStudentFocusButton({ refetch }) {
             clearForm();
             setStudentWhoIsFor(null);
             setEmailSending(false);
+            rebuildWebsite();
             setShowForm(false);
           }}
         >
