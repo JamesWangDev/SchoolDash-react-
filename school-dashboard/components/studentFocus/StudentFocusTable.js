@@ -34,13 +34,14 @@ const ALL_STUDENT_FOCUS_QUERY = gql`
   }
 `;
 
-export default function StudentFocusTable(initialData) {
-  // console.log(initialData.initialData);
+export default function StudentFocusTable({ initialData }) {
+  const initialStudentFoci = initialData || [];
+  // console.log(initialStudentFoci);
   const { data, isLoading, error } = useGQLQuery(
     'allStudentFocus',
     ALL_STUDENT_FOCUS_QUERY,
     {
-      initialData: initialData.initialData,
+      initialData: initialStudentFoci,
       staleTime: 1000 * 60 * 3,
     }
   );
