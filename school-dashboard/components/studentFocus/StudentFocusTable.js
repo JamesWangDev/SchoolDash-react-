@@ -34,10 +34,14 @@ const ALL_STUDENT_FOCUS_QUERY = gql`
   }
 `;
 
-export default function StudentFocusTable() {
+export default function StudentFocusTable(initialStudentFoci) {
   const { data, isLoading, error } = useGQLQuery(
     'allStudentFocus',
-    ALL_STUDENT_FOCUS_QUERY
+    ALL_STUDENT_FOCUS_QUERY,
+    {
+      initialData: initialStudentFoci,
+      staleTime: 1000 * 60 * 3,
+    }
   );
 
   const columns = useMemo(
