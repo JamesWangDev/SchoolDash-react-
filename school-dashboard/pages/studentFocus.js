@@ -66,7 +66,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      initialStudentFoci,
+      initialStudentFoci: initialStudentFoci.allStudentFoci,
     }, // will be passed to the page component as props
   };
 }

@@ -35,6 +35,7 @@ const ALL_STUDENT_FOCUS_QUERY = gql`
 `;
 
 export default function StudentFocusTable(initialStudentFoci) {
+  // console.log(initialStudentFoci);
   const { data, isLoading, error } = useGQLQuery(
     'allStudentFocus',
     ALL_STUDENT_FOCUS_QUERY,
@@ -85,12 +86,12 @@ export default function StudentFocusTable(initialStudentFoci) {
     []
   );
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   return (
     <div>
       <Table
-        data={data.allStudentFoci || []}
+        data={data?.allStudentFoci || []}
         columns={columns}
         searchColumn="student.name"
       />
