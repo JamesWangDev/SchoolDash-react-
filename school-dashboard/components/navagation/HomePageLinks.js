@@ -6,25 +6,15 @@ import DisplayError from '../ErrorMessage';
 import Loading from '../Loading';
 import { useUser } from '../User';
 
-const GET_HOMEPAGE_LINKS = gql`
-  query GET_HOMEPAGE_LINKS(
-    $forParents: Boolean = false
-    $forStudents: Boolean = false
-    $forTeachers: Boolean = false
-  ) {
-    allLinks(
-      where: {
-        onHomePage: true
-        OR: [
-          { forParents: $forParents }
-          { forStudents: $forStudents }
-          { forTeachers: $forTeachers }
-        ]
-      }
-    ) {
+export const GET_HOMEPAGE_LINKS = gql`
+  query GET_HOMEPAGE_LINKS {
+    allLinks(where: { onHomePage: true }) {
       id
       link
       name
+      forParents
+      forStudents
+      forTeachers
     }
   }
 `;
@@ -45,25 +35,33 @@ const HomePageLinkStyles = styled.div`
   }
 `;
 
-export default function HomePageLinks() {
+export default function HomePageLinks({ initialData }) {
+  // console.log('initialData', initialData);
   const me = useUser();
+  // console.log('me', me);
   const { data, isLoading, error } = useGQLQuery(
     'HomePageLinks',
     GET_HOMEPAGE_LINKS,
+    {},
     {
-      forTeachers: me.isStaff || null,
-      forParents: me.isParent || null,
-      forStudents: me.isStudent || null,
-    },
-    { enabled: !!me }
+      enabled: !!me,
+      initialData,
+      staleTime: 1000 * 60 * 3, // 3 minutes
+    }
   );
 
-  if (isLoading) return <Loading />;
+  if (!me) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
+  const filteredLinks = data?.allLinks?.filter((link) => {
+    if (link.forParents && me.isParent) return true;
+    if (link.forStudents && me.isStudent) return true;
+    if (link.forTeachers && me.isStaff) return true;
+    return false;
+  });
 
   return (
     <HomePageLinkStyles>
-      {data?.allLinks?.map((link) => {
+      {filteredLinks.map((link) => {
         const linkToUse = link.link.startsWith('http')
           ? `${link.link}`
           : `http://${link.link}`;

@@ -6,18 +6,10 @@ import SingleDayCalendar from './SingleDayCalendar';
 import Loading from '../Loading';
 
 export const GET_WEEK_CALENDARS = gql`
-  query GET_WEEK_CALENDARS(
-    $starting: String
-    $ending: String
-    $status: String
-  ) {
+  query GET_WEEK_CALENDARS($starting: String, $ending: String) {
     allCalendars(
       sortBy: date_ASC
-      where: {
-        date_gte: $starting
-        date_lte: $ending
-        OR: [{ status: $status }, { status: "Both" }]
-      }
+      where: { date_gte: $starting, date_lte: $ending }
     ) {
       name
       id
@@ -34,7 +26,7 @@ export const GET_WEEK_CALENDARS = gql`
   }
 `;
 
-function getLastAndNextSunday(d) {
+export function getLastAndNextSunday(d) {
   const lastSunday = new Date(
     d.getFullYear(),
     d.getMonth(),
@@ -64,10 +56,10 @@ function getDatesFromDayOfTheWeek(data, day) {
   return dates;
 }
 
-export default function WeeklyCalendar() {
+export default function WeeklyCalendar({ initialData }) {
   const today = new Date();
   const me = useUser();
-  const status = me.isStaff ? 'Teachers' : 'Students';
+  // const status = me.isStaff ? 'Teachers' : 'Students';
   const todaysDay = today.getDay();
   const { lastSunday, nextSaturday } = getLastAndNextSunday(today);
   const { data, isLoading, error } = useGQLQuery(
@@ -76,21 +68,32 @@ export default function WeeklyCalendar() {
     {
       starting: lastSunday,
       ending: nextSaturday,
-
-      status,
+    },
+    {
+      initialData,
+      staleTime: 1000 * 60 * 3, // 3 minutes
     }
   );
   if (!me) return <p />;
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
+  // filter calendars by who can see them
+  const filteredCalendars = data?.allCalendars?.filter((calendar) => {
+    if (calendar.status === 'Both') return true;
+    if (calendar.status === 'Teachers' && me.isStaff) return true;
+    if (calendar.status === 'Students' && me.isStudent) return true;
+    if (calendar.status === 'Students' && me.isParent) return true;
+    return false;
+  });
+
   const dailyEvents = {
-    sundayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 0),
-    mondayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 1),
-    tuesdayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 2),
-    wednesdayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 3),
-    thursdayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 4),
-    fridayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 5),
-    saturdayEvents: getDatesFromDayOfTheWeek(data.allCalendars, 6),
+    sundayEvents: getDatesFromDayOfTheWeek(filteredCalendars, 0),
+    mondayEvents: getDatesFromDayOfTheWeek(filteredCalendars, 1),
+    tuesdayEvents: getDatesFromDayOfTheWeek(filteredCalendars, 2),
+    wednesdayEvents: getDatesFromDayOfTheWeek(filteredCalendars, 3),
+    thursdayEvents: getDatesFromDayOfTheWeek(filteredCalendars, 4),
+    fridayEvents: getDatesFromDayOfTheWeek(filteredCalendars, 5),
+    saturdayEvents: getDatesFromDayOfTheWeek(filteredCalendars, 6),
   };
   return (
     <WeeklyCalendarContainerStyles>

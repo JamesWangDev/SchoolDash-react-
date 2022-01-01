@@ -437,6 +437,6 @@ export async function getStaticProps(context) {
       pbisLinks,
       cardCounts,
     }, // will be passed to the page component as props
-    revalidate: 1200, // In seconds
+    revalidate: 60 * 60 * 4, // 4 hours (in seconds)
   };
 }

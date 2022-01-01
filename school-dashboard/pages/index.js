@@ -4,10 +4,15 @@ import gql from 'graphql-tag';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { GraphQLClient } from 'graphql-request';
-import WeeklyCalendar from '../components/calendars/WeeklyCalendar';
+import WeeklyCalendar, {
+  getLastAndNextSunday,
+  GET_WEEK_CALENDARS,
+} from '../components/calendars/WeeklyCalendar';
 import StudentCallbacks from '../components/Callback/StudentCallbacks';
 import SignOut from '../components/loginComponents/SignOut';
-import HomePageLinks from '../components/navagation/HomePageLinks';
+import HomePageLinks, {
+  GET_HOMEPAGE_LINKS,
+} from '../components/navagation/HomePageLinks';
 import { useUser } from '../components/User';
 import isAllowed from '../lib/isAllowed';
 import DisplayPbisCardWidget from '../components/PBIS/DisplayPbisCardsWidget';
@@ -83,7 +88,7 @@ const GET_STUDENT_CLASSSWORK_QUERY = gql`
 `;
 
 export default function Home(props) {
-  console.log(props);
+  // console.log(props);
   const me = useUser();
   const { data, isLoading, error } = useGQLQuery(
     `SingleStudentClasswork-${me?.id}`,
@@ -97,17 +102,6 @@ export default function Home(props) {
       <main>
         <h1 className="center">Welcome to the NCUJHS Dashboard {me.name}</h1>
         <DashboardContainerStyles>
-          {/* <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() =>
-              toast.success(
-                'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.'
-              )
-            }
-          >
-            toast
-          </button> */}
           {me && isAllowed(me || {}, 'isStaff') && (
             <PbisCardFormButton teacher={me} />
           )}
@@ -129,8 +123,11 @@ export default function Home(props) {
           {!!me && (
             <>
               <PbisFalcon initialCount={props?.totalCards} />
-              <HomePageLinks me={me || {}} />
-              <WeeklyCalendar me={me || {}} />
+              <HomePageLinks me={me || {}} initialData={props?.homePageLinks} />
+              <WeeklyCalendar
+                me={me || {}}
+                initialData={props?.weeklyCalendar}
+              />
               {isAllowed(me, 'hasClasses') && <TeacherAssignments />}
               {isAllowed(me, 'hasTA') && <TaCallbacks />}
             </>
@@ -184,17 +181,31 @@ export async function getStaticProps(context) {
     },
   };
 
+  // get dates for callendar
+  const today = new Date();
+  const { lastSunday, nextSaturday } = getLastAndNextSunday(today);
+
   const graphQLClient = new GraphQLClient(
     process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     headers
   );
   const fetchTotalCards = async () => graphQLClient.request(TOTAL_PBIS_CARDS);
-
+  const fetchHomePageLinks = async () =>
+    graphQLClient.request(GET_HOMEPAGE_LINKS);
+  const fetchWeeklyCalendar = async () =>
+    graphQLClient.request(GET_WEEK_CALENDARS, {
+      starting: lastSunday,
+      ending: nextSaturday,
+    });
   const totalCards = await fetchTotalCards();
+  const homePageLinks = await fetchHomePageLinks();
+  const weeklyCalendar = await fetchWeeklyCalendar();
 
   return {
     props: {
       totalCards: totalCards._allPbisCardsMeta.count,
+      homePageLinks,
+      weeklyCalendar,
     }, // will be passed to the page component as props
     revalidate: 1200, // In seconds
   };
