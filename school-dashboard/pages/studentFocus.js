@@ -39,7 +39,7 @@ export default function StudentFocus(props) {
   // console.log(props.initialData);
   const me = useUser();
   const cachedStudentFoci = props?.initialStudentFoci;
-  console.log('cachedStudentFoci', cachedStudentFoci);
+  // console.log('cachedStudentFoci', cachedStudentFoci);
   const { data, isLoading, error } = useGQLQuery(
     'allStudentFocus',
     ALL_STUDENT_FOCUS_QUERY,

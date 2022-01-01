@@ -295,7 +295,9 @@ export default function Pbis(props) {
           {/* <p>{JSON.stringify(data.teamData)}</p> */}
           <h2 className="hidePrint">School-Wide Cards: {totalSchoolCards}</h2>
           {hasTeam && (
-            <h2 className="hidePrint">Total Team Cards: {totalTeamCards}</h2>
+            <h2 className="hidePrint">
+              Total Team Cards: {totalTeamCards || 'loading...'}
+            </h2>
           )}
         </div>
         <div>
@@ -427,5 +429,6 @@ export async function getStaticProps(context) {
       previousPbisCollection,
       pbisLinks,
     }, // will be passed to the page component as props
+    revalidate: 60 * 60, // 1 hour in seconds
   };
 }
