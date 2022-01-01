@@ -46,7 +46,7 @@ export default function Calendars({ dates, initialData }) {
 
   const calendarsFilteredByUserType =
     data?.allCalendars.filter((calendar) => {
-      if (status === 'Both') return true;
+      if (calendar.status === 'Both') return true;
       if (me?.isStaff && calendar.status === 'Teachers') return true;
       if (me?.isStudent && calendar.status === 'Students') return true;
       if (me?.isParent && calendar.status === 'Students') return true;
