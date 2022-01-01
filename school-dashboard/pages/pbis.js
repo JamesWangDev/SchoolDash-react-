@@ -214,6 +214,11 @@ const PBIS_PAGE_STATIC_QUERY = gql`
       forTeachers
       forStudents
     }
+    cardCounts: allPbisCollections {
+      id
+      name
+      collectedCards
+    }
   }
 `;
 
@@ -251,6 +256,7 @@ export default function Pbis(props) {
   const previousSchoolwideGoal =
     previousPbisCollection?.currentPbisTeamGoal || 2;
   const didWeGetNewSchoolWideLevel = newSchoolwideGoal > previousSchoolwideGoal;
+  const cardCounts = props?.cardCounts;
 
   const totalTeamCards = data?.totalTeamCards?.count;
   // get the possible categories for the cards
@@ -344,7 +350,7 @@ export default function Pbis(props) {
           />
         )}
       </ChartContainerStyles>
-      <PbisCardChart className="hidePrint" />
+      <PbisCardChart className="hidePrint" cardCounts={cardCounts} />
       <TeamCardStyles>
         {teams?.map((team) => (
           <div key={team.id} className="gridCard">
@@ -418,6 +424,7 @@ export async function getStaticProps(context) {
   const lastPbisCollection = data?.lastCollection[0];
   const previousPbisCollection = data?.lastCollection[1];
   const pbisLinks = data?.pbisLinks;
+  const cardCounts = data?.cardCounts;
 
   return {
     props: {
@@ -428,6 +435,7 @@ export async function getStaticProps(context) {
       lastPbisCollection,
       previousPbisCollection,
       pbisLinks,
+      cardCounts,
     }, // will be passed to the page component as props
     revalidate: 1200, // In seconds
   };
