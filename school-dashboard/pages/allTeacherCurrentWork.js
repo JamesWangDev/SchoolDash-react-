@@ -194,6 +194,6 @@ export async function getStaticProps(context) {
     props: {
       initialWorkData,
     }, // will be passed to the page component as props
-    // revalidate: 60 * 60, // 1 hour in seconds
+    revalidate: 10, // In seconds
   };
 }
