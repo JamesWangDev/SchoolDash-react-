@@ -9,11 +9,8 @@ import Loading from '../Loading';
 import isAllowed from '../../lib/isAllowed';
 
 export const GET_CALENDARS = gql`
-  query GET_CALENDARS($status: String) {
-    allCalendars(
-      sortBy: date_ASC
-      where: { OR: [{ status: $status }, { status: "Both" }] }
-    ) {
+  query GET_CALENDARS {
+    allCalendars(sortBy: date_ASC) {
       name
       id
       description
@@ -29,7 +26,8 @@ export const GET_CALENDARS = gql`
   }
 `;
 
-export default function Calendars({ dates }) {
+export default function Calendars({ dates, initialData }) {
+  // console.log('Calendars.js: initialData', initialData);
   const me = useUser();
   const status = me?.isStaff ? 'Teachers' : 'Students';
   const editor = isAllowed(me, 'canManageCalendar');
@@ -38,11 +36,25 @@ export default function Calendars({ dates }) {
     GET_CALENDARS,
     {
       status,
+    },
+    {
+      initialData,
       enabled: !!me,
+      staleTime: 1000 * 60 * 3, // 3 minutes
     }
   );
+
+  const calendarsFilteredByUserType =
+    data?.allCalendars.filter((calendar) => {
+      if (status === 'Both') return true;
+      if (me?.isStaff && calendar.status === 'Teachers') return true;
+      if (me?.isStudent && calendar.status === 'Students') return true;
+      if (me?.isParent && calendar.status === 'Students') return true;
+      return false;
+    }) || [];
+
   //   console.log(data);
-  const filteredCalendars = data?.allCalendars.filter(
+  const filteredCalendars = calendarsFilteredByUserType.filter(
     (singleCalendarToFilter) => {
       // console.log(singleCalendarToFilter);
       const date = new Date(singleCalendarToFilter.date);
@@ -95,9 +107,7 @@ export default function Calendars({ dates }) {
     []
   );
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  if (!me) return <div>You must be logged in to view this page</div>;
   if (error) {
     return <p>{error.message}</p>;
   }

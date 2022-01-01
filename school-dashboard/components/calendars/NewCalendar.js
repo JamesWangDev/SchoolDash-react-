@@ -7,6 +7,7 @@ import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
 import { useUser } from '../User';
 import { todaysDateForForm } from './formatTodayForForm';
+import useRebuildWebsite from '../../lib/useRebuildWebsite';
 
 const CREATE_CALENDAR_MUTATION = gql`
   mutation CREATE_CALENDAR_MUTATION(
@@ -35,6 +36,7 @@ const CREATE_CALENDAR_MUTATION = gql`
 `;
 
 export default function NewCalendar({ refetchCalendars, hidden }) {
+  const rebuildWebsite = useRebuildWebsite();
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     name: '',
@@ -71,6 +73,7 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
             e.preventDefault();
             // Submit the inputfields to the backend:
             const res = await createCalendar();
+            if (res) rebuildWebsite();
             resetForm();
             refetchCalendars();
             setShowForm(false);

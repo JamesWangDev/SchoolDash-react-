@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import Calendars from '../components/calendars/Calendars';
+import { GraphQLClient } from 'graphql-request';
+import Calendars, { GET_CALENDARS } from '../components/calendars/Calendars';
 import { LeftEdgeButton } from '../components/styles/Button';
+import { endpoint, prodEndpoint } from '../config';
 
-export default function Calendar() {
+export default function Calendar(props) {
   const weekAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
   const [calendarDates, setCalendarDates] = useState({
     label: 'upcoming',
@@ -27,7 +29,37 @@ export default function Calendar() {
           </div>
         </LeftEdgeButton>
       </div>
-      <Calendars dates={calendarDates} />
+      <Calendars
+        dates={calendarDates}
+        initialData={props.initialCalendarDates}
+      />
     </div>
   );
+}
+
+export async function getStaticProps(context) {
+  // console.log(context);
+  // fetch PBIS Page data from the server
+  const headers = {
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      authorization: `test auth for keystone`,
+    },
+  };
+
+  const graphQLClient = new GraphQLClient(
+    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    headers
+  );
+  const fetchAllCalendars = async () => graphQLClient.request(GET_CALENDARS);
+
+  const initialCalendarDates = await fetchAllCalendars();
+
+  return {
+    props: {
+      initialCalendarDates,
+    }, // will be passed to the page component as props
+    revalidate: 1200, // In seconds
+  };
 }

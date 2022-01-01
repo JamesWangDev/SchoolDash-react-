@@ -181,7 +181,7 @@ export async function getStaticProps(context) {
     },
   };
 
-  // get dates for callendar
+  // get dates for calendar
   const today = new Date();
   const { lastSunday, nextSaturday } = getLastAndNextSunday(today);
 
