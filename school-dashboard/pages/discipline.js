@@ -179,5 +179,6 @@ export async function getStaticProps(context) {
     props: {
       initialDisciplineData,
     }, // will be passed to the page component as props
+    revalidate: 1200, // In seconds
   };
 }
