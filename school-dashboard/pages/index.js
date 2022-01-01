@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { GraphQLClient } from 'graphql-request';
 import WeeklyCalendar from '../components/calendars/WeeklyCalendar';
 import StudentCallbacks from '../components/Callback/StudentCallbacks';
 import SignOut from '../components/loginComponents/SignOut';
@@ -12,7 +13,7 @@ import isAllowed from '../lib/isAllowed';
 import DisplayPbisCardWidget from '../components/PBIS/DisplayPbisCardsWidget';
 import StudentPbisData from '../components/PBIS/StudentPbisData';
 import RequestReset from '../components/RequestReset';
-import PbisFalcon from '../components/PBIS/PbisFalcon';
+import PbisFalcon, { TOTAL_PBIS_CARDS } from '../components/PBIS/PbisFalcon';
 import PbisCardFormButton from '../components/PBIS/PbisCardFormButton';
 import TeacherAssignments from '../components/Assignments/TeacherAssignments';
 import TaCallbacks from '../components/Callback/TaCallback';
@@ -23,6 +24,7 @@ import NewBugReportButton from '../components/bugreports/NewBugReportButton';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import AssignmentViewCardsStudent from '../components/Assignments/AssignmentViewCardsStudent';
 import GradientButton from '../components/styles/Button';
+import { endpoint, prodEndpoint } from '../config';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -80,7 +82,8 @@ const GET_STUDENT_CLASSSWORK_QUERY = gql`
   }
 `;
 
-export default function Home() {
+export default function Home(props) {
+  console.log(props);
   const me = useUser();
   const { data, isLoading, error } = useGQLQuery(
     `SingleStudentClasswork-${me?.id}`,
@@ -125,7 +128,7 @@ export default function Home() {
           )}
           {!!me && (
             <>
-              <PbisFalcon />
+              <PbisFalcon initialCount={props?.totalCards} />
               <HomePageLinks me={me || {}} />
               <WeeklyCalendar me={me || {}} />
               {isAllowed(me, 'hasClasses') && <TeacherAssignments />}
@@ -168,4 +171,31 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export async function getStaticProps(context) {
+  // console.log(context);
+  // fetch PBIS Page data from the server
+  const headers = {
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      authorization: `test auth for keystone`,
+    },
+  };
+
+  const graphQLClient = new GraphQLClient(
+    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    headers
+  );
+  const fetchTotalCards = async () => graphQLClient.request(TOTAL_PBIS_CARDS);
+
+  const totalCards = await fetchTotalCards();
+
+  return {
+    props: {
+      totalCards: totalCards._allPbisCardsMeta.count,
+    }, // will be passed to the page component as props
+    revalidate: 1200, // In seconds
+  };
 }

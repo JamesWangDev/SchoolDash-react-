@@ -6,7 +6,7 @@ import DisplayError from '../ErrorMessage';
 import Loading from '../Loading';
 
 // gql query to get number of cards
-const TOTAL_PBIS_CARDS = gql`
+export const TOTAL_PBIS_CARDS = gql`
   query {
     _allPbisCardsMeta {
       count
@@ -64,11 +64,26 @@ const ContainerStyles = styled.div`
   }
 `;
 
-export default function PbisFalcon() {
+export default function PbisFalcon({ initialCount }) {
+  let queryOptions = {};
+  const initialData = {};
+  initialData._allPbisCardsMeta = {
+    count: initialCount,
+  };
+
+  if (initialCount) {
+    queryOptions = {
+      initialData,
+      staleTime: 1000 * 60 * 3,
+    };
+  }
   const { data, isLoading, error } = useGQLQuery(
     'totalPbisCards',
-    TOTAL_PBIS_CARDS
+    TOTAL_PBIS_CARDS,
+    {},
+    queryOptions
   );
+
   // last years card total
   const cardGoal = 60000;
 
