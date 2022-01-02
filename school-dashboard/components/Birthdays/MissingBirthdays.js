@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import React from 'react';
 import styled from 'styled-components';
+import { capitalizeFirstLetter } from '../../lib/nameUtils';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import Loading from '../Loading';
 import { useUser } from '../User';
@@ -45,7 +46,7 @@ export default function MissingBirthdays() {
         <h3>Needs to choose a cake type</h3>
         {needsToChooseCake?.map((user) => (
           <div key={user.id}>
-            <p>{user.name}</p>
+            <p>{capitalizeFirstLetter(user.name)}</p>
           </div>
         ))}
       </div>
@@ -53,7 +54,7 @@ export default function MissingBirthdays() {
         <h3>Missing DOB</h3>
         {needsBirthdayDate?.map((user) => (
           <div key={user.id}>
-            <p>{user.name}</p>
+            <p>{capitalizeFirstLetter(user.name)}</p>
           </div>
         ))}
       </div>

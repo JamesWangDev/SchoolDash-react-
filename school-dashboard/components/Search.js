@@ -5,6 +5,7 @@ import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import { useState } from 'react';
+import { capitalizeFirstLetter, UserTypeDisplay } from '../lib/nameUtils';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import QuickPbisButton from './PBIS/QuickPbisButton';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
@@ -33,23 +34,6 @@ export const SEARCH_ALL_USERS_QUERY = gql`
     }
   }
 `;
-
-function UserTypeDisplay(user) {
-  let userDisplay = '';
-  if (user.isStaff) {
-    userDisplay = '👨‍🏫 ';
-  }
-  if (user.isParent) {
-    userDisplay = `${userDisplay} 👨‍👧‍👦 `;
-  }
-  if (user.isStudent) {
-    userDisplay = `${userDisplay} 🧑‍🎓 `;
-  }
-  if (userDisplay === '') {
-    userDisplay = 'User';
-  }
-  return userDisplay;
-}
 
 export default function Search() {
   const me = useUser();
@@ -140,7 +124,7 @@ export default function Search() {
                 key={item.id}
                 highlighted={index === highlightedIndex}
               >
-                {UserTypeDisplay(item)} {item.name}
+                {UserTypeDisplay(item)} {capitalizeFirstLetter(item.name)}
               </DropDownItem>
             );
           })}

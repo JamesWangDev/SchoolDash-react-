@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { capitalizeFirstLetter } from '../../lib/nameUtils';
 import Table from '../Table';
 
 export default function DisciplineTable({ disciplines }) {
@@ -13,7 +14,7 @@ export default function DisciplineTable({ disciplines }) {
             accessor: 'student.name',
             Cell: ({ cell }) => (
               <Link href={`/discipline/${cell?.row?.original?.id || ''}`}>
-                {cell.value}
+                {capitalizeFirstLetter(cell.value)}
               </Link>
             ),
           },

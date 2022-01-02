@@ -10,6 +10,7 @@ import StudentPbisData from '../PBIS/StudentPbisData';
 import DisplayPbisCardsWidget from '../PBIS/DisplayPbisCardsWidget';
 import EmailParentsAboutCallback from '../Callback/EmailParentsAboutCallback';
 import QuickPbisButton from '../PBIS/QuickPbisButton';
+import { capitalizeFirstLetter } from '../../lib/nameUtils';
 
 const ParentInfoStyles = styled.div`
   border-radius: 1rem;
@@ -134,7 +135,12 @@ export default function ViewStudentPage({ student }) {
             disabled={canSendCallbackEmail}
           />
         )}
-        {me.isStaff && <QuickPbisButton id={user.id} displayName={user.name} />}
+        {me.isStaff && (
+          <QuickPbisButton
+            id={user.id}
+            displayName={capitalizeFirstLetter(user.name)}
+          />
+        )}
       </h3>
       <AssignmentViewCardsStudent student={user} />
       <StudentPbisData student={user} />

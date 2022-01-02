@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Loading from '../components/Loading';
+import { capitalizeFirstLetter } from '../lib/nameUtils';
 import { useGQLQuery } from '../lib/useGqlQuery';
 
 const PbisReadingStyles = styled.div`
@@ -83,7 +84,9 @@ export default function PbisWeeklyReading() {
       </h3>
       <ul>
         {randomDrawingWinners.map((winner) => (
-          <li key={winner.id}>{winner?.randomWinner?.name}</li>
+          <li key={winner.id}>
+            {capitalizeFirstLetter(winner?.randomWinner?.name)}
+          </li>
         ))}
       </ul>
       {hasPersonalLevelWinners && (
@@ -94,7 +97,7 @@ export default function PbisWeeklyReading() {
       )}
       <ul>
         {personalLevelWinners.map((winner) => (
-          <li key={winner.id}>{winner.name}</li>
+          <li key={winner.id}>{capitalizeFirstLetter(winner.name)}</li>
         ))}
       </ul>
     </PbisReadingStyles>

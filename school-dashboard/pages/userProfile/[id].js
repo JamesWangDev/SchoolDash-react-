@@ -10,6 +10,7 @@ import ViewParentPage from '../../components/users/ViewParentPage';
 import ResetPasswordToPassword from '../../components/users/ResetPasswordToPassword';
 import SendParentEmailSignupButton from '../../components/users/SendParentEmailSignup';
 import EditStudent from '../../components/users/EditStudent';
+import { capitalizeFirstLetter } from '../../lib/nameUtils';
 
 const ButtonStyles = styled.div`
   display: flex;
@@ -75,7 +76,7 @@ export default function UserProfile({ query }) {
   const { isStudent } = user;
   return (
     <div>
-      <h1>{user.name}</h1>
+      <h1>{capitalizeFirstLetter(user.name)}</h1>
       <ButtonStyles>
         {isAllowed(me, 'isStaff') && me.id !== user.id && (
           <>

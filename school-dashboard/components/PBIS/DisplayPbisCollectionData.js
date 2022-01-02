@@ -1,4 +1,5 @@
 import ProgressBar from '@ramonak/react-progress-bar';
+import { capitalizeFirstLetter } from '../../lib/nameUtils';
 import { TeamCardStyles } from '../../pages/pbis';
 import { useUser } from '../User';
 
@@ -59,7 +60,7 @@ export default function DisplayPbisCollectionData({ collectionData }) {
             <div key={ta.taId}>
               <h3>Random Drawing Winner</h3>
               <h4>{ta.name}</h4>
-              <p>{ta.randomWinner.name}</p>
+              <p>{capitalizeFirstLetter(ta.randomWinner.name)}</p>
             </div>
           ))}
         </TeamCardStyles>
