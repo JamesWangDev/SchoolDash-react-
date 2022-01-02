@@ -30,6 +30,7 @@ import { useGQLQuery } from '../lib/useGqlQuery';
 import AssignmentViewCardsStudent from '../components/Assignments/AssignmentViewCardsStudent';
 import GradientButton from '../components/styles/Button';
 import { endpoint, prodEndpoint } from '../config';
+import { SEARCH_ALL_USERS_QUERY } from '../components/Search';
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -96,6 +97,17 @@ export default function Home(props) {
     { id: me?.id },
     { enabled: !!me?.isStudent }
   );
+  const { data: allUsers } = useGQLQuery(
+    'allUsers',
+    SEARCH_ALL_USERS_QUERY,
+    {},
+    {
+      enabled: !!me,
+      staleTime: 1000 * 60 * 60, // 1 hour
+      initialData: props?.allUsersForSearch,
+    }
+  );
+
   if (!me) return <RequestReset />;
   return (
     <div>
@@ -189,6 +201,7 @@ export async function getStaticProps(context) {
     process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
     headers
   );
+
   const fetchTotalCards = async () => graphQLClient.request(TOTAL_PBIS_CARDS);
   const fetchHomePageLinks = async () =>
     graphQLClient.request(GET_HOMEPAGE_LINKS);
@@ -197,15 +210,20 @@ export async function getStaticProps(context) {
       starting: lastSunday,
       ending: nextSaturday,
     });
+  const fetchAllUsersForSearch = async () =>
+    graphQLClient.request(SEARCH_ALL_USERS_QUERY);
+
   const totalCards = await fetchTotalCards();
   const homePageLinks = await fetchHomePageLinks();
   const weeklyCalendar = await fetchWeeklyCalendar();
+  const allUsersForSearch = await fetchAllUsersForSearch();
 
   return {
     props: {
       totalCards: totalCards._allPbisCardsMeta.count,
       homePageLinks,
       weeklyCalendar,
+      allUsersForSearch,
     }, // will be passed to the page component as props
     revalidate: 1200, // In seconds
   };

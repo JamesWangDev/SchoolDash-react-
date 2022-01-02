@@ -4,12 +4,27 @@ import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
+import { useState } from 'react';
+import { useGQLQuery } from '../lib/useGqlQuery';
 import QuickPbisButton from './PBIS/QuickPbisButton';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
+import { useUser } from './User';
 
-const SEARCH_PRODUCTS_QUERY = gql`
-  query SEARCH_USERS_QUERY($searchTerm: String!) {
-    searchTerms: allUsers(where: { AND: [{ name_contains_i: $searchTerm }] }) {
+// const SEARCH_USERS_QUERY = gql`
+//   query SEARCH_USERS_QUERY($searchTerm: String!) {
+//     searchTerms: allUsers(where: { AND: [{ name_contains_i: $searchTerm }] }) {
+//       id
+//       name
+//       isStaff
+//       isParent
+//       isStudent
+//     }
+//   }
+// `;
+
+export const SEARCH_ALL_USERS_QUERY = gql`
+  query SEARCH_ALL_USERS_QUERY {
+    allUsers {
       id
       name
       isStaff
@@ -19,16 +34,67 @@ const SEARCH_PRODUCTS_QUERY = gql`
   }
 `;
 
+function UserTypeDisplay(user) {
+  let userDisplay = '';
+  if (user.isStaff) {
+    userDisplay = '👨‍🏫 ';
+  }
+  if (user.isParent) {
+    userDisplay = `${userDisplay} 👨‍👧‍👦 `;
+  }
+  if (user.isStudent) {
+    userDisplay = `${userDisplay} 🧑‍🎓 `;
+  }
+  if (userDisplay === '') {
+    userDisplay = 'User';
+  }
+  return userDisplay;
+}
+
 export default function Search() {
+  const me = useUser();
   const router = useRouter();
-  const [findItems, { loading, data, error }] = useLazyQuery(
-    SEARCH_PRODUCTS_QUERY,
+  const { data: allUsers, isLoading } = useGQLQuery(
+    'allUsers',
+    SEARCH_ALL_USERS_QUERY,
+    {},
     {
-      fetchPolicy: 'no-cache',
+      enabled: !!me,
+      staleTime: 1000 * 60 * 60, // 1 hour
     }
   );
-  const items = data?.searchTerms || [];
-  const findItemsButChill = debounce(findItems, 350);
+
+  // const [findItems, { loading, data, error }] = useLazyQuery(
+  //   SEARCH_USERS_QUERY,
+  //   {
+  //     fetchPolicy: 'no-cache',
+  //   }
+  // );
+
+  const [usersToDisplay, setUsersToDisplay] = useState([]);
+
+  const items = usersToDisplay;
+
+  const filterUsers = (inputValue) => {
+    if (inputValue === '') {
+      setUsersToDisplay([]);
+
+      return;
+    }
+    const itemsToShow = allUsers?.allUsers.filter((user) =>
+      user.name.toLowerCase().includes(inputValue?.toLowerCase())
+    );
+    const eightItems = itemsToShow?.slice(0, 8);
+    setUsersToDisplay(eightItems || []);
+  };
+
+  const allUsersWithoutRole = allUsers?.allUsers.filter(
+    (user) => !user.isStaff && !user.isParent && !user.isStudent
+  );
+  if (allUsersWithoutRole?.length > 0) {
+    console.log(allUsersWithoutRole);
+  }
+
   resetIdCounter();
   const {
     isOpen,
@@ -41,11 +107,7 @@ export default function Search() {
   } = useCombobox({
     items,
     onInputValueChange() {
-      findItemsButChill({
-        variables: {
-          searchTerm: inputValue,
-        },
-      });
+      filterUsers(inputValue);
     },
     onSelectedItemChange({ selectedItem }) {
       router.push({
@@ -63,7 +125,7 @@ export default function Search() {
             type: 'search',
             placeholder: 'Search for a User',
             id: 'search',
-            className: loading ? 'loading' : '',
+            className: isLoading ? 'loading' : '',
           })}
         />
       </div>
@@ -78,12 +140,11 @@ export default function Search() {
                 key={item.id}
                 highlighted={index === highlightedIndex}
               >
-                {item.name}
-                {/* {isStudent && <QuickPbisButton id={item.id} />} */}
+                {UserTypeDisplay(item)} {item.name}
               </DropDownItem>
             );
           })}
-        {isOpen && !items.length && !loading && (
+        {isOpen && !items.length && !isLoading && (
           <DropDownItem>Sorry, No users found for {inputValue}</DropDownItem>
         )}
       </DropDown>
