@@ -40,7 +40,7 @@ const PBIS_READING_QUERY = gql`
 `;
 
 export default function PbisWeeklyReading() {
-  console.log('PbisWeeklyReading');
+  // console.log('PbisWeeklyReading');
 
   const { data, isLoading } = useGQLQuery(
     'PBIS Reading Page',
@@ -52,7 +52,7 @@ export default function PbisWeeklyReading() {
   const lastCollection = data.lastCollection[0];
   const taTeamsAtNewLevels =
     JSON.parse(lastCollection?.taTeamNewLevelWinners) || [];
-  console.log(taTeamsAtNewLevels);
+  // console.log(taTeamsAtNewLevels);
   const personalLevelWinners =
     JSON.parse(lastCollection?.personalLevelWinners) || [];
   const randomDrawingWinners =

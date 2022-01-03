@@ -72,7 +72,7 @@ export default function EmailParentsAboutCallback({ student, disabled }) {
             callbackNumber: callbackCount,
           });
           // Send email
-          console.log('sending email to', emailToSend);
+          // console.log('sending email to', emailToSend);
           await sendEmail({
             variables: {
               emailData: JSON.stringify(emailToSend),
@@ -89,7 +89,7 @@ export default function EmailParentsAboutCallback({ student, disabled }) {
             student: student.id,
           },
         });
-        console.log('studentFocusRes', studentFocusRes);
+        // console.log('studentFocusRes', studentFocusRes);
         setEmailSent(true);
         setLoading(false);
       }}

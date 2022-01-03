@@ -156,7 +156,7 @@ export default function AssignmentUpdater({
             updateData[`block${block}Assignment`] = inputs.assignment;
             updateData[`block${block}ClassName`] = inputs.classTitle;
             updateData.id = me.id;
-            console.log(updateData);
+            // console.log(updateData);
             await updateAssignment({ variables: updateData });
             toast.success(`Updated Assignment for Block ${block}`);
             await refetch();

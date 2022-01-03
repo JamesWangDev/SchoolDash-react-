@@ -47,7 +47,7 @@ export default function ThemeSwitcher({ theme, setTheme }) {
             <div
               className="theme-switcher-item-content"
               onClick={() => {
-                console.log('click');
+                // console.log('click');
                 setTheme('light');
               }}
             >
@@ -60,7 +60,7 @@ export default function ThemeSwitcher({ theme, setTheme }) {
             <div
               className="theme-switcher-item-content"
               onClick={() => {
-                console.log('click');
+                // console.log('click');
                 setTheme('dark');
               }}
             >

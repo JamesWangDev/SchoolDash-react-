@@ -91,7 +91,7 @@ export const DISCIPLINE_DATA = gql`
 `;
 
 export default function Discipline(props) {
-  console.log('Discipline props: ', props);
+  // console.log('Discipline props: ', props);
   const me = useUser();
   const router = useRouter();
 

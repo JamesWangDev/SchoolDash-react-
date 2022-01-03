@@ -62,9 +62,9 @@ export default function MarkCallbackCompleted({ callback }) {
           type="button"
           className={loading ? 'deleting' : ''}
           onClick={async () => {
-            console.log('marking completed');
+            // console.log('marking completed');
             const res = await markCompleted();
-            console.log(res.data.updateCallback.id);
+            // console.log(res.data.updateCallback.id);
             setCallbackID(res.data.updateCallback.id);
             queryClient.refetchQueries();
           }}

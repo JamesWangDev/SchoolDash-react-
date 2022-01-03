@@ -110,7 +110,7 @@ export default function CellPhoneAddButton() {
                     emailData: JSON.stringify(emailToSend),
                   },
                 });
-                console.log(emailRes);
+                // console.log(emailRes);
               }
             }
             // refetch();

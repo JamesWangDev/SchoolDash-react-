@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { capitalizeFirstLetter } from '../../lib/nameUtils';
 import { useUser } from '../User';
 import CallbackCardMessages from './CallbackCardMessages';
 import MarkCallbackCompleted from './MarkCallbackCompleted';
@@ -55,7 +56,7 @@ export default function SingleCallbackCard({ callback }) {
           <p>
             {callback.student.id === me.id
               ? ''
-              : `${callback.student.name} -- `}{' '}
+              : `${capitalizeFirstLetter(callback.student.name)} -- `}{' '}
             {completed}
           </p>
           <p>{callback.description}</p>

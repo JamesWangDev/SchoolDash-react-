@@ -31,10 +31,10 @@ export default async function useEmailAdmin() {
   useEffect(() => {
     console.log(adminEmail);
     if (adminEmail?.toAddress) {
-      console.log('emailing');
-      console.log(adminEmail);
+      // console.log('emailing');
+      // console.log(adminEmail);
       const emailToSend = JSON.stringify(adminEmail);
-      console.log(emailToSend);
+      // console.log(emailToSend);
       // const emailToSendd = {
       //   toAddress: email,
       //   fromAddress: me.email,
