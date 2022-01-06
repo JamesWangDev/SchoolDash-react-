@@ -55,7 +55,7 @@ export default function SearchForUserName({
       });
     },
     onSelectedItemChange({ selectedItem }) {
-      // console.log('clicked');
+      console.log('clicked');
       // console.log(selectedItem);
       updateUser({ userId: selectedItem.id, userName: selectedItem.name });
     },

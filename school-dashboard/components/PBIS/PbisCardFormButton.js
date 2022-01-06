@@ -98,6 +98,7 @@ function CardForm({ visible, hide }) {
     console.log(error);
     return <p>{error.message}</p>;
   }
+  console.log(studentCardIsFor);
   return (
     <CardFormContainerStyles>
       <div className={visible}>
