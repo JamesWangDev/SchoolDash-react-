@@ -135,6 +135,18 @@ export default function Home(props) {
           {!!me && (
             <>
               <PbisFalcon initialCount={props?.totalCards} />
+              {me && (
+                <iframe
+                  title="video"
+                  allowFullScreen
+                  width="600"
+                  height="400"
+                  scrolling="no"
+                  frameBorder="0"
+                  // style="border: none;"
+                  src="https://www.wevideo.com/view/2513335772"
+                />
+              )}
               <HomePageLinks me={me || {}} initialData={props?.homePageLinks} />
               <WeeklyCalendar
                 me={me || {}}
