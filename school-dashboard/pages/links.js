@@ -106,7 +106,11 @@ export default function Links(props) {
                 ? linkRaw
                 : `http://${linkRaw}`;
 
-              return <Link href={link}>{row.original.name}</Link>;
+              return (
+                <a target="_blank" rel="noopener noreferrer" href={link}>
+                  {row.original.name}
+                </a>
+              );
             },
           },
           {
@@ -119,7 +123,11 @@ export default function Links(props) {
                 ? linkRaw
                 : `http://${linkRaw}`;
 
-              return <Link href={link}>{row.original.description}</Link>;
+              return (
+                <a target="_blank" rel="noopener noreferrer" href={link}>
+                  {row.original.description}
+                </a>
+              );
             },
           },
         ],
