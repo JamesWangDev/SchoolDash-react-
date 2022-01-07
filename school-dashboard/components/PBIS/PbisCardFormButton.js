@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import { toast } from 'react-hot-toast';
 import GradientButton from '../styles/Button';
 import SearchForUserName from '../SearchForUserName';
 import Form from '../styles/Form';
@@ -82,7 +83,7 @@ function CardForm({ visible, hide }) {
   const me = useUser();
   const teacher = me.id;
   const [studentCardIsFor, setStudentCardIsFor] = useState();
-  // console.log(studentCardIsFor);
+  // console.log(teacher);
 
   const [createCard, { loading, error, data }] = useMutation(CREATE_PBIS_CARD, {
     variables: {
@@ -107,7 +108,7 @@ function CardForm({ visible, hide }) {
 
           <SearchForUserName
             name="studentName"
-            // value={inputs.studentName}
+            value={inputs.studentName}
             updateUser={setStudentCardIsFor}
             userType="isStudent"
           />
@@ -158,6 +159,7 @@ function CardForm({ visible, hide }) {
             onClick={async (e) => {
               e.preventDefault();
               // console.log(inputs);
+              // alert('card created');
               const res = await createCard();
               // console.log(`res res `);
               // console.log(res?.data?.createPbisCard.id);
@@ -171,6 +173,11 @@ function CardForm({ visible, hide }) {
               // clearForm();
               // resetForm();
               // setStudentCardIsFor(null);
+              if (res) {
+                toast.success(
+                  `Added Card For Message for ${studentCardIsFor.name}`
+                );
+              }
               hide(false);
             }}
           >
