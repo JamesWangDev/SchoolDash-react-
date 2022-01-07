@@ -174,9 +174,7 @@ function CardForm({ visible, hide }) {
               // resetForm();
               // setStudentCardIsFor(null);
               if (res) {
-                toast.success(
-                  `Added Card For Message for ${studentCardIsFor.name}`
-                );
+                toast.success(`Added Card For ${studentCardIsFor.userName}`);
               }
               hide(false);
             }}

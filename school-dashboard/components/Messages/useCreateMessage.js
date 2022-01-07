@@ -43,8 +43,8 @@ export default function useCreateMessage() {
   });
   useEffect(() => {
     if (message) {
-      // console.log('creating message');
-      // console.log(`message: ${JSON.stringify(message)}`);
+      console.log('creating message');
+      console.log(`message: ${JSON.stringify(message)}`);
       createMessageMutation();
       setTimeout(() => {
         queryClient.refetchQueries();
