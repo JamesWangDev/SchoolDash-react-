@@ -369,7 +369,7 @@ export default function Pbis(props) {
       <div>
         {didWeGetNewSchoolWideLevel && (
           <AnnouncementStyle>
-            We Reached A New School-Wide Goal!!: {newSchoelwideGoal}
+            We Reached A New School-Wide Goal!!: {newSchoolwideGoal}
           </AnnouncementStyle>
         )}
 
