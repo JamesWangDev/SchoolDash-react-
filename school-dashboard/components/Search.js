@@ -59,14 +59,14 @@ export default function Search() {
 
   const items = usersToDisplay;
 
-  const filterUsers = (inputValue) => {
-    if (inputValue === '') {
+  const filterUsers = (valueToFilter) => {
+    if (valueToFilter === '') {
       setUsersToDisplay([]);
 
       return;
     }
     const itemsToShow = allUsers?.allUsers.filter((user) =>
-      user.name.toLowerCase().includes(inputValue?.toLowerCase())
+      user.name.toLowerCase().includes(valueToFilter?.toLowerCase())
     );
     const eightItems = itemsToShow?.slice(0, 8);
     setUsersToDisplay(eightItems || []);

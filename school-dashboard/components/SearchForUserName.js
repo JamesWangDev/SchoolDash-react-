@@ -3,16 +3,19 @@ import { resetIdCounter, useCombobox } from 'downshift';
 import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
+import { useState } from 'react';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
+import { useGQLQuery } from '../lib/useGqlQuery';
+import { useUser } from './User';
 
-const SEARCH_PRODUCTS_QUERY = gql`
-  query SEARCH_USERS_QUERY($searchTerm: String!) {
-    searchTerms: allUsers(where: { name_contains_i: $searchTerm }) {
+export const SEARCH_ALL_USERS_QUERY = gql`
+  query SEARCH_ALL_USERS_QUERY {
+    allUsers {
       id
       name
-      isStudent
-      isParent
       isStaff
+      isParent
+      isStudent
     }
   }
 `;
@@ -23,20 +26,42 @@ export default function SearchForUserName({
   updateUser,
   userType,
 }) {
-  const router = useRouter();
-  const [findItems, { loading, data, error }] = useLazyQuery(
-    SEARCH_PRODUCTS_QUERY,
+  const me = useUser();
+  const [usersToDisplay, setUsersToDisplay] = useState([]);
+
+  const { data: allUsers, isLoading } = useGQLQuery(
+    'allUsers',
+    SEARCH_ALL_USERS_QUERY,
+    {},
     {
-      fetchPolicy: 'no-cache',
+      enabled: !!me,
+      staleTime: 1000 * 60 * 60, // 1 hour
     }
   );
-  const items =
-    data?.searchTerms.filter((item) =>
+  // console.log(userType);
+  // console.log(usersToDisplay);
+  const usersFilteredByType =
+    allUsers?.allUsers?.filter((item) =>
       userType ? item[userType] === true : true
     ) || [];
+  // console.log(usersFilteredByType);
 
-  const findItemsButChill = debounce(findItems, 350);
+  const items = usersToDisplay;
+  const filterUsers = (valueToFilter) => {
+    if (valueToFilter === '') {
+      setUsersToDisplay([]);
+
+      return;
+    }
+    const itemsToShow = usersFilteredByType.filter((user) =>
+      user.name.toLowerCase().includes(valueToFilter?.toLowerCase())
+    );
+    const eightItems = itemsToShow?.slice(0, 8);
+    setUsersToDisplay(eightItems || []);
+  };
+
   resetIdCounter();
+
   const {
     isOpen,
     inputValue,
@@ -48,15 +73,11 @@ export default function SearchForUserName({
   } = useCombobox({
     items,
     onInputValueChange() {
-      findItemsButChill({
-        variables: {
-          searchTerm: inputValue,
-        },
-      });
+      filterUsers(inputValue);
     },
     onSelectedItemChange({ selectedItem }) {
       console.log('clicked');
-      // console.log(selectedItem);
+      console.log(selectedItem);
       updateUser({ userId: selectedItem.id, userName: selectedItem.name });
     },
     itemToString: (item) => item?.name || '',
@@ -71,7 +92,7 @@ export default function SearchForUserName({
             placeholder: 'Search for a User',
             id: name,
             name,
-            className: loading ? 'loading' : '',
+            className: isLoading ? 'loading' : '',
             // value,
           })}
         />
@@ -90,7 +111,7 @@ export default function SearchForUserName({
               </DropDownItem>
             );
           })}
-        {isOpen && !items.length && !loading && (
+        {isOpen && !items.length && !isLoading && (
           <DropDownItem>Sorry, No users found for {inputValue}</DropDownItem>
         )}
       </DropDown>
