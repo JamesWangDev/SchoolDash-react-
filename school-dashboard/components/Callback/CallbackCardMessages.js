@@ -150,26 +150,28 @@ export default function CallbackCardMessages({ me, callback }) {
 
           {isTeacher && (
             <>
-              <SmallGradientButton
-                type="button"
-                onClick={async () => {
-                  const res = await updateCallback({
-                    variables: {
-                      id: callback.id,
-                      messageFromTeacher: teacherMessage,
-                      messageFromStudent: '',
-                    },
-                  });
-                  await queryClient.refetchQueries();
-                  if (res) {
-                    toast.success(
-                      `Updated Callback Message for ${callback.student.name}`
-                    );
-                  }
-                }}
-              >
-                Delete Student Message
-              </SmallGradientButton>
+              {studentMessage && (
+                <SmallGradientButton
+                  type="button"
+                  onClick={async () => {
+                    const res = await updateCallback({
+                      variables: {
+                        id: callback.id,
+                        messageFromTeacher: teacherMessage,
+                        messageFromStudent: '',
+                      },
+                    });
+                    await queryClient.refetchQueries();
+                    if (res) {
+                      toast.success(
+                        `Updated Callback Message for ${callback.student.name}`
+                      );
+                    }
+                  }}
+                >
+                  Delete Student Message
+                </SmallGradientButton>
+              )}
               <AnimatedInput>
                 Teacher:
                 <input
