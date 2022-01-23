@@ -3,7 +3,9 @@ import gql from 'graphql-tag';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-hot-toast';
+import { QueryClient, useQueryClient } from 'react-query';
 import Form, { FormGroupStyles } from '../styles/Form';
+import { SmallGradientButton } from '../styles/Button';
 
 const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
   mutation UPDATE_CALLBACK_MESSAGES_MUTATION(
@@ -79,7 +81,7 @@ export default function CallbackCardMessages({ me, callback }) {
   const [studentMessage, setStudentMessage] = useState(
     callback.messageFromStudent || ''
   );
-
+  const queryClient = useQueryClient();
   const [updateCallback, { loading, error, data }] = useMutation(
     UPDATE_CALLBACK_MESSAGES_MUTATION,
     {
@@ -145,8 +147,29 @@ export default function CallbackCardMessages({ me, callback }) {
               </AnimatedInput>
             </>
           )}
+
           {isTeacher && (
             <>
+              <SmallGradientButton
+                type="button"
+                onClick={async () => {
+                  const res = await updateCallback({
+                    variables: {
+                      id: callback.id,
+                      messageFromTeacher: teacherMessage,
+                      messageFromStudent: '',
+                    },
+                  });
+                  await queryClient.refetchQueries();
+                  if (res) {
+                    toast.success(
+                      `Updated Callback Message for ${callback.student.name}`
+                    );
+                  }
+                }}
+              >
+                Delete Student Message
+              </SmallGradientButton>
               <AnimatedInput>
                 Teacher:
                 <input
