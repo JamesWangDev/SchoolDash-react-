@@ -23,7 +23,7 @@ export default function Nav() {
           <Link href="/calendar">Calendar</Link>
           <Link href="/links">Links</Link>
           <Link href="/pbis">PBIS</Link>
-          {isAllowed(me, 'hasTA') && <Link href="/ta">TA</Link>}
+          {isAllowed(me, 'hasTA') && <Link href={`/taPage/${me?.id}`}>TA</Link>}
           {isAllowed(me, 'hasClasses') && (
             <Link href="/callback">Callback</Link>
           )}

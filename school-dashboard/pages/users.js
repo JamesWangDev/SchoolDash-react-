@@ -42,7 +42,7 @@ const GET_ALL_TEACHERS = gql`
     ) {
       id
       name
-
+      hasTA
       callbackCount
       PbisCardCount
       virtualCards: _teacherPbisCardsMeta(
@@ -117,6 +117,7 @@ const ArrayValues = ({ values }) => (
 );
 
 export default function Users(props) {
+  const me = useUser();
   const [userSortType, setUserSortType] = useState('student');
   const cachedStudents = props?.students;
   const cachedTeachers = props?.teachers;
@@ -224,9 +225,14 @@ export default function Users(props) {
             Header: 'Name',
             accessor: 'name',
             Cell: ({ row }) => (
-              <Link href={`/userProfile/${row.original.id}`}>
-                {row.original.name}
-              </Link>
+              <>
+                <Link href={`/userProfile/${row.original.id}`}>
+                  {row.original.name}
+                </Link>
+                {isAllowed(me, 'canManagePbis') && row.original.hasTA && (
+                  <Link href={`/taPage/${row.original.id}`}> - TA</Link>
+                )}
+              </>
             ),
           },
 
@@ -270,7 +276,6 @@ export default function Users(props) {
 
   const isLoading = studentLoading || teacherLoading;
 
-  const me = useUser();
   if (!me?.isStaff) return <p>User does not have access</p>;
   // if (studentLoading) return <Loading />;
   if (error) return <DisplayError>{error.mesage}</DisplayError>;

@@ -129,7 +129,7 @@ export default function TA({ data: initialData }) {
   console.log(initialData?.taTeacher?.name);
   const me = useUser();
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'TaInfo',
+    `taInfo-${initialData?.taTeacher?.name}`,
     TA_INFO_QUERY,
     {
       id: initialData?.taTeacher?.id,
