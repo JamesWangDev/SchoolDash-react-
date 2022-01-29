@@ -125,18 +125,18 @@ const TA_TEACHER_LIST_QUERY = gql`
   }
 `;
 
-export default function TA(props) {
-  console.log(props);
+export default function TA({ data: initialData }) {
+  console.log(initialData?.taTeacher?.name);
   const me = useUser();
   const { data, isLoading, error, refetch } = useGQLQuery(
     'TaInfo',
     TA_INFO_QUERY,
     {
-      id: me?.id,
+      id: initialData?.taTeacher?.id,
     },
     {
       enabled: !!me,
-      initialData: props.data,
+      initialData,
     }
   );
   if (!me) return <Loading />;
@@ -148,14 +148,17 @@ export default function TA(props) {
   );
   const allTaCallbacksFlattened = [].concat(...allTaCallbacks);
 
+  const isAllowedPbisCardCounting =
+    me?.id === initialData?.taTeacher?.id || me?.canManagePbis;
+
   // console.log('callbacks', allTaCallbacksFlattened);
   const students = data.taTeacher.taStudents || [];
   return (
     <div>
-      <h1>{props.data.taTeacher?.name}'s TA</h1>
+      <h1>{data?.taTeacher?.name}'s TA</h1>
       {students.length > 0 && (
         <>
-          {me.id === props.data.taTeacher.id && (
+          {isAllowedPbisCardCounting && (
             <CountPhysicalCards taStudents={students} refetch={refetch} />
           )}
           <ViewTaStudentTable users={students} title="TA Students" />
@@ -215,6 +218,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       data,
+      revalidate: 60 * 60 * 4, // 4 hours (in seconds)
     },
   };
 }
