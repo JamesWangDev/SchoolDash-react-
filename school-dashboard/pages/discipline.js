@@ -100,7 +100,7 @@ export default function Discipline(props) {
     DISCIPLINE_DATA,
     {},
     {
-      staleTime: 1000 * 60 * 3,
+      staleTime: 0,
       initialData: props?.initialDisciplineData,
     }
   );

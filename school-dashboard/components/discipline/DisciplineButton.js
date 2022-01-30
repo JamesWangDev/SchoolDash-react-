@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import { useQueryClient } from 'react-query';
 import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
@@ -113,6 +114,7 @@ const CREATE_DISCIPLINE_MUTATION = gql`
 export default function NewDiscipline({ refetch }) {
   const rebuildWebsite = useRebuildWebsite();
   const me = useUser();
+  const queryClient = useQueryClient();
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
   const adminEmailArray = data?.allUsers?.map((u) => u.email);
   const [showForm, setShowForm] = useState(false);
@@ -204,6 +206,7 @@ export default function NewDiscipline({ refetch }) {
             refetch();
             setEmailSending(false);
             rebuildWebsite();
+            queryClient.refetchQueries('allDisciplines');
             setShowForm(false);
           }}
         >

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import { useQueryClient } from 'react-query';
 import GradientButton, { SmallGradientButton } from '../styles/Button';
 import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
@@ -47,6 +48,7 @@ export default function CellPhoneAddButton() {
     `AdminEmails`,
     GET_ADMIN_EMAILS
   );
+  const queryClient = useQueryClient();
   const adminEmailArray = adminEmails?.allUsers?.map((u) => u.email);
   // console.log(adminEmailArray);
   const [showForm, setShowForm] = useState(false);
@@ -115,6 +117,7 @@ export default function CellPhoneAddButton() {
             }
             // refetch();
             setEmailSending(false);
+            queryClient.refetchQueries('allDisciplines');
             resetForm();
             setShowForm(false);
             // console.log(inputs);
