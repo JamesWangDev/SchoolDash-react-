@@ -205,7 +205,7 @@ export default function NewDiscipline({ refetch }) {
             resetForm();
             refetch();
             setEmailSending(false);
-            rebuildWebsite();
+            // rebuildWebsite();
             queryClient.refetchQueries('allDisciplines');
             setShowForm(false);
           }}
