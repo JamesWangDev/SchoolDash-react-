@@ -22,3 +22,23 @@ export const useGQLQuery = (key, query, variables, config = {}) => {
 
   return useQuery(key, fetchData, config);
 };
+
+export const useAsyncGQLQuery = (query) => {
+  const headers = {
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      authorization: `Bearer token goes here`,
+    },
+  };
+
+  const graphQLClient = new GraphQLClient(
+    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    headers
+  );
+  // console.log(GraphQLClient);
+  const fetchData = async (variables) =>
+    await graphQLClient.request(query, variables);
+
+  return fetchData;
+};

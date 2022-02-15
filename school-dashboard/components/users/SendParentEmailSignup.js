@@ -1,18 +1,25 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import React from 'react';
+import { toast } from 'react-hot-toast';
 import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
 import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles } from '../styles/Form';
 import { useUser } from '../User';
 import useSendEmail from '../../lib/useSendEmail';
+import { useNewParentAccount } from '../../lib/useNewParentAccount';
 
 export default function SendParentEmailSignupButton({ student }) {
   const me = useUser();
   const [showForm, setShowForm] = React.useState(false);
-  const { inputs, handleChange, clearForm } = useForm({ parentEmail: '' });
+  const { inputs, handleChange, clearForm } = useForm({
+    parentEmail: '',
+    parentName: '',
+  });
   const { setEmail, emailLoading } = useSendEmail();
+  const [createParentAccount, creatingParentAccount] = useNewParentAccount();
+
   if (!student) return null;
   return (
     <div>
@@ -32,28 +39,36 @@ export default function SendParentEmailSignupButton({ student }) {
               e.preventDefault();
               // check if email is a valid email address
               const email = inputs.parentEmail;
+              const name = inputs.parentName;
               if (!email) {
                 setEmail(null);
                 return;
               }
 
-              // Submit the inputfields to the backend:
+              // create parent account
+              const data = await createParentAccount({
+                parentEmail: email.toLowerCase(),
+                parentName: name,
+                student,
+                teacher: me,
+              });
 
-              const emailToSend = {
-                toAddress: email,
-                fromAddress: me.email,
-                subject: 'NCUJHS.TECH Parent Account Signup',
-                body: `
-                <p>You have been invited to register for a parent account for ${student.name} at NCUJHS.TECH. </p>
-                <p><a href="https://ncujhs.tech/parentRegistration/${student.id}?name=${student.name}">Click here to register</a></p>
-                `,
-              };
-              const res = await setEmail(emailToSend);
+              console.log(data);
+              if (data) {
+                toast(data.result, {
+                  duration: 4000,
+                  icon: '👨‍👧‍👦',
+                });
+              }
+
               clearForm();
               setShowForm(false);
             }}
           >
-            <fieldset disabled={emailLoading} aria-busy={emailLoading}>
+            <fieldset
+              disabled={emailLoading || creatingParentAccount}
+              aria-busy={emailLoading || creatingParentAccount}
+            >
               <label htmlFor="parentEmail">
                 Parent / Guardian Email
                 <input
@@ -63,6 +78,18 @@ export default function SendParentEmailSignupButton({ student }) {
                   name="parentEmail"
                   placeholder="Parent Email"
                   value={inputs.parentEmail}
+                  onChange={handleChange}
+                />
+              </label>
+              <label htmlFor="parentName">
+                Parent / Guardian Name
+                <input
+                  required
+                  type="name"
+                  id="parentName"
+                  name="parentName"
+                  placeholder="Parent Name"
+                  value={inputs.parentName}
                   onChange={handleChange}
                 />
               </label>
