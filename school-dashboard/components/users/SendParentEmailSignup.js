@@ -53,7 +53,6 @@ export default function SendParentEmailSignupButton({ student }) {
                 teacher: me,
               });
 
-              console.log(data);
               if (data) {
                 toast(data.result, {
                   duration: 4000,

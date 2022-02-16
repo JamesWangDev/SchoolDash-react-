@@ -125,8 +125,10 @@ export function useNewParentAccount() {
     // check if the parent email already exists with that student
     const parentEmailAlreadyExists = allParentEmails.includes(parentEmail);
     // If the parent email exists return because we don't want to create a new parent account
-    if (parentEmailAlreadyExists)
+    if (parentEmailAlreadyExists) {
+      setCreatingParentAccount(false);
       return { result: 'This Parent already exists!! No Account Created' };
+    }
 
     // check if a parent account with the email address exists
     const existingParent = await getParentData({ email: parentEmail });
@@ -143,7 +145,7 @@ export function useNewParentAccount() {
           parent: { connect: { id: existingParentID } },
         },
       });
-      console.log('res', res);
+      setCreatingParentAccount(false);
       return {
         result: 'parent already existed.  Connected to this student account',
       };
@@ -161,19 +163,23 @@ export function useNewParentAccount() {
           isParent: true,
         },
       });
-      console.log('newParent', newParent);
       // email to parent with password
       const emailToSend = {
         toAddress: parentEmail,
         fromAddress: teacher.email,
         subject: `NCUJHS.Tech account - ${student.name}`,
         body: `
-    <p>NCUJHS.Tech is a schoolwide dashboard. A parent account has been created for you.  To login use this email address.  Your password is: ${password}</p>
+    <p>NCUJHS.Tech is a schoolwide dashboard. A parent account has been created for you.  To login use this email address (${parentEmail}).  Your password is: ${password}</p>
     <p><a href="https://ncujhs.tech">Click Here to View The NCUJHS School Dashboard</a></p>
+    <p></p>
+    <p>Ths account can be used to vew any overdue assignments (Callback) for ${student.name}</p>
+    <p>School events, and other important school information is also available. </p>
+    <p></p>
+    <p>If you have any questions, please contact ${teacher.name} at ${teacher.email}</p>
+
     
      `,
       };
-      // console.log(emailToSend);
       const emailRes = await sendEmail({
         variables: {
           emailData: JSON.stringify(emailToSend),
@@ -182,6 +188,7 @@ export function useNewParentAccount() {
       setCreatingParentAccount(false);
       return {
         result: `New Parent Account Created for ${parentName}. Email with login sent to ${parentEmail}`,
+        email: emailRes,
       };
     }
 
