@@ -137,6 +137,7 @@ export default function TA({ data: initialData }) {
     {
       enabled: !!me,
       initialData,
+      staleTime: 0,
     }
   );
   if (!me) return <Loading />;
@@ -185,9 +186,7 @@ export async function getStaticPaths() {
   // console.log(GraphQLClient);
   const fetchData = async () => graphQLClient.request(TA_TEACHER_LIST_QUERY);
   const data = await fetchData();
-  const usersToUse = data.allUsers.filter((user) =>
-    user.email.includes('boskind')
-  );
+  const usersToUse = data.allUsers;
 
   const paths = usersToUse.map((user) => ({
     params: {
