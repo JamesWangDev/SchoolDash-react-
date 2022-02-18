@@ -220,7 +220,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       data,
-      revalidate: 60 * 60 * 4, // 4 hours (in seconds)
+      revalidate: 60 * 60 * 3, // 3 hours (in seconds)
     },
   };
 }
