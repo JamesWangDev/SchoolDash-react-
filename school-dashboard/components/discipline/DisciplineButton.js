@@ -22,7 +22,6 @@ import { todaysDateForForm } from '../calendars/formatTodayForForm';
 import useSendEmail from '../../lib/useSendEmail';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 // import useEmailAdmin from '../../lib/useEmailAdmin';
-import useRebuildWebsite from '../../lib/useRebuildWebsite';
 import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const GET_ADMIN_EMAILS = gql`
@@ -113,7 +112,6 @@ const CREATE_DISCIPLINE_MUTATION = gql`
 `;
 
 export default function NewDiscipline({ refetch }) {
-  const rebuildWebsite = useRebuildWebsite();
   const revalidatePage = useRevalidatePage('/discipline');
   const me = useUser();
   const queryClient = useQueryClient();

@@ -8,6 +8,7 @@ import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
 
 import { useUser } from '../User';
+import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const UPDATE_LINK_MUTATION = gql`
   mutation UPDATE_LINK_MUTATION(
@@ -33,6 +34,8 @@ const DELETE_LINK_MUTATION = gql`
 `;
 
 export default function EditLink({ link, refetch }) {
+  const revalidateIndex = useRevalidatePage('/');
+  const revalidateLinksPage = useRevalidatePage('/links');
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     name: link.name,
@@ -70,7 +73,8 @@ export default function EditLink({ link, refetch }) {
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await updateLink();
-
+            revalidateIndex();
+            revalidateLinksPage();
             refetch();
             setShowForm(false);
             // console.log(inputs);
@@ -123,6 +127,8 @@ export default function EditLink({ link, refetch }) {
               onClick={async () => {
                 const res = await deleteLink();
                 // console.log(res);
+                revalidateIndex();
+                revalidateLinksPage();
                 queryClient.refetchQueries('allLinks');
               }}
             >

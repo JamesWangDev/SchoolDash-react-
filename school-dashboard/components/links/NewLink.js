@@ -8,7 +8,7 @@ import useForm from '../../lib/useForm';
 import DisplayError from '../ErrorMessage';
 import { useUser } from '../User';
 import 'react-toggle/style.css';
-import useRebuildWebsite from '../../lib/useRebuildWebsite';
+import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const CREATE_LINK_MUTATION = gql`
   mutation CREATE_LINK_MUTATION(
@@ -41,7 +41,8 @@ const CREATE_LINK_MUTATION = gql`
 `;
 
 export default function NewLink({ refetchLinks, hidden }) {
-  const rebuildWebsite = useRebuildWebsite();
+  const revalidateIndexPage = useRevalidatePage("/");
+  const revalidateLinkPage = useRevalidatePage("/links");
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     forTeachers: false,
@@ -77,11 +78,11 @@ export default function NewLink({ refetchLinks, hidden }) {
             // Submit the inputfields to the backend:
             const res = await createLink();
             if (inputs.onHomePage) {
-              rebuildWebsite();
+              revalidateIndexPage();
             }
             resetForm();
             refetchLinks();
-
+            revalidateLinkPage();
             setShowForm(false);
           }}
         >

@@ -4,10 +4,9 @@ import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
 import usePbisCollection from './usePbisCollection';
-import useRebuildWebsite from '../../lib/useRebuildWebsite';
 
 export default function WeeklyPbisCollection() {
-  const rebuildWebsite = useRebuildWebsite();
+ 
   const [showForm, setShowForm] = React.useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm();
   const [running, setRunning] = React.useState(false);
@@ -52,7 +51,7 @@ export default function WeeklyPbisCollection() {
                 if (res) {
                   console.log(res);
                   setRunning(false);
-                  rebuildWebsite();
+                  
                   router.push({
                     pathname: `/pbis`,
                   });
