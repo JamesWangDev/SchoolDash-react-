@@ -23,6 +23,7 @@ import useSendEmail from '../../lib/useSendEmail';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 // import useEmailAdmin from '../../lib/useEmailAdmin';
 import useRebuildWebsite from '../../lib/useRebuildWebsite';
+import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
@@ -113,6 +114,7 @@ const CREATE_DISCIPLINE_MUTATION = gql`
 
 export default function NewDiscipline({ refetch }) {
   const rebuildWebsite = useRebuildWebsite();
+  const revalidatePage = useRevalidatePage('/discipline');
   const me = useUser();
   const queryClient = useQueryClient();
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
@@ -178,34 +180,13 @@ export default function NewDiscipline({ refetch }) {
                     emailData: JSON.stringify(emailToSend),
                   },
                 });
-                // console.log(emailRes);
               }
-              // console.log(res);
-
-              //   adminEmailArray.map(async (email) => {
-              //     const emailToSend = {
-              //       toAddress: email,
-              //       fromAddress: me.email,
-              //       subject: `New Discipline Referral for ${res.data.createDiscipline.student.name}`,
-              //       body: `
-              //     <p>There is a new Discipline Referral for ${res.data.createDiscipline.student.name} at NCUJHS.TECH created by ${me.name}. </p>
-              //     <p><a href="https://ncujhs.tech/discipline/${res.data.createDiscipline.id}">Click Here to View</a></p>
-              //      `,
-              //     };
-              //     // console.log(emailToSend);
-              //     const emailRes = await sendEmail({
-              //       variables: {
-              //         emailData: JSON.stringify(emailToSend),
-              //       },
-              //     });
-              //     console.log(emailRes);
-              //     return null;
-              //   });
             }
             resetForm();
             refetch();
             setEmailSending(false);
-            // rebuildWebsite();
+            const revalidateResponse = revalidatePage();
+            console.log(revalidateResponse);
             queryClient.refetchQueries('allDisciplines');
             setShowForm(false);
           }}

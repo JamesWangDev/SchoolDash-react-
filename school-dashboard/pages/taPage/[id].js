@@ -185,15 +185,18 @@ export async function getStaticPaths() {
   // console.log(GraphQLClient);
   const fetchData = async () => graphQLClient.request(TA_TEACHER_LIST_QUERY);
   const data = await fetchData();
-  // console.log(data);
-  const paths = data.allUsers.map((user) => ({
+  const usersToUse = data.allUsers.filter((user) =>
+    user.email.includes('boskind')
+  );
+
+  const paths = usersToUse.map((user) => ({
     params: {
       id: user.id,
     },
   }));
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   };
 }
 

@@ -4,8 +4,10 @@ import GradientButton from '../styles/Button';
 import Form, { FormContainerStyles } from '../styles/Form';
 import useForm from '../../lib/useForm';
 import usePbisCollection from './useNewPbisCollection';
+import useRevalidatePage from '../../lib/useRevalidatePage';
 
 export default function NewWeeklyPbisCollection() {
+  const sendRevalidationRequest = useRevalidatePage('/pbis');
   const [showForm, setShowForm] = React.useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm();
   const [running, setRunning] = React.useState(false);
@@ -49,10 +51,12 @@ export default function NewWeeklyPbisCollection() {
                 resetForm();
                 if (res) {
                   console.log(res);
+                  const revalidateRes = await sendRevalidationRequest();
+                  console.log(revalidateRes);
                   setRunning(false);
-                  // router.push({
-                  //   pathname: `/pbis`,
-                  // });
+                  router.push({
+                    pathname: `/pbis`,
+                  });
                 }
               }
             }}

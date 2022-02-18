@@ -15,6 +15,7 @@ import { useUser } from '../User';
 import useCreateMessage from '../Messages/useCreateMessage';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import useSendEmail from '../../lib/useSendEmail';
+import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const GET_GUIDANCE_EMAILS = gql`
   query GET_GUIDANCE_EMAILS {
@@ -86,7 +87,7 @@ export default function NewStudentFocusButton({ refetch }) {
   );
   // TODO: send message when callback assigned
   const createMessage = useCreateMessage();
-
+  const revalidatePage = useRevalidatePage('/studentFocus');
   //   console.log(inputs);
   return (
     <div>
@@ -141,7 +142,8 @@ export default function NewStudentFocusButton({ refetch }) {
             clearForm();
             setStudentWhoIsFor(null);
             setEmailSending(false);
-            rebuildWebsite();
+            const revalidation = revalidatePage();
+            console.log(revalidation);
             setShowForm(false);
           }}
         >

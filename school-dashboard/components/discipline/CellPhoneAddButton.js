@@ -10,6 +10,7 @@ import { useUser } from '../User';
 import SearchForUserName from '../SearchForUserName';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import useSendEmail from '../../lib/useSendEmail';
+import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
@@ -44,6 +45,7 @@ const ADD_CELLPHONE_MUTATION = gql`
 `;
 
 export default function CellPhoneAddButton() {
+  const revalidatePage = useRevalidatePage('/discipline');
   const { data: adminEmails, isLoading } = useGQLQuery(
     `AdminEmails`,
     GET_ADMIN_EMAILS
@@ -112,15 +114,15 @@ export default function CellPhoneAddButton() {
                     emailData: JSON.stringify(emailToSend),
                   },
                 });
-                // console.log(emailRes);
               }
             }
-            // refetch();
+
             setEmailSending(false);
+            const revalidationResponse = revalidatePage();
+            console.log(revalidationResponse);
             queryClient.refetchQueries('allDisciplines');
             resetForm();
             setShowForm(false);
-            // console.log(inputs);
           }}
         >
           <DisplayError error={error} />

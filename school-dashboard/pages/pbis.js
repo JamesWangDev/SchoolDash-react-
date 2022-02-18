@@ -2,7 +2,6 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { GraphQLClient } from 'graphql-request';
-import Loading from '../components/Loading';
 import { useUser } from '../components/User';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import PbisFalcon from '../components/PBIS/PbisFalcon';
@@ -383,7 +382,7 @@ export default function Pbis(props) {
 }
 
 export async function getStaticProps(context) {
-  // console.log(context);
+  console.log('PBIS PAGE GET STATIC PROPS');
   // fetch PBIS Page data from the server
   const headers = {
     credentials: 'include',
@@ -437,6 +436,6 @@ export async function getStaticProps(context) {
       pbisLinks,
       cardCounts,
     }, // will be passed to the page component as props
-    revalidate: 60 * 60 * 4, // 4 hours (in seconds)
+    revalidate: false,
   };
 }
