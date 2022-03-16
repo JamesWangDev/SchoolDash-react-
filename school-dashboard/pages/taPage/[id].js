@@ -219,11 +219,12 @@ try{
   const data = await graphQLClient.request(TA_INFO_QUERY, {
     id: params.id,
   });
-  console.log(data);
+  // console.log(data);
   return data;
 
 } catch (e) {
   console.log(e);
+  console.log('error', params.id );
 }
 
   }
