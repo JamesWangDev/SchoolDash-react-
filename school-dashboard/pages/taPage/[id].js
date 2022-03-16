@@ -125,14 +125,15 @@ const TA_TEACHER_LIST_QUERY = gql`
   }
 `;
 
-export default function TA({ data: initialData }) {
-  console.log(initialData?.taTeacher?.name);
+export default function TA({ data: initialData , query}) {
+  // console.log(query)
+  // console.log(initialData?.taTeacher?.name);
   const me = useUser();
   const { data, isLoading, error, refetch } = useGQLQuery(
     `taInfo-${initialData?.taTeacher?.name}`,
     TA_INFO_QUERY,
     {
-      id: initialData?.taTeacher?.id,
+      id: query.id,
     },
     {
       enabled: !!me,
@@ -144,16 +145,16 @@ export default function TA({ data: initialData }) {
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   // get the callbacks from each student in the ta
-  const allTaCallbacks = data.taTeacher.taStudents.map(
+  const allTaCallbacks = data?.taTeacher?.taStudents?.map(
     (student) => student.callbackItems || null
-  );
-  const allTaCallbacksFlattened = [].concat(...allTaCallbacks);
+  ) || [];
+  const allTaCallbacksFlattened = [].concat(...allTaCallbacks) || [];
 
   const isAllowedPbisCardCounting =
     me?.id === initialData?.taTeacher?.id || me?.canManagePbis;
 
   // console.log('callbacks', allTaCallbacksFlattened);
-  const students = data.taTeacher.taStudents || [];
+  const students = data?.taTeacher?.taStudents || [];
   return (
     <div>
       <h1>{data?.taTeacher?.name}'s TA</h1>
@@ -213,14 +214,26 @@ export async function getStaticProps({ params }) {
     headers
   );
   // console.log(GraphQLClient);
-  const fetchData = async () =>
-    graphQLClient.request(TA_INFO_QUERY, { id: params.id });
-  const data = await fetchData();
+  const fetchData = async () =>{
+try{
+  const data = await graphQLClient.request(TA_INFO_QUERY, {
+    id: params.id,
+  });
+  console.log(data);
+  return data;
+
+} catch (e) {
+  console.log(e);
+}
+
+  }
+  const data = await fetchData() || {};
+
   // console.log(data);
   return {
     props: {
       data,
-      revalidate: 60 * 60 * 3, // 3 hours (in seconds)
+      revalidate: 60 * 60 * 1, // 1 hours (in seconds)
     },
   };
 }
