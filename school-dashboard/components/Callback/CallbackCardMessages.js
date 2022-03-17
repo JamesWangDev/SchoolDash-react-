@@ -7,17 +7,23 @@ import { QueryClient, useQueryClient } from 'react-query';
 import Form, { FormGroupStyles } from '../styles/Form';
 import { SmallGradientButton } from '../styles/Button';
 
+// TODO Update this to include date modified for these cards
+
 const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
   mutation UPDATE_CALLBACK_MESSAGES_MUTATION(
     $id: ID!
     $messageFromTeacher: String
+    $messageFromTeacherDate: String
     $messageFromStudent: String
+    $messageFromStudentDate: String
   ) {
     updateCallback(
       id: $id
       data: {
         messageFromTeacher: $messageFromTeacher
+        messageFromTeacherDate: $messageFromTeacherDate
         messageFromStudent: $messageFromStudent
+        messageFromStudentDate: $messageFromStudentDate
       }
     ) {
       id
@@ -78,9 +84,16 @@ export default function CallbackCardMessages({ me, callback }) {
   const [teacherMessage, setTeacherMessage] = useState(
     callback.messageFromTeacher || ''
   );
+  const [teacherMessageDate, setTeacherMessageDate] = useState(
+    callback.messageFromTeacherDate || ''
+  );
   const [studentMessage, setStudentMessage] = useState(
     callback.messageFromStudent || ''
   );
+  const [studentMessageDate, setStudentMessageDate] = useState(
+    callback.messageFromStudentDate || ''
+  );
+console.log(studentMessageDate)
   const queryClient = useQueryClient();
   const [updateCallback, { loading, error, data }] = useMutation(
     UPDATE_CALLBACK_MESSAGES_MUTATION,
@@ -88,7 +101,9 @@ export default function CallbackCardMessages({ me, callback }) {
       variables: {
         id: callback.id,
         messageFromTeacher: teacherMessage,
+        messageFromTeacherDate: teacherMessageDate,
         messageFromStudent: studentMessage,
+        messageFromStudentDate: studentMessageDate,
       },
     }
   );
@@ -120,6 +135,9 @@ export default function CallbackCardMessages({ me, callback }) {
               <span className={callback?.messageFromStudent ? 'hasText' : ''}>
                 {callback.messageFromStudent || '----'}
               </span>
+              <span>
+                {callback.messageFromStudentDate || ''}
+              </span>
             </AnimatedInput>
           )}
           {!isTeacher && (
@@ -127,6 +145,9 @@ export default function CallbackCardMessages({ me, callback }) {
               Teacher:
               <span className={callback?.messageFromTeacher ? 'hasText' : ''}>
                 {callback.messageFromTeacher || '----'}
+              </span>
+              <span>
+                {callback.messageFromTeacherDate || '----'}
               </span>
             </AnimatedInput>
           )}
@@ -142,8 +163,13 @@ export default function CallbackCardMessages({ me, callback }) {
                   onChange={(e) => {
                     //   console.log(e.target.value);
                     setStudentMessage(e.target.value);
+                    const todaysDate = new Date().toLocaleDateString();
+                    setStudentMessageDate(todaysDate);
                   }}
                 />
+                <span>
+                  {studentMessageDate || '-'}
+                </span>
               </AnimatedInput>
             </>
           )}
@@ -181,9 +207,15 @@ export default function CallbackCardMessages({ me, callback }) {
                   className={loading ? 'inputUpdating' : ''}
                   onChange={(e) => {
                     //   console.log(e.target.value);
+                    const todaysDate = new Date().toLocaleDateString();
                     setTeacherMessage(e.target.value);
+                    setTeacherMessageDate(todaysDate);
+                    
                   }}
                 />
+                <span>
+                  {teacherMessageDate || '-'}
+                </span>
               </AnimatedInput>
             </>
           )}

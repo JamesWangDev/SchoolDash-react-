@@ -22,7 +22,9 @@ const GET_SINGLE_CALLBACK = gql`
       dateAssigned
       dateCompleted
       messageFromTeacher
+      messageFromTeacherDate
       messageFromStudent
+      messageFromStudentDate
       link
 
       teacher {

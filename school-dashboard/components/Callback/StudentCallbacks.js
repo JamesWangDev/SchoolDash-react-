@@ -32,6 +32,8 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
       dateCompleted
       messageFromStudent
       messageFromTeacher
+      messageFromStudentDate
+      messageFromTeacherDate
     }
   }
 `;
