@@ -93,7 +93,7 @@ export default function CallbackCardMessages({ me, callback }) {
   const [studentMessageDate, setStudentMessageDate] = useState(
     callback.messageFromStudentDate || ''
   );
-console.log(studentMessageDate)
+// console.log(studentMessageDate)
   const queryClient = useQueryClient();
   const [updateCallback, { loading, error, data }] = useMutation(
     UPDATE_CALLBACK_MESSAGES_MUTATION,
@@ -180,11 +180,13 @@ console.log(studentMessageDate)
                 <SmallGradientButton
                   type="button"
                   onClick={async () => {
+                    const todaysDate = new Date().toLocaleDateString();
                     const res = await updateCallback({
                       variables: {
                         id: callback.id,
                         messageFromTeacher: teacherMessage,
                         messageFromStudent: '',
+                        messageFromStudentDate: todaysDate,
                       },
                     });
                     await queryClient.refetchQueries();
