@@ -109,6 +109,8 @@ const TA_INFO_QUERY = gql`
           dateCompleted
           messageFromStudent
           messageFromTeacher
+          messageFromStudentDate
+          messageFromTeacherDate
         }
       }
     }
