@@ -90,7 +90,7 @@ export default function NewStudent({ student }) {
   return (
     <div>
       <GradientButton onClick={() => setShowForm(!showForm)}>
-        {showForm ? 'close' : 'Create New Student'}
+        {showForm ? 'close' : 'Create a New Student'}
       </GradientButton>
       <FormContainerStyles>
         <Form

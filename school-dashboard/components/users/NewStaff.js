@@ -30,7 +30,7 @@ export default function NewUpdateUsers() {
         style={{ marginTop: '10px' }}
         onClick={() => setShowForm(!showForm)}
       >
-        User Update
+        Batch Update users from JSON
       </GradientButton>
       <div>
         <FormContainerStyles>
