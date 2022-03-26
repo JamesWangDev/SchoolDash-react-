@@ -51,7 +51,9 @@ export default function Table({
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr 
+            key={headerGroup.id}
+            {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th 
                   key={`${column.id}`} 
@@ -76,7 +78,9 @@ export default function Table({
             return (
               <tr key={`row${i}`} {...row.getRowProps()}>
                 {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  <td 
+                  key={`${cell.column.id}${i}`}
+                  {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
               </tr>
             );
