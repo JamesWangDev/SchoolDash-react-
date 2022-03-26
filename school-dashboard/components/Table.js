@@ -53,7 +53,8 @@ export default function Table({
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th
+                <th 
+                  key={`${column.id}`} 
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   className={
                     column.isSorted
@@ -73,7 +74,7 @@ export default function Table({
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr key={`row${i}`} {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}

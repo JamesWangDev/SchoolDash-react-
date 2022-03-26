@@ -89,14 +89,18 @@ export default function TrimesterAwardsAllStudentsTable({
               );
               const numberOfAwards = cell.row.original.awards.length;
               return (
-                <ToolTipStyles>
+                <ToolTipStyles 
+                key={cell.row.original.id}
+                >
                   <span>{numberOfAwards}</span>
                   {numberOfAwards > 0 && (
                     <>
                       <span className="infoAvailable">info</span>
                       <div className="toolTipText">
                         {awards.map((award) => (
-                          <p>{award}</p>
+                          <p
+                          key={award}
+                          >{award}</p>
                         ))}
                       </div>
                     </>

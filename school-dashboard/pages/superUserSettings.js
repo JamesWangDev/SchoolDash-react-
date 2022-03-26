@@ -8,7 +8,7 @@ import NewStaff from '../components/users/NewStaff';
 import NewUpdateUsers from '../components/users/NewUpdateUsers';
 import isAllowed from '../lib/isAllowed';
 
-export default function superUserSettings() {
+export default function SuperUserSettings() {
   const me = useUser();
   return (
     <div>
