@@ -10,6 +10,7 @@ import CallbackCards from '../components/Callback/CallbackCards';
 import NewCallback from '../components/Callback/NewCallbackButton';
 import { FormContainerStyles } from '../components/styles/Form';
 import Loading from '../components/Loading';
+import NewCallbackMultiStudent from '../components/Callback/newCallbackMultiStudent';
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($teacher: ID) {
@@ -84,6 +85,7 @@ export default function Callback() {
           />
         </label>
         <NewCallback refetch={refetch} />
+        <NewCallbackMultiStudent refetch={refetch} />
       </FormContainerStyles>
       {showTable && <CallbackTable callbacks={callbacks} />}
 
