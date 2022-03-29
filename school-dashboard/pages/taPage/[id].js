@@ -153,7 +153,8 @@ export default function TA({ data: initialData , query}) {
   const allTaCallbacksFlattened = [].concat(...allTaCallbacks) || [];
 
   const isAllowedPbisCardCounting =
-    me?.id === initialData?.taTeacher?.id || me?.canManagePbis;
+    me?.id === data?.taTeacher?.id || me?.canManagePbis;
+
 
   // console.log('callbacks', allTaCallbacksFlattened);
   const students = data?.taTeacher?.taStudents || [];
