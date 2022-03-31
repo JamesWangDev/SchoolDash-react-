@@ -47,23 +47,23 @@ const USERS_CLASS_STUDENTS_QUERY = gql`
   query {
     authenticatedItem {
       ... on User {
-        block1Students {
+        block1Students (orderBy: "name" ){
           id
           name
         }
-        block2Students {
+        block2Students (orderBy: "name" ) {
           id
           name
         }
-        block3Students {
+        block3Students (orderBy: "name" ){
           id
           name
         }
-        block4Students {
+        block4Students (orderBy: "name" ) {
           id
           name
         }
-        block5Students {
+        block5Students (orderBy: "name" ){
           id
           name
         }
@@ -117,7 +117,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
       >
         {showForm
           ? 'Close the form'
-          : 'New Callback Assignment For Multiple Students Not Well Tested!'}
+          : 'New Callback Assignment For Multiple Students'}
       </GradientButton>
 
       <FormContainerStyles>
