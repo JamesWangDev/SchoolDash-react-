@@ -7,14 +7,6 @@
     "build": "next build",
     "start": "next start"
   },
-  "eslintConfig": {
-    "extends": [
-      "wesbos"
-    ],
-    "rules": {
-      "react/jsx-props-no-spreading": 0
-    }
-  },
   "dependencies": {
     "@apollo/client": "^3.3.11",
     "@apollo/link-error": "^2.0.0-beta.3",
