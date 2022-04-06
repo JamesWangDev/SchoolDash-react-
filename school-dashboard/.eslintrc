@@ -6,6 +6,9 @@
         "react/prop-types": "off",
         "react/destructuring-assignment": "off",
         "jsx-a11y/label-has-associated-control": "off",
-        
+        "react/jsx-props-no-spreading": "off",
+        "import/no-cycle": "off",
+        "react/jsx-no-bind": "off",
+        "no-nested-ternary": "off"
     }
 }
