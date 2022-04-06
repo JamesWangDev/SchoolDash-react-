@@ -127,7 +127,7 @@ const TA_TEACHER_LIST_QUERY = gql`
   }
 `;
 
-export default function TA({ data: initialData , query}) {
+export default function TA({ data: initialData, query }) {
   // console.log(query)
   // console.log(initialData?.taTeacher?.name);
   const me = useUser();
@@ -147,14 +147,14 @@ export default function TA({ data: initialData , query}) {
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
   // get the callbacks from each student in the ta
-  const allTaCallbacks = data?.taTeacher?.taStudents?.map(
-    (student) => student.callbackItems || null
-  ) || [];
+  const allTaCallbacks =
+    data?.taTeacher?.taStudents?.map(
+      (student) => student.callbackItems || null
+    ) || [];
   const allTaCallbacksFlattened = [].concat(...allTaCallbacks) || [];
 
   const isAllowedPbisCardCounting =
     me?.id === data?.taTeacher?.id || me?.canManagePbis;
-
 
   // console.log('callbacks', allTaCallbacksFlattened);
   const students = data?.taTeacher?.taStudents || [];
@@ -217,21 +217,19 @@ export async function getStaticProps({ params }) {
     headers
   );
   // console.log(GraphQLClient);
-  const fetchData = async () =>{
-try{
-  const data = await graphQLClient.request(TA_INFO_QUERY, {
-    id: params.id,
-  });
-  // console.log(data);
-  return data;
-
-} catch (e) {
-  console.log(e);
-  console.log('error', params.id );
-}
-
-  }
-  const data = await fetchData() || {};
+  const fetchData = async () => {
+    try {
+      const dataFromFetch = await graphQLClient.request(TA_INFO_QUERY, {
+        id: params.id,
+      });
+      // console.log(data);
+      return dataFromFetch;
+    } catch (e) {
+      console.log(e);
+      console.log('error', params.id);
+    }
+  };
+  const data = (await fetchData()) || {};
 
   // console.log(data);
   return {
