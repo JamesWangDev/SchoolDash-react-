@@ -225,7 +225,7 @@ export async function getStaticProps({ params }) {
       // console.log(data);
       return dataFromFetch;
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       console.log('error', params.id);
     }
   };
