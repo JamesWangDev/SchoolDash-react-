@@ -18,7 +18,7 @@ import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const GET_GUIDANCE_EMAILS = gql`
   query GET_GUIDANCE_EMAILS {
-    allUsers(where: { isGuidance: true }) {
+    users(where: { isGuidance: {equals: true} }) {
       id
       name
       email
@@ -68,7 +68,7 @@ export default function NewStudentFocusButton({ refetch }) {
     `GuidanceEmails`,
     GET_GUIDANCE_EMAILS
   );
-  const guidanceAccounts = (guidance && guidance.allUsers) || [];
+  const guidanceAccounts = (guidance && guidance.users) || [];
   const guidanceEmailList = guidanceAccounts.map((g) => g.email);
   // console.log('guidanceEmailList', guidanceEmailList);
   const { sendEmail, emailLoading } = useSendEmail();

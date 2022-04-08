@@ -12,7 +12,7 @@ import { endpoint, prodEndpoint } from '../../config';
 
 const TA_INFO_QUERY = gql`
   query TA_INFO_QUERY($id: ID!) {
-    taTeacher: User(where: { id: $id }) {
+    taTeacher: user(where: { id: $id }) {
       PbisCardCount
       taPbisCardCount
       name
@@ -70,18 +70,12 @@ const TA_INFO_QUERY = gql`
           block5Assignment
         }
         callbackCount
-        _studentCellPhoneViolationMeta {
-          count
-        }
+        studentCellPhoneViolationCount
         PbisCardCount
 
-        _studentFocusStudentMeta {
-          count
-        }
+        studentFocusStudentCount
         YearPbisCount
-        _studentCellPhoneViolationMeta {
-          count
-        }
+        
         studentPbisCards {
           id
           cardMessage
@@ -119,7 +113,7 @@ const TA_INFO_QUERY = gql`
 
 const TA_TEACHER_LIST_QUERY = gql`
   query TA_TEACHER_LIST_QUERY {
-    allUsers(where: { hasTA: true }) {
+    users(where: { hasTA: {equals: true} }) {
       id
       name
       email
@@ -192,11 +186,11 @@ export async function getStaticPaths() {
   const data = await fetchData();
   const usersToUse = data.allUsers;
 
-  const paths = usersToUse.map((user) => ({
+  const paths = usersToUse?.map((user) => ({
     params: {
       id: user.id,
     },
-  }));
+  })) || [];
   return {
     paths,
     fallback: 'blocking',

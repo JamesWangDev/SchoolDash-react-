@@ -30,7 +30,7 @@ const DisplaySingleDiscipline = styled.div`
 
 export const SINGLE_DISCIPLINE_DATA = gql`
   query SINGLE_DISCIPLINE_DATA($id: ID!) {
-    Discipline(where: { id: $id }) {
+    discipline(where: { id: $id }) {
       id
       date
       teacher {
@@ -40,9 +40,7 @@ export const SINGLE_DISCIPLINE_DATA = gql`
       student {
         name
         id
-        _studentDisciplineMeta {
-          count
-        }
+        studentDisciplineCount
       }
       teacherComments
       classType
@@ -87,7 +85,7 @@ export default function SingleDisciplineReferralPage({ query }) {
   );
   const [editing, setEditing] = useState(false);
   if (isLoading) return <Loading />;
-  const discipline = data?.Discipline;
+  const discipline = data?.discipline;
   const date = new Date(discipline?.date);
   // console.log(date);
   const dayAfterDate = date?.setDate(date.getDate() + 1).toLocaleString();
@@ -132,7 +130,7 @@ export default function SingleDisciplineReferralPage({ query }) {
           <h3>{dateToShow}</h3>
           <p>
             Student's Referrals:{' '}
-            {discipline.student._studentDisciplineMeta.count}
+            {discipline.student.studentDisciplineCount}
           </p>
         </div>
         <div>

@@ -9,7 +9,7 @@ import Table from '../components/Table';
 
 const ALL_STUDENT_FOCUS_QUERY = gql`
   query ALL_STUDENT_FOCUS_QUERY {
-    allStudentFoci(sortBy: dateCreated_DESC) {
+    studentFoci(orderBy: {dateCreated:desc}) {
       id
       comments
       category
@@ -33,6 +33,7 @@ const ALL_STUDENT_FOCUS_QUERY = gql`
       }
     }
   }
+  
 `;
 
 export default function StudentFocus(props) {
@@ -97,7 +98,7 @@ export default function StudentFocus(props) {
       {!!me && <NewStudentFocusButton />}
 
       <Table
-        data={data?.allStudentFoci || []}
+        data={data?.studentFoci || []}
         columns={columns}
         searchColumn="student.name"
       />

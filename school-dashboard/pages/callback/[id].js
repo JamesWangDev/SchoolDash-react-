@@ -14,7 +14,7 @@ import DuplicateCallback from '../../components/Callback/DuplicateCallback';
 
 const GET_SINGLE_CALLBACK = gql`
   query GET_SINGLE_CALLBACK($id: ID!) {
-    Callback(where: { id: $id }) {
+    callback(where: { id: $id }) {
       id
       title
       description
@@ -91,15 +91,15 @@ export default function SingleCallbackPage({ query }) {
   const [duplicating, setDuplicating] = useState(false);
   if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
-  const callback = data?.Callback;
+  const callback = data?.callback;
   const dateAssigned = new Date(callback?.dateAssigned).toLocaleDateString();
-  const dateCompleted = callback.dateCompleted
+  const dateCompleted = callback?.dateCompleted
     ? new Date(callback?.dateCompleted).toLocaleDateString()
     : 'Not Yet Completed';
   return (
     <SingleCallbackStyles>
       <h1>
-        {me?.id === callback.teacher.id && (
+        {me?.id === callback?.teacher.id && (
           <SmallGradientButton
             onClick={() => {
               setEditing(!editing);
@@ -109,7 +109,7 @@ export default function SingleCallbackPage({ query }) {
           </SmallGradientButton>
         )}
         {callback.title}{' '}
-        {me?.id === callback.teacher.id && (
+        {me?.id === callback?.teacher.id && (
           <SmallGradientButton
             onClick={() => {
               setDuplicating(!duplicating);

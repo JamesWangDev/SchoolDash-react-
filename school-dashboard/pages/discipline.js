@@ -34,7 +34,7 @@ const DisciplinePageContainer = styled.div`
 
 export const DISCIPLINE_DATA = gql`
   query DISCIPLINE_DATA {
-    allDisciplines(sortBy: date_DESC) {
+    disciplines(orderBy: {date: desc}) {
       id
       date
       teacher {
@@ -74,7 +74,7 @@ export const DISCIPLINE_DATA = gql`
       unknown
       othersInvolved
     }
-    allCellPhoneViolations(sortBy: dateGiven_DESC) {
+    cellPhoneViolations(orderBy: {dateGiven:desc}) {
       id
       description
       dateGiven
@@ -106,7 +106,7 @@ export default function Discipline(props) {
   );
 
   // if (isLoading) return <Loading />;
-  const { allDisciplines } = data || [];
+  const allDisciplines  = data?.disciplines || [];
   const disciplinesWithDateIncrimented = allDisciplines?.map((d) => {
     const date = new Date(d.date);
     const dateIncrimented = new Date(date.setDate(date.getDate() + 1));

@@ -23,9 +23,9 @@ const CallBackCardsStyles = styled.div`
 export default function CallbackCards({ callbacks, maxColumns }) {
   return (
     <>
-      <h1>You have {callbacks.length} Items on callback</h1>
+      <h1>You have {callbacks?.length > 0 ? callbacks.length : "no" } Items on callback</h1>
       <CallBackCardsStyles maxColumns={maxColumns}>
-        {callbacks.map((callback) => (
+        {callbacks?.map((callback) => (
           <SingleCallbackCard
             callback={callback}
             key={`Callback${callback.id}`}

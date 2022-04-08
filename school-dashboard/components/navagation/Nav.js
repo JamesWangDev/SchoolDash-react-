@@ -8,7 +8,7 @@ import MessagesCount from '../Messages/MessagesCount';
 
 export default  function Nav() {
   const me = useUser();
-  console.log("me",me);
+  // console.log("me",me);
   if (!me) {
     return <SignIn />;
   }

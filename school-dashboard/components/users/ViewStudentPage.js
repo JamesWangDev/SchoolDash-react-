@@ -92,9 +92,9 @@ const GET_SINGLE_TEACHER = gql`
         currentLevel
       }
       studentPbisCards(
-        sortBy: dateGiven_DESC
-        first: 20
-        where: { category_not: "physical" }
+        orderBy: {dateGiven:desc}
+        take: 20
+        where: { category: {not:{equals: "physical"} }}
       ) {
         id
         cardMessage
@@ -105,7 +105,7 @@ const GET_SINGLE_TEACHER = gql`
         }
         dateGiven
       }
-      studentFocusStudent(first: 2) {
+      studentFocusStudent(take: 2) {
         id
         comments
       }

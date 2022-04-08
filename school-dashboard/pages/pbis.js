@@ -84,141 +84,74 @@ const TitleBarStyles = styled.div`
 `;
 
 const PBIS_PAGE_QUERY = gql`
-  query PBIS_PAGE_QUERY(
-    $teamId: ID
-    $countId: ID # $forStudents: Boolean # $forTeachers: Boolean # $forParents: Boolean
+  query PBIS_PAGE_QUERY($teamId: ID) {
+  totalTeamCards: pbisCardsCount(
+    where: { student: { taTeacher: { taTeam: { id: { equals: $teamId } } } } }
+  )
+
+  teamData: pbisCards(
+    where: { student: { taTeacher: { taTeam: { id: { equals: $teamId } } } } }
   ) {
-    # cards: allPbisCards {
-    #   id
-    #   dateGiven
-    #   category
-    #   # teacher {
-    #   #   id
-    #   #   name
-    #   # }
-    #   # student {
-    #   #   id
-    #   #   name
-    #   # }
-    #   counted
-    # }
-    # totalSchoolCards: _allPbisCardsMeta {
-    #   count
-    # }
-    totalTeamCards: _allPbisCardsMeta(
-      where: { student: { taTeacher: { taTeam: { id: $countId } } } }
-    ) {
-      count
-    }
-    # teams: allPbisTeams {
-    #   id
-    #   teamName
-    #   taTeacher {
-    #     id
-    #     name
-    #   }
-    #   averageCardsPerStudent
-    #   uncountedCards
-    #   countedCards
-    #   currentLevel
-    #   numberOfStudents
-    # }
-    # lastCollection: allPbisCollections(sortBy: collectionDate_DESC, first: 2) {
-    #   id
-    #   name
-    #   collectionDate
-    #   personalLevelWinners
-    #   randomDrawingWinners
-    #   taTeamsLevels
-    #   taTeamNewLevelWinners
-    #   currentPbisTeamGoal
-    # }
-    teamData: allPbisCards(
-      where: { student: { taTeacher: { taTeam: { id: $teamId } } } }
-    ) {
-      id
-      dateGiven
-      category
-      # teacher {
-      #   id
-      #   name
-      # }
-      # student {
-      #   id
-      #   name
-      # }
-      counted
-    }
-    # pbisLinks: allLinks(
-    #   where: {
-    #     forPbis: true
-    #     OR: [
-    #       { forParents: $forParents }
-    #       { forStudents: $forStudents }
-    #       { forTeachers: $forTeachers }
-    #     ]
-    #   }
-    # ) {
-    #   id
-    #   link
-    #   name
-    #   description
-    # }
+    id
+    dateGiven
+    category
+    counted
   }
+}
+
 `;
 
 const PBIS_PAGE_STATIC_QUERY = gql`
   query PBIS_PAGE_STATIC_QUERY {
-    cards: allPbisCards {
-      id
-      dateGiven
-      category
+  cards: pbisCards {
+    id
+    dateGiven
+    category
 
-      counted
-    }
-    totalSchoolCards: _allPbisCardsMeta {
-      count
-    }
-
-    teams: allPbisTeams {
-      id
-      teamName
-      taTeacher {
-        id
-        name
-      }
-      averageCardsPerStudent
-      uncountedCards
-      countedCards
-      currentLevel
-      numberOfStudents
-    }
-    lastCollection: allPbisCollections(sortBy: collectionDate_DESC, first: 2) {
-      id
-      name
-      collectionDate
-      personalLevelWinners
-      randomDrawingWinners
-      taTeamsLevels
-      taTeamNewLevelWinners
-      currentPbisTeamGoal
-    }
-
-    pbisLinks: allLinks(where: { forPbis: true }) {
-      id
-      link
-      name
-      description
-      forParents
-      forTeachers
-      forStudents
-    }
-    cardCounts: allPbisCollections {
-      id
-      name
-      collectedCards
-    }
+    counted
   }
+  totalSchoolCards: pbisCardsCount
+
+  teams: pbisTeams {
+    id
+    teamName
+    taTeacher {
+      id
+      name
+    }
+    averageCardsPerStudent
+    uncountedCards
+    countedCards
+    currentLevel
+    numberOfStudents
+  }
+  lastCollection: pbisCollections(orderBy: { collectionDate: desc }, take: 2) {
+    id
+    name
+    collectionDate
+    personalLevelWinners
+    randomDrawingWinners
+    taTeamsLevels
+    taTeamNewLevelWinners
+    currentPbisTeamGoal
+  }
+
+  pbisLinks: links(where: { forPbis: { equals: true } }) {
+    id
+    link
+    name
+    description
+    forParents
+    forTeachers
+    forStudents
+  }
+  cardCounts: pbisCollections {
+    id
+    name
+    collectedCards
+  }
+}
+
 `;
 
 export default function Pbis(props) {
@@ -232,7 +165,7 @@ export default function Pbis(props) {
     PBIS_PAGE_QUERY,
     {
       teamId,
-      countId: teamId,
+      // countId: teamId,
       forTeachers: me?.isStaff || null,
       forStudents: me?.isStudent || null,
       forParents: me?.isParent || null,
@@ -400,8 +333,8 @@ export async function getStaticProps(context) {
   const fetchData = async () => graphQLClient.request(PBIS_PAGE_STATIC_QUERY);
   const data = await fetchData();
   // console.log(data);
-  const cards = data?.cards;
-  const totalSchoolCards = data?.totalSchoolCards?.count;
+  const cards = data?.cards || [];
+  const totalSchoolCards = data?.totalSchoolCards;
 
   // gat card data by category
   const categories = cards?.map((card) => card.category);
@@ -420,8 +353,8 @@ export async function getStaticProps(context) {
 
   const teams = data?.teams;
 
-  const lastPbisCollection = data?.lastCollection[0];
-  const previousPbisCollection = data?.lastCollection[1];
+  const lastPbisCollection = data?.lastCollection[0] || null;
+  const previousPbisCollection = data?.lastCollection[1] || null;
   const pbisLinks = data?.pbisLinks;
   const cardCounts = data?.cardCounts;
 

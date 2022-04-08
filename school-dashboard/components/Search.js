@@ -76,7 +76,7 @@ export default function Search() {
     (user) => !user.isStaff && !user.isParent && !user.isStudent
   );
   if (allUsersWithoutRole?.length > 0) {
-    console.log(allUsersWithoutRole);
+    // console.log(allUsersWithoutRole);
   }
 
   resetIdCounter();
