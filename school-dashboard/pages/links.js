@@ -14,7 +14,7 @@ import { endpoint, prodEndpoint } from '../config';
 
 const GET_ALL_LINKS_QUERY = gql`
   query GET_ALL_LINKS_QUERY {
-    allLinks {
+    links {
       id
       name
       link
@@ -33,7 +33,7 @@ const GET_ALL_LINKS_QUERY = gql`
 `;
 const GET_ALL_STATIC_LINKS_QUERY = gql`
   query GET_ALL_STATIC_LINKS_QUERY {
-    allLinks {
+    links {
       id
       name
       link
@@ -70,8 +70,11 @@ export default function Links(props) {
       initialData: props?.rawLinksList,
     }
   );
-
-  const filteredLinks = data?.allLinks.filter((link) => {
+console.log(data)
+  const filteredLinks = data?.links.filter((link) => {
+    if(!me && link.forParents) {
+      return true;
+    }
     if (link.forParents && me?.isParent) {
       return true;
     }
@@ -83,7 +86,7 @@ export default function Links(props) {
     }
     return false;
   });
-  // console.log(filteredLinks);
+ 
 
   const columns = useMemo(
     () => [

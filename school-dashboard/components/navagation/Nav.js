@@ -6,8 +6,9 @@ import SignIn from '../loginComponents/SignIn';
 import isAllowed from '../../lib/isAllowed';
 import MessagesCount from '../Messages/MessagesCount';
 
-export default function Nav() {
+export default  function Nav() {
   const me = useUser();
+  console.log("me",me);
   if (!me) {
     return <SignIn />;
   }

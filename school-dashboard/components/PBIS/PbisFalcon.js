@@ -8,9 +8,7 @@ import Loading from '../Loading';
 // gql query to get number of cards
 export const TOTAL_PBIS_CARDS = gql`
   query {
-    _allPbisCardsMeta {
-      count
-    }
+    pbisCardsCount
   }
 `;
 
@@ -67,7 +65,7 @@ const ContainerStyles = styled.div`
 export default function PbisFalcon({ initialCount }) {
   let queryOptions = {};
   const initialData = {};
-  initialData._allPbisCardsMeta = {
+  initialData.pbisCardsCount = {
     count: initialCount,
   };
 
@@ -90,7 +88,7 @@ export default function PbisFalcon({ initialCount }) {
   if (isLoading) return <Loading />;
   if (error) return <DisplayError error={error} />;
   const percentageFull =
-    Math.round((data._allPbisCardsMeta.count / cardGoal) * 10000) / 100;
+    Math.round((data?.pbisCardsCount / cardGoal) * 10000) / 100;
   const percentageLeft = 100 - percentageFull;
   return (
     <div>
@@ -99,7 +97,7 @@ export default function PbisFalcon({ initialCount }) {
           <img src="/falcon.svg" alt="falcon" />
           <span className="label">{`${percentageFull}%`}</span>
         </div>
-        <span className="total">{data._allPbisCardsMeta.count} cards</span>
+        <span className="total">{data?.pbisCardsCount} cards</span>
       </ContainerStyles>
     </div>
   );

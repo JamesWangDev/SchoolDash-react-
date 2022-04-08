@@ -6,21 +6,25 @@ import useForm from '../../lib/useForm';
 import { CURRENT_USER_QUERY, useUser } from '../User';
 import Error from '../ErrorMessage';
 import { useGQLQuery } from '../../lib/useGqlQuery';
+import { GraphQLClient, request } from 'graphql-request';
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
     authenticateUserWithPassword(email: $email, password: $password) {
+      __typename
       ... on UserAuthenticationWithPasswordSuccess {
         item {
-          id
-          email
           name
+          email
+          id
         }
+        sessionToken
+        
       }
       ... on UserAuthenticationWithPasswordFailure {
-        code
+   
         message
-      }
+      }  
     }
   }
 `;
@@ -37,21 +41,22 @@ export default function SignIn() {
       password: inputs.password,
     },
     // refetch the currently logged in user
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    // refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
   // console.log(lowercaseEmail);
   async function handleSubmit(e) {
     e.preventDefault(); // stop the form from submitting
     // console.log(inputs);
-
+const newRes = await signinNew(inputs);
+console.log("newSignin",newRes);
     const res = await signin();
-    // console.log(res);
+    console.log("oldres",res);
     queryClient.refetchQueries();
     // refetch();
     resetForm();
     // Send the email and password to the graphqlAPI
   }
-
+// console.log(data)
   const error =
     data?.authenticateUserWithPassword.__typename ===
     'UserAuthenticationWithPasswordFailure'
@@ -88,4 +93,22 @@ export default function SignIn() {
       </fieldset>
     </Form>
   );
+}
+
+
+
+const endpoint = "http://localhost:3000/api/graphql";
+
+async function signinNew({ email, password }) {
+
+
+  const res = await request(endpoint, SIGNIN_MUTATION, {
+    email: email.toLowerCase(),
+    password,
+    }, Headers);
+  console.log("signin",res);
+  const token = res.authenticateUserWithPassword.sessionToken;
+  console.log("token",token);
+  localStorage.setItem('token', token);
+  return res.data;
 }

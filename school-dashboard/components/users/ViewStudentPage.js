@@ -19,7 +19,7 @@ const ParentInfoStyles = styled.div`
 `;
 const GET_SINGLE_TEACHER = gql`
   query GET_SINGLE_TEACHER($id: ID!) {
-    user: User(where: { id: $id }) {
+    user: user(where: { id: $id }) {
       id
       name
       email

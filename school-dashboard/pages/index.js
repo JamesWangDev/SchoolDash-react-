@@ -44,7 +44,7 @@ const DashboardContainerStyles = styled.div`
 
 const GET_STUDENT_CLASSSWORK_QUERY = gql`
   query GET_SINGLE_TEACHER($id: ID!) {
-    user: User(where: { id: $id }) {
+    user: user(where: { id: $id }) {
       id
       name
       email
@@ -232,7 +232,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      totalCards: totalCards._allPbisCardsMeta.count,
+      totalCards: totalCards.pbisCardsCount,
       homePageLinks,
       weeklyCalendar,
       allUsersForSearch,
