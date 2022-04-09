@@ -14,7 +14,7 @@ const CREATE_CALENDAR_MUTATION = gql`
     $name: String!
     $description: String!
     $status: String!
-    $date: String!
+    $date: DateTime!
     $link: String
     $linkTitle: String
     $author: ID!
@@ -44,6 +44,8 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
     description: '',
     status: 'Both',
     date: todaysDateForForm(),
+    link: '',
+    linkTitle: '',
   });
   const user = useUser();
   //   console.log(`user ${user.id}`);
@@ -53,7 +55,7 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
       variables: {
         ...inputs,
         author: user?.id,
-        date: inputs.date.concat('T24:00:00.000Z'),
+        date: new Date(inputs.date + 'T00:00:00'),
       },
     }
   );
@@ -77,8 +79,8 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
             if (res) {
               const indexRes = await revalidateIndexPage()
               const calendarRes = await revalidateCalendarPage()
-              console.log(indexRes);
-              console.log(calendarRes);
+              // console.log(indexRes);
+              // console.log(calendarRes);
             }
             resetForm();
             refetchCalendars();

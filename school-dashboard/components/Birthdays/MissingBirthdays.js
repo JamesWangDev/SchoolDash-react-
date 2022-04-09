@@ -8,7 +8,7 @@ import { useUser } from '../User';
 
 const MISSING_BIRTHDAYS_QUERY = gql`
   query {
-    allUsers(where: { isStudent: true }) {
+    users(where: { isStudent: {equals: true} }) {
       id
       name
       birthday {

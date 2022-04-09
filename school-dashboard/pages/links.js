@@ -70,11 +70,9 @@ export default function Links(props) {
       initialData: props?.rawLinksList,
     }
   );
-console.log(data)
+// console.log(data)
   const filteredLinks = data?.links.filter((link) => {
-    if(!me && link.forParents) {
-      return true;
-    }
+    
     if (link.forParents && me?.isParent) {
       return true;
     }
@@ -86,7 +84,7 @@ console.log(data)
     }
     return false;
   });
- 
+//  console.log(filteredLinks)
 
   const columns = useMemo(
     () => [

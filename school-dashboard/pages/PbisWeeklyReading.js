@@ -23,7 +23,7 @@ const PbisReadingStyles = styled.div`
 
 const PBIS_READING_QUERY = gql`
   query PBIS_READING_QUERY {
-    lastCollection: allPbisCollections(sortBy: collectionDate_DESC, first: 1) {
+    lastCollection: pbisCollections(orderBy: {collectionDate: desc}, take: 1) {
       id
       name
       collectionDate
@@ -33,10 +33,9 @@ const PBIS_READING_QUERY = gql`
       taTeamNewLevelWinners
       currentPbisTeamGoal
     }
-    totalCards: _allPbisCardsMeta {
-      count
-    }
+    totalCards: pbisCardsCount
   }
+
 `;
 
 export default function PbisWeeklyReading() {
@@ -50,6 +49,7 @@ export default function PbisWeeklyReading() {
   );
   if (isLoading) return <Loading />;
   const lastCollection = data.lastCollection[0];
+  if(!lastCollection) return <p>No data</p>;
   const taTeamsAtNewLevels =
     JSON.parse(lastCollection?.taTeamNewLevelWinners) || [];
   // console.log(taTeamsAtNewLevels);

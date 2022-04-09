@@ -14,7 +14,7 @@ import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
-    allUsers(where: { canManageDiscipline: true }) {
+    users(where: { canManageDiscipline: true }) {
       id
       name
       email
@@ -51,7 +51,7 @@ export default function CellPhoneAddButton() {
     GET_ADMIN_EMAILS
   );
   const queryClient = useQueryClient();
-  const adminEmailArray = adminEmails?.allUsers?.map((u) => u.email);
+  const adminEmailArray = adminEmails?.users?.map((u) => u.email);
   // console.log(adminEmailArray);
   const [showForm, setShowForm] = useState(false);
   const [emailSending, setEmailSending] = useState(false);

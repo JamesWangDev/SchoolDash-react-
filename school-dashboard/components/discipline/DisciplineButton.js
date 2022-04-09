@@ -26,7 +26,7 @@ import useRevalidatePage from '../../lib/useRevalidatePage';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
-    allUsers(where: { canManageDiscipline: true }) {
+    users(where: { canManageDiscipline: {equals: true} }) {
       id
       name
       email

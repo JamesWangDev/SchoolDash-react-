@@ -37,8 +37,8 @@ const options = {
 };
 
 export default function LineChart({ title, chartData, label }) {
-  const labels = chartData.map((item) => item.item.slice(16));
-  const dataToChart = chartData.map((item) => item.data);
+  const labels = chartData?.map((item) => item.item.slice(16)) ?? [];
+  const dataToChart = chartData?.map((item) => item.data) ?? [];
   // take array of numbers and create array oc cumulative values
   const cumulativeSum = ((sum) => (value) => (sum += value))(0);
   const cumulativeData = dataToChart.map(cumulativeSum);

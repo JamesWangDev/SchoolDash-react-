@@ -5,7 +5,7 @@ import { useGQLQuery } from './useGqlQuery';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
-    allUsers(where: { canManageDiscipline: true }) {
+    users(where: { canManageDiscipline: true }) {
       id
       name
       email
@@ -27,7 +27,7 @@ export default async function useEmailAdmin() {
     SEND_EMAIL_MUTATION
   );
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
-  const adminEmailArray = data?.allUsers?.map((u) => u.email);
+  const adminEmailArray = data?.users?.map((u) => u.email);
   useEffect(() => {
     console.log(adminEmail);
     if (adminEmail?.toAddress) {

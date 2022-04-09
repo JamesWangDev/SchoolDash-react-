@@ -14,9 +14,9 @@ import NewStaff from '../components/users/NewStaff';
 import { endpoint, prodEndpoint } from '../config';
 
 const GET_ALL_STUDENTS = gql`
-  query GET_ALL_STUDENTS {
-    students: allUsers(
-      where: { AND: [{ taTeacher_is_null: false }, { isStudent: true }] }
+ query GET_ALL_STUDENTS {
+    students: users(
+      where: { AND: [ {NOT:{taTeacher:null}},{ isStudent: {equals:true} }] }
     ) {
       id
       name
@@ -36,28 +36,22 @@ const GET_ALL_STUDENTS = gql`
 
 const GET_ALL_TEACHERS = gql`
   query GET_ALL_TEACHERS {
-    teachers: allUsers(
-      where: { OR: [{ hasTA: true }, { isTeacher: true }] }
-      sortBy: name_ASC
+    teachers: users(
+      where: { OR: [{ hasTA: {equals:true} }, { isTeacher: {equals:true} }] }
+      orderBy: {name: asc}
     ) {
       id
       name
       hasTA
       callbackCount
       PbisCardCount
-      virtualCards: _teacherPbisCardsMeta(
-        where: { category_not_contains: "physical" }
-      ) {
-        count
-      }
+      virtualCards: teacherPbisCardsCount(
+        where: { category: {not:{contains:"physical"}} }
+      ) 
       YearPbisCount
       averageTimeToCompleteCallback
-      _callbackAssignedMeta(where: { dateCompleted: null }) {
-        count
-      }
-      # _taStudentsMeta {
-      #   count
-      # }
+      callbackAssignedCount(where: { dateCompleted: null }) 
+      
       currentTaWinner {
         name
         id
@@ -66,9 +60,7 @@ const GET_ALL_TEACHERS = gql`
         name
         id
       }
-      # virtualCards: _teacherPbisCardsMeta(where: { category_not: "physical" }) {
-      #   count
-      # }
+    
     }
   }
 `;

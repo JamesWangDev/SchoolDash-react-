@@ -184,7 +184,7 @@ export async function getStaticPaths() {
   // console.log(GraphQLClient);
   const fetchData = async () => graphQLClient.request(TA_TEACHER_LIST_QUERY);
   const data = await fetchData();
-  const usersToUse = data.allUsers;
+  const usersToUse = data.users;
 
   const paths = usersToUse?.map((user) => ({
     params: {

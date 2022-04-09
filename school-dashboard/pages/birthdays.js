@@ -7,7 +7,7 @@ import { endpoint, prodEndpoint } from '../config';
 
 const ALL_BIRTHDAYS_QUERY = gql`
   query ALL_BIRTHDAYS_QUERY {
-    allBirthdays {
+    birthdays {
       id
       cakeType
       date

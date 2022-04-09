@@ -47,23 +47,23 @@ const USERS_CLASS_STUDENTS_QUERY = gql`
   query {
     authenticatedItem {
       ... on User {
-        block1Students (orderBy: "name" ){
+        block1Students (orderBy: {name: asc}){
           id
           name
         }
-        block2Students (orderBy: "name" ) {
+        block2Students (orderBy: {name: asc}) {
           id
           name
         }
-        block3Students (orderBy: "name" ){
+        block3Students (orderBy: {name: asc}){
           id
           name
         }
-        block4Students (orderBy: "name" ) {
+        block4Students (orderBy: {name: asc}) {
           id
           name
         }
-        block5Students (orderBy: "name" ){
+        block5Students (orderBy: {name: asc}){
           id
           name
         }

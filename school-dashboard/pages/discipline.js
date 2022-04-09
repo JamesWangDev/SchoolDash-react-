@@ -139,7 +139,7 @@ export default function Discipline(props) {
         </GradientButton>
         <CellPhoneAddButton refetch={refetch} />
         <ShowCellphoneViolations
-          cellViolations={data?.allCellPhoneViolations}
+          cellViolations={data?.cellPhoneViolations}
         />
       </DisciplinePageContainer>
       <DisciplinePageContainer>

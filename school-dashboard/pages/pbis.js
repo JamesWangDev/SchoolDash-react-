@@ -171,19 +171,19 @@ export default function Pbis(props) {
       forParents: me?.isParent || null,
     },
     {
-      enabled: !!me,
+      enabled: !!me && !!teamId,
     }
   );
   // if (isLoading) return <Loading />;
   // const cards = data?.cards;
-  const totalSchoolCards = props?.totalSchoolCards;
-  const schoolWideCardsInCategories = props?.schoolWideCardsInCategories;
-  const teams = props?.teams;
+  const totalSchoolCards = props?.totalSchoolCards || data?.totalSchoolCards;
+  const schoolWideCardsInCategories = props?.schoolWideCardsInCategories || data?.schoolWideCardsInCategories;
+  const teams = props?.teams || [];
   const hasTeam = !!teamId;
-  const categoriesArray = props?.categoriesArray;
-  const lastPbisCollection = props?.lastPbisCollection;
-  const previousPbisCollection = props?.previousPbisCollection;
-  const rawListOfLinks = props?.pbisLinks;
+  const categoriesArray = props?.categoriesArray || [];
+  const lastPbisCollection = props?.lastPbisCollection || null;
+  const previousPbisCollection = props?.previousPbisCollection || null;
+  const rawListOfLinks = props?.pbisLinks || [];
   const newSchoolwideGoal = lastPbisCollection?.currentPbisTeamGoal || 2;
   const previousSchoolwideGoal =
     previousPbisCollection?.currentPbisTeamGoal || 2;
@@ -206,7 +206,7 @@ export default function Pbis(props) {
   // });
 
   // get the number of cards in each category for the team
-  const teamWideCardsInCategories = categoriesArray.map((category) => {
+  const teamWideCardsInCategories = categoriesArray?.map((category) => {
     const cardsInCategory = data?.teamData?.filter(
       (card) => card.category === category
     );
@@ -214,7 +214,7 @@ export default function Pbis(props) {
       word: category,
       total: cardsInCategory?.length,
     };
-  });
+  }) || [];
 
   // filter raw links to only show links for the user's role
   const links = rawListOfLinks?.filter((link) => {
@@ -248,7 +248,7 @@ export default function Pbis(props) {
                 </SmallGradientButton>
               </Link>
             )}
-            {links.map((link) => (
+            {links?.map((link) => (
               <Link
                 key={link.id}
                 to={link.link}
@@ -288,7 +288,7 @@ export default function Pbis(props) {
           <div key={team.id} className="gridCard">
             <h3>{team.teamName}</h3>
 
-            {team.taTeacher.map((teacher) => (
+            {team.taTeacher?.map((teacher) => (
               <p key={teacher.id}>{` ${teacher.name} `} </p>
             ))}
 
@@ -334,29 +334,29 @@ export async function getStaticProps(context) {
   const data = await fetchData();
   // console.log(data);
   const cards = data?.cards || [];
-  const totalSchoolCards = data?.totalSchoolCards;
+  const totalSchoolCards = data?.totalSchoolCards || 0;
 
   // gat card data by category
-  const categories = cards?.map((card) => card.category);
+  const categories = cards?.map((card) => card.category) || [];
   const categoriesSet = new Set(categories);
   const categoriesArray = Array.from(categoriesSet);
   // alpha sort the categories
   categoriesArray.sort();
   // get the number of cards in each category for whole school
-  const schoolWideCardsInCategories = categoriesArray.map((category) => {
+  const schoolWideCardsInCategories = categoriesArray?.map((category) => {
     const cardsInCategory = cards.filter((card) => card.category === category);
     return {
       word: category,
       total: cardsInCategory.length,
     };
-  });
+  }) || [];
 
-  const teams = data?.teams;
+  const teams = data?.teams || [];
 
   const lastPbisCollection = data?.lastCollection[0] || null;
   const previousPbisCollection = data?.lastCollection[1] || null;
-  const pbisLinks = data?.pbisLinks;
-  const cardCounts = data?.cardCounts;
+  const pbisLinks = data?.pbisLinks || [];
+  const cardCounts = data?.cardCounts || [];
 
   return {
     props: {
