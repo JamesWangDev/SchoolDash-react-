@@ -164,6 +164,9 @@ export default function ViewTeacherPage({ teacher }) {
     GET_SINGLE_TEACHER,
     {
       id: teacher.id,
+    },
+    {
+      enabled: teacher?.id !== '',
     }
   );
   const me = useUser();

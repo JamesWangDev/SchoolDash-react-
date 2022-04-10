@@ -18,7 +18,7 @@ const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
     $messageFromStudentDate: String
   ) {
     updateCallback(
-      id: $id
+      where: {id: $id}
       data: {
         messageFromTeacher: $messageFromTeacher
         messageFromTeacherDate: $messageFromTeacherDate

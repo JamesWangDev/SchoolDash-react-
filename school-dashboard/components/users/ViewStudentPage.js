@@ -117,7 +117,10 @@ export default function ViewStudentPage({ student }) {
   const { data, isLoading, error } = useGQLQuery(
     `SingleStudent-${student.id}`,
     GET_SINGLE_TEACHER,
-    { id: student.id }
+    { id: student.id },
+    {
+      enabled: student?.id,
+    }
   );
   const me = useUser();
   if (isLoading) return <Loading />;
