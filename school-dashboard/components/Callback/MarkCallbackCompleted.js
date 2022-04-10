@@ -22,6 +22,7 @@ const MARK_CALLBACK_COMPLETED = gql`
   }
 `;
 
+
 const DeleteCallbackButtonStyles = styled.div`
   display: flex;
   flex-direction: column;
