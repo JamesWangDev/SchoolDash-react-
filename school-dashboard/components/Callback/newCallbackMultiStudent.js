@@ -18,7 +18,7 @@ import StudentList from './StudentListForMultiSelectCallback';
 const CREATE_CALLBACK_MUTATION = gql`
   mutation CREATE_CALLBACK_MUTATION(
     $title: String!
-    $dateAssigned: String
+    $dateAssigned: DateTime
     $teacher: ID!
     $student: ID!
     $description: String
@@ -89,7 +89,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
     {
       variables: {
         ...inputs,
-        dateAssigned: inputs.dateAssigned.concat('T24:00:00.000Z'),
+        dateAssigned: new Date(inputs.dateAssigned.concat('T24:00:00.000Z')),
         teacher: user?.id,
         student: studentsCallbackIsFor?.userId,
       },
@@ -133,7 +133,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
                 const res = await createCallback({
                   variables: {
                     ...inputs,
-                    dateAssigned: inputs.dateAssigned.concat('T24:00:00.000Z'),
+                    dateAssigned: new Date(inputs.dateAssigned.concat('T24:00:00.000Z')),
                     teacher: user?.id,
                     student,
                   },

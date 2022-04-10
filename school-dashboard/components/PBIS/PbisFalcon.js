@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 import { useGQLQuery } from '../../lib/useGqlQuery';
@@ -57,8 +58,16 @@ const ContainerStyles = styled.div`
     position: absolute;
     top: 2px;
     left: 5%;
-    width: 90%;
+    width: 125px;
+    height: 125px;
     /* height: 100%; */
+  }
+  .falcon{
+    position: absolute;
+    top: 2px;
+    left: 5%;
+    width: 125px;
+    height: 125px;
   }
 `;
 
@@ -79,7 +88,7 @@ export default function PbisFalcon({ initialCount }) {
     {},
     queryOptions
   );
-
+// console.log(data);
   // last years card total
   const cardGoal = 60000;
 // console.log('data', data);
@@ -92,10 +101,10 @@ export default function PbisFalcon({ initialCount }) {
     <div>
       <ContainerStyles percentageLeft={percentageLeft}>
         <div className="filler">
-          <img src="/falcon.svg" alt="falcon" />
+          <img src="/falcon.svg" alt="falcon" className='falcon' />
           <span className="label">{`${percentageFull}%`}</span>
         </div>
-        <span className="total">{data?.pbisCardsCount} cards</span>
+        <span className="total">{data.pbisCardsCount} cards</span>
       </ContainerStyles>
     </div>
   );

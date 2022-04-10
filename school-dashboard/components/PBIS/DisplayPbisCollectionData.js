@@ -22,6 +22,10 @@ export default function DisplayPbisCollectionData({ collectionData }) {
     (teamsAtCurrentGoalLevel / taTeamsLevels.length) * 100
   );
   const viewAllData = me?.isStaff;
+  // console.log("studentsWhoWentUpLevel", studentsWhoWentUpLevel);
+  // console.log("teamsThatWentUpLevel", teamsThatWentUpLevel);
+  // console.log("taTeamsLevels", taTeamsLevels);
+  // console.log("taWinners", taWinners);
   return (
     <div>
       <h2>Stats at last collection: {collectionData.name}</h2>
@@ -57,7 +61,7 @@ export default function DisplayPbisCollectionData({ collectionData }) {
             </div>
           ))}
           {taWinners.map((ta) => (
-            <div key={ta.taId}>
+            <div key={ta.id}>
               <h3>Random Drawing Winner</h3>
               <h4>{ta.name}</h4>
               <p>{capitalizeFirstLetter(ta.randomWinner.name)}</p>
