@@ -15,7 +15,7 @@ import useCreateMessage from '../Messages/useCreateMessage';
 const DUPLICATE_CALLBACK_MUTATION = gql`
   mutation DUPLICATE_CALLBACK_MUTATION(
     $title: String!
-    $dateAssigned: String
+    $dateAssigned: DateTime
     $description: String
     $link: String
     $teacher: ID!
@@ -57,7 +57,7 @@ export default function DuplicateCallback({ callback, setDuplicating }) {
     {
       variables: {
         ...inputs,
-        dateAssigned: inputs.dateAssigned.concat('T24:00:00.000Z'),
+        dateAssigned: new Date(inputs.dateAssigned.concat('T24:00:00.000Z')),
         student: studentCallbackIsFor?.userId,
         teacher: user?.id,
       },

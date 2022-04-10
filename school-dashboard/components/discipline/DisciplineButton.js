@@ -23,6 +23,7 @@ import useSendEmail from '../../lib/useSendEmail';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 // import useEmailAdmin from '../../lib/useEmailAdmin';
 import useRevalidatePage from '../../lib/useRevalidatePage';
+import toast from 'react-hot-toast';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
@@ -37,7 +38,7 @@ const GET_ADMIN_EMAILS = gql`
 const CREATE_DISCIPLINE_MUTATION = gql`
   mutation CREATE_DISCIPLINE_MUTATION(
     $teacherComments: String!
-    $date: String
+    $date: DateTime
     $teacher: ID!
     $student: ID!
     $classType: String!
@@ -116,7 +117,7 @@ export default function NewDiscipline({ refetch }) {
   const me = useUser();
   const queryClient = useQueryClient();
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
-  const adminEmailArray = data?.allUsers?.map((u) => u.email);
+  const adminEmailArray = data?.users?.map((u) => u.email);
   const [showForm, setShowForm] = useState(false);
   const [emailSending, setEmailSending] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
@@ -140,6 +141,7 @@ export default function NewDiscipline({ refetch }) {
         classType,
         location,
         timeOfDay,
+        date: new Date(inputs.date),
       },
     }
   );
@@ -184,7 +186,9 @@ export default function NewDiscipline({ refetch }) {
             refetch();
             setEmailSending(false);
             const revalidateResponse = revalidatePage();
-            console.log(revalidateResponse);
+            if(res){
+              toast.success('Discipline Referral Created');
+            }
             queryClient.refetchQueries('allDisciplines');
             setShowForm(false);
           }}

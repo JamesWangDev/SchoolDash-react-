@@ -176,6 +176,7 @@ export default function ViewTeacherPage({ teacher }) {
   const { block3Students } = user;
   const { block4Students } = user;
   const { block5Students } = user;
+  console.log(callbackAssigned)
   return (
     <div>
       {me.id === teacher.id && (

@@ -6,8 +6,8 @@ import Form, { FormContainerStyles } from '../styles/Form';
 import DisplayError from '../ErrorMessage';
 
 const UPDATE_USER_MUTATION = gql`
-  mutation UPDATE_USER_MUTATION($studentScheduleData: String!) {
-    updateStudentSchedules(studentScheduleData: $studentScheduleData) {
+  mutation UPDATE_USER_MUTATION($staffData: String!) {
+    addStaff(staffData: $staffData) {
       name
     }
   }
@@ -19,7 +19,7 @@ export default function NewUpdateUsers() {
   const [upateUsersFromJson, { loading, error, data }] = useMutation(
     UPDATE_USER_MUTATION,
     {
-      variables: { studentScheduleData: inputs.userData },
+      variables: { staffData: inputs.userData },
     }
   );
   const [resultOfUpdate, setResultOfUpdate] = useState(null);
@@ -30,7 +30,7 @@ export default function NewUpdateUsers() {
         style={{ marginTop: '10px' }}
         onClick={() => setShowForm(!showForm)}
       >
-        Batch Update users from JSON
+        Batch Update Staff from JSON
       </GradientButton>
       <div>
         <FormContainerStyles>
@@ -41,9 +41,9 @@ export default function NewUpdateUsers() {
               // Submit the inputfields to the backend:
               const res = await upateUsersFromJson();
               setResultOfUpdate(
-                JSON.parse(res.data.updateStudentSchedules.name)
+                JSON.parse(res.data.addStaff.name)
               );
-              // clearForm();
+              clearForm();
               setShowForm(false);
             }}
           >
@@ -73,7 +73,7 @@ export default function NewUpdateUsers() {
             {resultOfUpdate.map((user) => {
               console.log(user);
               return (
-                <p key={user.id}>
+                <p key={user.email}>
                   {user.email} - {user.existed ? 'Existing User' : 'New User'}
                 </p>
               );

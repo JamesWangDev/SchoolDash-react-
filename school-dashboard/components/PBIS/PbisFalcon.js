@@ -65,9 +65,7 @@ const ContainerStyles = styled.div`
 export default function PbisFalcon({ initialCount }) {
   let queryOptions = {};
   const initialData = {};
-  initialData.pbisCardsCount = {
-    count: initialCount,
-  };
+  initialData.pbisCardsCount = initialCount;
 
   if (initialCount) {
     queryOptions = {
@@ -84,7 +82,7 @@ export default function PbisFalcon({ initialCount }) {
 
   // last years card total
   const cardGoal = 60000;
-
+// console.log('data', data);
   if (isLoading) return <Loading />;
   if (error) return <DisplayError error={error} />;
   const percentageFull =

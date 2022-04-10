@@ -5,7 +5,7 @@ import { useGQLQuery } from './useGqlQuery';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
-    users(where: { canManageDiscipline: true }) {
+    users(where: { canManageDiscipline: {equals: true} }) {
       id
       name
       email

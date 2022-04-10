@@ -38,13 +38,19 @@ const UPDATE_STUDENT_MUTATION = gql`
 
 const LIST_OF_TEACHERS_QUERY = gql`
   query {
-    teacherList: allUsers(
-      where: { AND: [{ isTeacher: true }, {OR: [{hasClasses:true}, { hasTA: true }]}] }
-    ) {
-      id
-      name
+  teacherList: users(
+    where: {
+      AND: [
+        { isTeacher: { equals: true } }
+        { OR: [{ hasClasses: { equals: true } }, { hasTA: { equals: true } }] }
+      ]
     }
+  ) {
+    id
+    name
   }
+}
+
 `;
 export default function EditStudent({ student }) {
   const queryClient = useQueryClient();
@@ -76,7 +82,7 @@ export default function EditStudent({ student }) {
     a.name.localeCompare(b.name)
   );
 
-  console.log(inputs.taName);
+  // console.log(inputs.taName);
   return (
     <div>
       <GradientButton onClick={() => setShowForm(!showForm)}>

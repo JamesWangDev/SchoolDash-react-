@@ -10,7 +10,7 @@ export function getTaTeamData(data) {
     // for each team, get the team data
     const newCardsPerTeacher = team.taTeacher.map((ta) =>
       ta.taStudents
-        .map((student) => student.uncountedCards.count)
+        .map((student) => student.uncountedCards)
         .reduce((a, b) => Number(a) + Number(b), 0)
     );
     const newCardsPerTeam = newCardsPerTeacher.reduce(
@@ -63,7 +63,7 @@ export function getPersonalLevel(data) {
     return allTeachers;
   });
   const newStudentData = allStudents.map((student) => {
-    const newCardsPerStudent = student.totalCards.count;
+    const newCardsPerStudent = student.totalCards;
     const newPersonalLevel = Math.floor(
       newCardsPerStudent / cardsPerPersonalLevel
     );
@@ -96,7 +96,7 @@ export function getPersonalLevel(data) {
 
 // create a card to choose from for each card in students count
 function createCardsForStudent(student) {
-  const numberOfCardsToCreate = student.uncountedCards.count;
+  const numberOfCardsToCreate = student.uncountedCards;
   const cards = [];
   for (let i = 0; i < numberOfCardsToCreate; i++) {
     cards.push({
@@ -184,7 +184,7 @@ export function getTeachersToUpdate(data) {
     .map((teacher) => {
       const dataToReturn = {};
       if (teacher.randomWinner?.id && teacher.previousTaWinner?.id) {
-        dataToReturn.id = teacher.id;
+        dataToReturn.where = {id: teacher.id};
         dataToReturn.data = {
           currentTaWinner: {
             connect: {
@@ -200,7 +200,7 @@ export function getTeachersToUpdate(data) {
         return dataToReturn;
       }
       if (teacher.randomWinner?.id) {
-        dataToReturn.id = teacher.id;
+        dataToReturn.where = {id: teacher.id};
         dataToReturn.data = {
           currentTaWinner: {
             connect: {
@@ -220,7 +220,7 @@ export function getTaTeamsToUpdate(data) {
   const taTeamsToUpdate = data.map((team) => {
     const dataToReturn = {};
 
-    dataToReturn.id = team.id;
+    dataToReturn.where = {id: team.id};
     dataToReturn.data = {
       currentLevel: team.currentTaLevel,
       averageCardsPerStudent: Math.round(team.averageCardsPerStudent),
@@ -234,7 +234,7 @@ export function getTaTeamsToUpdate(data) {
 export function getPbisCardsToMarkCollected(data) {
   const pbisCardsToMarkCollected = data.map((card) => {
     const dataToReturn = {};
-    dataToReturn.id = card.id;
+    dataToReturn.where = {id: card.id};
     dataToReturn.data = {
       counted: true,
     };

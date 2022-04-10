@@ -73,7 +73,7 @@ export default function NewUpdateUsers() {
             {resultOfUpdate.map((user) => {
               console.log(user);
               return (
-                <p key={user.id}>
+                <p key={user.email}>
                   {user.email} - {user.existed ? 'Existing User' : 'New User'}
                 </p>
               );

@@ -10,7 +10,7 @@ import { useUser } from '../User';
 import useRecalculatePBIS from './useRecalculatePbis';
 
 const CREATE_CARD_MUTATION = gql`
-  mutation CREATE_CARD_MUTATION($cards: [PbisCardsCreateInput]) {
+  mutation CREATE_CARD_MUTATION($cards: [PbisCardCreateInput!]!) {
     createPbisCards(data: $cards) {
       id
     }
@@ -25,13 +25,13 @@ function createCards(users, teacherId) {
     if (users[user] > 0) {
       const numberOfCards = users[user];
       for (let i = 0; i < numberOfCards; i++) {
-        cards.push({
-          data: {
+        cards.push(
+          {
             student: { connect: { id: user } },
             teacher: { connect: { id: teacherId } },
             category: 'physical',
           },
-        });
+        );
       }
     }
   });
@@ -79,7 +79,7 @@ export default function CountPhysicalCards({ taStudents, refetch }) {
               });
               // get all the unique students from the cards
               const studentIds = cardsToCreate.map(
-                (card) => card.data.student.connect.id
+                (card) => card.student.connect.id
               );
               // get the unique student ids
               const uniqueStudentIds = [...new Set(studentIds)];

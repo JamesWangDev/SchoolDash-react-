@@ -66,7 +66,7 @@ export default function TaCallbacks() {
   if (!me) return <p>Please Log In</p>;
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
-  const callbacks = data?.allCallbacks?.filter((callback) => {
+  const callbacks = data?.callbacks?.filter((callback) => {
     if (showCompleted) return true;
     return !callback.dateCompleted;
   });
