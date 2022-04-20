@@ -103,7 +103,7 @@ const PBIS_PAGE_QUERY = gql`
 
 const PBIS_PAGE_STATIC_QUERY = gql`
   query PBIS_PAGE_STATIC_QUERY {
-  cards: pbisCards {
+  cards: pbisCards (take:1000, orderBy:{dateGiven: desc}) {
     id
     dateGiven
     category
