@@ -1,7 +1,7 @@
 import { gql, GraphQLClient } from "graphql-request";
 import GradientButton from "./styles/Button";
-import {users} from "../users" 
-import {callbacks}  from "../callbacks" 
+// import {users} from "../users" 
+// import {callbacks}  from "../callbacks" 
 
 
 
