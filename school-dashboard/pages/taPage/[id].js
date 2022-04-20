@@ -11,114 +11,105 @@ import CountPhysicalCards from '../../components/PBIS/CountPhysicalCards';
 import { endpoint, prodEndpoint } from '../../config';
 
 const TA_INFO_QUERY = gql`
-  query TA_INFO_QUERY($id: ID!) {
-    taTeacher: user(where: { id: $id }) {
-      PbisCardCount
-      taPbisCardCount
-      name
-      id
-      email
+ query TA_INFO_QUERY($id: ID!) {
+  taTeacher: user(where: { id: $id }) {
+    PbisCardCount
+    taPbisCardCount
+    name
+    id
+    email
 
-      taTeam {
-        teamName
-        countedCards
-        uncountedCards
-        averageCardsPerStudent
-        currentLevel
+    taTeam {
+      teamName
+      countedCards
+      uncountedCards
+      averageCardsPerStudent
+      currentLevel
+    }
+    taStudents {
+      averageTimeToCompleteCallback
+      parent {
+        name
+        email
       }
-      taStudents {
-        averageTimeToCompleteCallback
-        parent {
-          name
-          email
-        }
-        taTeacher {
-          id
-          name
-        }
+      taTeacher {
         id
         name
-        preferredName
-        parent {
-          id
-          name
-          email
-        }
-        block1Teacher {
-          name
-          id
-          block1Assignment
-        }
-        block2Teacher {
-          name
-          id
-          block2Assignment
-        }
-        block3Teacher {
-          name
-          id
-          block3Assignment
-        }
-        block4Teacher {
-          name
-          id
-          block4Assignment
-        }
-        block5Teacher {
-          name
-          id
-          block5Assignment
-        }
-        callbackCount
-        studentCellPhoneViolationCount
-        PbisCardCount
+      }
+      id
+      name
+      preferredName
+      parent {
+        id
+        name
+        email
+      }
+      block1Teacher {
+        name
+        id
+        block1Assignment
+      }
+      block2Teacher {
+        name
+        id
+        block2Assignment
+      }
+      block3Teacher {
+        name
+        id
+        block3Assignment
+      }
+      block4Teacher {
+        name
+        id
+        block4Assignment
+      }
+      block5Teacher {
+        name
+        id
+        block5Assignment
+      }
+      callbackCount
+      studentCellPhoneViolationCount
+      PbisCardCount
 
-        studentFocusStudentCount
-        YearPbisCount
-        
-        studentPbisCards {
+      studentFocusStudentCount
+      YearPbisCount
+
+      callbackItems(where: { dateCompleted: null }) {
+        id
+        teacher {
           id
-          cardMessage
-          category
-          teacher {
-            id
-            name
-          }
-          dateGiven
+          name
         }
-        callbackItems(where: { dateCompleted: null }) {
+        student {
+          name
           id
-          teacher {
-            id
-            name
-          }
-          student {
-            name
-            id
-          }
-          link
-          description
-          title
-          dateAssigned
-          dateCompleted
-          messageFromStudent
-          messageFromTeacher
-          messageFromStudentDate
-          messageFromTeacherDate
         }
+        link
+        description
+        title
+        dateAssigned
+        dateCompleted
+        messageFromStudent
+        messageFromTeacher
+        messageFromStudentDate
+        messageFromTeacherDate
       }
     }
   }
+}
+
 `;
 
 const TA_TEACHER_LIST_QUERY = gql`
-  query TA_TEACHER_LIST_QUERY {
-    users(where: { hasTA: {equals: true} }) {
-      id
-      name
-      email
-    }
+ query TA_TEACHER_LIST_QUERY {
+  users(where: { hasTA: { equals: true } }) {
+    id
+    name
+    email
   }
+}
 `;
 
 export default function TA({ data: initialData, query }) {
@@ -219,7 +210,7 @@ export async function getStaticProps({ params }) {
       // console.log(data);
       return dataFromFetch;
     } catch (e) {
-      // console.log(e);
+      console.log(e);
       console.log('error', params.id);
     }
   };

@@ -119,7 +119,7 @@ export default function ViewStudentPage({ student }) {
     GET_SINGLE_TEACHER,
     { id: student.id },
     {
-      enabled: student?.id,
+      enabled: !!student?.id,
     }
   );
   const me = useUser();
