@@ -40,7 +40,7 @@ export default function BirthdayPage(props) {
   return (
     <div>
       <h1>Birthdays</h1>
-      <BirthdaysTable birthdays={data?.allBirthdays} />
+      <BirthdaysTable birthdays={data?.birthdays} />
     </div>
   );
 }
