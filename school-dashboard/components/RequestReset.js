@@ -20,7 +20,9 @@ export default function RequestReset() {
   const [signup, { data, loading, error }] = useMutation(
     REQUEST_RESET_MUTATION,
     {
-      variables: inputs,
+      variables: {
+        email: inputs.email.toLowerCase(),
+      },
       // refectch the currently logged in user
       // refetchQueries: [{ query: CURRENT_USER_QUERY }],
     }
