@@ -7,6 +7,7 @@ import { CURRENT_USER_QUERY, useUser } from '../User';
 import Error from '../ErrorMessage';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import { GraphQLClient, request } from 'graphql-request';
+import { endpoint, prodEndpoint } from '../../config';
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -97,12 +98,12 @@ console.log("newSignin",newRes);
 
 
 
-const endpoint = "http://localhost:3000/api/graphql";
+// const endpoint = "http://localhost:3000/api/graphql";
 
 async function signinNew({ email, password }) {
+const endppointToUse = process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint
 
-
-  const res = await request(endpoint, SIGNIN_MUTATION, {
+  const res = await request(endppointToUse, SIGNIN_MUTATION, {
     email: email.toLowerCase(),
     password,
     }, Headers);
