@@ -107,9 +107,9 @@ const endppointToUse = process.env.NODE_ENV === 'development' ? endpoint : prodE
     email: email.toLowerCase(),
     password,
     }, Headers);
-  console.log("signin",res);
+  // console.log("signin",res);
   const token = res.authenticateUserWithPassword.sessionToken;
-  console.log("token",token);
+  // console.log("token",token);
   localStorage.setItem('token', token);
   return res.data;
 }

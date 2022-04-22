@@ -89,7 +89,7 @@ const GET_STUDENT_CLASSSWORK_QUERY = gql`
 `;
 
 export default function Home(props) {
-  console.log(process.env.NODE_ENV);
+  // console.log(process.env.NODE_ENV);
   const me = useUser();
   const { data, isLoading, error } = useGQLQuery(
     `SingleStudentClasswork-${me?.id}`,
