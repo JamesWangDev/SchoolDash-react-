@@ -41,7 +41,7 @@ for (const item of dataToUse){
 
 const doItem = async (item) => {
   console.log("item", item);
-  if(!item.Date) item.date=undefined;
+  if(!item.date) item.date=undefined;
   if(!item.teacherComments) item.teacherComments="";
   if(!item.adminComments) item.adminComments="";
   if(!item.classType) item.classType="";
