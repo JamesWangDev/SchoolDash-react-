@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 const MARK_MESSAGE_READ_MUTATION = gql`
   mutation MARK_MESSAGE_READ_MUTATION($id: ID!) {
-    deleteMessage(id: $id) {
+    deleteMessage(where: {id: $id}) {
       id
     }
   }
