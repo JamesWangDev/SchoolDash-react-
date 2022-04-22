@@ -48,13 +48,13 @@ export default function SingleCallbackCard({ callback }) {
         <a>
           <h1>{callback.title}</h1>
           <p>
-            {callback.teacher.id === me.id
+            {callback?.teacher?.id === me?.id
               ? ''
               : `${callback.teacher.name} -- `}{' '}
             {dateAssigned}
           </p>
           <p>
-            {callback.student.id === me.id
+            {callback?.student.id === me?.id
               ? ''
               : `${capitalizeFirstLetter(callback.student.name)} -- `}{' '}
             {completed}

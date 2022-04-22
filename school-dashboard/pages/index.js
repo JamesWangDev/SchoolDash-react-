@@ -95,7 +95,7 @@ export default function Home(props) {
     `SingleStudentClasswork-${me?.id}`,
     GET_STUDENT_CLASSSWORK_QUERY,
     { id: me?.id },
-    { enabled: !!me?.isStudent && me?.id }
+    { enabled: !!me?.isStudent && !!me?.id }
   );
   const { data: allUsers } = useGQLQuery(
     'allUsers',

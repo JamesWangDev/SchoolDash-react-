@@ -23,7 +23,7 @@ export default function UpdateMyPassword() {
     RESET_PASSWORD_TO_PASSWORD_MUTATION,
     {
       variables: {
-        id: me.id,
+        id: me?.id,
         password: inputs.newPassword,
       },
     }
