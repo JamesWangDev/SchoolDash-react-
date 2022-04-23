@@ -92,8 +92,8 @@ function DisplayClasswork({ data, block }) {
 
 export default function AllTeacherCurrentWork(props) {
   const me = useUser();
-
-  const { data, isLoading, isError, refetch } = useGQLQuery(
+// console.log(props)
+  const { data } = useGQLQuery(
     'allTeachers',
     ALL_TEACHERS_QUERY,
     {},
@@ -102,6 +102,7 @@ export default function AllTeacherCurrentWork(props) {
       initialData: props?.initialWorkData,
     }
   );
+  console.log(data?.users)
 
   const columns = useMemo(
     () => [
@@ -189,7 +190,7 @@ export async function getStaticProps(context) {
     graphQLClient.request(ALL_TEACHERS_QUERY);
 
   const initialWorkData = await fetchTeacherWork();
-
+// console.log(initialWorkData.users);
   return {
     props: {
       initialWorkData,
