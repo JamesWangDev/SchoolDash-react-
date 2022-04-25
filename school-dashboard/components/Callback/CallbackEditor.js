@@ -16,12 +16,12 @@ const UPDATE_CALLBACK_MUTATION = gql`
   mutation UPDATE_CALLBACK_MUTATION(
     $id: ID!
     $title: String!
-    $dateAssigned: String
+    $dateAssigned: DateTime
     $description: String
     $link: String
   ) {
     updateCallback(
-      id: $id
+      where: {id: $id}
       data: {
         title: $title
         dateAssigned: $dateAssigned
@@ -50,7 +50,7 @@ export default function CallbackEditor({ callback, refetch, setEditing }) {
     {
       variables: {
         ...inputs,
-        dateAssigned: inputs.dateAssigned.concat('T24:00:00.000Z'),
+        dateAssigned: new Date(inputs.dateAssigned),
         id: callback.id,
       },
     }

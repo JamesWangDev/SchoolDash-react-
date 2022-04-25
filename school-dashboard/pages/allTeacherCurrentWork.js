@@ -102,7 +102,7 @@ export default function AllTeacherCurrentWork(props) {
       initialData: props?.initialWorkData,
     }
   );
-  console.log(data?.users)
+  // console.log(data?.users)
 
   const columns = useMemo(
     () => [
