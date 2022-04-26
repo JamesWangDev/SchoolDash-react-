@@ -71,7 +71,7 @@ export function getPersonalLevel(data) {
       name: student.name,
       id: student.id,
       individualPbisLevel: newPersonalLevel || 0,
-      isNewLevel: newPersonalLevel > student.individualPbisLevel,
+      isNewLevel: newPersonalLevel > Number(student.individualPbisLevel),
     };
     return newStudent;
   });
