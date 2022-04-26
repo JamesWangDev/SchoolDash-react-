@@ -234,8 +234,10 @@ export default function usePbisCollection() {
     const studentsToUpdateLevel = studentsWithNewPersonalLevel.map(
       (student) => ({
         where: {id: student.id},
-         
-          individualPbisLevel: student.individualPbisLevel,
+         data:{
+           individualPbisLevel: student.individualPbisLevel,
+
+         }
         
       })
     );
