@@ -67,11 +67,13 @@ export function getPersonalLevel(data) {
     const newPersonalLevel = Math.floor(
       newCardsPerStudent / cardsPerPersonalLevel
     );
+    const isNewLevel = Number(newPersonalLevel) > (Number(student.individualPbisLevel) || 0);
+console.log('isNewLevel',student.name, isNewLevel, newPersonalLevel, student.individualPbisLevel);
     const newStudent = {
       name: student.name,
       id: student.id,
       individualPbisLevel: newPersonalLevel || 0,
-      isNewLevel: newPersonalLevel > Number(student.individualPbisLevel),
+      isNewLevel: isNewLevel,
     };
     return newStudent;
   });
