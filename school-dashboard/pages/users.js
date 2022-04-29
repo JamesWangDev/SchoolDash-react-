@@ -51,6 +51,7 @@ const GET_ALL_TEACHERS = gql`
       YearPbisCount
       averageTimeToCompleteCallback
       callbackAssignedCount(where: { dateCompleted: null }) 
+      totalCallback: callbackAssignedCount 
       
       currentTaWinner {
         name
@@ -231,6 +232,10 @@ export default function Users(props) {
           {
             Header: 'Callback',
             accessor: 'callbackCount',
+          },
+          {
+            Header: 'Total Callback',
+            accessor: 'totalCallback',
           },
           // {
           //   Header: 'Weekly PBIS',
