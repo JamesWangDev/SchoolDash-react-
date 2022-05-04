@@ -145,7 +145,7 @@ const PBIS_PAGE_STATIC_QUERY = gql`
     forTeachers
     forStudents
   }
-  cardCounts: pbisCollections {
+  cardCounts: pbisCollections (orderBy:{collectionDate:asc}) {
     id
     name
     collectedCards

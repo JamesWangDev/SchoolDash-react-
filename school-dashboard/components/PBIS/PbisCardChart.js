@@ -20,7 +20,7 @@ const LineChartStyles = styled.div`
 
 const CARD_COLLECTION_DATA_FOR_CHART_QUERY = gql`
   query CARD_COLLECTION_DATA_FOR_CHART_QUERY {
-    cardCounts: pbisCollections {
+    cardCounts: pbisCollections (orderBy:{collectionDate:asc}) {
       id
       name
       collectedCards
