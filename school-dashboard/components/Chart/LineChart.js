@@ -10,7 +10,7 @@ const options = {
         type: 'linear',
         position: 'right',
         ticks: {
-          max: 35000,
+          max: 45000,
           min: 0,
         },
       },
