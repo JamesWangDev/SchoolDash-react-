@@ -40,8 +40,9 @@ const GET_SINGLE_TEACHER = gql`
         description
         link
         messageFromTeacher
-
+        messageFromStudentDate
         messageFromStudent
+        messageFromTeacherDate
       }
       block1Teacher {
         name

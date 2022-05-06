@@ -43,8 +43,9 @@ const GET_SINGLE_TEACHER = gql`
       description
       link
       messageFromTeacher
-
+      messageFromStudentDate
       messageFromStudent
+      messageFromStudentDate
     }
     taStudents {
       id
