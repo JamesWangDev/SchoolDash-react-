@@ -6,7 +6,7 @@ import useSendEmail from './useSendEmail';
 
 const STUDENT_INFO_QUERY = gql`
   query STUDENT_INFO_QUERY($id: ID!) {
-    User(where: { id: $id }) {
+    user(where: { id: $id }) {
       id
       name
       email
@@ -23,9 +23,9 @@ const STUDENT_INFO_QUERY = gql`
 const UPDATE_STUDENT_WITH_EXISTING_PARENT_MUTATION = gql`
   mutation UPDATE_STUDENT_WITH_EXISTING_PARENT_MUTATION(
     $id: ID!
-    $parent: UserRelateToManyInput!
+    $parent: UserRelateToManyForUpdateInput!
   ) {
-    updateUser(id: $id, data: { parent: $parent }) {
+    updateUser(where: {id: $id}, data: { parent: $parent }) {
       id
     }
   }
@@ -33,7 +33,7 @@ const UPDATE_STUDENT_WITH_EXISTING_PARENT_MUTATION = gql`
 
 const PARENT_INFO_QUERY = gql`
   query PARENT_INFO_QUERY($email: String!) {
-    allUsers(where: { email: $email }) {
+    users(where: { email: {equals: $email }}) {
       id
       name
       email
@@ -53,7 +53,7 @@ const SIGNUP_NEW_PARENT_MUTATION = gql`
     $email: String!
     $name: String!
     $password: String!
-    $children: UserRelateToManyInput!
+    $children: UserRelateToManyForCreateInput!
     $isParent: Boolean!
   ) {
     createUser(
@@ -117,8 +117,10 @@ export function useNewParentAccount() {
     console.log('props', props);
     // get student's current parent info
     setStudentId(student.id);
+    console.log("studentID", student.id)
     const studentWithParents = await getStudentData({ id: student.id });
-    const { parent } = studentWithParents.User;
+    console.log('studentWithParents', studentWithParents);
+    const { parent } = studentWithParents.user;
 
     const allParentEmails = parent.map((p) => p.email);
     console.log('allParentEmails', allParentEmails);
@@ -133,8 +135,8 @@ export function useNewParentAccount() {
     // check if a parent account with the email address exists
     const existingParent = await getParentData({ email: parentEmail });
 
-    const isThisAnExistingParent = existingParent?.allUsers.length > 0;
-    const existingParentID = existingParent?.allUsers[0]?.id;
+    const isThisAnExistingParent = existingParent?.users.length > 0;
+    const existingParentID = existingParent?.users[0]?.id;
 
     // if there is an existing parent account with the email address
     // link this student to that parent account

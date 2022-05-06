@@ -27,9 +27,9 @@ export const useAsyncGQLQuery = (query) => {
   const headers = {
     credentials: 'include',
     mode: 'cors',
-    headers: {
-      authorization: `Bearer token goes here`,
-    },
+    // headers: {
+    //   authorization: `Bearer token goes here`,
+    // },
   };
 
   const graphQLClient = new GraphQLClient(
