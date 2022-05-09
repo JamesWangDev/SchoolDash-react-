@@ -27,7 +27,7 @@ const UPDATE_LINK_MUTATION = gql`
 `;
 const DELETE_LINK_MUTATION = gql`
   mutation DELETE_LINK_MUTATION($id: ID!) {
-    deleteLink(id: $id) {
+    deleteLink(where:{id: $id}) {
       id
     }
   }
