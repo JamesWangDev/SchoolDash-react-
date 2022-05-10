@@ -59,8 +59,8 @@ export default function LineChart({ title, chartData, label }) {
       {
         label,
         data: marbleData,
-        backgroundColor: backgroundColors,
-        borderColor: borderColors,
+        backgroundColor: backgroundColors[0],
+        borderColor: borderColors[0],
         borderWidth: 1,
         yAxisID: 'B',
       },
