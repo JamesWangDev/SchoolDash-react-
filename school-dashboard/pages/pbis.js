@@ -189,7 +189,7 @@ export default function Pbis(props) {
     previousPbisCollection?.currentPbisTeamGoal || 2;
   const didWeGetNewSchoolWideLevel = newSchoolwideGoal > previousSchoolwideGoal;
   const cardCounts = props?.cardCounts;
-  const totalTeamCards = data?.totalTeamCards?.count;
+  const totalTeamCards = data?.totalTeamCards;
   // get the possible categories for the cards
   // const categories = cards?.map((card) => card.category);
   // const categoriesSet = new Set(categories);
