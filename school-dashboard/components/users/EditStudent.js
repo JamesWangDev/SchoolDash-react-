@@ -20,7 +20,7 @@ const UPDATE_STUDENT_MUTATION = gql`
     $block5: ID!
   ) {
     updateUser(
-      id: $id
+      where: {id: $id}
       data: {
         name: $name
         taTeacher: { connect: { id: $ta } }
@@ -82,7 +82,7 @@ export default function EditStudent({ student }) {
     a.name.localeCompare(b.name)
   );
 
-  // console.log(inputs.taName);
+  console.log(student.id);
   return (
     <div>
       <GradientButton onClick={() => setShowForm(!showForm)}>
