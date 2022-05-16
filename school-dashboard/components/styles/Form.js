@@ -88,6 +88,13 @@ const Form = styled.form`
     /* margin: 20px; */
     width: 20px;
   }
+  textarea {
+    height: 5rem;
+    resize: none;
+    overflow-y: hidden;
+    
+    /* background-color: #ff3019; */
+  }
 
   fieldset {
     border: 0;
