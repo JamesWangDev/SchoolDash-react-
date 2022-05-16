@@ -40,7 +40,7 @@ const AnimatedInput = styled.p`
   padding: 0;
   margin: 0;
   font-size: 14px;
-  color: #4d4d4d;
+  color: var(--textColor);
   text-align: center;
   transition: all 0.3s;
   input {
@@ -56,10 +56,11 @@ const AnimatedInput = styled.p`
     border-radius: 5px;
   }
   .hasText {
-    border-bottom: 1px solid #e1e1e1;
+    /* border-bottom: 1px solid #e1e1e1; */
     color: white;
     font-size: 2rem;
     padding: 0.5rem;
+    /* text-decoration: none; */
   }
   .inputUpdating {
     animation: color-change 0.5s infinite;
