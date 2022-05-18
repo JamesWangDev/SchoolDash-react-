@@ -51,7 +51,7 @@ const ContainerStyles = styled.div`
     /* left: 20px; */
     /* right: 20px; */
     /* bottom: 00px; */
-    transform: translate(30px, -30px);
+    transform: translate(30px, -0px);
     /* text-align: center; */
   }
   img {
