@@ -60,7 +60,7 @@ const LIST_OF_TEACHERS_QUERY = gql`
   }
 }
 `;
-export default function NewStudent({ student }) {
+export default function NewStudent( ) {
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const revalidateIndexPage = useRevalidatePage("/");
