@@ -58,22 +58,22 @@ const UPDATE_ASSIGNMENTS = gql`
     $id: ID!
     $block1Assignment: String
     $block1ClassName: String
-    $block1AssignmentLastUpdated: String
+    $block1AssignmentLastUpdated: DateTime
     $block2Assignment: String
     $block2ClassName: String
-    $block2AssignmentLastUpdated: String
+    $block2AssignmentLastUpdated: DateTime
     $block3Assignment: String
     $block3ClassName: String
-    $block3AssignmentLastUpdated: String
+    $block3AssignmentLastUpdated: DateTime
     $block4Assignment: String
     $block4ClassName: String
-    $block4AssignmentLastUpdated: String
+    $block4AssignmentLastUpdated: DateTime
     $block5Assignment: String
     $block5ClassName: String
-    $block5AssignmentLastUpdated: String
+    $block5AssignmentLastUpdated: DateTime
   ) {
     updateUser(
-      id: $id
+      where: {id: $id}
       data: {
         block1Assignment: $block1Assignment
         block1ClassName: $block1ClassName
@@ -152,7 +152,7 @@ export default function AssignmentUpdater({
           onClick={async () => {
             updateData[
               `block${block}AssignmentLastUpdated`
-            ] = new Date().toISOString().slice(0, 10);
+            ] = new Date();
             updateData[`block${block}Assignment`] = inputs.assignment;
             updateData[`block${block}ClassName`] = inputs.classTitle;
             updateData.id = me.id;

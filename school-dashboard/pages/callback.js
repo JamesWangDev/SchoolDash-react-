@@ -14,9 +14,9 @@ import NewCallbackMultiStudent from '../components/Callback/newCallbackMultiStud
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($teacher: ID) {
-    allCallbacks(
-      sortBy: dateAssigned_ASC
-      where: { teacher: { id: $teacher } }
+    callbacks(
+      orderBy:{dateAssigned: asc}
+      where: { teacher: { id: {equals: $teacher} } }
     ) {
       id
       teacher {
@@ -38,6 +38,7 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
       messageFromTeacherDate
     }
   }
+  
 `;
 
 export default function Callback() {
@@ -58,7 +59,7 @@ export default function Callback() {
   if (!me) return <p>Please Log In</p>;
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
-  const callbacks = data.allCallbacks.filter((callback) => {
+  const callbacks = data.callbacks.filter((callback) => {
     if (showCompleted) return true;
     return !callback.dateCompleted;
   });

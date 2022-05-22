@@ -6,7 +6,7 @@ import { useGQLQuery } from '../../lib/useGqlQuery';
 
 const SINGLE_BULLYING_DATA_QUERY = gql`
   query SINGLE_BULLYING_DATA_QUERY($id: ID!) {
-    Bullying(where: { id: $id }) {
+    bullying(where: { id: $id }) {
       id
       studentOffender {
         id
@@ -40,7 +40,7 @@ export default function ViewSingleHHB({ query }) {
     // { enabled: !!me }
   );
   if (isLoading) return <Loading />;
-  const bullying = data?.Bullying;
+  const bullying = data?.bullying;
   const dateReported = new Date(bullying?.dateReported).toLocaleDateString();
   const dateOfEvent = new Date(bullying?.dateOfEvent).toLocaleDateString();
   const nameWithFirstLetterOfBothNamesCapitalized = (name) => {

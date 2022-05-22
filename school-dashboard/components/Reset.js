@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 import Form from './styles/Form';
 import useForm from '../lib/useForm';
 import Error from './ErrorMessage';
+import { useRouter } from 'next/router'
 
 const RESET_MUTATION = gql`
   mutation RESET_MUTATION(
@@ -22,6 +23,7 @@ const RESET_MUTATION = gql`
 `;
 
 export default function Reset({ token }) {
+  const router = useRouter();
   const { inputs, handleChange, resetForm } = useForm({
     email: '',
     password: '',
@@ -42,6 +44,8 @@ export default function Reset({ token }) {
     console.log(res);
     console.log({ data, loading, error });
     resetForm();
+    router.push('/');
+
     // Send the email and password to the graphqlAPI
   }
   return (

@@ -12,7 +12,7 @@ const UPDATE_BIRTHDAY_FOR_DELIVERED_CAKE_MUTATION = gql`
     $id: ID!
     $isDelivered: Boolean!
   ) {
-    updateBirthday(id: $id, data: { hasDelivered: $isDelivered }) {
+    updateBirthday(where: {id: $id}, data: { hasDelivered: $isDelivered }) {
       id
     }
   }

@@ -80,7 +80,7 @@ export default function NewBugReportButton() {
             createMessage({
               subject: 'New Bug Report',
               message: `${res?.data?.createBugReport?.submittedBy.name} reported a bug or asked for a feature`,
-              receiver: '60eccf13eccc9b001587742c',
+              receiver: 'cl24ztaju149148z3qqm4c4d39',
               link: ``,
             });
             resetForm();

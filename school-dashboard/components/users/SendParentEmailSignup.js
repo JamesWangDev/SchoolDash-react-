@@ -9,6 +9,7 @@ import Form, { FormContainerStyles } from '../styles/Form';
 import { useUser } from '../User';
 import useSendEmail from '../../lib/useSendEmail';
 import { useNewParentAccount } from '../../lib/useNewParentAccount';
+import { useQueryClient } from 'react-query';
 
 export default function SendParentEmailSignupButton({ student }) {
   const me = useUser();
@@ -19,7 +20,7 @@ export default function SendParentEmailSignupButton({ student }) {
   });
   const { setEmail, emailLoading } = useSendEmail();
   const [createParentAccount, creatingParentAccount] = useNewParentAccount();
-
+const queryClient = useQueryClient();
   if (!student) return null;
   return (
     <div>
@@ -58,6 +59,8 @@ export default function SendParentEmailSignupButton({ student }) {
                   duration: 4000,
                   icon: '👨‍👧‍👦',
                 });
+                queryClient.refetchQueries();
+
               }
 
               clearForm();

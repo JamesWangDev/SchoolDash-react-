@@ -13,16 +13,17 @@ const SIGN_OUT_MUTATION = gql`
 export default function SignOut() {
   const queryClient = useQueryClient();
   const [signout] = useMutation(SIGN_OUT_MUTATION, {
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    // refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
   return (
     <GradientButton
       type="button"
       onClick={async () => {
-        await signout();
-        queryClient.resetQueries();
-        // queryClient.clear();
-        // queryClient.refetchQueries();
+        const res = await signout();
+        console.log(res)
+        queryClient.refetchQueries();
+        queryClient.removeQueries();
+        queryClient.clear();
       }}
     >
       Sign Out

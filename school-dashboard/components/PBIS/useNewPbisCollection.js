@@ -16,53 +16,50 @@ import {
 } from './pbisCollectionHelpers';
 
 const PBIS_COLLECTION_QUERY = gql`
-  query PBIS_COLLECTION_QUERY {
-    taTeamCards: allPbisTeams {
-      id
-      teamName
-      averageCardsPerStudent
-      numberOfStudents
-      currentLevel
+query PBIS_COLLECTION_QUERY {
+  taTeamCards: pbisTeams {
+    id
+    teamName
+    averageCardsPerStudent
+    numberOfStudents
+    currentLevel
 
-      taTeacher {
-        id
-        name
-        currentTaWinner {
-          id
-          name
-        }
-        previousTaWinner {
-          id
-          name
-        }
-        taStudents {
-          id
-          name
-          individualPbisLevel
-          uncountedCards: _studentPbisCardsMeta(where: { counted: false }) {
-            count
-          }
-          totalCards: _studentPbisCardsMeta {
-            count
-          }
-        }
-      }
-    }
-    totalCards: _allPbisCardsMeta(where: { counted: false }) {
-      count
-    }
-    lastCollection: allPbisCollections {
+    taTeacher {
       id
       name
-      collectionDate
-      personalLevelWinners
-      randomDrawingWinners
-      taTeamsLevels
-    }
-    individualPbisCards: allPbisCards(where: { counted: false }) {
-      id
+      currentTaWinner {
+        id
+        name
+      }
+      previousTaWinner {
+        id
+        name
+      }
+      taStudents {
+        id
+        name
+        individualPbisLevel
+        uncountedCards: studentPbisCardsCount(
+          where: { counted: { equals: false } }
+        )
+        totalCards: studentPbisCardsCount 
+      }
     }
   }
+  totalCards: pbisCardsCount(where: { counted: {equals: false} }) 
+  lastCollection: pbisCollections {
+    id
+    name
+    collectionDate
+    personalLevelWinners
+    randomDrawingWinners
+    taTeamsLevels
+  }
+  individualPbisCards: pbisCards(where: { counted: {equals: false} }) {
+    id
+  }
+}
+
 `;
 
 const CREATE_PBIS_COLLECTION_MUTATION = gql`
@@ -126,7 +123,7 @@ const UPDATE_TEACHER_WITH_NEW_PBIS_WINNER_MUTATION_WITHOUT_PREVIOUS = gql`
 // update PBIS Teams with new data
 const UPDATE_PBIS_TEAM_WITH_NEW_DATA_MUTATION = gql`
   mutation UPDATE_PBIS_TEAM_WITH_NEW_DATA_MUTATION(
-    $data: [PbisTeamsUpdateInput]
+    $data: [PbisTeamUpdateArgs!]!
   ) {
     updatePbisTeams(data: $data) {
       id
@@ -136,7 +133,7 @@ const UPDATE_PBIS_TEAM_WITH_NEW_DATA_MUTATION = gql`
 
 // update students who went up a personal level
 const BULK_UPDATE_USERS_MUTATION = gql`
-  mutation BULK_UPDATE_USERS_MUTATION($data: [UsersUpdateInput]) {
+  mutation BULK_UPDATE_USERS_MUTATION($data: [UserUpdateArgs!]!) {
     updateUsers(data: $data) {
       id
     }
@@ -145,7 +142,7 @@ const BULK_UPDATE_USERS_MUTATION = gql`
 
 // mark all the cards as collected
 const COUNT_PBIS_CARD_MUTATION = gql`
-  mutation COUNT_PBIS_CARD_MUTATION($data: [PbisCardsUpdateInput]!) {
+  mutation COUNT_PBIS_CARD_MUTATION($data: [PbisCardUpdateArgs!]!) {
     updatePbisCards(data: $data) {
       id
     }
@@ -224,7 +221,7 @@ export default function usePbisCollection() {
       taTeamLevels: JSON.stringify(taTeamData),
       taTeamNewLevelWinners: JSON.stringify(taTeamsAtNewLevel),
       currentPbisTeamGoal: JSON.stringify(newTaTeamLevelGoal),
-      collectedCards: String(data.totalCards.count),
+      collectedCards: String(data.totalCards),
     };
 
     // create the new PBIS Collection
@@ -236,10 +233,12 @@ export default function usePbisCollection() {
     // update the students who went up a level
     const studentsToUpdateLevel = studentsWithNewPersonalLevel.map(
       (student) => ({
-        id: student.id,
-        data: {
-          individualPbisLevel: student.individualPbisLevel,
-        },
+        where: {id: student.id},
+         data:{
+           individualPbisLevel: student.individualPbisLevel,
+
+         }
+        
       })
     );
     const updatedStudents = await bulkUpdateUsers({
@@ -248,7 +247,7 @@ export default function usePbisCollection() {
     console.log('Updated students', updatedStudents);
     // update each ta teacher with their new pbis winner
     const teachersToUpdate = getTeachersToUpdate(randomDrawingWinners);
-
+console.log('Teachers to update', teachersToUpdate);
     const updatedTeachers = await bulkUpdateUsers({
       variables: {
         data: teachersToUpdate,

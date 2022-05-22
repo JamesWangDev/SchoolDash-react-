@@ -18,7 +18,7 @@ const ButtonStyles = styled.div`
 `;
 const GET_SINGLE_USER = gql`
   query GET_SINGLE_USER($id: ID!) {
-    User(where: { id: $id }) {
+    user(where: { id: $id }) {
       id
       name
       email
@@ -63,6 +63,7 @@ const GET_SINGLE_USER = gql`
 `;
 
 export default function UserProfile({ query }) {
+  // console.log('query', query);
   const me = useUser();
   const { data, isLoading, error } = useGQLQuery(
     `SingleUser-${query.id}`,
@@ -72,7 +73,7 @@ export default function UserProfile({ query }) {
   if (isLoading || !me) return <Loading />;
   if (error) return <p>{error.message}</p>;
   if (!isAllowed(me, 'isStaff')) return null;
-  const user = data.User;
+  const user = data?.user;
   const { isStudent } = user;
   return (
     <div>

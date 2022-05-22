@@ -9,7 +9,7 @@ import { useUser } from '../User';
 
 const RESET_PASSWORD_TO_PASSWORD_MUTATION = gql`
   mutation RESET_PASSWORD_TO_PASSWORD_MUTATION($id: ID!, $password: String!) {
-    updateUser(id: $id, data: { password: $password }) {
+    updateUser(where: {id: $id}, data: { password: $password }) {
       id
     }
   }
@@ -23,7 +23,7 @@ export default function UpdateMyPassword() {
     RESET_PASSWORD_TO_PASSWORD_MUTATION,
     {
       variables: {
-        id: me.id,
+        id: me?.id,
         password: inputs.newPassword,
       },
     }

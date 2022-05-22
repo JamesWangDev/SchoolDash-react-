@@ -35,26 +35,26 @@ const TeacherWorkPageContainer = styled.div`
 
 const ALL_TEACHERS_QUERY = gql`
   query BULLYING_DATA_QUERY {
-    allUsers(where: { hasClasses: true }, sortBy: name_ASC) {
-      id
-      name
-      block1ClassName
-      block1Assignment
-      block1AssignmentLastUpdated
-      block2ClassName
-      block2Assignment
-      block2AssignmentLastUpdated
-      block3ClassName
-      block3Assignment
-      block3AssignmentLastUpdated
-      block4ClassName
-      block4Assignment
-      block4AssignmentLastUpdated
-      block5ClassName
-      block5Assignment
-      block5AssignmentLastUpdated
-    }
+  users(where: { hasClasses: { equals: true } }, orderBy: { name: asc }) {
+    id
+    name
+    block1ClassName
+    block1Assignment
+    block1AssignmentLastUpdated
+    block2ClassName
+    block2Assignment
+    block2AssignmentLastUpdated
+    block3ClassName
+    block3Assignment
+    block3AssignmentLastUpdated
+    block4ClassName
+    block4Assignment
+    block4AssignmentLastUpdated
+    block5ClassName
+    block5Assignment
+    block5AssignmentLastUpdated
   }
+}
 `;
 
 function DisplayClasswork({ data, block }) {
@@ -92,8 +92,8 @@ function DisplayClasswork({ data, block }) {
 
 export default function AllTeacherCurrentWork(props) {
   const me = useUser();
-
-  const { data, isLoading, isError, refetch } = useGQLQuery(
+// console.log(props)
+  const { data } = useGQLQuery(
     'allTeachers',
     ALL_TEACHERS_QUERY,
     {},
@@ -102,6 +102,7 @@ export default function AllTeacherCurrentWork(props) {
       initialData: props?.initialWorkData,
     }
   );
+  // console.log(data?.users)
 
   const columns = useMemo(
     () => [
@@ -162,7 +163,7 @@ export default function AllTeacherCurrentWork(props) {
     <TeacherWorkPageContainer>
       <h1>All Teachers Current Work</h1>
       <Table
-        data={data?.allUsers || []}
+        data={data?.users || []}
         columns={columns}
         searchColumn="name"
       />
@@ -189,7 +190,7 @@ export async function getStaticProps(context) {
     graphQLClient.request(ALL_TEACHERS_QUERY);
 
   const initialWorkData = await fetchTeacherWork();
-
+// console.log(initialWorkData.users);
   return {
     props: {
       initialWorkData,

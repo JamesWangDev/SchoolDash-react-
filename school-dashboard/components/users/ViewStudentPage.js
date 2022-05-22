@@ -19,7 +19,7 @@ const ParentInfoStyles = styled.div`
 `;
 const GET_SINGLE_TEACHER = gql`
   query GET_SINGLE_TEACHER($id: ID!) {
-    user: User(where: { id: $id }) {
+    user: user(where: { id: $id }) {
       id
       name
       email
@@ -40,8 +40,9 @@ const GET_SINGLE_TEACHER = gql`
         description
         link
         messageFromTeacher
-
+        messageFromStudentDate
         messageFromStudent
+        messageFromTeacherDate
       }
       block1Teacher {
         name
@@ -92,9 +93,9 @@ const GET_SINGLE_TEACHER = gql`
         currentLevel
       }
       studentPbisCards(
-        sortBy: dateGiven_DESC
-        first: 20
-        where: { category_not: "physical" }
+        orderBy: {dateGiven:desc}
+        take: 20
+        where: { category: {not:{equals: "physical"} }}
       ) {
         id
         cardMessage
@@ -105,7 +106,7 @@ const GET_SINGLE_TEACHER = gql`
         }
         dateGiven
       }
-      studentFocusStudent(first: 2) {
+      studentFocusStudent(take: 2) {
         id
         comments
       }
@@ -117,7 +118,10 @@ export default function ViewStudentPage({ student }) {
   const { data, isLoading, error } = useGQLQuery(
     `SingleStudent-${student.id}`,
     GET_SINGLE_TEACHER,
-    { id: student.id }
+    { id: student.id },
+    {
+      enabled: !!student?.id,
+    }
   );
   const me = useUser();
   if (isLoading) return <Loading />;

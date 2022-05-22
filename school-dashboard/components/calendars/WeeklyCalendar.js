@@ -6,10 +6,10 @@ import SingleDayCalendar from './SingleDayCalendar';
 import Loading from '../Loading';
 
 export const GET_WEEK_CALENDARS = gql`
-  query GET_WEEK_CALENDARS($starting: String, $ending: String) {
-    allCalendars(
-      sortBy: date_ASC
-      where: { date_gte: $starting, date_lte: $ending }
+  query GET_WEEK_CALENDARS($starting: DateTime, $ending: DateTime) {
+    calendars(
+      orderBy: {date: asc}
+      where: {AND:[ {date: {gte: $starting}}, {date: {lte: $ending}}] }
     ) {
       name
       id
@@ -43,13 +43,13 @@ export function getLastAndNextSunday(d) {
   const n = new Date(d);
   n.setDate(n.getDate() + ((5 - n.getDay() + 7) % 7) + 1);
   return {
-    lastSunday: lastSunday.toISOString().slice(0, -14),
-    nextSaturday: nextSunday.toISOString().slice(0, -14),
+    lastSunday: lastSunday.toISOString(),
+    nextSaturday: nextSunday.toISOString(),
   };
 }
 
 function getDatesFromDayOfTheWeek(data, day) {
-  const dates = data.filter((date) => {
+  const dates = data?.filter((date) => {
     const d = new Date(date.date);
     return d.getDay() === day;
   });
@@ -78,7 +78,7 @@ export default function WeeklyCalendar({ initialData }) {
   // if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
   // filter calendars by who can see them
-  const filteredCalendars = data?.allCalendars?.filter((calendar) => {
+  const filteredCalendars = data?.calendars?.filter((calendar) => {
     if (calendar.status === 'Both') return true;
     if (calendar.status === 'Teachers' && me.isStaff) return true;
     if (calendar.status === 'Students' && me.isStudent) return true;

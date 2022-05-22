@@ -1,5 +1,6 @@
 import AddBirthdays from '../components/Birthdays/AddBirthdays';
 import NewWeeklyPbisCollection from '../components/PBIS/NewWeeklyPbisCollection';
+import TransferData from '../components/TransferData';
 // import StudentFocusTable from '../components/StudentFocusTable';
 import { useUser } from '../components/User';
 import NewStudent from '../components/users/CreateNewStudent';
@@ -19,6 +20,7 @@ export default function SuperUserSettings() {
       {isAllowed(me, 'isSuperAdmin') && <NewEvents />}
       {isAllowed(me, 'isSuperAdmin') && <AddBirthdays />}
       {isAllowed(me, 'canManagePbis') && <NewWeeklyPbisCollection />}
+      {isAllowed(me, 'isSuperAdmin') && <TransferData />}
     </div>
   );
 }

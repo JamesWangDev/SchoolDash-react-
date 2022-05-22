@@ -10,27 +10,30 @@ import 'react-toggle/style.css';
 
 const GET_STUDENTS_AND_AWARDS_QUERY = gql`
   query GET_STUDENTS_AND_AWARDS {
-    students: allUsers(
-      where: { AND: [{ isStudent: true }, { taTeacher_is_null: false }] }
-      sortBy: name_ASC
-    ) {
+  students: users(
+    where: {
+      AND: [{ isStudent: { equals: true } }, { NOT: { taTeacher: null } }]
+    }
+    orderBy: { name: asc }
+  ) {
+    id
+    name
+  }
+  awards: trimesterAwards {
+    id
+    teacher {
       id
       name
     }
-    awards: allTrimesterAwards {
+    student {
       id
-      teacher {
-        id
-        name
-      }
-      student {
-        id
-        name
-      }
-      trimester
-      howl
+      name
     }
+    trimester
+    howl
   }
+}
+
 `;
 
 export default function TrimesterAwards() {

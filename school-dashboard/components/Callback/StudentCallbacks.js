@@ -12,9 +12,9 @@ import Loading from '../Loading';
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($student: ID) {
-    allCallbacks(
-      sortBy: dateAssigned_ASC
-      where: { student: { id: $student } }
+    callbacks(
+      orderBy: {dateAssigned: asc}
+      where: { student: { id: {equals: $student} } }
     ) {
       id
       teacher {
@@ -52,11 +52,11 @@ export default function StudentCallbacks() {
       enabled: !!me,
     }
   );
-
+console.log(data)
   if (!me) return <p>Please Log In</p>;
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
-  const callbacks = data.allCallbacks.filter((callback) => {
+  const callbacks = data.callbacks.filter((callback) => {
     if (showCompleted) return true;
     return !callback.dateCompleted;
   });

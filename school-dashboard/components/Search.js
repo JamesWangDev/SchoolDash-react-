@@ -25,7 +25,7 @@ import { useUser } from './User';
 
 export const SEARCH_ALL_USERS_QUERY = gql`
   query SEARCH_ALL_USERS_QUERY {
-    allUsers {
+    users {
       id
       name
       isStaff
@@ -65,18 +65,18 @@ export default function Search() {
 
       return;
     }
-    const itemsToShow = allUsers?.allUsers.filter((user) =>
+    const itemsToShow = allUsers?.users.filter((user) =>
       user.name.toLowerCase().includes(valueToFilter?.toLowerCase())
     );
     const eightItems = itemsToShow?.slice(0, 8);
     setUsersToDisplay(eightItems || []);
   };
 
-  const allUsersWithoutRole = allUsers?.allUsers.filter(
+  const allUsersWithoutRole = allUsers?.users.filter(
     (user) => !user.isStaff && !user.isParent && !user.isStudent
   );
   if (allUsersWithoutRole?.length > 0) {
-    console.log(allUsersWithoutRole);
+    // console.log(allUsersWithoutRole);
   }
 
   resetIdCounter();

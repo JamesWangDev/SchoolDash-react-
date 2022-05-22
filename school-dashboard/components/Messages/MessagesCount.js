@@ -59,22 +59,22 @@ const Dot = styled.div`
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($me: ID) {
-    allMessages(sortBy: sent_ASC, where: { receiver: { id: $me } }) {
+  messages(orderBy: {sent: asc}, where: { receiver:{id: {equals:$me}} }) {
+    id
+    subject
+    message
+    read
+    link
+    sent
+    sender {
       id
-      subject
-      message
-      read
-      link
-      sent
-      sender {
-        id
-        name
-      }
-    }
-    _allMessagesMeta(where: { receiver: { id: $me }, read: false }) {
-      count
+      name
     }
   }
+  messagesCount(where: { receiver: { id: {equals: $me} }, read: {equals: false} }) 
+    
+  
+}
 `;
 
 export default function MessagesCount() {
@@ -90,7 +90,7 @@ export default function MessagesCount() {
       refetchInterval: 300000,
     }
   );
-  const unread = data?._allMessagesMeta?.count;
+  const unread = data?.messagesCount;
   const [viewAllMessages, setViewAllMessages] = useState(false);
   if (isLoading) return <Loading />;
   return (
@@ -120,7 +120,7 @@ export default function MessagesCount() {
                 {unread}
               </Dot>
             </MessageButtonStyles>
-            {viewAllMessages && <MessagesList messages={data?.allMessages} />}
+            {viewAllMessages && <MessagesList messages={data?.messages || []} />}
           </>
         </CSSTransition>
       </TransitionGroup>

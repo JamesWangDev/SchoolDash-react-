@@ -8,12 +8,13 @@ import { useUser } from '../User';
 
 const MISSING_BIRTHDAYS_QUERY = gql`
   query {
-    allUsers(where: { isStudent: true }) {
+    users(where: { isStudent: {equals: true} }) {
       id
       name
       birthday {
         id
         hasChosen
+        cakeType
       }
     }
   }
@@ -34,10 +35,11 @@ export default function MissingBirthdays() {
     {},
     { enabled: !!me }
   );
-  const needsToChooseCake = data?.allUsers?.filter(
-    (user) => !user.birthday?.cakeType
+  const needsToChooseCake = data?.users?.filter(
+    (user) => !user?.birthday?.cakeType
   );
-  const needsBirthdayDate = data?.allUsers?.filter((user) => !user.birthday);
+  // console.log(needsToChooseCake);
+  const needsBirthdayDate = data?.users?.filter((user) => !user.birthday);
 
   if (isLoading) return <Loading />;
   return (

@@ -16,7 +16,7 @@ import useCreateMessage from '../Messages/useCreateMessage';
 const CREATE_CALLBACK_MUTATION = gql`
   mutation CREATE_CALLBACK_MUTATION(
     $title: String!
-    $dateAssigned: String
+    $dateAssigned: DateTime
     $teacher: ID!
     $student: ID!
     $description: String
@@ -51,7 +51,7 @@ export default function NewCallback({ refetch }) {
     {
       variables: {
         ...inputs,
-        dateAssigned: inputs.dateAssigned.concat('T24:00:00.000Z'),
+        dateAssigned: new Date(inputs.dateAssigned.concat('T24:00:00.000Z')),
         teacher: user?.id,
         student: studentCallbackIsFor?.userId,
       },

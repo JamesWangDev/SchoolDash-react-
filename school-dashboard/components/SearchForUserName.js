@@ -10,7 +10,7 @@ import { useUser } from './User';
 
 export const SEARCH_ALL_USERS_QUERY = gql`
   query SEARCH_ALL_USERS_QUERY {
-    allUsers {
+    users {
       id
       name
       isStaff
@@ -41,7 +41,7 @@ export default function SearchForUserName({
   // console.log(userType);
   // console.log(usersToDisplay);
   const usersFilteredByType =
-    allUsers?.allUsers?.filter((item) =>
+    allUsers?.users?.filter((item) =>
       userType ? item[userType] === true : true
     ) || [];
   // console.log(usersFilteredByType);

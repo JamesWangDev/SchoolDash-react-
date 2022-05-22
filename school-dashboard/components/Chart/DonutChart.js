@@ -3,8 +3,8 @@ import { backgroundColors, borderColors } from './chartColors';
 
 export default function DoughnutChart({ title, chartData }) {
   //   console.log(chartData);
-  const labels = chartData.map((item) => item.word);
-  const dataToChart = chartData.map((item) => item.total);
+  const labels = chartData?.map((item) => item.word) || [];
+  const dataToChart = chartData?.map((item) => item.total) || [];
   //   console.log(dataToChart);
 
   const data = {

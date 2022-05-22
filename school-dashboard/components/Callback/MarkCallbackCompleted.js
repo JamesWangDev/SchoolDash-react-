@@ -5,21 +5,23 @@ import styled from 'styled-components';
 import { useUser } from '../User';
 import useRecalculateCallback from './recalculateCallback';
 import { SmallGradientButton } from '../styles/Button';
+import toast from 'react-hot-toast';
 
 const MARK_CALLBACK_COMPLETED = gql`
   mutation MARK_CALLBACK_COMPLETED(
     $id: ID!
-    $dateCompleted: String!
+    $dateCompleted: DateTime!
     $daysLate: Int!
   ) {
     updateCallback(
-      id: $id
+      where: {id: $id}
       data: { dateCompleted: $dateCompleted, daysLate: $daysLate }
     ) {
       id
     }
   }
 `;
+
 
 const DeleteCallbackButtonStyles = styled.div`
   display: flex;
@@ -48,7 +50,7 @@ export default function MarkCallbackCompleted({ callback }) {
     {
       variables: {
         id: callback.id,
-        dateCompleted: today.toISOString(),
+        dateCompleted: today,
         daysLate,
       },
     }
@@ -64,8 +66,12 @@ export default function MarkCallbackCompleted({ callback }) {
           onClick={async () => {
             // console.log('marking completed');
             const res = await markCompleted();
+            if(res){
+              toast.success('Callback marked as completed');
+              setCallbackID(res.data.updateCallback.id);
+              
+            }
             // console.log(res.data.updateCallback.id);
-            setCallbackID(res.data.updateCallback.id);
             queryClient.refetchQueries();
           }}
         >

@@ -10,7 +10,7 @@ import isAllowed from '../../lib/isAllowed';
 
 export const GET_CALENDARS = gql`
   query GET_CALENDARS {
-    allCalendars(sortBy: date_ASC) {
+    calendars(orderBy: {date: asc}) {
       name
       id
       description
@@ -24,6 +24,7 @@ export const GET_CALENDARS = gql`
       linkTitle
     }
   }
+  
 `;
 
 export default function Calendars({ dates, initialData }) {
@@ -45,7 +46,7 @@ export default function Calendars({ dates, initialData }) {
   );
 
   const calendarsFilteredByUserType =
-    data?.allCalendars.filter((calendar) => {
+    data?.calendars.filter((calendar) => {
       if (calendar.status === 'Both') return true;
       if (me?.isStaff && calendar.status === 'Teachers') return true;
       if (me?.isStudent && calendar.status === 'Students') return true;

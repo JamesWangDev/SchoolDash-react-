@@ -5,7 +5,7 @@ import GradientButton from '../styles/Button';
 
 const RESET_PASSWORD_TO_PASSWORD_MUTATION = gql`
   mutation RESET_PASSWORD_TO_PASSWORD_MUTATION($id: ID!) {
-    updateUser(id: $id, data: { password: "password" }) {
+    updateUser(where: {id: $id}, data: { password: "password" }) {
       id
     }
   }

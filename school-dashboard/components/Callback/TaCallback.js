@@ -12,15 +12,15 @@ import Loading from '../Loading';
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($taTeacher: ID!) {
-    allCallbacks(
-      sortBy: dateAssigned_ASC
+    callbacks(
+      orderBy: {dateAssigned: asc}
       where: {
         OR: [
-          { student: { taTeacher: { id: $taTeacher } } }
+          { student: { taTeacher: { id: {equals: $taTeacher} } } }
           {
             AND: [
-              { teacher: { id: $taTeacher } }
-              { messageFromStudent_not: null }
+              { teacher: { id: {equals: $taTeacher} } }
+              { messageFromStudent: {notIn: [""]} }
             ]
           }
         ]
@@ -66,7 +66,7 @@ export default function TaCallbacks() {
   if (!me) return <p>Please Log In</p>;
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
-  const callbacks = data.allCallbacks.filter((callback) => {
+  const callbacks = data?.callbacks?.filter((callback) => {
     if (showCompleted) return true;
     return !callback.dateCompleted;
   });

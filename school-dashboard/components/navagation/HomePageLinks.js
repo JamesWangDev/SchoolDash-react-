@@ -8,7 +8,7 @@ import { useUser } from '../User';
 
 export const GET_HOMEPAGE_LINKS = gql`
   query GET_HOMEPAGE_LINKS {
-    allLinks(where: { onHomePage: true }) {
+    links(where: { onHomePage: {equals:true} }) {
       id
       link
       name
@@ -52,7 +52,7 @@ export default function HomePageLinks({ initialData }) {
 
   if (!me) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
-  const filteredLinks = data?.allLinks?.filter((link) => {
+  const filteredLinks = data?.links?.filter((link) => {
     if (link.forParents && me.isParent) return true;
     if (link.forStudents && me.isStudent) return true;
     if (link.forTeachers && me.isStaff) return true;
@@ -61,7 +61,7 @@ export default function HomePageLinks({ initialData }) {
 
   return (
     <HomePageLinkStyles>
-      {filteredLinks.map((link) => {
+      {filteredLinks?.map((link) => {
         const linkToUse = link.link.startsWith('http')
           ? `${link.link}`
           : `http://${link.link}`;

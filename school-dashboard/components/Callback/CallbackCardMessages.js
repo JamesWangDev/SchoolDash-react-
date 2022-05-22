@@ -18,7 +18,7 @@ const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
     $messageFromStudentDate: String
   ) {
     updateCallback(
-      id: $id
+      where: {id: $id}
       data: {
         messageFromTeacher: $messageFromTeacher
         messageFromTeacherDate: $messageFromTeacherDate
@@ -40,7 +40,7 @@ const AnimatedInput = styled.p`
   padding: 0;
   margin: 0;
   font-size: 14px;
-  color: #4d4d4d;
+  color: var(--textColor);
   text-align: center;
   transition: all 0.3s;
   input {
@@ -56,10 +56,11 @@ const AnimatedInput = styled.p`
     border-radius: 5px;
   }
   .hasText {
-    border-bottom: 1px solid #e1e1e1;
+    /* border-bottom: 1px solid #e1e1e1; */
     color: white;
     font-size: 2rem;
     padding: 0.5rem;
+    /* text-decoration: none; */
   }
   .inputUpdating {
     animation: color-change 0.5s infinite;
@@ -81,6 +82,7 @@ const AnimatedInput = styled.p`
 export default function CallbackCardMessages({ me, callback }) {
   const isTeacher = me?.id === callback.teacher.id;
   const isStudent = me?.id === callback.student.id;
+  // console.log(callback)
   const [teacherMessage, setTeacherMessage] = useState(
     callback.messageFromTeacher || ''
   );
@@ -108,27 +110,33 @@ export default function CallbackCardMessages({ me, callback }) {
     }
   );
 
-  return (
-    <form
-      //   className={showForm ? 'visible' : 'hidden'}
-      // hidden={!showForm}
-      onSubmit={async (e) => {
-        e.preventDefault();
-        // Submit the input fields to the backend:
-        // console.log(inputs);
-        const res = await updateCallback();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await updateCallback();
         if (res) {
           toast.success(
             `Updated Callback Message for ${callback.student.name}`
           );
         }
-        // refetch();
-        // setShowForm(false);
-        // console.log(inputs);
-      }}
+  };
+
+  const submitOnEnter = (e) => {
+    if (e.key === 'Enter' && e.shiftKey === false) {
+      handleSubmit(e);
+    }
+  };
+
+  return (
+    <Form
+      //   className={showForm ? 'visible' : 'hidden'}
+      // hidden={!showForm}
+      onSubmit={handleSubmit}
     >
       <FormGroupStyles>
-        <fieldset>
+        <fieldset 
+        disabled={loading}
+        aria-busy={loading}
+        >
           {!isStudent && (
             <AnimatedInput>
               Student:
@@ -155,11 +163,12 @@ export default function CallbackCardMessages({ me, callback }) {
             <>
               <AnimatedInput>
                 Student Message:
-                <input
+                <textarea
                   id={`student - ${callback.id}`}
                   placeholder="Message from Student"
                   value={studentMessage}
                   className={loading ? 'inputUpdating' : ''}
+                  onKeyDown={submitOnEnter}
                   onChange={(e) => {
                     //   console.log(e.target.value);
                     setStudentMessage(e.target.value);
@@ -179,6 +188,7 @@ export default function CallbackCardMessages({ me, callback }) {
               {studentMessage && (
                 <SmallGradientButton
                   type="button"
+                  style={{ fontSize: '1rem', paddingBlock: '0.5rem' , textAlign: 'center'}}
                   onClick={async () => {
                     const todaysDate = new Date().toLocaleDateString();
                     const res = await updateCallback({
@@ -202,11 +212,12 @@ export default function CallbackCardMessages({ me, callback }) {
               )}
               <AnimatedInput>
                 Teacher:
-                <input
+                <textarea
                   id={`teacher-${callback.id}`}
                   placeholder="Message from Teacher"
                   value={teacherMessage}
                   className={loading ? 'inputUpdating' : ''}
+                  onKeyDown={submitOnEnter}
                   onChange={(e) => {
                     //   console.log(e.target.value);
                     const todaysDate = new Date().toLocaleDateString();
@@ -214,6 +225,7 @@ export default function CallbackCardMessages({ me, callback }) {
                     setTeacherMessageDate(todaysDate);
                     
                   }}
+                  title="Enter to submit change, Shift-Enter for new line"
                 />
                 <span>
                   {teacherMessageDate || '-'}
@@ -223,6 +235,6 @@ export default function CallbackCardMessages({ me, callback }) {
           )}
         </fieldset>
       </FormGroupStyles>
-    </form>
+    </Form>
   );
 }

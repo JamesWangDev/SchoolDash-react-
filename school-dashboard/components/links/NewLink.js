@@ -45,11 +45,15 @@ export default function NewLink({ refetchLinks, hidden }) {
   const revalidateLinkPage = useRevalidatePage("/links");
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
+    name: '',
+    link: '',
+    description: '',
     forTeachers: false,
     forStudents: false,
     forParents: false,
     onHomePage: false,
     forPbis: false,
+
   });
   const user = useUser();
   //   console.log(`user ${user.id}`);

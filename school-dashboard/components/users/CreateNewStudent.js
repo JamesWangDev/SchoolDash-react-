@@ -46,14 +46,19 @@ const CREATE_NEW_STUDENT_MUTATION = gql`
 `;
 
 const LIST_OF_TEACHERS_QUERY = gql`
-  query {
-    teacherList: allUsers(
-      where: { AND: [{ isTeacher: true }, {OR: [{hasClasses:true}, { hasTA: true }]}] }
-    ) {
-      id
-      name
+ query {
+  teacherList: users(
+    where: {
+      AND: [
+        { isTeacher: { equals: true } }
+        { OR: [{ hasClasses: { equals: true } }, { hasTA: { equals: true } }] }
+      ]
     }
+  ) {
+    id
+    name
   }
+}
 `;
 export default function NewStudent({ student }) {
   const queryClient = useQueryClient();

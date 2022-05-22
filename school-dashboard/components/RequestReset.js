@@ -3,24 +3,26 @@ import { useMutation } from '@apollo/client';
 import Form from './styles/Form';
 import useForm from '../lib/useForm';
 import Error from './ErrorMessage';
+import { useState } from 'react';
+import GradientButton from './styles/Button';
 
 const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
-    sendUserPasswordResetLink(email: $email) {
-      code
-      message
-    }
+    sendUserPasswordResetLink(email: $email) 
   }
 `;
 
 export default function RequestReset() {
+  const [isSent, setIsSent] = useState(false);
   const { inputs, handleChange, resetForm } = useForm({
     email: '',
   });
   const [signup, { data, loading, error }] = useMutation(
     REQUEST_RESET_MUTATION,
     {
-      variables: inputs,
+      variables: {
+        email: inputs.email.toLowerCase(),
+      },
       // refectch the currently logged in user
       // refetchQueries: [{ query: CURRENT_USER_QUERY }],
     }
@@ -31,19 +33,24 @@ export default function RequestReset() {
     const res = await signup().catch(console.error);
     console.log(res);
     console.log({ data, loading, error });
-    resetForm();
+    if(res?.data?.sendUserPasswordResetLink) setIsSent(true);
+    // resetForm();
     // Send the email and password to the graphqlAPI
   }
+
+
   return (
     <Form method="POST" onSubmit={handleSubmit}>
       <h2>Request a Password Reset</h2>
       <Error error={error} />
       <fieldset>
-        {data?.sendUserPasswordResetLink === null && (
-          <p>Success! Check your email for a link!</p>
+        {isSent && (
+          <p>Success! Check {inputs.email} for a link!</p>
         )}
 
-        <label htmlFor="email">
+       {!isSent && 
+       <>
+       <label htmlFor="email">
           Email
           <input
             type="email"
@@ -52,9 +59,13 @@ export default function RequestReset() {
             autoComplete="email"
             value={inputs.email}
             onChange={handleChange}
-          />
+            required
+            
+            />
         </label>
-        <button type="submit">Request Reset!</button>
+        <GradientButton type="submit" disabled={isSent} aria-disabled={isSent}>{isSent ? "sent" :"Request Reset!"}</GradientButton>
+            </>
+        }
       </fieldset>
     </Form>
   );

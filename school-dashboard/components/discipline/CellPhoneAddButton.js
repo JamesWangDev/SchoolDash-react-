@@ -11,10 +11,11 @@ import SearchForUserName from '../SearchForUserName';
 import { useGQLQuery } from '../../lib/useGqlQuery';
 import useSendEmail from '../../lib/useSendEmail';
 import useRevalidatePage from '../../lib/useRevalidatePage';
+import toast from 'react-hot-toast';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
-    allUsers(where: { canManageDiscipline: true }) {
+    users(where: { canManageDiscipline: {equals: true} }) {
       id
       name
       email
@@ -51,7 +52,7 @@ export default function CellPhoneAddButton() {
     GET_ADMIN_EMAILS
   );
   const queryClient = useQueryClient();
-  const adminEmailArray = adminEmails?.allUsers?.map((u) => u.email);
+  const adminEmailArray = adminEmails?.users?.map((u) => u.email);
   // console.log(adminEmailArray);
   const [showForm, setShowForm] = useState(false);
   const [emailSending, setEmailSending] = useState(false);
@@ -104,9 +105,9 @@ export default function CellPhoneAddButton() {
                   fromAddress: me.email,
                   subject: `New Cell Phone Violation for ${res.data.createCellPhoneViolation.student.name}`,
                   body: `
-                <p>There is a new Cell Phone Violation for ${res.data.createCellPhoneViolation.student.name} at NCUJHS.TECH created by ${me.name}. </p>
-                <p><a href="https://ncujhs.tech/discipline">Click Here to View</a></p>
-                 `,
+                  <p>There is a new Cell Phone Violation for ${res.data.createCellPhoneViolation.student.name} at NCUJHS.TECH created by ${me.name}. </p>
+                  <p><a href="https://ncujhs.tech/discipline">Click Here to View</a></p>
+                  `,
                 };
                 // console.log(emailToSend);
                 const emailRes = await sendEmail({
@@ -116,10 +117,13 @@ export default function CellPhoneAddButton() {
                 });
               }
             }
-
+            
+            if (res) {
+              toast.success('Cell Phone Violation Created');
+            }
             setEmailSending(false);
             const revalidationResponse = revalidatePage();
-            console.log(revalidationResponse);
+            // console.log(revalidationResponse);
             queryClient.refetchQueries('allDisciplines');
             resetForm();
             setShowForm(false);

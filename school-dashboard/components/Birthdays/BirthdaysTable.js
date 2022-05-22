@@ -69,6 +69,29 @@ export default function BirthdaysTable({ birthdays }) {
       return acc;
     }, {}) || {};
   // console.log(undeliiveredCakes);
+
+//filter out cakes left to deliver
+  const cakesLeftToDeliver = birthdays?.filter(
+    (birthday) => {
+      const hasChosen = !!birthday.cakeType;
+      const hasDelivered = !!birthday.hasDelivered;
+      const hasTA = !!birthday?.student?.taTeacher;
+      return hasChosen && !hasDelivered && hasTA;
+    }
+  );
+
+  //sort cakes left to deliver by date without year
+  const cakesLeftToDeliverSorted = cakesLeftToDeliver?.sort(
+    (a, b) => {
+      const aDate = new Date(a.date);
+      const bDate = new Date(b.date);
+      const aDateWithoutYear = new Date(aDate.getMonth() + 1 + '/' + aDate.getDate());
+      const bDateWithoutYear = new Date(bDate.getMonth() + 1 + '/' + bDate.getDate());
+      return aDateWithoutYear - bDateWithoutYear;
+    }
+  );
+ 
+
   return (
     <div>
       <h2>This weeks Birthdays</h2>
@@ -93,9 +116,9 @@ export default function BirthdaysTable({ birthdays }) {
       ))}
       <h2>Missing Birthdays</h2>
       <MissingBirthdays />
-      <h2>All Birthdays</h2>
+      <h2>All Cakes left to be delivered</h2>
       <Table
-        data={birthdays || []}
+        data={cakesLeftToDeliverSorted || []}
         searchColumn="student.name"
         columns={columns}
       />

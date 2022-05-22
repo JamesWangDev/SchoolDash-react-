@@ -23,142 +23,140 @@ const ClassCardButtonStyle = styled.div`
 `;
 
 const GET_SINGLE_TEACHER = gql`
-  query GET_SINGLE_TEACHER($id: ID!) {
-    user: User(where: { id: $id }) {
+ query GET_SINGLE_TEACHER($id: ID!) {
+  user: user(where: { id: $id }) {
+    id
+    name
+    email
+    callbackAssigned(where: { dateCompleted: null }) {
+      id
+      title
+      student {
+        id
+        name
+      }
+      teacher {
+        id
+        name
+      }
+      dateAssigned
+      description
+      link
+      messageFromTeacher
+      messageFromStudentDate
+      messageFromStudent
+      messageFromStudentDate
+    }
+    taStudents {
       id
       name
-      email
-      callbackAssigned(where: { dateCompleted: null }) {
-        id
-        title
-        student {
-          id
-          name
-        }
-        teacher {
-          id
-          name
-        }
-        dateAssigned
-        description
-        link
-        messageFromTeacher
-
-        messageFromStudent
-      }
-      taStudents {
+      preferredName
+      individualPbisLevel
+      callbackCount
+      totalCallbackCount
+      averageTimeToCompleteCallback
+      PbisCardCount
+      YearPbisCount
+      studentDisciplineCount 
+      studentFocusStudentCount
+      taTeacher {
         id
         name
-        preferredName
-        individualPbisLevel
-        callbackCount
-        totalCallbackCount
-        averageTimeToCompleteCallback
-        PbisCardCount
-        YearPbisCount
-        _studentDisciplineMeta {
-          count
-        }
-        _studentFocusStudentMeta {
-          count
-        }
-        taTeacher {
-          id
-          name
-        }
       }
-      block1Students {
-        id
-        name
-        preferredName
-        individualPbisLevel
-        callbackCount
-        totalCallbackCount
-        averageTimeToCompleteCallback
-        PbisCardCount
-        YearPbisCount
-        taTeacher {
-          id
-          name
-        }
-      }
-      block2Students {
-        name
-        preferredName
-        id
-        individualPbisLevel
-        callbackCount
-        totalCallbackCount
-        averageTimeToCompleteCallback
-        PbisCardCount
-        YearPbisCount
-        taTeacher {
-          id
-          name
-        }
-      }
-      block3Students {
-        id
-        name
-        individualPbisLevel
-        preferredName
-        callbackCount
-        totalCallbackCount
-        averageTimeToCompleteCallback
-        PbisCardCount
-        YearPbisCount
-        taTeacher {
-          id
-          name
-        }
-      }
-      block4Students {
-        id
-        name
-        individualPbisLevel
-        callbackCount
-        totalCallbackCount
-        averageTimeToCompleteCallback
-        PbisCardCount
-        YearPbisCount
-        taTeacher {
-          id
-          name
-        }
-      }
-      block5Students {
-        id
-        name
-        individualPbisLevel
-        preferredName
-        callbackCount
-        totalCallbackCount
-        averageTimeToCompleteCallback
-        PbisCardCount
-        YearPbisCount
-        taTeacher {
-          id
-          name
-        }
-      }
-
-      block1Assignment
-      block1ClassName
-      block1AssignmentLastUpdated
-      block2Assignment
-      block2ClassName
-      block2AssignmentLastUpdated
-      block3Assignment
-      block3ClassName
-      block3AssignmentLastUpdated
-      block4Assignment
-      block4ClassName
-      block4AssignmentLastUpdated
-      block5Assignment
-      block5ClassName
-      block5AssignmentLastUpdated
     }
+    block1Students {
+      id
+      name
+      preferredName
+      individualPbisLevel
+      callbackCount
+      totalCallbackCount
+      averageTimeToCompleteCallback
+      PbisCardCount
+      YearPbisCount
+      taTeacher {
+        id
+        name
+      }
+    }
+    block2Students {
+      name
+      preferredName
+      id
+      individualPbisLevel
+      callbackCount
+      totalCallbackCount
+      averageTimeToCompleteCallback
+      PbisCardCount
+      YearPbisCount
+      taTeacher {
+        id
+        name
+      }
+    }
+    block3Students {
+      id
+      name
+      individualPbisLevel
+      preferredName
+      callbackCount
+      totalCallbackCount
+      averageTimeToCompleteCallback
+      PbisCardCount
+      YearPbisCount
+      taTeacher {
+        id
+        name
+      }
+    }
+    block4Students {
+      id
+      name
+      individualPbisLevel
+      callbackCount
+      totalCallbackCount
+      averageTimeToCompleteCallback
+      PbisCardCount
+      YearPbisCount
+      taTeacher {
+        id
+        name
+      }
+    }
+    block5Students {
+      id
+      name
+      individualPbisLevel
+      preferredName
+      callbackCount
+      totalCallbackCount
+      averageTimeToCompleteCallback
+      PbisCardCount
+      YearPbisCount
+      taTeacher {
+        id
+        name
+      }
+    }
+
+    block1Assignment
+    block1ClassName
+    block1AssignmentLastUpdated
+    block2Assignment
+    block2ClassName
+    block2AssignmentLastUpdated
+    block3Assignment
+    block3ClassName
+    block3AssignmentLastUpdated
+    block4Assignment
+    block4ClassName
+    block4AssignmentLastUpdated
+    block5Assignment
+    block5ClassName
+    block5AssignmentLastUpdated
   }
+}
+
 `;
 
 export default function ViewTeacherPage({ teacher }) {
@@ -167,6 +165,9 @@ export default function ViewTeacherPage({ teacher }) {
     GET_SINGLE_TEACHER,
     {
       id: teacher.id,
+    },
+    {
+      enabled: teacher?.id !== '',
     }
   );
   const me = useUser();
@@ -179,6 +180,7 @@ export default function ViewTeacherPage({ teacher }) {
   const { block3Students } = user;
   const { block4Students } = user;
   const { block5Students } = user;
+  // console.log(callbackAssigned)
   return (
     <div>
       {me.id === teacher.id && (

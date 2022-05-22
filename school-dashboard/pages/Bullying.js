@@ -29,7 +29,7 @@ const BullyingPageContainer = styled.div`
 
 const BULLYING_DATA_QUERY = gql`
   query BULLYING_DATA_QUERY {
-    allBullyings(sortBy: dateReported_DESC) {
+    bullyings(orderBy: {dateReported:desc}) {
       id
       studentOffender {
         id
@@ -98,7 +98,7 @@ export default function Bullying() {
       <Table
         className="big"
         columns={columns}
-        data={data?.allBullyings}
+        data={data?.bullyings}
         searchColumn="studentOffender.name"
       />
     </BullyingPageContainer>

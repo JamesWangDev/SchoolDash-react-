@@ -81,7 +81,7 @@ function CardForm({ visible, hide }) {
     message: '',
   });
   const me = useUser();
-  const teacher = me.id;
+  const teacher = me?.id;
   const [studentCardIsFor, setStudentCardIsFor] = useState();
   // console.log(teacher);
 

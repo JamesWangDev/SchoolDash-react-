@@ -10,7 +10,7 @@ const options = {
         type: 'linear',
         position: 'right',
         ticks: {
-          max: 35000,
+          max: 45000,
           min: 0,
         },
       },
@@ -37,8 +37,8 @@ const options = {
 };
 
 export default function LineChart({ title, chartData, label }) {
-  const labels = chartData.map((item) => item.item.slice(16));
-  const dataToChart = chartData.map((item) => item.data);
+  const labels = chartData?.map((item) => item.item.slice(16)) ?? [];
+  const dataToChart = chartData?.map((item) => item.data) ?? [];
   // take array of numbers and create array oc cumulative values
   const cumulativeSum = ((sum) => (value) => (sum += value))(0);
   const cumulativeData = dataToChart.map(cumulativeSum);
@@ -59,8 +59,8 @@ export default function LineChart({ title, chartData, label }) {
       {
         label,
         data: marbleData,
-        backgroundColor: backgroundColors,
-        borderColor: borderColors,
+        backgroundColor: backgroundColors[0],
+        borderColor: borderColors[0],
         borderWidth: 1,
         yAxisID: 'B',
       },
