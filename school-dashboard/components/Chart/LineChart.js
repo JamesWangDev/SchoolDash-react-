@@ -1,6 +1,12 @@
-import React from 'react';
-import { Line } from '@reactchartjs/react-chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, PointElement, LineElement } from 'chart.js';
+import { Line } from 'react-chartjs-2';
 import { backgroundColors, borderColors } from './chartColors';
+
+ChartJS.register(ArcElement);
+ChartJS.register(Tooltip);
+ChartJS.register(Legend);
+ChartJS.register(PointElement);
+ChartJS.register(LineElement);
 
 const options = {
   scales: {
@@ -34,6 +40,7 @@ const options = {
   legend: {
     display: true,
   },
+  
 };
 
 export default function LineChart({ title, chartData, label }) {
@@ -48,6 +55,7 @@ export default function LineChart({ title, chartData, label }) {
   const data = {
     labels,
     datasets: [
+
       {
         label: 'Cumulative Cards',
         data: cumulativeData,
@@ -55,6 +63,7 @@ export default function LineChart({ title, chartData, label }) {
         borderColor: borderColors[8],
         borderWidth: 1,
         yAxisID: 'A',
+        tension: .3,
       },
       {
         label,
@@ -63,6 +72,7 @@ export default function LineChart({ title, chartData, label }) {
         borderColor: borderColors[0],
         borderWidth: 1,
         yAxisID: 'B',
+        tension: .3,
       },
     ],
   };
