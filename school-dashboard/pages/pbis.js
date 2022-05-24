@@ -268,7 +268,7 @@ export default function Pbis(props) {
         </div>
       </TitleBarStyles>
       <ChartContainerStyles className="hidePrint">
-        <PbisFalcon initialCount={totalSchoolCards} className="hidePrint" />
+        {me && <PbisFalcon initialCount={totalSchoolCards}  />}
         <DoughnutChart
           title="School-Wide Cards By Category"
           chartData={schoolWideCardsInCategories}
