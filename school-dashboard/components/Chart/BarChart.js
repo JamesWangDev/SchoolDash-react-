@@ -1,25 +1,25 @@
-import React from 'react';
-import { Bar } from '@reactchartjs/react-chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale , LinearScale, BarController, BarElement} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 import { backgroundColors, borderColors } from './chartColors';
 
 const options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-          display: false,
-        },
-      },
-    ],
-    xAxes: [
-      {
-        ticks: {
-          display: false,
-        },
-      },
-    ],
-  },
+  // scales: {
+  //   yAxes: [
+  //     {
+  //       ticks: {
+  //         beginAtZero: true,
+  //         display: false,
+  //       },
+  //     },
+  //   ],
+  //   xAxes: [
+  //     {
+  //       ticks: {
+  //         display: false,
+  //       },
+  //     },
+  //   ],
+  // },
   animation: {
     easing: 'easeInBounce',
     duration: 2500,
@@ -34,6 +34,11 @@ const options = {
 export default function BarChart({ title, chartData }) {
   const labels = chartData.map((item) => item.item);
   const dataToChart = chartData.map((item) => item.totals);
+  // console.log(labels);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarController, BarElement);
+
+
+
   const data = {
     labels,
     datasets: [

@@ -1,28 +1,32 @@
-import React from 'react';
-import { Line } from '@reactchartjs/react-chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, PointElement, LineElement , CategoryScale, LinearScale, Filler} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 import { backgroundColors, borderColors } from './chartColors';
+
+ChartJS.register(ArcElement);
+ChartJS.register(Tooltip);
+ChartJS.register(Legend);
+ChartJS.register(PointElement);
+ChartJS.register(LineElement);
+ChartJS.register(CategoryScale);
+ChartJS.register(LinearScale);
+ChartJS.register(Filler);
 
 const options = {
   scales: {
-    yAxes: [
-      {
-        id: 'A',
+   y:{
+        
         type: 'linear',
         position: 'right',
-        ticks: {
-          max: 45000,
-          min: 0,
-        },
+         max: 45000,
+         min: 0,
       },
-      {
-        id: 'B',
+     y1: {
+       
         type: 'linear',
         position: 'left',
-        ticks: {
-          beginAtZero: true,
-        },
+       min: 0,
       },
-    ],
+    
   },
   animation: {
     easing: 'easeInBounce',
@@ -34,6 +38,7 @@ const options = {
   legend: {
     display: true,
   },
+  
 };
 
 export default function LineChart({ title, chartData, label }) {
@@ -48,13 +53,16 @@ export default function LineChart({ title, chartData, label }) {
   const data = {
     labels,
     datasets: [
+
       {
         label: 'Cumulative Cards',
         data: cumulativeData,
         backgroundColor: backgroundColors[8],
         borderColor: borderColors[8],
         borderWidth: 1,
-        yAxisID: 'A',
+        yAxisID: 'y',
+        tension: .3,
+        fill: true,
       },
       {
         label,
@@ -62,7 +70,9 @@ export default function LineChart({ title, chartData, label }) {
         backgroundColor: backgroundColors[0],
         borderColor: borderColors[0],
         borderWidth: 1,
-        yAxisID: 'B',
+        yAxisID: 'y1',
+        tension: .3,
+        fill: true,
       },
     ],
   };

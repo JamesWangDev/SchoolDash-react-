@@ -17,7 +17,8 @@ import { endpoint, prodEndpoint } from '../config';
 const ChartContainerStyles = styled.div`
   display: grid;
   flex-wrap: wrap;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(150px, 350px));
+  
   justify-content: space-evenly;
   align-items: center;
   @media print {
@@ -268,7 +269,7 @@ export default function Pbis(props) {
         </div>
       </TitleBarStyles>
       <ChartContainerStyles className="hidePrint">
-        <PbisFalcon initialCount={totalSchoolCards} className="hidePrint" />
+        {me && <PbisFalcon initialCount={totalSchoolCards}  />}
         <DoughnutChart
           title="School-Wide Cards By Category"
           chartData={schoolWideCardsInCategories}

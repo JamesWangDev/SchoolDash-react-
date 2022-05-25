@@ -58,8 +58,11 @@ const AnimatedInput = styled.p`
   .hasText {
     /* border-bottom: 1px solid #e1e1e1; */
     color: white;
-    font-size: 2rem;
+    font-size: 1.6rem;
+    /* max-width: 100px;  */
     padding: 0.5rem;
+    /* overflow-wrap: break-word; */
+    word-break: break-word;
     /* text-decoration: none; */
   }
   .inputUpdating {
