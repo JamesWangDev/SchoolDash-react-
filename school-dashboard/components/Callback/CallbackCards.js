@@ -4,8 +4,9 @@ import SingleCallbackCard from './SingleCallbackCard';
 const CallBackCardsStyles = styled.div`
   display: grid;
   --numberOfCallbackColumns: ${(props) => props.maxColumns || 4};
-  grid-template-columns: repeat(var(--numberOfCallbackColumns), 1fr);
+  /* grid-template-columns: repeat(var(--numberOfCallbackColumns), 1fr); */
   /* grid-template-columns: auto auto; */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   flex-wrap: wrap;
   justify-content: space-around;
   transition: all ease-in 1s;
