@@ -15,7 +15,7 @@ const AssignmentUpdateStyles = styled.div`
   height: auto;
   overflow: auto;
   background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   border-radius: 2rem;
   h4 {
     color: white;
@@ -47,9 +47,18 @@ const AssignmentUpdateStyles = styled.div`
     button {
       margin-bottom: 1rem;
       max-width: 10rem;
-      margin-left: auto;
-      margin-right: auto;
+      /* margin-left: auto; */
+      /* margin-right: auto; */
+      padding-left: 2rem;
+      padding-right: 3rem;
+      text-align: center;
     }
+  }
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
   }
 `;
 
@@ -147,24 +156,55 @@ export default function AssignmentUpdater({
             onChange={handleChange}
           />
         </label>
-        <button
-          type="button"
-          onClick={async () => {
-            updateData[
-              `block${block}AssignmentLastUpdated`
-            ] = new Date();
-            updateData[`block${block}Assignment`] = inputs.assignment;
-            updateData[`block${block}ClassName`] = inputs.classTitle;
-            updateData.id = me.id;
-            // console.log(updateData);
-            await updateAssignment({ variables: updateData });
-            toast.success(`Updated Assignment for Block ${block}`);
-            await refetch();
-            hide(false);
-          }}
-        >
-          Update
-        </button>
+        <div className="button-container">
+          <button
+            type="button"
+            onClick={async () => {
+              updateData[
+                `block${block}AssignmentLastUpdated`
+              ] = new Date();
+              updateData[`block${block}Assignment`] = inputs.assignment;
+              updateData[`block${block}ClassName`] = inputs.classTitle;
+              updateData.id = me.id;
+              // console.log(updateData);
+              await updateAssignment({ variables: updateData });
+              toast.success(`Updated Assignment for Block ${block}`);
+              await refetch();
+              hide(false);
+            }}
+          >
+            Update
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              const todaysDate = new Date();
+              updateData[`block1AssignmentLastUpdated`] = todaysDate;
+              updateData[`block2AssignmentLastUpdated`] = todaysDate;
+              updateData[`block3AssignmentLastUpdated`] = todaysDate;
+              updateData[`block4AssignmentLastUpdated`] = todaysDate;
+              updateData[`block5AssignmentLastUpdated`] = todaysDate;
+              updateData[`block1Assignment`] = inputs.assignment;
+              updateData[`block1ClassName`] = inputs.classTitle;
+              updateData[`block2Assignment`] = inputs.assignment;
+              updateData[`block2ClassName`] = inputs.classTitle;
+              updateData[`block3Assignment`] = inputs.assignment;
+              updateData[`block3ClassName`] = inputs.classTitle;
+              updateData[`block4Assignment`] = inputs.assignment;
+              updateData[`block4ClassName`] = inputs.classTitle;
+              updateData[`block5Assignment`] = inputs.assignment;
+              updateData[`block5ClassName`] = inputs.classTitle;
+              updateData.id = me.id;
+              // console.log(updateData);
+              await updateAssignment({ variables: updateData });
+              toast.success(`Updated Assignment for Block ${block}`);
+              await refetch();
+              hide(false);
+            }}
+          >
+            Update All Blocks
+          </button>
+        </div>
       </form>
     </AssignmentUpdateStyles>
   );
