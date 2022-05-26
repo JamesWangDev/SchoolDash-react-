@@ -3,6 +3,7 @@ import SingleCallbackCard from './SingleCallbackCard';
 
 const CallBackCardsStyles = styled.div`
   display: grid;
+  /* width: max(100%, 80vw); */
   --numberOfCallbackColumns: ${(props) => props.maxColumns || 4};
   /* grid-template-columns: repeat(var(--numberOfCallbackColumns), 1fr); */
   /* grid-template-columns: auto auto; */
@@ -10,7 +11,7 @@ const CallBackCardsStyles = styled.div`
   flex-wrap: wrap;
   justify-content: space-around;
   transition: all ease-in 1s;
-  @media (max-width: 1300px) {
+  /* @media (max-width: 1300px) {
     --numberOfCallbackColumns: ${(props) => props.maxColumns - 1 || 4};
   }
   @media (max-width: 1100px) {
@@ -18,7 +19,7 @@ const CallBackCardsStyles = styled.div`
   }
   @media (max-width: 850px) {
     --numberOfCallbackColumns: 1;
-  }
+  } */
 `;
 
 export default function CallbackCards({ callbacks, maxColumns }) {

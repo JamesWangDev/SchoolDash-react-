@@ -70,15 +70,15 @@ export const WeeklyCalendarContainerStyles = styled.div`
     z-index: 1;
     width: 200px;
     overflow: visible;
-
+    
     div {
       margin-top: -2rem;
 
       padding: 1rem;
-      background: linear-gradient(to top right, var(--red), var(--blueTrans));
+      background: linear-gradient(to top right, var(--red), var(--blue));
       color: white;
       text-shadow: 1px 1px var(--grey);
-      opacity: 1;
+      opacity: .9;
       grid-column: span 1;
       border-radius: 1rem;
     }

@@ -76,7 +76,7 @@ export default function TaCallbacks() {
   //   setShowTable(showTable);
   // }
   return (
-    <div>
+    <div style={{width: "100vw"  }}>
       <FormContainerStyles>
         <label>
           <span> Show Callbacks As Table</span>
