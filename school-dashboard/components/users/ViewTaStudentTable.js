@@ -31,16 +31,20 @@ export default function ViewTaStudentTable({ users, title }) {
           },
 
           {
-            Header: 'Callback',
-            accessor: 'callbackCount',
-          },
-          {
             Header: 'Weekly PBIS',
             accessor: 'PbisCardCount',
           },
           {
             Header: 'Yearly PBIS',
             accessor: 'YearPbisCount',
+          },
+          {
+            Header: 'Callback',
+            accessor: 'callbackCount',
+          },
+          {
+            Header: 'Total Callbacks',
+            accessor: 'callbackItemsCount',
           },
           {
             Header: 'Average days on callback',

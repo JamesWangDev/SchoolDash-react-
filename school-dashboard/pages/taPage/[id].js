@@ -75,7 +75,7 @@ const TA_INFO_QUERY = gql`
 
       studentFocusStudentCount
       YearPbisCount
-
+      callbackItemsCount
       callbackItems(where: { dateCompleted: null }) {
         id
         teacher {
