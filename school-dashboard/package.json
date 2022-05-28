@@ -8,14 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.4",
+    "@apollo/client": "^3.6.5",
     "@apollo/link-error": "^2.0.0-beta.3",
     "@ramonak/react-progress-bar": "^4.4.0",
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "apollo-upload-client": "^17.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-plugin-styled-components": "^2.0.7",
-    "chart.js": "^3.7.1",
+    "chart.js": "^3.8.0",
     "downshift": "^6.1.7",
     "graphql": "^16.5.0",
     "graphql-request": "^4.2.0",
@@ -37,8 +37,8 @@
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/preset-env": "^7.18.0",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@next/eslint-plugin-next": "^12.1.6",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.16.0",
@@ -53,7 +53,7 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "install": "0.13.0",
-    "npm": "8.10.0",
+    "npm": "8.11.0",
     "prettier": "2.6.2"
   },
   "eslintConfig": {
