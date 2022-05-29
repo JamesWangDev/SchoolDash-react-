@@ -28,6 +28,14 @@ const options = {
   maintainAspectRatio: true,
   legend: {
     display: false,
+    
+  },
+  label: {
+    display: false,
+  },
+  tooltips: {
+    enabled: false,
+    display: false,
   },
 };
 
@@ -43,7 +51,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarCon
     labels,
     datasets: [
       {
-        label: '# of Votes',
+        label: '',
         data: dataToChart,
         backgroundColor: backgroundColors,
         borderColor: borderColors,
