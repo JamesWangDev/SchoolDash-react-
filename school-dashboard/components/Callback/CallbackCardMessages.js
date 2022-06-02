@@ -7,9 +7,8 @@ import { QueryClient, useQueryClient } from 'react-query';
 import Form, { FormGroupStyles } from '../styles/Form';
 import { SmallGradientButton } from '../styles/Button';
 
-// TODO Update this to include date modified for these cards
 
-const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
+export const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
   mutation UPDATE_CALLBACK_MESSAGES_MUTATION(
     $id: ID!
     $messageFromTeacher: String

@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import styled from 'styled-components';
 import Table from '../Table';
 import { useUser } from '../User';
+import CallbackMessagesForTable from './CallbackMessagesForTable';
 import MarkCallbackCompleted from './MarkCallbackCompleted';
 
 export const ToolTipStyles = styled.div`
@@ -134,29 +135,39 @@ export default function CallbackTable({ callbacks }) {
         Header: 'Message',
         columns: [
           {
-            Header: 'Teacher',
+            Header: 'Message',
             accessor: 'messageFromTeacher',
-            Cell: ({ cell }) => (
-              <Link href={`/callback/${cell.row.original.id}`}>
-                <>
-                {cell.value || '-----'} {' '}
-                {cell.row.original.messageFromTeacherDate || ''}
-                </>
-              </Link>
-            ),
-          },
-          {
-            Header: 'Student',
-            accessor: 'messageFromStudent',
-            Cell: ({ cell }) => (
-              <Link href={`/callback/${cell.row.original.id}`}>
-                <>
-                {cell.value || '-----'}{' '}
-                {cell.row.original.messageFromStudentDate ||""}
-                </>
-              </Link>
-            ),
-          },
+            Cell: ({ cell }) => {
+              // console.log(cell);
+              return (
+                <CallbackMessagesForTable callbackItem={cell.row.original} />
+              );
+            },
+          }
+          // {
+          //   Header: 'Teacher',
+          //   accessor: 'messageFromTeacher',
+          //   Cell: ({ cell }) => (
+          //     <Link href={`/callback/${cell.row.original.id}`}>
+          //       <>
+          //       {cell.value || '-----'} {' '}
+          //       {cell.row.original.messageFromTeacherDate || ''}
+          //       </>
+          //     </Link>
+          //   ),
+          // },
+          // {
+          //   Header: 'Student',
+          //   accessor: 'messageFromStudent',
+          //   Cell: ({ cell }) => (
+          //     <Link href={`/callback/${cell.row.original.id}`}>
+          //       <>
+          //       {cell.value || '-----'}{' '}
+          //       {cell.row.original.messageFromStudentDate ||""}
+          //       </>
+          //     </Link>
+          //   ),
+          // },
         ],
       },
       {
