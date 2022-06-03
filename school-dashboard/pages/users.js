@@ -30,6 +30,7 @@ const GET_ALL_STUDENTS = gql`
       YearPbisCount
       averageTimeToCompleteCallback
       individualPbisLevel
+      callbackItemsCount
     }
   }
 `;
@@ -186,6 +187,10 @@ export default function Users(props) {
           {
             Header: 'Callback',
             accessor: 'callbackCount',
+          },
+          {
+            Header: 'Total Callback',
+            accessor: 'callbackItemsCount',
           },
           {
             Header: 'Weekly PBIS',
