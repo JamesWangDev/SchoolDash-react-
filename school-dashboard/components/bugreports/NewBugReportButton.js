@@ -12,6 +12,7 @@ import { todaysDateForForm } from '../calendars/formatTodayForForm';
 
 import { useUser } from '../User';
 import useCreateMessage from '../Messages/useCreateMessage';
+import useSendEmail from '../../lib/useSendEmail';
 
 const CREATE_BUG_REPORT_MUTATION = gql`
   mutation CREATE_BUG_REPORT_MUTATION(
@@ -42,6 +43,7 @@ export default function NewBugReportButton() {
     description: '',
   });
   const me = useUser();
+  const {sendEmail} = useSendEmail();
 
   const [createBugReport, { loading, error, data }] = useMutation(
     CREATE_BUG_REPORT_MUTATION,
@@ -83,6 +85,26 @@ export default function NewBugReportButton() {
               receiver: 'cl24ztaju149148z3qqm4c4d39',
               link: ``,
             });
+            
+            // Create email to send
+            const email = {
+              toAddress: "robert.boskind@ncsuvt.org",
+              fromAddress: me.email,
+              subject: `NCUJHS.Tech Bug Report from ${res?.data?.createBugReport?.submittedBy.name}`,
+              body: `
+                  <p>This is an bug report from ${res?.data?.createBugReport?.submittedBy.name}. </p>
+                  <p>${inputs.name}</p>
+                  <p>${inputs.description}</p>
+                  `,
+            };
+            
+            //send email to Admin
+            const emailRes = await sendEmail({
+              variables: {
+                emailData: JSON.stringify(email),
+              },
+            });
+            console.log(emailRes);
             resetForm();
             setShowForm(false);
           }}
