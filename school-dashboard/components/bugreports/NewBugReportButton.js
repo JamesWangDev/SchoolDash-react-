@@ -92,7 +92,7 @@ export default function NewBugReportButton() {
               fromAddress: me.email,
               subject: `NCUJHS.Tech Bug Report from ${res?.data?.createBugReport?.submittedBy.name}`,
               body: `
-                  <p>This is an bug report from ${res?.data?.createBugReport?.submittedBy.name}. </p>
+                  <p>This is a bug report from ${res?.data?.createBugReport?.submittedBy.name}. </p>
                   <p>${inputs.name}</p>
                   <p>${inputs.description}</p>
                   `,
