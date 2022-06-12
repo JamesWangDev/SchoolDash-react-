@@ -4,24 +4,53 @@ import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { capitalizeFirstLetter, UserTypeDisplay } from '../lib/nameUtils';
 import { useGQLQuery } from '../lib/useGqlQuery';
 import QuickPbisButton from './PBIS/QuickPbisButton';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 import { useUser } from './User';
+import { commandPallettePaths } from '../lib/CommandPallettePaths';
 
-// const SEARCH_USERS_QUERY = gql`
-//   query SEARCH_USERS_QUERY($searchTerm: String!) {
-//     searchTerms: allUsers(where: { AND: [{ name_contains_i: $searchTerm }] }) {
-//       id
-//       name
-//       isStaff
-//       isParent
-//       isStudent
-//     }
-//   }
-// `;
+const SEARCH_ALL_LINKS_QUERY = gql`
+query GET_ALL_LINKS {
+  links(where: { forTeachers: { equals: true } }) {
+    id
+    name
+    description
+    link
+  }
+}
+`;
+
+
+function formatUsers(users = []) {
+  return users.map(user => {
+    return {
+      id: user.id,
+      name: capitalizeFirstLetter(user.name),
+      icon: UserTypeDisplay(user),
+      path: `/userProfile/${user.id}`,
+    };
+  }
+  );
+}
+
+function formatLinks(links = []) {
+  return links.map(link => {
+    // if path doesnt have http add it
+    const formattedPath = link.link.startsWith('http') ? link.link : `http://${link.link}`;
+    const nameAndDescription = `${link.name} - ${link.description}`;
+    return {
+      id: link.id,
+      name: nameAndDescription,
+      icon: '🔗',
+      path: formattedPath,
+    };
+  }
+  );
+}
+      
 
 export const SEARCH_ALL_USERS_QUERY = gql`
   query SEARCH_ALL_USERS_QUERY {
@@ -47,36 +76,59 @@ export default function Search() {
       staleTime: 1000 * 60 * 60, // 1 hour
     }
   );
+  const { data: allLinks } = useGQLQuery(
+    'searchLinks',
+    SEARCH_ALL_LINKS_QUERY,
+    {},
+    {
+      enabled: !!me,
+      staleTime: 1000 * 60 * 60, // 1 hour
+    }
+  );
+  
+  
 
-  // const [findItems, { loading, data, error }] = useLazyQuery(
-  //   SEARCH_USERS_QUERY,
-  //   {
-  //     fetchPolicy: 'no-cache',
-  //   }
-  // );
+  const [itemsToDisplay, setItemsToDisplay] = useState([]);
 
-  const [usersToDisplay, setUsersToDisplay] = useState([]);
+  // list of paths if staff
+  const extraPaths = me?.isStaff ? commandPallettePaths : [];
 
-  const items = usersToDisplay;
+  // memoized list of data to display
+  const formatedItems = useMemo(() => {
+    if (allUsers) {
+      return [...formatUsers(allUsers?.users), ...extraPaths, ...formatLinks(allLinks?.links)];
+    }
+    return [];
+  }
+  , [allUsers, extraPaths, allLinks]);
+
+  
+
+
+  const items = itemsToDisplay;
 
   const filterUsers = (valueToFilter) => {
     if (valueToFilter === '') {
-      setUsersToDisplay([]);
+      setItemsToDisplay([]);
 
       return;
     }
-    const itemsToShow = allUsers?.users.filter((user) =>
+    const itemsToShow = formatedItems.filter((user) =>
       user.name.toLowerCase().includes(valueToFilter?.toLowerCase())
     );
     const eightItems = itemsToShow?.slice(0, 8);
-    setUsersToDisplay(eightItems || []);
+    setItemsToDisplay(eightItems || []);
   };
 
-  const allUsersWithoutRole = allUsers?.users.filter(
-    (user) => !user.isStaff && !user.isParent && !user.isStudent
-  );
-  if (allUsersWithoutRole?.length > 0) {
-    // console.log(allUsersWithoutRole);
+  // if in dev mode display users without role
+  if (process.env.NODE_ENV !== 'production') {
+    const allUsersWithoutRole = allUsers?.users.filter(
+      (user) => !user.isStaff && !user.isParent && !user.isStudent
+    );
+    if (allUsersWithoutRole?.length > 0) {
+      console.log("Users who dont have a role")
+      console.log(allUsersWithoutRole);
+    }
   }
 
   resetIdCounter();
@@ -95,7 +147,7 @@ export default function Search() {
     },
     onSelectedItemChange({ selectedItem }) {
       router.push({
-        pathname: `/userProfile/${selectedItem.id}`,
+        pathname: selectedItem.path,
       });
     },
     itemToString: (item) => item?.name || '',
@@ -104,32 +156,33 @@ export default function Search() {
   return (
     <SearchStyles>
       <div {...getComboboxProps()}>
-        <input
+        <input 
           {...getInputProps({
             type: 'search',
-            placeholder: 'Search for a User',
+            placeholder: 'Search for anything...',
             id: 'search',
             className: isLoading ? 'loading' : '',
+            tabIndex: 1,
+            // autoFocus: true,
           })}
         />
       </div>
       <DropDown {...getMenuProps()}>
         {isOpen &&
           items.map((item, index) => {
-            const { isStudent } = item;
-            // console.log(item);
+           
             return (
               <DropDownItem
                 {...getItemProps({ item, index })}
                 key={item.id}
                 highlighted={index === highlightedIndex}
               >
-                {UserTypeDisplay(item)} {capitalizeFirstLetter(item.name)}
+                {item.icon} {item.name}
               </DropDownItem>
             );
           })}
         {isOpen && !items.length && !isLoading && (
-          <DropDownItem>Sorry, No users found for {inputValue}</DropDownItem>
+          <DropDownItem>Sorry, Not found for {inputValue}</DropDownItem>
         )}
       </DropDown>
     </SearchStyles>
