@@ -102,7 +102,7 @@ export default function Search() {
   }
   , [allUsers, extraPaths, allLinks]);
 
-  
+ 
 
 
   const items = itemsToDisplay;
@@ -110,9 +110,10 @@ export default function Search() {
   const filterUsers = (valueToFilter) => {
     if (valueToFilter === '') {
       setItemsToDisplay([]);
-
+      console.log('empty');
       return;
     }
+    console.log('valueToFilter', valueToFilter);
     const itemsToShow = formatedItems.filter((user) =>
       user.name.toLowerCase().includes(valueToFilter?.toLowerCase())
     );
@@ -142,8 +143,8 @@ export default function Search() {
     highlightedIndex,
   } = useCombobox({
     items,
-    onInputValueChange() {
-      filterUsers(inputValue);
+    onInputValueChange(e) {
+      filterUsers(e.inputValue);
     },
     onSelectedItemChange({ selectedItem }) {
       router.push({
