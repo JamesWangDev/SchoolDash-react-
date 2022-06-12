@@ -147,9 +147,15 @@ export default function Search() {
       filterUsers(e.inputValue);
     },
     onSelectedItemChange({ selectedItem }) {
-      router.push({
-        pathname: selectedItem.path,
-      });
+      // if selected item.path is a relative path
+      if (selectedItem?.path.startsWith('/')) {
+        router.push(selectedItem?.path);
+      }
+      // if selected item.path is an absolute path
+      if (selectedItem?.path.startsWith('http')) {
+        window.open(selectedItem?.path);
+      }
+
     },
     itemToString: (item) => item?.name || '',
   });
