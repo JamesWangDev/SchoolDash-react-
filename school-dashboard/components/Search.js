@@ -106,10 +106,10 @@ export default function Search() {
   const filterUsers = (valueToFilter) => {
     if (valueToFilter === '') {
       setItemsToDisplay([]);
-      console.log('empty');
+      // console.log('empty');
       return;
     }
-    console.log('valueToFilter', valueToFilter);
+    // console.log('valueToFilter', valueToFilter);
     const itemsToShow = formatedItems.filter((user) =>
       user.name.toLowerCase().includes(valueToFilter?.toLowerCase())
     );
@@ -119,6 +119,7 @@ export default function Search() {
 
   // if in dev mode display users without role
   if (process.env.NODE_ENV !== 'production') {
+    // console.log("dev");
     const allUsersWithoutRole = allUsers?.users.filter(
       (user) => !user.isStaff && !user.isParent && !user.isStudent
     );
