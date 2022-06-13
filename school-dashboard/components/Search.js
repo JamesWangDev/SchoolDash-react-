@@ -1,13 +1,9 @@
-import { useLazyQuery } from '@apollo/client';
 import { resetIdCounter, useCombobox } from 'downshift';
 import gql from 'graphql-tag';
-import debounce from 'lodash.debounce';
 import { useRouter } from 'next/dist/client/router';
-import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import { capitalizeFirstLetter, UserTypeDisplay } from '../lib/nameUtils';
 import { useGQLQuery } from '../lib/useGqlQuery';
-import QuickPbisButton from './PBIS/QuickPbisButton';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 import { useUser } from './User';
 import { commandPallettePaths } from '../lib/CommandPallettePaths';
@@ -141,6 +137,7 @@ export default function Search() {
     getComboboxProps,
     getItemProps,
     highlightedIndex,
+    reset,
   } = useCombobox({
     items,
     onInputValueChange(e) {
@@ -155,7 +152,9 @@ export default function Search() {
       if (selectedItem?.path.startsWith('http')) {
         window.open(selectedItem?.path);
       }
-
+      // reset input value
+      filterUsers('');
+      reset();
     },
     itemToString: (item) => item?.name || '',
   });
