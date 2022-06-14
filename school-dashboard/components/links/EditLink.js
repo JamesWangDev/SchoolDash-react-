@@ -18,7 +18,7 @@ const UPDATE_LINK_MUTATION = gql`
     $link: String
   ) {
     updateLink(
-      id: $id
+      where: {id: $id}
       data: { name: $name, description: $description, link: $link }
     ) {
       id
