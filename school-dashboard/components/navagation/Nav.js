@@ -5,10 +5,22 @@ import { useUser } from '../User';
 import SignIn from '../loginComponents/SignIn';
 import isAllowed from '../../lib/isAllowed';
 import MessagesCount from '../Messages/MessagesCount';
+import { useRouter } from 'next/router';
+
 
 export default  function Nav() {
   const me = useUser();
+  const router = useRouter();
+
   // console.log("me",me);
+  // check if path is /reset
+  const isReset = router.pathname.includes('/reset');
+  console.log("isReset",isReset);
+  if(isReset) {
+    return null;
+  }
+  
+
   if (!me) {
     return <SignIn />;
   }
