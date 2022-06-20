@@ -7,6 +7,7 @@ import { useGQLQuery } from '../lib/useGqlQuery';
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
 import { useUser } from './User';
 import { commandPallettePaths } from '../lib/CommandPallettePaths';
+import { GET_CALENDARS } from './calendars/Calendars';
 
 const SEARCH_ALL_LINKS_QUERY = gql`
 query GET_ALL_LINKS {
@@ -46,7 +47,20 @@ function formatLinks(links = []) {
   }
   );
 }
-      
+
+function formatCalendars(calendars = []) {
+  return calendars.map(calendar => {
+    const date = new Date(calendar.date).toLocaleDateString();
+    const nameAndDescription = `${calendar.name} - ${date} - ${calendar.description}`;
+    return {
+      id: calendar.id,
+      name: nameAndDescription,
+      icon: '📅',
+      path: `/calendarEvent/${calendar.id}`,
+    };
+  }
+  );
+}
 
 export const SEARCH_ALL_USERS_QUERY = gql`
   query SEARCH_ALL_USERS_QUERY {
@@ -81,7 +95,17 @@ export default function Search() {
       staleTime: 1000 * 60 * 60, // 1 hour
     }
   );
-  
+
+  const {data: allCalendars} = useGQLQuery(
+    'allCalendars',
+    GET_CALENDARS,
+    {},
+    {
+      enabled: !!me,
+      staleTime: 1000 * 60 * 60, // 1 hour
+    }
+  );
+  console.log('allCalendars', allCalendars);
   
 
   const [itemsToDisplay, setItemsToDisplay] = useState([]);
@@ -92,11 +116,11 @@ export default function Search() {
   // memoized list of data to display
   const formatedItems = useMemo(() => {
     if (allUsers) {
-      return [...formatUsers(allUsers?.users), ...extraPaths, ...formatLinks(allLinks?.links)];
+      return [...formatUsers(allUsers?.users), ...extraPaths, ...formatLinks(allLinks?.links), ...formatCalendars(allCalendars?.calendars)];
     }
     return [];
   }
-  , [allUsers, extraPaths, allLinks]);
+  , [allUsers, extraPaths, allLinks, allCalendars]);
 
  
 
