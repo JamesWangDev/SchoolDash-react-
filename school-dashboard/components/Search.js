@@ -105,7 +105,7 @@ export default function Search() {
       staleTime: 1000 * 60 * 60, // 1 hour
     }
   );
-  console.log('allCalendars', allCalendars);
+  // console.log('allCalendars', allCalendars);
   
 
   const [itemsToDisplay, setItemsToDisplay] = useState([]);
