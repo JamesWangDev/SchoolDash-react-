@@ -72,10 +72,23 @@ export default function Calendars({ dates, initialData }) {
           {
             Header: 'Event',
             accessor: 'name',
+            Cell: ({ cell, value }) => {
+              return (
+              <Link href={`/calendarEvent/${cell.row.original.id}`}>
+                <a>{value}</a>
+              </Link>
+            )},
           },
           {
             Header: 'Description',
             accessor: 'description',
+            Cell: ({ cell, value }) => {
+              return (
+               <Link href={`/calendarEvent/${cell.row.original.id}`}>
+                <a>{value}</a>
+              </Link>
+              )
+            }
           },
           {
             Header: 'Date',

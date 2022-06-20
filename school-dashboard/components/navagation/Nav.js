@@ -15,7 +15,7 @@ export default  function Nav() {
   // console.log("me",me);
   // check if path is /reset
   const isReset = router.pathname.includes('/reset');
-  console.log("isReset",isReset);
+  // console.log("isReset",isReset);
   if(isReset) {
     return null;
   }
