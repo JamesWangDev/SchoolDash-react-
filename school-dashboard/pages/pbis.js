@@ -242,11 +242,18 @@ export default function Pbis(props) {
           <h2 className="hidePrint">Links</h2>
           <div className="pbisLinks">
             {isAllowed(me, 'canManagePbis') && (
+              <>
               <Link to="/PbisWeeklyReading" href="/PbisWeeklyReading">
                 <SmallGradientButton title="Weekly Reading">
                   Weekly Reading
                 </SmallGradientButton>
               </Link>
+              <Link to="/PbisDataTable" href="/PbisDataTable">
+                <SmallGradientButton title="Data Table">
+                  Data Table
+                </SmallGradientButton>
+              </Link>
+              </>
             )}
             {links?.map((link) => (
               <Link
