@@ -1,9 +1,11 @@
 import gql from "graphql-tag";
+import { useState } from "react";
 import { useUser } from "../components/User";
 import isAllowed from "../lib/isAllowed";
 import { useGQLQuery } from "../lib/useGqlQuery";
 import Loading from "../components/Loading";
 import styled from "styled-components";
+import GradientButton from "../components/styles/Button";
 
 const PbisDataStyles = styled.div`
     display: flex;
@@ -130,7 +132,12 @@ const getAverageYearlyPbis = (students) => {
     return averageYearlyPbis / students.length;
 }
     
-
+const sortTeachersByAverageYearlyPbis = (teachers) => {
+    return teachers.sort((a, b) => {
+        // console.log(a.averageYearlyPbis, b.averageYearlyPbis);
+        return a.averageYearlyPbis - b.averageYearlyPbis;
+    }
+    )}
 
 
 // Actual component that renders the data
@@ -160,8 +167,26 @@ const {data, isLoading} = useGQLQuery(
     );
     const overallAverageYearlyPbis = getAverageYearlyPbis(students);
 
+    
+    const [sortMethod, setSortMethod] = useState('alphabetical');
+    const [teachersToDisplay, setTeachersToDisplay] = useState([]);
+    const teachersSortedByAverageYearlyPbis = sortTeachersByAverageYearlyPbis(teachersWithTheirStudents);
+    const teachersSortedAlphabetically = teachersWithTheirStudents.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+    }
+    );
 
-console.log(teachersWithTheirStudents);
+console.log(teachersToDisplay);
+const changeSortMethod = (sortMethod) => {
+    if (sortMethod === 'average') {
+        setTeachersToDisplay(teachersSortedAlphabetically); 
+        setSortMethod('alphabetical');
+    }
+    if (sortMethod === 'alphabetical') {
+        setTeachersToDisplay(sortTeachersByAverageYearlyPbis(teachersWithTheirStudents));
+        setSortMethod('average');
+    }
+}
     
     if(isLoading){
         return <Loading />;
@@ -174,6 +199,9 @@ console.log(teachersWithTheirStudents);
         <PbisDataStyles>
         <h1>PBIS Data</h1>
         <h2>Overall Average Yearly PBIS: {roundToOneDecimal(overallAverageYearlyPbis)}</h2>
+        <GradientButton onClick={ () => changeSortMethod(sortMethod) }>
+            Sort by {sortMethod === 'average' ? 'Alphabetical' : 'Average'}
+        </GradientButton>
         <table>
             <thead>
                 <tr>
@@ -183,7 +211,7 @@ console.log(teachersWithTheirStudents);
                 </tr>
             </thead>
             <tbody>
-                {teachersWithTheirStudents.map(teacher => (
+                {teachersToDisplay.map(teacher => (
                     <tr key={teacher.id} className={
                         teacher.averageYearlyPbis > overallAverageYearlyPbis ? 'isAboveAverage' : 'isBelowAverage'
                     }>
