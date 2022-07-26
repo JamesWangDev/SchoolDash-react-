@@ -14,6 +14,10 @@ const PBIS_STUDENTS_OF_INTEREST_QUERY = gql`
       id
       name
       YearPbisCount
+      studentPbisCards(orderBy: { dateGiven: desc }, take: 1) {
+        id
+        dateGiven
+      }
       taTeacher {
         id
         name
@@ -43,7 +47,12 @@ const PbisDataStyles = styled.div`
       width: 100%;
     }
     p {
-      margin: 0.5rem;
+      margin: 0rem;
+      padding: 5px;
+    }
+    .gridItem {
+      border: 2px solid grey;
+      border-radius: 5px;
     }
   }
 `;
@@ -61,18 +70,21 @@ export default function StudentsOfInterestPBIS() {
       staleTime: 1000 * 60 * 3, // 3 minutes
     }
   );
+  const studentsWithTaTeacher = data?.students.filter(
+    (student) => student.taTeacher
+  );
 
   if (isLoading) return <Loading />;
   if (!isAllowed(me, "isStaff")) return "invalid user";
-  const averageCards = Math.round(getAverageYearlyPbis(data.students));
+  const averageCards = Math.round(getAverageYearlyPbis(studentsWithTaTeacher));
 
-  const topStudents = data.students
+  const topStudents = studentsWithTaTeacher
     .sort((a, b) => {
       return b.YearPbisCount - a.YearPbisCount;
     })
     .slice(0, numberOfStudentsToDisplay);
 
-  const bottomStudents = data.students
+  const bottomStudents = studentsWithTaTeacher
     .sort((a, b) => {
       return a.YearPbisCount - b.YearPbisCount;
     })
@@ -99,20 +111,56 @@ export default function StudentsOfInterestPBIS() {
         <div className="bottom">
           <h3>Bottom {numberOfStudentsToDisplay} Students</h3>
           {bottomStudents.map((student) => {
+            const date = new Date(
+              student?.studentPbisCards?.[0]?.dateGiven
+            ).toLocaleDateString();
+            const daysSinceLastCard = Math.round(
+                (new Date() -
+                  new Date(student?.studentPbisCards?.[0]?.dateGiven)) /
+                  (1000 * 60 * 60 * 24)
+              ),
+              daysSinceLastCardString =
+                daysSinceLastCard > 0
+                  ? `${daysSinceLastCard} days ago`
+                  : "today";
             return (
-              <p key={student?.id} title={student?.taTeacher?.name}>
-                {student?.name} - {student?.YearPbisCount}
-              </p>
+              <div className="gridItem" key={student?.id}>
+                <p title={student?.taTeacher?.name}>
+                  {student?.name} - {student?.YearPbisCount}
+                </p>
+                <p>TA: {student?.taTeacher?.name}</p>
+                <p>
+                  Last Card: {date} - {daysSinceLastCardString}
+                </p>
+              </div>
             );
           })}
         </div>
         <div className="top">
           <h3>Top {numberOfStudentsToDisplay} Students</h3>
           {topStudents.map((student) => {
+            const date = new Date(
+              student?.studentPbisCards?.[0]?.dateGiven
+            ).toLocaleDateString();
+            const daysSinceLastCard = Math.round(
+                (new Date() -
+                  new Date(student?.studentPbisCards?.[0]?.dateGiven)) /
+                  (1000 * 60 * 60 * 24)
+              ),
+              daysSinceLastCardString =
+                daysSinceLastCard > 0
+                  ? `${daysSinceLastCard} days ago`
+                  : "today";
             return (
-              <p key={student?.id} title={student?.taTeacher?.name}>
-                {student?.name} - {student?.YearPbisCount}
-              </p>
+              <div className="gridItem" key={student?.id}>
+                <p title={student?.taTeacher?.name}>
+                  {student?.name} - {student?.YearPbisCount}
+                </p>
+                <p>TA: {student?.taTeacher?.name}</p>
+                <p>
+                  Last Card: {date} - {daysSinceLastCardString}
+                </p>
+              </div>
             );
           })}
         </div>
