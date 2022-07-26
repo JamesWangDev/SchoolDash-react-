@@ -1,24 +1,24 @@
-import gql from 'graphql-tag';
-import styled from 'styled-components';
-import Link from 'next/link';
-import { GraphQLClient } from 'graphql-request';
-import { useUser } from '../components/User';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import PbisFalcon from '../components/PBIS/PbisFalcon';
-import DoughnutChart from '../components/Chart/DonutChart';
-import DisplayPbisCollectionData from '../components/PBIS/DisplayPbisCollectionData';
-import PbisCardChart from '../components/PBIS/PbisCardChart';
+import gql from "graphql-tag";
+import styled from "styled-components";
+import Link from "next/link";
+import { GraphQLClient } from "graphql-request";
+import { useUser } from "../components/User";
+import { useGQLQuery } from "../lib/useGqlQuery";
+import PbisFalcon from "../components/PBIS/PbisFalcon";
+import DoughnutChart from "../components/Chart/DonutChart";
+import DisplayPbisCollectionData from "../components/PBIS/DisplayPbisCollectionData";
+import PbisCardChart from "../components/PBIS/PbisCardChart";
 import GradientButton, {
   SmallGradientButton,
-} from '../components/styles/Button';
-import isAllowed from '../lib/isAllowed';
-import { endpoint, prodEndpoint } from '../config';
+} from "../components/styles/Button";
+import isAllowed from "../lib/isAllowed";
+import { endpoint, prodEndpoint } from "../config";
 
 const ChartContainerStyles = styled.div`
   display: grid;
   flex-wrap: wrap;
   grid-template-columns: repeat(3, minmax(150px, 350px));
-  
+
   justify-content: space-evenly;
   align-items: center;
   @media print {
@@ -86,73 +86,74 @@ const TitleBarStyles = styled.div`
 
 const PBIS_PAGE_QUERY = gql`
   query PBIS_PAGE_QUERY($teamId: ID) {
-  totalTeamCards: pbisCardsCount(
-    where: { student: { taTeacher: { taTeam: { id: { equals: $teamId } } } } }
-  )
+    totalTeamCards: pbisCardsCount(
+      where: { student: { taTeacher: { taTeam: { id: { equals: $teamId } } } } }
+    )
 
-  teamData: pbisCards(
-    where: { student: { taTeacher: { taTeam: { id: { equals: $teamId } } } } }
-  ) {
-    id
-    dateGiven
-    category
-    counted
+    teamData: pbisCards(
+      where: { student: { taTeacher: { taTeam: { id: { equals: $teamId } } } } }
+    ) {
+      id
+      dateGiven
+      category
+      counted
+    }
   }
-}
-
 `;
 
 const PBIS_PAGE_STATIC_QUERY = gql`
   query PBIS_PAGE_STATIC_QUERY {
-    cards: pbisCards(take:1000, orderBy:{dateGiven: desc}) {
-    id
-    dateGiven
-    category
+    cards: pbisCards(take: 1000, orderBy: { dateGiven: desc }) {
+      id
+      dateGiven
+      category
 
-    counted
-  }
-  totalSchoolCards: pbisCardsCount
+      counted
+    }
+    totalSchoolCards: pbisCardsCount
 
-  teams: pbisTeams {
-    id
-    teamName
-    taTeacher {
+    teams: pbisTeams {
+      id
+      teamName
+      taTeacher {
+        id
+        name
+      }
+      averageCardsPerStudent
+      uncountedCards
+      countedCards
+      currentLevel
+      numberOfStudents
+    }
+    lastCollection: pbisCollections(
+      orderBy: { collectionDate: desc }
+      take: 2
+    ) {
       id
       name
+      collectionDate
+      personalLevelWinners
+      randomDrawingWinners
+      taTeamsLevels
+      taTeamNewLevelWinners
+      currentPbisTeamGoal
     }
-    averageCardsPerStudent
-    uncountedCards
-    countedCards
-    currentLevel
-    numberOfStudents
-  }
-  lastCollection: pbisCollections(orderBy: { collectionDate: desc }, take: 2) {
-    id
-    name
-    collectionDate
-    personalLevelWinners
-    randomDrawingWinners
-    taTeamsLevels
-    taTeamNewLevelWinners
-    currentPbisTeamGoal
-  }
 
-  pbisLinks: links(where: { forPbis: { equals: true } }) {
-    id
-    link
-    name
-    description
-    forParents
-    forTeachers
-    forStudents
+    pbisLinks: links(where: { forPbis: { equals: true } }) {
+      id
+      link
+      name
+      description
+      forParents
+      forTeachers
+      forStudents
+    }
+    cardCounts: pbisCollections(orderBy: { collectionDate: asc }) {
+      id
+      name
+      collectedCards
+    }
   }
-  cardCounts: pbisCollections (orderBy:{collectionDate:asc}) {
-    id
-    name
-    collectedCards
-  }
-}
-
 `;
 
 export default function Pbis(props) {
@@ -162,7 +163,7 @@ export default function Pbis(props) {
   const teamName =
     me?.taTeam?.teamName || me?.taTeacher?.taTeam?.teamName || null;
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'PbisPageInfo',
+    "PbisPageInfo",
     PBIS_PAGE_QUERY,
     {
       teamId,
@@ -178,7 +179,8 @@ export default function Pbis(props) {
   // if (isLoading) return <Loading />;
   // const cards = data?.cards;
   const totalSchoolCards = props?.totalSchoolCards || data?.totalSchoolCards;
-  const schoolWideCardsInCategories = props?.schoolWideCardsInCategories || data?.schoolWideCardsInCategories;
+  const schoolWideCardsInCategories =
+    props?.schoolWideCardsInCategories || data?.schoolWideCardsInCategories;
   const teams = props?.teams || [];
   const hasTeam = !!teamId;
   const categoriesArray = props?.categoriesArray || [];
@@ -191,30 +193,18 @@ export default function Pbis(props) {
   const didWeGetNewSchoolWideLevel = newSchoolwideGoal > previousSchoolwideGoal;
   const cardCounts = props?.cardCounts;
   const totalTeamCards = data?.totalTeamCards;
-  // get the possible categories for the cards
-  // const categories = cards?.map((card) => card.category);
-  // const categoriesSet = new Set(categories);
-  // alpha sort the categories
-  // categoriesArray.sort();
-  // get the number of cards in each category for whole school
-  // const schoolWideCardsInCategories = categoriesArray.map((category) => {
-  //   const cardsInCategory = cards.filter((card) => card.category === category);
-  //   return {
-  //     word: category,
-  //     total: cardsInCategory.length,
-  //   };
-  // });
 
   // get the number of cards in each category for the team
-  const teamWideCardsInCategories = categoriesArray?.map((category) => {
-    const cardsInCategory = data?.teamData?.filter(
-      (card) => card.category === category
-    );
-    return {
-      word: category,
-      total: cardsInCategory?.length,
-    };
-  }) || [];
+  const teamWideCardsInCategories =
+    categoriesArray?.map((category) => {
+      const cardsInCategory = data?.teamData?.filter(
+        (card) => card.category === category
+      );
+      return {
+        word: category,
+        total: cardsInCategory?.length,
+      };
+    }) || [];
 
   // filter raw links to only show links for the user's role
   const links = rawListOfLinks?.filter((link) => {
@@ -234,26 +224,33 @@ export default function Pbis(props) {
           <h2 className="hidePrint">School-Wide Cards: {totalSchoolCards}</h2>
           {hasTeam && (
             <h2 className="hidePrint">
-              Total Team Cards: {totalTeamCards || 'loading...'}
+              Total Team Cards: {totalTeamCards || "loading..."}
             </h2>
           )}
         </div>
         <div>
           <h2 className="hidePrint">Links</h2>
           <div className="pbisLinks">
-            {isAllowed(me, 'canManagePbis') && (
+            {isAllowed(me, "canManagePbis") && (
               <>
-              <Link to="/PbisWeeklyReading" href="/PbisWeeklyReading">
-                <SmallGradientButton title="Weekly Reading">
-                  Weekly Reading
-                </SmallGradientButton>
-              </Link>
-              <Link to="/PbisDataTable" href="/PbisDataTable">
-                <SmallGradientButton title="Data Table">
-                  Data Table
-                </SmallGradientButton>
-              </Link>
+                <Link to="/PbisWeeklyReading" href="/PbisWeeklyReading">
+                  <SmallGradientButton title="Weekly Reading">
+                    Weekly Reading
+                  </SmallGradientButton>
+                </Link>
+                <Link to="/PbisDataTable" href="/PbisDataTable">
+                  <SmallGradientButton title="Data Table">
+                    Data Table
+                  </SmallGradientButton>
+                </Link>
               </>
+            )}
+            {isAllowed(me, "isStaff") && (
+              <Link to="/studentsOfInterestPBIS" href="/studentsOfInterestPBIS">
+                <GradientButton title="Students of Interest">
+                  Students of Interest
+                </GradientButton>
+              </Link>
             )}
             {links?.map((link) => (
               <Link
@@ -262,7 +259,7 @@ export default function Pbis(props) {
                 className="pbis-link"
                 target="_blank"
                 href={
-                  link.link.startsWith('http')
+                  link.link.startsWith("http")
                     ? link.link
                     : `http://${link.link}`
                 }
@@ -276,7 +273,7 @@ export default function Pbis(props) {
         </div>
       </TitleBarStyles>
       <ChartContainerStyles className="hidePrint">
-        {me && <PbisFalcon initialCount={totalSchoolCards}  />}
+        {me && <PbisFalcon initialCount={totalSchoolCards} />}
         <DoughnutChart
           title="School-Wide Cards By Category"
           chartData={schoolWideCardsInCategories}
@@ -322,18 +319,18 @@ export default function Pbis(props) {
 }
 
 export async function getStaticProps(context) {
-  console.log('PBIS PAGE GET STATIC PROPS');
+  console.log("PBIS PAGE GET STATIC PROPS");
   // fetch PBIS Page data from the server
   const headers = {
-    credentials: 'include',
-    mode: 'cors',
+    credentials: "include",
+    mode: "cors",
     headers: {
       authorization: `test auth for keystone`,
     },
   };
 
   const graphQLClient = new GraphQLClient(
-    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
     headers
   );
   // console.log(GraphQLClient);
@@ -350,13 +347,16 @@ export async function getStaticProps(context) {
   // alpha sort the categories
   categoriesArray.sort();
   // get the number of cards in each category for whole school
-  const schoolWideCardsInCategories = categoriesArray?.map((category) => {
-    const cardsInCategory = cards.filter((card) => card.category === category);
-    return {
-      word: category,
-      total: cardsInCategory.length,
-    };
-  }) || [];
+  const schoolWideCardsInCategories =
+    categoriesArray?.map((category) => {
+      const cardsInCategory = cards.filter(
+        (card) => card.category === category
+      );
+      return {
+        word: category,
+        total: cardsInCategory.length,
+      };
+    }) || [];
 
   const teams = data?.teams || [];
 

@@ -122,7 +122,7 @@ const getStudentsWhoHaveTeacher = (teacherId, students) => {
   return studentsWithTeacher;
 };
 
-const getAverageYearlyPbis = (students) => {
+export const getAverageYearlyPbis = (students) => {
   const averageYearlyPbis = students.reduce((acc, student) => {
     return acc + student.YearPbisCount;
   }, 0);
