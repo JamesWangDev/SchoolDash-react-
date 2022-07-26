@@ -1,11 +1,11 @@
-const cardsPerPersonalLevel = 50;
-const cardsPerTaLevel = 15;
+const cardsPerPersonalLevel = 75;
+const cardsPerTaLevel = 24;
 const levelsPerSchoolWideLevel = 2;
 
 // get the number of students in teh team
 // get the average number of cards per student in the team
 export function getTaTeamData(data) {
-  console.log('getting TA Team Data');
+  console.log("getting TA Team Data");
   const taTeamData = data.map((team) => {
     // for each team, get the team data
     const newCardsPerTeacher = team.taTeacher.map((ta) =>
@@ -48,7 +48,7 @@ export function getTaTeamData(data) {
 // get the personal level of each student and
 // return students at a new level with their level
 export function getPersonalLevel(data) {
-  console.log('getting personal levels');
+  console.log("getting personal levels");
   const allStudents = [];
   const students = data.map((team) => {
     // for each team get all the ta teachers
@@ -67,8 +67,15 @@ export function getPersonalLevel(data) {
     const newPersonalLevel = Math.floor(
       newCardsPerStudent / cardsPerPersonalLevel
     );
-    const isNewLevel = Number(newPersonalLevel) > (Number(student.individualPbisLevel) || 0);
-console.log('isNewLevel',student.name, isNewLevel, newPersonalLevel, student.individualPbisLevel);
+    const isNewLevel =
+      Number(newPersonalLevel) > (Number(student.individualPbisLevel) || 0);
+    console.log(
+      "isNewLevel",
+      student.name,
+      isNewLevel,
+      newPersonalLevel,
+      student.individualPbisLevel
+    );
     const newStudent = {
       name: student.name,
       id: student.id,
@@ -111,7 +118,7 @@ function createCardsForStudent(student) {
 
 // get the random winner for each TA
 export function getRandomWinners(data) {
-  console.log('getting random winners');
+  console.log("getting random winners");
   const listOfAllTaTeachers = [];
   const taToGetWinners = data.map((team) => {
     // for each team get all the ta teachers
@@ -121,7 +128,7 @@ export function getRandomWinners(data) {
     });
     return allTeachers;
   });
-  console.log('taToGetWinners', listOfAllTaTeachers);
+  console.log("taToGetWinners", listOfAllTaTeachers);
   const randomWinners = listOfAllTaTeachers.map((teacher) => {
     const cardsToChooseFrom = [];
     teacher.taStudents.forEach((student) => {
@@ -137,7 +144,7 @@ export function getRandomWinners(data) {
     // );
     const randomWinner = {};
     if (cardsToChooseFrom.length === 0) {
-      randomWinner.name = 'No Winner';
+      randomWinner.name = "No Winner";
     } else if (cardsToChooseFromWithoutLastWinner.length > 0) {
       const randomIndex = Math.floor(
         Math.random() * cardsToChooseFromWithoutLastWinner.length
@@ -159,16 +166,16 @@ export function getRandomWinners(data) {
     }
     return newTeacher;
   });
-  console.log('randomWinners', randomWinners);
+  console.log("randomWinners", randomWinners);
   return randomWinners;
 }
 
 export function getLowestTaTeamLevel(data) {
-  console.log('getting lowest PBIS Team Level');
+  console.log("getting lowest PBIS Team Level");
   const lowestTaTeamLevel = data.reduce((a, b) =>
     a.currentTaLevel < b.currentTaLevel ? a : b
   ).currentTaLevel;
-  console.log('lowestTaTeamLevel', lowestTaTeamLevel);
+  console.log("lowestTaTeamLevel", lowestTaTeamLevel);
 
   return lowestTaTeamLevel;
 }
@@ -176,17 +183,17 @@ export function getLowestTaTeamLevel(data) {
 export function getNewTaTeamLevelGoal(lowestTeam) {
   const newTaTeamLevelGoal =
     lowestTeam % levelsPerSchoolWideLevel ? lowestTeam + 1 : lowestTeam + 2;
-  console.log('newTaTeamLevelGoal', newTaTeamLevelGoal);
+  console.log("newTaTeamLevelGoal", newTaTeamLevelGoal);
   return newTaTeamLevelGoal;
 }
 
 export function getTeachersToUpdate(data) {
-  console.log('getting teachers to update');
+  console.log("getting teachers to update");
   const teachersToUpdate = data
     .map((teacher) => {
       const dataToReturn = {};
       if (teacher.randomWinner?.id && teacher.previousTaWinner?.id) {
-        dataToReturn.where = {id: teacher.id};
+        dataToReturn.where = { id: teacher.id };
         dataToReturn.data = {
           currentTaWinner: {
             connect: {
@@ -202,7 +209,7 @@ export function getTeachersToUpdate(data) {
         return dataToReturn;
       }
       if (teacher.randomWinner?.id) {
-        dataToReturn.where = {id: teacher.id};
+        dataToReturn.where = { id: teacher.id };
         dataToReturn.data = {
           currentTaWinner: {
             connect: {
@@ -222,7 +229,7 @@ export function getTaTeamsToUpdate(data) {
   const taTeamsToUpdate = data.map((team) => {
     const dataToReturn = {};
 
-    dataToReturn.where = {id: team.id};
+    dataToReturn.where = { id: team.id };
     dataToReturn.data = {
       currentLevel: team.currentTaLevel,
       averageCardsPerStudent: Math.round(team.averageCardsPerStudent),
@@ -236,7 +243,7 @@ export function getTaTeamsToUpdate(data) {
 export function getPbisCardsToMarkCollected(data) {
   const pbisCardsToMarkCollected = data.map((card) => {
     const dataToReturn = {};
-    dataToReturn.where = {id: card.id};
+    dataToReturn.where = { id: card.id };
     dataToReturn.data = {
       counted: true,
     };
@@ -246,7 +253,7 @@ export function getPbisCardsToMarkCollected(data) {
 }
 
 export function getListOfStudentsToUpdate(data) {
-  console.log('getting list of students to update');
+  console.log("getting list of students to update");
   const allStudents = [];
   const students = data.map((team) => {
     // for each team get all the ta teachers
@@ -260,7 +267,7 @@ export function getListOfStudentsToUpdate(data) {
     });
     return allTeachers;
   });
-  console.log('allStudents', allStudents);
+  console.log("allStudents", allStudents);
   return allStudents;
 }
 
