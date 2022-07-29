@@ -48,6 +48,18 @@ const PBIS_DATA_QUERY = gql`
         id
         name
       }
+      block6Teacher {
+        id
+        name
+      }
+      block7Teacher {
+        id
+        name
+      }
+      block8Teacher {
+        id
+        name
+      }
     }
     teachers: users(where: { hasClasses: { equals: true } }) {
       id
@@ -89,6 +101,21 @@ const getTeacherListFromBlocksInStudents = (students, teachers) => {
         teacherList.push(student.block5Teacher.id);
       }
     }
+    if (student.block6Teacher) {
+      if (!teacherList.includes(student.block6Teacher.id)) {
+        teacherList.push(student.block6Teacher.id);
+      }
+    }
+    if (student.block7Teacher) {
+      if (!teacherList.includes(student.block7Teacher.id)) {
+        teacherList.push(student.block7Teacher.id);
+      }
+    }
+    if (student.block8Teacher) {
+      if (!teacherList.includes(student.block8Teacher.id)) {
+        teacherList.push(student.block8Teacher.id);
+      }
+    }
   });
   const teacherListWithNames = teacherList.map((teacherId) => {
     const teacher = teachers.find((teacher) => teacher.id === teacherId);
@@ -116,6 +143,15 @@ const getStudentsWhoHaveTeacher = (teacherId, students) => {
       studentsWithTeacher.push(student);
     }
     if (student.block5Teacher && student.block5Teacher.id === teacherId) {
+      studentsWithTeacher.push(student);
+    }
+    if (student.block6Teacher && student.block6Teacher.id === teacherId) {
+      studentsWithTeacher.push(student);
+    }
+    if (student.block7Teacher && student.block7Teacher.id === teacherId) {
+      studentsWithTeacher.push(student);
+    }
+    if (student.block8Teacher && student.block8Teacher.id === teacherId) {
       studentsWithTeacher.push(student);
     }
   });

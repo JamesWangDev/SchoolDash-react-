@@ -1,10 +1,10 @@
-import gql from 'graphql-tag';
-import Image from 'next/image';
-import React from 'react';
-import styled from 'styled-components';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import DisplayError from '../ErrorMessage';
-import Loading from '../Loading';
+import gql from "graphql-tag";
+import Image from "next/image";
+import React from "react";
+import styled from "styled-components";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import DisplayError from "../ErrorMessage";
+import Loading from "../Loading";
 
 // gql query to get number of cards
 export const TOTAL_PBIS_CARDS = gql`
@@ -51,7 +51,7 @@ const ContainerStyles = styled.div`
     /* left: 20px; */
     /* right: 20px; */
     /* bottom: 00px; */
-    transform: translate(30px, -0px);
+    transform: translate(30px, -50px);
     /* text-align: center; */
   }
   img {
@@ -62,7 +62,7 @@ const ContainerStyles = styled.div`
     height: 125px;
     /* height: 100%; */
   }
-  .falcon{
+  .falcon {
     position: absolute;
     top: 2px;
     left: 5%;
@@ -83,15 +83,15 @@ export default function PbisFalcon({ initialCount }) {
     };
   }
   const { data, isLoading, error } = useGQLQuery(
-    'totalPbisCards',
+    "totalPbisCards",
     TOTAL_PBIS_CARDS,
     {},
     queryOptions
   );
-// console.log(data);
+  // console.log(data);
   // last years card total
   const cardGoal = 60000;
-// console.log('data', data);
+  // console.log('data', data);
   if (isLoading) return <Loading />;
   if (error) return <DisplayError error={error} />;
   const percentageFull =
@@ -101,7 +101,7 @@ export default function PbisFalcon({ initialCount }) {
     <div>
       <ContainerStyles percentageLeft={percentageLeft}>
         <div className="filler">
-          <img src="/falcon.svg" alt="falcon" className='falcon' />
+          <img src="/falcon.svg" alt="falcon" className="falcon" />
           <span className="label">{`${percentageFull}%`}</span>
         </div>
         <span className="total">{data.pbisCardsCount} cards</span>

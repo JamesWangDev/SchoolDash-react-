@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { TeacherMessagesStyles } from './TeacherAssignments';
+import styled from "styled-components";
+import { TeacherMessagesStyles } from "./TeacherAssignments";
 
 export default function AssignmentViewCardsStudent({ student }) {
   return (
@@ -7,7 +7,7 @@ export default function AssignmentViewCardsStudent({ student }) {
       <h3>Current Class Assignments</h3>
 
       <div className="messageContainer">
-        {[...Array(5)].map((e, i) => {
+        {[...Array(7)].map((e, i) => {
           const num = i + 1;
           if (!student[`block${num}Teacher`]) {
             return (
@@ -20,14 +20,14 @@ export default function AssignmentViewCardsStudent({ student }) {
           const today = new Date();
           const messageDate = new Date(
             student[`block${num}Teacher`][`block${num}AssignmentLastUpdated`] ||
-              ''
+              ""
           );
           const newUpdate = today - messageDate < 164000000;
           // console.log(newUpdate);
           return (
             <div
               className={
-                newUpdate ? 'singleMessage needsUpdate' : 'singleMessage '
+                newUpdate ? "singleMessage needsUpdate" : "singleMessage "
               }
               key={`key for student - ${student.id} - ${num}`}
             >
@@ -43,7 +43,7 @@ export default function AssignmentViewCardsStudent({ student }) {
                     ]
                   )
                     .toLocaleString()
-                    .split(',')[0]
+                    .split(",")[0]
                 }
               </p>
             </div>

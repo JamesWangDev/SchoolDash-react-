@@ -1,23 +1,23 @@
-import { useMemo } from 'react';
-import Link from 'next/link';
-import Table from '../Table';
-import QuickPbisButton from '../PBIS/QuickPbisButton';
+import { useMemo } from "react";
+import Link from "next/link";
+import Table from "../Table";
+import QuickPbisButton from "../PBIS/QuickPbisButton";
 
 export default function ViewStudentTable({ users, title }) {
   const columns = useMemo(
     () => [
       {
-        Header: title || 'Students',
+        Header: title || "Students",
         columns: [
           {
-            Header: 'Name',
-            accessor: 'name',
+            Header: "Name",
+            accessor: "name",
             Cell: ({ row }) => {
               const { name } = row.original;
               const nameWithFirstLetterUpperCase = name
-                .split(' ')
+                .split(" ")
                 .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                .join(' ');
+                .join(" ");
 
               const { preferredName } = row.original;
               const nameToShow = preferredName
@@ -35,8 +35,8 @@ export default function ViewStudentTable({ users, title }) {
           },
 
           {
-            Header: 'TA Teacher',
-            accessor: 'taTeacher.name',
+            Header: "TA Teacher",
+            accessor: "taTeacher.name",
             Cell: ({ row }) => {
               const showLink = !!row.original?.taTeacher?.id;
               //   console.log(showLink);
@@ -51,24 +51,24 @@ export default function ViewStudentTable({ users, title }) {
           },
 
           {
-            Header: 'Weekly PBIS',
-            accessor: 'PbisCardCount',
+            Header: "Weekly PBIS",
+            accessor: "PbisCardCount",
           },
           {
-            Header: 'Yearly PBIS',
-            accessor: 'YearPbisCount',
+            Header: "Yearly PBIS",
+            accessor: "YearPbisCount",
           },
           {
-            Header: 'Individual PBIS Level',
-            accessor: 'individualPbisLevel',
+            Header: "Individual PBIS Level",
+            accessor: "individualPbisLevel",
           },
           {
-            Header: 'Callback',
-            accessor: 'callbackCount',
+            Header: "Callback",
+            accessor: "callbackCount",
           },
           {
-            Header: 'Average days on callback',
-            accessor: 'averageTimeToCompleteCallback',
+            Header: "Average days on callback",
+            accessor: "averageTimeToCompleteCallback",
           },
         ],
       },

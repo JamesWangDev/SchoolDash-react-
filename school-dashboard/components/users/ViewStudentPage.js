@@ -1,16 +1,16 @@
-import gql from 'graphql-tag';
-import styled from 'styled-components';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import { useUser } from '../User';
-import Loading from '../Loading';
-import AssignmentViewCardsStudent from '../Assignments/AssignmentViewCardsStudent';
-import ViewStudentTable from './ViewStudentTable';
-import CallbackCards from '../Callback/CallbackCards';
-import StudentPbisData from '../PBIS/StudentPbisData';
-import DisplayPbisCardsWidget from '../PBIS/DisplayPbisCardsWidget';
-import EmailParentsAboutCallback from '../Callback/EmailParentsAboutCallback';
-import QuickPbisButton from '../PBIS/QuickPbisButton';
-import { capitalizeFirstLetter } from '../../lib/nameUtils';
+import gql from "graphql-tag";
+import styled from "styled-components";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import { useUser } from "../User";
+import Loading from "../Loading";
+import AssignmentViewCardsStudent from "../Assignments/AssignmentViewCardsStudent";
+import ViewStudentTable from "./ViewStudentTable";
+import CallbackCards from "../Callback/CallbackCards";
+import StudentPbisData from "../PBIS/StudentPbisData";
+import DisplayPbisCardsWidget from "../PBIS/DisplayPbisCardsWidget";
+import EmailParentsAboutCallback from "../Callback/EmailParentsAboutCallback";
+import QuickPbisButton from "../PBIS/QuickPbisButton";
+import { capitalizeFirstLetter } from "../../lib/nameUtils";
 
 const ParentInfoStyles = styled.div`
   border-radius: 1rem;
@@ -79,6 +79,27 @@ const GET_SINGLE_TEACHER = gql`
         block5Assignment
         block5AssignmentLastUpdated
       }
+      block6Teacher {
+        name
+        id
+        block6ClassName
+        block6Assignment
+        block6AssignmentLastUpdated
+      }
+      block7Teacher {
+        name
+        id
+        block7ClassName
+        block7Assignment
+        block7AssignmentLastUpdated
+      }
+      block8Teacher {
+        name
+        id
+        block8ClassName
+        block8Assignment
+        block8AssignmentLastUpdated
+      }
       taTeacher {
         id
         name
@@ -93,9 +114,9 @@ const GET_SINGLE_TEACHER = gql`
         currentLevel
       }
       studentPbisCards(
-        orderBy: {dateGiven:desc}
+        orderBy: { dateGiven: desc }
         take: 20
-        where: { category: {not:{equals: "physical"} }}
+        where: { category: { not: { equals: "physical" } } }
       ) {
         id
         cardMessage

@@ -1,9 +1,9 @@
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import toast from 'react-hot-toast';
-import styled from 'styled-components';
-import useForm from '../../lib/useForm';
-import { useUser } from '../User';
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import toast from "react-hot-toast";
+import styled from "styled-components";
+import useForm from "../../lib/useForm";
+import { useUser } from "../User";
 
 const AssignmentUpdateStyles = styled.div`
   position: fixed; /* Stay in place */
@@ -80,9 +80,15 @@ const UPDATE_ASSIGNMENTS = gql`
     $block5Assignment: String
     $block5ClassName: String
     $block5AssignmentLastUpdated: DateTime
+    $block6Assignment: String
+    $block6ClassName: String
+    $block6AssignmentLastUpdated: DateTime
+    $block7Assignment: String
+    $block7ClassName: String
+    $block7AssignmentLastUpdated: DateTime
   ) {
     updateUser(
-      where: {id: $id}
+      where: { id: $id }
       data: {
         block1Assignment: $block1Assignment
         block1ClassName: $block1ClassName
@@ -99,6 +105,12 @@ const UPDATE_ASSIGNMENTS = gql`
         block5Assignment: $block5Assignment
         block5ClassName: $block5ClassName
         block5AssignmentLastUpdated: $block5AssignmentLastUpdated
+        block6Assignment: $block6Assignment
+        block6ClassName: $block6ClassName
+        block6AssignmentLastUpdated: $block6AssignmentLastUpdated
+        block7Assignment: $block7Assignment
+        block7ClassName: $block7ClassName
+        block7AssignmentLastUpdated: $block7AssignmentLastUpdated
       }
     ) {
       id
@@ -160,9 +172,7 @@ export default function AssignmentUpdater({
           <button
             type="button"
             onClick={async () => {
-              updateData[
-                `block${block}AssignmentLastUpdated`
-              ] = new Date();
+              updateData[`block${block}AssignmentLastUpdated`] = new Date();
               updateData[`block${block}Assignment`] = inputs.assignment;
               updateData[`block${block}ClassName`] = inputs.classTitle;
               updateData.id = me.id;
@@ -184,6 +194,8 @@ export default function AssignmentUpdater({
               updateData[`block3AssignmentLastUpdated`] = todaysDate;
               updateData[`block4AssignmentLastUpdated`] = todaysDate;
               updateData[`block5AssignmentLastUpdated`] = todaysDate;
+              updateData[`block6AssignmentLastUpdated`] = todaysDate;
+              updateData[`block7AssignmentLastUpdated`] = todaysDate;
               updateData[`block1Assignment`] = inputs.assignment;
               // updateData[`block1ClassName`] = inputs.classTitle;
               updateData[`block2Assignment`] = inputs.assignment;
@@ -194,6 +206,10 @@ export default function AssignmentUpdater({
               // updateData[`block4ClassName`] = inputs.classTitle;
               updateData[`block5Assignment`] = inputs.assignment;
               // updateData[`block5ClassName`] = inputs.classTitle;
+              updateData[`block6Assignment`] = inputs.assignment;
+              // updateData[`block6ClassName`] = inputs.classTitle;
+              updateData[`block7Assignment`] = inputs.assignment;
+              // updateData[`block7ClassName`] = inputs.classTitle;
               updateData.id = me.id;
               // console.log(updateData);
               await updateAssignment({ variables: updateData });

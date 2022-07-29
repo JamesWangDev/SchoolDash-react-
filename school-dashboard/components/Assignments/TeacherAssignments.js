@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import gql from 'graphql-tag';
-import styled from 'styled-components';
-import { useUser } from '../User';
-import Loading from '../Loading';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import MessageUpdater from './AssignmentUpdater';
+import React, { useState } from "react";
+import gql from "graphql-tag";
+import styled from "styled-components";
+import { useUser } from "../User";
+import Loading from "../Loading";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import MessageUpdater from "./AssignmentUpdater";
 
 export const TeacherMessagesStyles = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ export const TeacherMessagesStyles = styled.div`
   
   .messageContainer {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(7, auto);
 
     @media (max-width: 600px){
    grid-template-columns: 1fr;
@@ -109,6 +109,15 @@ const GET_MESSAGES = gql`
         block5Assignment
         block5ClassName
         block5AssignmentLastUpdated
+        block6Assignment
+        block6ClassName
+        block6AssignmentLastUpdated
+        block7Assignment
+        block7ClassName
+        block7AssignmentLastUpdated
+        block8Assignment
+        block8ClassName
+        block8AssignmentLastUpdated
       }
     }
   }
@@ -121,7 +130,7 @@ export default function TeacherAssignments() {
 
   // get messages data
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'myTeacherMessages',
+    "myTeacherMessages",
     GET_MESSAGES
   );
   if (!me) return <Loading />;
@@ -141,16 +150,16 @@ export default function TeacherAssignments() {
         <h3>Current Class Assignments</h3>
 
         <div className="messageContainer">
-          {[...Array(5)].map((e, i) => {
+          {[...Array(7)].map((e, i) => {
             const num = i + 1;
             const today = new Date();
             const messageDate = new Date(
-              assignments[`block${num}AssignmentLastUpdated`] || ''
+              assignments[`block${num}AssignmentLastUpdated`] || ""
             );
             const late = today - messageDate > 600000000;
             return (
               <div
-                className={late ? 'singleMessage needsUpdate' : 'singleMessage'}
+                className={late ? "singleMessage needsUpdate" : "singleMessage"}
                 key={`key ${num}`}
                 onClick={() => {
                   setBlock(num);
@@ -164,7 +173,7 @@ export default function TeacherAssignments() {
                   {
                     new Date(assignments[`block${num}AssignmentLastUpdated`])
                       .toLocaleString()
-                      .split(',')[0]
+                      .split(",")[0]
                   }
                 </p>
               </div>

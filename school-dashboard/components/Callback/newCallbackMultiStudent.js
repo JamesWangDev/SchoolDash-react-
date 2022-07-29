@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import { useRouter } from 'next/dist/client/router';
-import toast from 'react-hot-toast';
-import GradientButton from '../styles/Button';
-import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
-import useForm from '../../lib/useForm';
-import DisplayError from '../ErrorMessage';
-import SearchForUserName from '../SearchForUserName';
-import { todaysDateForForm } from '../calendars/formatTodayForForm';
-import useRecalculateCallback from './recalculateCallback';
-import { useUser } from '../User';
-import useCreateMessage from '../Messages/useCreateMessage';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import StudentList from './StudentListForMultiSelectCallback';
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import { useRouter } from "next/dist/client/router";
+import toast from "react-hot-toast";
+import GradientButton from "../styles/Button";
+import Form, { FormContainerStyles, FormGroupStyles } from "../styles/Form";
+import useForm from "../../lib/useForm";
+import DisplayError from "../ErrorMessage";
+import SearchForUserName from "../SearchForUserName";
+import { todaysDateForForm } from "../calendars/formatTodayForForm";
+import useRecalculateCallback from "./recalculateCallback";
+import { useUser } from "../User";
+import useCreateMessage from "../Messages/useCreateMessage";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import StudentList from "./StudentListForMultiSelectCallback";
 
 const CREATE_CALLBACK_MUTATION = gql`
   mutation CREATE_CALLBACK_MUTATION(
@@ -47,23 +47,35 @@ const USERS_CLASS_STUDENTS_QUERY = gql`
   query {
     authenticatedItem {
       ... on User {
-        block1Students (orderBy: {name: asc}){
+        block1Students(orderBy: { name: asc }) {
           id
           name
         }
-        block2Students (orderBy: {name: asc}) {
+        block2Students(orderBy: { name: asc }) {
           id
           name
         }
-        block3Students (orderBy: {name: asc}){
+        block3Students(orderBy: { name: asc }) {
           id
           name
         }
-        block4Students (orderBy: {name: asc}) {
+        block4Students(orderBy: { name: asc }) {
           id
           name
         }
-        block5Students (orderBy: {name: asc}){
+        block5Students(orderBy: { name: asc }) {
+          id
+          name
+        }
+        block6Students(orderBy: { name: asc }) {
+          id
+          name
+        }
+        block7Students(orderBy: { name: asc }) {
+          id
+          name
+        }
+        block8Students(orderBy: { name: asc }) {
           id
           name
         }
@@ -77,9 +89,9 @@ export default function NewCallbackMultiStudent({ refetch }) {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     dateAssigned: todaysDateForForm(),
-    title: '',
-    description: '',
-    link: '',
+    title: "",
+    description: "",
+    link: "",
   });
   const user = useUser();
   const [studentsCallbackIsFor, setStudentsCallbackIsFor] = useState([]);
@@ -89,7 +101,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
     {
       variables: {
         ...inputs,
-        dateAssigned: new Date(inputs.dateAssigned.concat('T24:00:00.000Z')),
+        dateAssigned: new Date(inputs.dateAssigned.concat("T24:00:00.000Z")),
         teacher: user?.id,
         student: studentsCallbackIsFor?.userId,
       },
@@ -97,7 +109,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
   );
 
   const { data, isLoading } = useGQLQuery(
-    'myClassStudents',
+    "myClassStudents",
     USERS_CLASS_STUDENTS_QUERY,
     {},
     {
@@ -113,16 +125,16 @@ export default function NewCallbackMultiStudent({ refetch }) {
     <div>
       <GradientButton
         onClick={() => setShowForm(!showForm)}
-        style={{ marginLeft: '100px' }}
+        style={{ marginLeft: "100px" }}
       >
         {showForm
-          ? 'Close the form'
-          : 'New Callback Assignment For Multiple Students'}
+          ? "Close the form"
+          : "New Callback Assignment For Multiple Students"}
       </GradientButton>
 
       <FormContainerStyles>
         <Form
-          className={showForm ? 'visible' : 'hidden'}
+          className={showForm ? "visible" : "hidden"}
           // hidden={!showForm}
           onSubmit={async (e) => {
             e.preventDefault();
@@ -133,7 +145,9 @@ export default function NewCallbackMultiStudent({ refetch }) {
                 const res = await createCallback({
                   variables: {
                     ...inputs,
-                    dateAssigned: new Date(inputs.dateAssigned.concat('T24:00:00.000Z')),
+                    dateAssigned: new Date(
+                      inputs.dateAssigned.concat("T24:00:00.000Z")
+                    ),
                     teacher: user?.id,
                     student,
                   },
@@ -141,7 +155,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
                 setCallbackID(res.data.createCallback.id);
                 // console.log(res);
                 createMessage({
-                  subject: 'New Callback Assignment',
+                  subject: "New Callback Assignment",
                   message: `you received a new callback item from ${res.data.createCallback.student.name}`,
                   receiver: student,
                   link: `/callback/${res?.data?.createCallback.id}`,
@@ -155,7 +169,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
               setStudentsCallbackIsFor([]);
               setShowForm(false);
             } else {
-              toast.error('Please select at least one student');
+              toast.error("Please select at least one student");
             }
           }}
         >
@@ -176,7 +190,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
                   id="title"
                   name="title"
                   placeholder="Title of Assignment"
-                  value={inputs.title || ''}
+                  value={inputs.title || ""}
                   onChange={handleChange}
                 />
               </label>

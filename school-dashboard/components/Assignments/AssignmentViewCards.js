@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { TeacherMessagesStyles } from './TeacherAssignments';
+import styled from "styled-components";
+import { TeacherMessagesStyles } from "./TeacherAssignments";
 
 export default function AssignmentViewCards({ assignments }) {
   return (
@@ -7,17 +7,17 @@ export default function AssignmentViewCards({ assignments }) {
       <h3>Current Class Assignments</h3>
 
       <div className="messageContainer">
-        {[...Array(5)].map((e, i) => {
+        {[...Array(7)].map((e, i) => {
           const num = i + 1;
           const today = new Date();
           const messageDate = new Date(
-            assignments[`block${num}AssignmentLastUpdated`] || ''
+            assignments[`block${num}AssignmentLastUpdated`] || ""
           );
           const newUpdate = today - messageDate < 86400000;
           return (
             <div
               className={
-                newUpdate ? 'singleMessage needsUpdate' : 'singleMessage'
+                newUpdate ? "singleMessage needsUpdate" : "singleMessage"
               }
               key={`key ${num}`}
             >

@@ -1,118 +1,133 @@
-import gql from 'graphql-tag';
-import DisplayError from '../components/ErrorMessage';
-import TaTeacherInfo from '../components/TA/TaTeacherInfo';
-import { useUser } from '../components/User';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import Loading from '../components/Loading';
-import ViewTaStudentTable from '../components/users/ViewTaStudentTable';
-import CallbackTable from '../components/Callback/CallbackTable';
-import CountPhysicalCards from '../components/PBIS/CountPhysicalCards';
+import gql from "graphql-tag";
+import DisplayError from "../components/ErrorMessage";
+import TaTeacherInfo from "../components/TA/TaTeacherInfo";
+import { useUser } from "../components/User";
+import { useGQLQuery } from "../lib/useGqlQuery";
+import Loading from "../components/Loading";
+import ViewTaStudentTable from "../components/users/ViewTaStudentTable";
+import CallbackTable from "../components/Callback/CallbackTable";
+import CountPhysicalCards from "../components/PBIS/CountPhysicalCards";
 
 const TA_INFO_QUERY = gql`
- query TA_INFO_QUERY($id: ID!) {
-  taTeacher: user(where: { id: $id }) {
-    PbisCardCount
-    taPbisCardCount
-    name
-    id
-    email
-
-    taTeam {
-      teamName
-      countedCards
-      uncountedCards
-      averageCardsPerStudent
-      currentLevel
-    }
-    taStudents {
-      averageTimeToCompleteCallback
-      parent {
-        name
-        email
-      }
-      taTeacher {
-        id
-        name
-      }
-      id
-      name
-      preferredName
-      parent {
-        id
-        name
-        email
-      }
-      block1Teacher {
-        name
-        id
-        block1Assignment
-      }
-      block2Teacher {
-        name
-        id
-        block2Assignment
-      }
-      block3Teacher {
-        name
-        id
-        block3Assignment
-      }
-      block4Teacher {
-        name
-        id
-        block4Assignment
-      }
-      block5Teacher {
-        name
-        id
-        block5Assignment
-      }
-      callbackCount
-      studentCellPhoneViolationCount
+  query TA_INFO_QUERY($id: ID!) {
+    taTeacher: user(where: { id: $id }) {
       PbisCardCount
+      taPbisCardCount
+      name
+      id
+      email
 
-      studentFocusStudentCount
-      YearPbisCount
-
-      # studentPbisCards(take:10) {
-      #   id
-      #   cardMessage
-      #   category
-      #   teacher {
-      #     id
-      #     name
-      #   }
-      #   dateGiven
-      # }
-      callbackItems(where: { dateCompleted: null }) {
+      taTeam {
+        teamName
+        countedCards
+        uncountedCards
+        averageCardsPerStudent
+        currentLevel
+      }
+      taStudents {
+        averageTimeToCompleteCallback
+        parent {
+          name
+          email
+        }
+        taTeacher {
+          id
+          name
+        }
         id
-        teacher {
+        name
+        preferredName
+        parent {
           id
           name
+          email
         }
-        student {
+        block1Teacher {
           name
           id
+          block1Assignment
         }
-        link
-        description
-        title
-        dateAssigned
-        dateCompleted
-        messageFromStudent
-        messageFromTeacher
-        messageFromStudentDate
-        messageFromTeacherDate
+        block2Teacher {
+          name
+          id
+          block2Assignment
+        }
+        block3Teacher {
+          name
+          id
+          block3Assignment
+        }
+        block4Teacher {
+          name
+          id
+          block4Assignment
+        }
+        block5Teacher {
+          name
+          id
+          block5Assignment
+        }
+        block6Teacher {
+          name
+          id
+          block6Assignment
+        }
+        block7Teacher {
+          name
+          id
+          block7Assignment
+        }
+        block8Teacher {
+          name
+          id
+          block8Assignment
+        }
+        callbackCount
+        studentCellPhoneViolationCount
+        PbisCardCount
+
+        studentFocusStudentCount
+        YearPbisCount
+
+        # studentPbisCards(take:10) {
+        #   id
+        #   cardMessage
+        #   category
+        #   teacher {
+        #     id
+        #     name
+        #   }
+        #   dateGiven
+        # }
+        callbackItems(where: { dateCompleted: null }) {
+          id
+          teacher {
+            id
+            name
+          }
+          student {
+            name
+            id
+          }
+          link
+          description
+          title
+          dateAssigned
+          dateCompleted
+          messageFromStudent
+          messageFromTeacher
+          messageFromStudentDate
+          messageFromTeacherDate
+        }
       }
     }
   }
-}
 `;
 
 export default function TA() {
   const me = useUser();
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'TaInfo',
+    "TaInfo",
     TA_INFO_QUERY,
     {
       id: me?.id,

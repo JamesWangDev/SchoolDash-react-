@@ -1,18 +1,17 @@
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import { useQueryClient } from 'react-query';
-import useForm from '../../lib/useForm';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import useRevalidatePage from '../../lib/useRevalidatePage';
-import DisplayError from '../ErrorMessage';
-import GradientButton, { SmallGradientButton } from '../styles/Button';
-import Form, { FormContainerStyles } from '../styles/Form';
-import Link from 'next/link';
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useQueryClient } from "react-query";
+import useForm from "../../lib/useForm";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import useRevalidatePage from "../../lib/useRevalidatePage";
+import DisplayError from "../ErrorMessage";
+import GradientButton, { SmallGradientButton } from "../styles/Button";
+import Form, { FormContainerStyles } from "../styles/Form";
+import Link from "next/link";
 
 // TODO: update this edit into create new student
-
 
 const CREATE_NEW_STUDENT_MUTATION = gql`
   mutation CREATE_NEW_STUDENT_MUTATION(
@@ -24,6 +23,9 @@ const CREATE_NEW_STUDENT_MUTATION = gql`
     $block3: ID!
     $block4: ID!
     $block5: ID!
+    $block6: ID!
+    $block7: ID!
+    $block8: ID!
   ) {
     createUser(
       data: {
@@ -35,6 +37,9 @@ const CREATE_NEW_STUDENT_MUTATION = gql`
         block3Teacher: { connect: { id: $block3 } }
         block4Teacher: { connect: { id: $block4 } }
         block5Teacher: { connect: { id: $block5 } }
+        block6Teacher: { connect: { id: $block6 } }
+        block7Teacher: { connect: { id: $block7 } }
+        block8Teacher: { connect: { id: $block8 } }
         isStudent: true
         password: "password"
       }
@@ -46,19 +51,21 @@ const CREATE_NEW_STUDENT_MUTATION = gql`
 `;
 
 const LIST_OF_TEACHERS_QUERY = gql`
- query {
-  teacherList: users(
-    where: {
-      AND: [
-        { isTeacher: { equals: true } }
-        { OR: [{ hasClasses: { equals: true } }, { hasTA: { equals: true } }] }
-      ]
+  query {
+    teacherList: users(
+      where: {
+        AND: [
+          { isTeacher: { equals: true } }
+          {
+            OR: [{ hasClasses: { equals: true } }, { hasTA: { equals: true } }]
+          }
+        ]
+      }
+    ) {
+      id
+      name
     }
-  ) {
-    id
-    name
   }
-}
 `;
 export default function NewStudent({ student }) {
   const queryClient = useQueryClient();
@@ -79,14 +86,20 @@ export default function NewStudent({ student }) {
     block3: "",
     block4: "",
     block5: "",
+    block6: "",
+    block7: "",
+    block8: "",
   });
 
-  const [createNewStudent, { loading, error }] = useMutation(CREATE_NEW_STUDENT_MUTATION, {
-    variables: {
-      ...inputs,
-      email: inputs.email.toLowerCase(),
-    },
-  });
+  const [createNewStudent, { loading, error }] = useMutation(
+    CREATE_NEW_STUDENT_MUTATION,
+    {
+      variables: {
+        ...inputs,
+        email: inputs.email.toLowerCase(),
+      },
+    }
+  );
   const teacherListRaw = data?.teacherList || [];
   const teacherList = teacherListRaw.sort((a, b) =>
     a.name.localeCompare(b.name)
@@ -95,35 +108,32 @@ export default function NewStudent({ student }) {
   return (
     <div>
       <GradientButton onClick={() => setShowForm(!showForm)}>
-        {showForm ? 'close' : 'Create a New Student'}
+        {showForm ? "close" : "Create a New Student"}
       </GradientButton>
       <FormContainerStyles>
         <Form
-          className={showForm ? 'visible' : 'hidden'}
-          style={{ width: '500px' }}
+          className={showForm ? "visible" : "hidden"}
+          style={{ width: "500px" }}
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the input fields to the backend:
             // console.log(inputs);
             const res = await createNewStudent();
             console.log(res);
-            if(res.data.createUser) {
-
-            queryClient.refetchQueries();
-            setShowForm(false);
-            resetForm();
-            //toast success and link to student page
-            toast.success(
-              <Link href={`/userProfile/${res.data.createUser.id}`}>
-              {`Created a new account for ${res.data.createUser.name}   Click here to view their profile`}
-              </Link>,
-               {duration: 10000}
-            );
-            revalidateIndexPage();
-            } else {
-              toast.error(
-                `Error creating new account`
+            if (res.data.createUser) {
+              queryClient.refetchQueries();
+              setShowForm(false);
+              resetForm();
+              //toast success and link to student page
+              toast.success(
+                <Link href={`/userProfile/${res.data.createUser.id}`}>
+                  {`Created a new account for ${res.data.createUser.name}   Click here to view their profile`}
+                </Link>,
+                { duration: 10000 }
               );
+              revalidateIndexPage();
+            } else {
+              toast.error(`Error creating new account`);
             }
           }}
         >
@@ -134,26 +144,26 @@ export default function NewStudent({ student }) {
             <label htmlFor="name">
               Name
               <input
-                style={{ marginLeft: '0' }}
+                style={{ marginLeft: "0" }}
                 required
                 type="text"
                 id="name"
                 name="name"
                 placeholder="Student Name"
-                value={inputs.name || ''}
+                value={inputs.name || ""}
                 onChange={handleChange}
               />
             </label>
             <label htmlFor="email">
               Email
               <input
-                style={{ marginLeft: '0' }}
+                style={{ marginLeft: "0" }}
                 required
                 type="email"
                 id="email"
                 name="email"
                 placeholder="Student Email"
-                value={inputs.email || ''}
+                value={inputs.email || ""}
                 onChange={handleChange}
               />
             </label>
@@ -168,7 +178,9 @@ export default function NewStudent({ student }) {
                 onChange={handleChange}
                 required
               >
-                 <option value="" disabled>None</option>
+                <option value="" disabled>
+                  None
+                </option>
                 {teacherList.map((item) => (
                   <option key={`item${item.name}`} value={item.id}>
                     {item.name}
@@ -186,7 +198,9 @@ export default function NewStudent({ student }) {
                 onChange={handleChange}
                 required
               >
-                 <option value="" disabled>None</option>
+                <option value="" disabled>
+                  None
+                </option>
                 {teacherList.map((item) => (
                   <option key={`item${item.name}`} value={item.id}>
                     {item.name}
@@ -204,7 +218,9 @@ export default function NewStudent({ student }) {
                 onChange={handleChange}
                 required
               >
-                 <option value="" disabled>None</option>
+                <option value="" disabled>
+                  None
+                </option>
                 {teacherList.map((item) => (
                   <option key={`item${item.name}`} value={item.id}>
                     {item.name}
@@ -218,11 +234,13 @@ export default function NewStudent({ student }) {
                 id="block3"
                 name="block3"
                 placeholder="Block 3 Teacher"
-                value={inputs.block3 || ''}
+                value={inputs.block3 || ""}
                 onChange={handleChange}
                 required
               >
-                <option value="" disabled>None</option>
+                <option value="" disabled>
+                  None
+                </option>
                 {teacherList.map((item) => (
                   <option key={`item${item.name}`} value={item.id}>
                     {item.name}
@@ -240,7 +258,9 @@ export default function NewStudent({ student }) {
                 onChange={handleChange}
                 required
               >
-                 <option value="" disabled>None</option>
+                <option value="" disabled>
+                  None
+                </option>
                 {teacherList.map((item) => (
                   <option key={`item${item.name}`} value={item.id}>
                     {item.name}
@@ -258,7 +278,69 @@ export default function NewStudent({ student }) {
                 onChange={handleChange}
                 required
               >
-                 <option value="" disabled>None</option>
+                <option value="" disabled>
+                  None
+                </option>
+                {teacherList.map((item) => (
+                  <option key={`item${item.name}`} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label htmlFor="block6">
+              Block 6
+              <select
+                id="block6"
+                name="block6"
+                placeholder="Block 6 Teacher"
+                value={inputs.block6}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>
+                  None
+                </option>
+                {teacherList.map((item) => (
+                  <option key={`item${item.name}`} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label htmlFor="block7">
+              Block 7
+              <select
+                id="block7"
+                name="block7"
+                placeholder="Block 7 Teacher"
+                value={inputs.block7}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>
+                  None
+                </option>
+                {teacherList.map((item) => (
+                  <option key={`item${item.name}`} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label htmlFor="block8">
+              Block 8
+              <select
+                id="block8"
+                name="block8"
+                placeholder="Block 8 Teacher"
+                value={inputs.block8}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>
+                  None
+                </option>
                 {teacherList.map((item) => (
                   <option key={`item${item.name}`} value={item.id}>
                     {item.name}

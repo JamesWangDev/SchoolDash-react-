@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StudentPickerStyle = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const StudentPickerStyle = styled.div`
     font-size: medium;
     color: #3f3f3f;
   }
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     position: relative;
     cursor: pointer;
     margin-bottom: 5px;
@@ -48,6 +48,9 @@ export default function StudentList({
     block3Students,
     block4Students,
     block5Students,
+    block6Students,
+    block7Students,
+    block8Students,
   } = studentList || [];
 
   function DisplaySingleClass({ classList }) {
@@ -106,6 +109,24 @@ export default function StudentList({
         <div>
           <h4>block 5 Students</h4>
           <DisplaySingleClass classList={block5Students} />
+        </div>
+      )}
+      {block6Students?.length > 0 && (
+        <div>
+          <h4>block 6 Students</h4>
+          <DisplaySingleClass classList={block6Students} />
+        </div>
+      )}
+      {block7Students?.length > 0 && (
+        <div>
+          <h4>block 7 Students</h4>
+          <DisplaySingleClass classList={block7Students} />
+        </div>
+      )}
+      {block8Students?.length > 0 && (
+        <div>
+          <h4>block 8 Students</h4>
+          <DisplaySingleClass classList={block8Students} />
         </div>
       )}
     </StudentPickerStyle>

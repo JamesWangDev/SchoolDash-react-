@@ -1,14 +1,14 @@
-import gql from 'graphql-tag';
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
-import { GraphQLClient } from 'graphql-request';
-import NewBullying from '../components/discipline/BullyingButton';
-import Loading from '../components/Loading';
-import Table from '../components/Table';
-import { useUser } from '../components/User';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import { endpoint, prodEndpoint } from '../config';
+import gql from "graphql-tag";
+import React, { useMemo } from "react";
+import styled from "styled-components";
+import Link from "next/link";
+import { GraphQLClient } from "graphql-request";
+import NewBullying from "../components/discipline/BullyingButton";
+import Loading from "../components/Loading";
+import Table from "../components/Table";
+import { useUser } from "../components/User";
+import { useGQLQuery } from "../lib/useGqlQuery";
+import { endpoint, prodEndpoint } from "../config";
 
 const TeacherWorkPageContainer = styled.div`
   h2 {
@@ -35,26 +35,35 @@ const TeacherWorkPageContainer = styled.div`
 
 const ALL_TEACHERS_QUERY = gql`
   query BULLYING_DATA_QUERY {
-  users(where: { hasClasses: { equals: true } }, orderBy: { name: asc }) {
-    id
-    name
-    block1ClassName
-    block1Assignment
-    block1AssignmentLastUpdated
-    block2ClassName
-    block2Assignment
-    block2AssignmentLastUpdated
-    block3ClassName
-    block3Assignment
-    block3AssignmentLastUpdated
-    block4ClassName
-    block4Assignment
-    block4AssignmentLastUpdated
-    block5ClassName
-    block5Assignment
-    block5AssignmentLastUpdated
+    users(where: { hasClasses: { equals: true } }, orderBy: { name: asc }) {
+      id
+      name
+      block1ClassName
+      block1Assignment
+      block1AssignmentLastUpdated
+      block2ClassName
+      block2Assignment
+      block2AssignmentLastUpdated
+      block3ClassName
+      block3Assignment
+      block3AssignmentLastUpdated
+      block4ClassName
+      block4Assignment
+      block4AssignmentLastUpdated
+      block5ClassName
+      block5Assignment
+      block5AssignmentLastUpdated
+      block6ClassName
+      block6Assignment
+      block6AssignmentLastUpdated
+      block7ClassName
+      block7Assignment
+      block7AssignmentLastUpdated
+      block8ClassName
+      block8Assignment
+      block8AssignmentLastUpdated
+    }
   }
-}
 `;
 
 function DisplayClasswork({ data, block }) {
@@ -92,9 +101,9 @@ function DisplayClasswork({ data, block }) {
 
 export default function AllTeacherCurrentWork(props) {
   const me = useUser();
-// console.log(props)
+  // console.log(props)
   const { data } = useGQLQuery(
-    'allTeachers',
+    "allTeachers",
     ALL_TEACHERS_QUERY,
     {},
     {
@@ -107,50 +116,71 @@ export default function AllTeacherCurrentWork(props) {
   const columns = useMemo(
     () => [
       {
-        Header: 'Teacher',
+        Header: "Teacher",
         columns: [
           {
-            Header: 'Name',
-            accessor: 'name',
+            Header: "Name",
+            accessor: "name",
             Cell: ({ cell }) => (
-              <Link href={`/userProfile/${cell?.row?.original?.id || ''}`}>
+              <Link href={`/userProfile/${cell?.row?.original?.id || ""}`}>
                 {cell.value}
               </Link>
             ),
           },
           {
-            Header: 'Block 1',
-            accessor: 'block1Assignment',
+            Header: "Block 1",
+            accessor: "block1Assignment",
             Cell: ({ row }) => (
               <DisplayClasswork data={row.original} block="1" />
             ),
           },
           {
-            Header: 'Block 2',
-            accessor: 'block2Assignment',
+            Header: "Block 2",
+            accessor: "block2Assignment",
             Cell: ({ row }) => (
               <DisplayClasswork data={row.original} block="2" />
             ),
           },
           {
-            Header: 'Block 3',
-            accessor: 'block3Assignment',
+            Header: "Block 3",
+            accessor: "block3Assignment",
             Cell: ({ row }) => (
               <DisplayClasswork data={row.original} block="3" />
             ),
           },
           {
-            Header: 'Block 4',
-            accessor: 'block4Assignment',
+            Header: "Block 4",
+            accessor: "block4Assignment",
             Cell: ({ row }) => (
               <DisplayClasswork data={row.original} block="4" />
             ),
           },
           {
-            Header: 'Block 5',
-            accessor: 'block5Assignment',
+            Header: "Block 5",
+            accessor: "block5Assignment",
             Cell: ({ row }) => (
               <DisplayClasswork data={row.original} block="5" />
+            ),
+          },
+          {
+            Header: "Block 6",
+            accessor: "block6Assignment",
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="6" />
+            ),
+          },
+          {
+            Header: "Block 7",
+            accessor: "block7Assignment",
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="7" />
+            ),
+          },
+          {
+            Header: "Block 8",
+            accessor: "block8Assignment",
+            Cell: ({ row }) => (
+              <DisplayClasswork data={row.original} block="8" />
             ),
           },
         ],
@@ -162,11 +192,7 @@ export default function AllTeacherCurrentWork(props) {
   return (
     <TeacherWorkPageContainer>
       <h1>All Teachers Current Work</h1>
-      <Table
-        data={data?.users || []}
-        columns={columns}
-        searchColumn="name"
-      />
+      <Table data={data?.users || []} columns={columns} searchColumn="name" />
     </TeacherWorkPageContainer>
   );
 }
@@ -175,22 +201,22 @@ export async function getStaticProps(context) {
   // console.log(context);
   // fetch PBIS Page data from the server
   const headers = {
-    credentials: 'include',
-    mode: 'cors',
+    credentials: "include",
+    mode: "cors",
     headers: {
       authorization: `test auth for keystone`,
     },
   };
 
   const graphQLClient = new GraphQLClient(
-    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
     headers
   );
   const fetchTeacherWork = async () =>
     graphQLClient.request(ALL_TEACHERS_QUERY);
 
   const initialWorkData = await fetchTeacherWork();
-// console.log(initialWorkData.users);
+  // console.log(initialWorkData.users);
   return {
     props: {
       initialWorkData,

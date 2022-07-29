@@ -1,115 +1,129 @@
-import gql from 'graphql-tag';
-import { GraphQLClient } from 'graphql-request';
-import DisplayError from '../../components/ErrorMessage';
-import TaTeacherInfo from '../../components/TA/TaTeacherInfo';
-import { useUser } from '../../components/User';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import Loading from '../../components/Loading';
-import ViewTaStudentTable from '../../components/users/ViewTaStudentTable';
-import CallbackTable from '../../components/Callback/CallbackTable';
-import CountPhysicalCards from '../../components/PBIS/CountPhysicalCards';
-import { endpoint, prodEndpoint } from '../../config';
+import gql from "graphql-tag";
+import { GraphQLClient } from "graphql-request";
+import DisplayError from "../../components/ErrorMessage";
+import TaTeacherInfo from "../../components/TA/TaTeacherInfo";
+import { useUser } from "../../components/User";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import Loading from "../../components/Loading";
+import ViewTaStudentTable from "../../components/users/ViewTaStudentTable";
+import CallbackTable from "../../components/Callback/CallbackTable";
+import CountPhysicalCards from "../../components/PBIS/CountPhysicalCards";
+import { endpoint, prodEndpoint } from "../../config";
 
 const TA_INFO_QUERY = gql`
- query TA_INFO_QUERY($id: ID!) {
-  taTeacher: user(where: { id: $id }) {
-    PbisCardCount
-    taPbisCardCount
-    name
-    id
-    email
-
-    taTeam {
-      teamName
-      countedCards
-      uncountedCards
-      averageCardsPerStudent
-      currentLevel
-    }
-    taStudents {
-      averageTimeToCompleteCallback
-      parent {
-        name
-        email
-      }
-      taTeacher {
-        id
-        name
-      }
-      id
-      name
-      preferredName
-      parent {
-        id
-        name
-        email
-      }
-      block1Teacher {
-        name
-        id
-        block1Assignment
-      }
-      block2Teacher {
-        name
-        id
-        block2Assignment
-      }
-      block3Teacher {
-        name
-        id
-        block3Assignment
-      }
-      block4Teacher {
-        name
-        id
-        block4Assignment
-      }
-      block5Teacher {
-        name
-        id
-        block5Assignment
-      }
-      callbackCount
-      studentCellPhoneViolationCount
+  query TA_INFO_QUERY($id: ID!) {
+    taTeacher: user(where: { id: $id }) {
       PbisCardCount
+      taPbisCardCount
+      name
+      id
+      email
 
-      studentFocusStudentCount
-      YearPbisCount
-      callbackItemsCount
-      callbackItems(where: { dateCompleted: null }) {
+      taTeam {
+        teamName
+        countedCards
+        uncountedCards
+        averageCardsPerStudent
+        currentLevel
+      }
+      taStudents {
+        averageTimeToCompleteCallback
+        parent {
+          name
+          email
+        }
+        taTeacher {
+          id
+          name
+        }
         id
-        teacher {
+        name
+        preferredName
+        parent {
           id
           name
+          email
         }
-        student {
+        block1Teacher {
           name
           id
+          block1Assignment
         }
-        link
-        description
-        title
-        dateAssigned
-        dateCompleted
-        messageFromStudent
-        messageFromTeacher
-        messageFromStudentDate
-        messageFromTeacherDate
+        block2Teacher {
+          name
+          id
+          block2Assignment
+        }
+        block3Teacher {
+          name
+          id
+          block3Assignment
+        }
+        block4Teacher {
+          name
+          id
+          block4Assignment
+        }
+        block5Teacher {
+          name
+          id
+          block5Assignment
+        }
+        block6Teacher {
+          name
+          id
+          block6Assignment
+        }
+        block7Teacher {
+          name
+          id
+          block7Assignment
+        }
+        block8Teacher {
+          name
+          id
+          block8Assignment
+        }
+        callbackCount
+        studentCellPhoneViolationCount
+        PbisCardCount
+
+        studentFocusStudentCount
+        YearPbisCount
+        callbackItemsCount
+        callbackItems(where: { dateCompleted: null }) {
+          id
+          teacher {
+            id
+            name
+          }
+          student {
+            name
+            id
+          }
+          link
+          description
+          title
+          dateAssigned
+          dateCompleted
+          messageFromStudent
+          messageFromTeacher
+          messageFromStudentDate
+          messageFromTeacherDate
+        }
       }
     }
   }
-}
-
 `;
 
 const TA_TEACHER_LIST_QUERY = gql`
- query TA_TEACHER_LIST_QUERY {
-  users(where: { hasTA: { equals: true } }) {
-    id
-    name
-    email
+  query TA_TEACHER_LIST_QUERY {
+    users(where: { hasTA: { equals: true } }) {
+      id
+      name
+      email
+    }
   }
-}
 `;
 
 export default function TA({ data: initialData, query }) {
@@ -161,15 +175,15 @@ export default function TA({ data: initialData, query }) {
 
 export async function getStaticPaths() {
   const headers = {
-    credentials: 'include',
-    mode: 'cors',
+    credentials: "include",
+    mode: "cors",
     headers: {
       authorization: `test auth for keystone`,
     },
   };
 
   const graphQLClient = new GraphQLClient(
-    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
     headers
   );
   // console.log(GraphQLClient);
@@ -177,28 +191,29 @@ export async function getStaticPaths() {
   const data = await fetchData();
   const usersToUse = data.users;
 
-  const paths = usersToUse?.map((user) => ({
-    params: {
-      id: user.id,
-    },
-  })) || [];
+  const paths =
+    usersToUse?.map((user) => ({
+      params: {
+        id: user.id,
+      },
+    })) || [];
   return {
     paths,
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 }
 
 export async function getStaticProps({ params }) {
   const headers = {
-    credentials: 'include',
-    mode: 'cors',
+    credentials: "include",
+    mode: "cors",
     headers: {
       authorization: `test auth for keystone`,
     },
   };
 
   const graphQLClient = new GraphQLClient(
-    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
     headers
   );
   // console.log(GraphQLClient);
@@ -211,7 +226,7 @@ export async function getStaticProps({ params }) {
       return dataFromFetch;
     } catch (e) {
       console.log(e);
-      console.log('error', params.id);
+      console.log("error", params.id);
     }
   };
   const data = (await fetchData()) || {};
