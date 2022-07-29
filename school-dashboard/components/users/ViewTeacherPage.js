@@ -19,7 +19,7 @@ const ClassCardButtonStyle = styled.div`
   border-radius: 2rem;
   border: 2px solid var(--red);
   padding: 10px;
-  margin: 0;
+  margin: auto;
 `;
 
 const GET_SINGLE_TEACHER = gql`
