@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
-import GradientButton from '../styles/Button';
-import useForm from '../../lib/useForm';
-import Form, { FormContainerStyles } from '../styles/Form';
-import DisplayError from '../ErrorMessage';
+import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import GradientButton from "../styles/Button";
+import useForm from "../../lib/useForm";
+import Form, { FormContainerStyles } from "../styles/Form";
+import DisplayError from "../ErrorMessage";
 
 const UPDATE_EVENTS_MUTATION = gql`
   mutation UPDATE_EVENTS_MUTATION($eventData: String!) {
@@ -27,7 +27,7 @@ export default function NewEvents() {
   return (
     <div>
       <GradientButton
-        style={{ marginTop: '10px' }}
+        style={{ marginTop: "10px" }}
         onClick={() => setShowForm(!showForm)}
       >
         Add New Events
@@ -35,7 +35,7 @@ export default function NewEvents() {
       <div>
         <FormContainerStyles>
           <Form
-            className={showForm ? 'visible' : 'hidden'}
+            className={showForm ? "visible" : "hidden"}
             onSubmit={async (e) => {
               e.preventDefault();
               // Submit the inputfields to the backend:
