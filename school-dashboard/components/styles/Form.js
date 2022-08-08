@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 const loading = keyframes`
   from {
@@ -73,7 +73,7 @@ const Form = styled.form`
     }
   }
   button,
-  input[type='submit'] {
+  input[type="submit"] {
     width: auto;
     background: radial-gradient(var(--blue), var(--red));
     color: white;
@@ -83,7 +83,7 @@ const Form = styled.form`
     padding: 0.8rem 1.2rem;
     border-radius: 1rem;
   }
-  input[type='radio'] {
+  input[type="radio"] {
     display: inline-block;
     /* margin: 20px; */
     width: 20px;
@@ -92,10 +92,12 @@ const Form = styled.form`
     height: 5rem;
     resize: none;
     overflow-y: hidden;
-    
+
     /* background-color: #ff3019; */
   }
-  
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(50%);
+  }
 
   fieldset {
     border: 0;
@@ -105,7 +107,7 @@ const Form = styled.form`
     }
     &::before {
       height: 10px;
-      content: '';
+      content: "";
       display: block;
       background-image: linear-gradient(
         to right,
@@ -114,7 +116,7 @@ const Form = styled.form`
         #ff3019 100%
       );
     }
-    &[aria-busy='true']::before {
+    &[aria-busy="true"]::before {
       background-size: 50% auto;
       animation: ${loading} 0.5s linear infinite;
     }

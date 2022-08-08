@@ -1,20 +1,20 @@
-import gql from 'graphql-tag';
-import Toggle from 'react-toggle';
-import { useState } from 'react';
-import { useUser } from '../User';
-import DisplayError from '../ErrorMessage';
-import CallbackTable from './CallbackTable';
-import 'react-toggle/style.css';
-import CallbackCards from './CallbackCards';
-import { FormContainerStyles } from '../styles/Form';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import Loading from '../Loading';
+import gql from "graphql-tag";
+import Toggle from "react-toggle";
+import { useState } from "react";
+import { useUser } from "../User";
+import DisplayError from "../ErrorMessage";
+import CallbackTable from "./CallbackTable";
+import "react-toggle/style.css";
+import CallbackCards from "./CallbackCards";
+import { FormContainerStyles } from "../styles/Form";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import Loading from "../Loading";
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($student: ID) {
     callbacks(
-      orderBy: {dateAssigned: asc}
-      where: { student: { id: {equals: $student} } }
+      orderBy: { dateAssigned: asc }
+      where: { student: { id: { equals: $student } } }
     ) {
       id
       teacher {
@@ -43,7 +43,7 @@ export default function StudentCallbacks() {
   const [showCompleted, setShowCompleted] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'myStudentCallbacks',
+    "myStudentCallbacks",
     MY_CALLBACK_ASSIGNMENTS,
     {
       student: me?.id,
@@ -52,7 +52,6 @@ export default function StudentCallbacks() {
       enabled: !!me,
     }
   );
-console.log(data)
   if (!me) return <p>Please Log In</p>;
   if (isLoading) return <Loading />;
   if (error) return <DisplayError>{error.message}</DisplayError>;
