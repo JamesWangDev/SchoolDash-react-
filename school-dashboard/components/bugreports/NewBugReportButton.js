@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import { useRouter } from 'next/dist/client/router';
-import { useQueryClient } from 'react-query';
-import GradientButton from '../styles/Button';
-import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
-import useForm from '../../lib/useForm';
-import DisplayError from '../ErrorMessage';
-import SearchForUserName from '../SearchForUserName';
-import { todaysDateForForm } from '../calendars/formatTodayForForm';
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import { useRouter } from "next/dist/client/router";
+import { useQueryClient } from "react-query";
+import GradientButton from "../styles/Button";
+import Form, { FormContainerStyles, FormGroupStyles } from "../styles/Form";
+import useForm from "../../lib/useForm";
+import DisplayError from "../ErrorMessage";
+import SearchForUserName from "../SearchForUserName";
+import { todaysDateForForm } from "../calendars/formatTodayForForm";
 
-import { useUser } from '../User';
-import useCreateMessage from '../Messages/useCreateMessage';
-import useSendEmail from '../../lib/useSendEmail';
+import { useUser } from "../User";
+import useCreateMessage from "../Messages/useCreateMessage";
+import useSendEmail from "../../lib/useSendEmail";
 
 const CREATE_BUG_REPORT_MUTATION = gql`
   mutation CREATE_BUG_REPORT_MUTATION(
@@ -39,11 +39,11 @@ const CREATE_BUG_REPORT_MUTATION = gql`
 export default function NewBugReportButton() {
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
   });
   const me = useUser();
-  const {sendEmail} = useSendEmail();
+  const { sendEmail } = useSendEmail();
 
   const [createBugReport, { loading, error, data }] = useMutation(
     CREATE_BUG_REPORT_MUTATION,
@@ -63,13 +63,13 @@ export default function NewBugReportButton() {
     <div>
       <GradientButton
         onClick={() => setShowForm(!showForm)}
-        style={{ display: 'block' }}
+        style={{ display: "block" }}
       >
-        {showForm ? 'Close the form' : 'Bug Report / Feature Request'}
+        {showForm ? "Close the form" : "Bug Report / Feature Request"}
       </GradientButton>
       <FormContainerStyles>
         <Form
-          className={showForm ? 'visible' : 'hidden'}
+          className={showForm ? "visible" : "hidden"}
           // hidden={!showForm}
           onSubmit={async (e) => {
             e.preventDefault();
@@ -80,15 +80,15 @@ export default function NewBugReportButton() {
 
             // Todo: send message when callback assigned
             createMessage({
-              subject: 'New Bug Report',
+              subject: "New Bug Report",
               message: `${res?.data?.createBugReport?.submittedBy.name} reported a bug or asked for a feature`,
-              receiver: 'cl24ztaju149148z3qqm4c4d39',
+              receiver: "cl24ztaju149148z3qqm4c4d39",
               link: ``,
             });
-            
+
             // Create email to send
             const email = {
-              toAddress: "robert.boskind@ncsuvt.org",
+              toAddress: "rob@boskind.tech",
               fromAddress: me.email,
               subject: `NCUJHS.Tech Bug Report from ${res?.data?.createBugReport?.submittedBy.name}`,
               body: `
@@ -97,7 +97,7 @@ export default function NewBugReportButton() {
                   <p>${inputs.description}</p>
                   `,
             };
-            
+
             //send email to Admin
             const emailRes = await sendEmail({
               variables: {
