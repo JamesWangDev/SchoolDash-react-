@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export default function SingleVideo({ video }) {
+export default function SingleVideo({ video, hidden }) {
   const isYouTube = video.type === "youtube";
   const isGoogle = video.type === "google drive";
 
@@ -10,7 +10,8 @@ export default function SingleVideo({ video }) {
     justify-content: center;
   `;
 
-  const getEmbedComponent = (video) => {
+  const getEmbedComponent = (video, hidden) => {
+    if (hidden) return null;
     if (isYouTube) {
       return (
         <VideoStyles title={video.name + " - " + video.description}>
@@ -46,5 +47,5 @@ export default function SingleVideo({ video }) {
     }
   };
 
-  return getEmbedComponent(video);
+  return getEmbedComponent(video, hidden);
 }

@@ -135,12 +135,6 @@ export default function Home(props) {
       <main>
         <h1 className="center">Welcome to the NCUJHS Dashboard {me.name}</h1>
         <DashboardContainerStyles>
-          <iframe
-            src="https://drive.google.com/file/d/1Rs7XQ5YEan5WDcfqvNzoT1u-2njsLtlp/preview"
-            width="320"
-            height="240"
-            allow="autoplay"
-          ></iframe>
           {me && isAllowed(me || {}, "isStaff") && (
             <PbisCardFormButton teacher={me} />
           )}
@@ -159,6 +153,9 @@ export default function Home(props) {
               <Link href="/allTeacherCurrentWork">Current Work</Link>
             </GradientButton>
           )}
+          <GradientButton title="Videos about NCUJHS">
+            <Link href="/movies">Videos</Link>
+          </GradientButton>
           {!!me && (
             <>
               <PbisFalcon initialCount={props?.totalCards} />

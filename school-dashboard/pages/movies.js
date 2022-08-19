@@ -67,9 +67,14 @@ export default function MoviesPage({ movieList }) {
         />
       </Form>
       <MovieContainerStyles>
-        {searchResults.map((video) => (
-          <SingleVideo key={video.id} video={video} />
-        ))}
+        {movieList.videos.map((video) => {
+          // check if video is in search results
+          const isVisible = searchResults.includes(video);
+          console.log(isVisible);
+          return (
+            <SingleVideo key={video.id} video={video} hidden={!isVisible} />
+          );
+        })}
       </MovieContainerStyles>
     </div>
   );
