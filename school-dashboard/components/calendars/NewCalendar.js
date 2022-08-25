@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import GradientButton from '../styles/Button';
-import Form, { FormContainerStyles } from '../styles/Form';
-import useForm from '../../lib/useForm';
-import DisplayError from '../ErrorMessage';
-import { useUser } from '../User';
-import { todaysDateForForm } from './formatTodayForForm';
-import useRevalidatePage from '../../lib/useRevalidatePage';
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import GradientButton from "../styles/Button";
+import Form, { FormContainerStyles } from "../styles/Form";
+import useForm from "../../lib/useForm";
+import DisplayError from "../ErrorMessage";
+import { useUser } from "../User";
+import { todaysDateForForm } from "./formatTodayForForm";
+import useRevalidatePage from "../../lib/useRevalidatePage";
 
 const CREATE_CALENDAR_MUTATION = gql`
   mutation CREATE_CALENDAR_MUTATION(
@@ -40,12 +40,12 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
   const revalidateCalendarPage = useRevalidatePage("/calendar");
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
-    name: '',
-    description: '',
-    status: 'Both',
+    name: "",
+    description: "",
+    status: "Both",
     date: todaysDateForForm(),
-    link: '',
-    linkTitle: '',
+    link: "",
+    linkTitle: "",
   });
   const user = useUser();
   //   console.log(`user ${user.id}`);
@@ -55,7 +55,7 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
       variables: {
         ...inputs,
         author: user?.id,
-        date: new Date(inputs.date + 'T00:00:00'),
+        date: new Date(inputs.date + "T00:00:00"),
       },
     }
   );
@@ -64,21 +64,21 @@ export default function NewCalendar({ refetchCalendars, hidden }) {
     <div>
       <GradientButton
         onClick={() => setShowForm(!showForm)}
-        style={{ marginLeft: '100px' }}
+        style={{ marginLeft: "100px" }}
       >
-        {showForm ? 'Close the form' : 'Add A New Event'}
+        {showForm ? "Close the form" : "Add A New Event"}
       </GradientButton>
       <FormContainerStyles>
         <Form
-          className={showForm ? 'visible' : 'hidden'}
+          className={showForm ? "visible" : "hidden"}
           // hidden={!showForm}
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the inputfields to the backend:
             const res = await createCalendar();
             if (res) {
-              const indexRes = await revalidateIndexPage()
-              const calendarRes = await revalidateCalendarPage()
+              const indexRes = await revalidateIndexPage();
+              const calendarRes = await revalidateCalendarPage();
               // console.log(indexRes);
               // console.log(calendarRes);
             }
