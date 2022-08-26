@@ -21,7 +21,7 @@ export const TeacherMessagesStyles = styled.div`
   
   .messageContainer {
     display: grid;
-    grid-template-columns: repeat(7, auto);
+    grid-template-columns: repeat(8, auto);
 
     @media (max-width: 600px){
    grid-template-columns: 1fr;
@@ -150,7 +150,7 @@ export default function TeacherAssignments() {
         <h3>Current Class Assignments</h3>
 
         <div className="messageContainer">
-          {[...Array(7)].map((e, i) => {
+          {[...Array(8)].map((e, i) => {
             const num = i + 1;
             const today = new Date();
             const messageDate = new Date(

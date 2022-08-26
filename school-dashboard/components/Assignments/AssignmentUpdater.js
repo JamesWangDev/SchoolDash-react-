@@ -86,6 +86,9 @@ const UPDATE_ASSIGNMENTS = gql`
     $block7Assignment: String
     $block7ClassName: String
     $block7AssignmentLastUpdated: DateTime
+    $block8Assignment: String
+    $block8ClassName: String
+    $block8AssignmentLastUpdated: DateTime
   ) {
     updateUser(
       where: { id: $id }
@@ -111,6 +114,9 @@ const UPDATE_ASSIGNMENTS = gql`
         block7Assignment: $block7Assignment
         block7ClassName: $block7ClassName
         block7AssignmentLastUpdated: $block7AssignmentLastUpdated
+        block8Assignment: $block8Assignment
+        block8ClassName: $block8ClassName
+        block8AssignmentLastUpdated: $block8AssignmentLastUpdated
       }
     ) {
       id
@@ -196,6 +202,7 @@ export default function AssignmentUpdater({
               updateData[`block5AssignmentLastUpdated`] = todaysDate;
               updateData[`block6AssignmentLastUpdated`] = todaysDate;
               updateData[`block7AssignmentLastUpdated`] = todaysDate;
+              updateData[`block8AssignmentLastUpdated`] = todaysDate;
               updateData[`block1Assignment`] = inputs.assignment;
               // updateData[`block1ClassName`] = inputs.classTitle;
               updateData[`block2Assignment`] = inputs.assignment;
@@ -210,6 +217,8 @@ export default function AssignmentUpdater({
               // updateData[`block6ClassName`] = inputs.classTitle;
               updateData[`block7Assignment`] = inputs.assignment;
               // updateData[`block7ClassName`] = inputs.classTitle;
+              updateData[`block8Assignment`] = inputs.assignment;
+              // updateData[`block8ClassName`] = inputs.classTitle;
               updateData.id = me.id;
               // console.log(updateData);
               await updateAssignment({ variables: updateData });

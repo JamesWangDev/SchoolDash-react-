@@ -7,7 +7,7 @@ export default function AssignmentViewCards({ assignments }) {
       <h3>Current Class Assignments</h3>
 
       <div className="messageContainer">
-        {[...Array(7)].map((e, i) => {
+        {[...Array(8)].map((e, i) => {
           const num = i + 1;
           const today = new Date();
           const messageDate = new Date(
