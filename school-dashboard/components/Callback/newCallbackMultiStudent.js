@@ -180,7 +180,7 @@ export default function NewCallbackMultiStudent({ refetch }) {
               <StudentList
                 studentList={data?.authenticatedItem}
                 selectedStudents={studentsCallbackIsFor}
-                setSelecetedStudents={setStudentsCallbackIsFor}
+                setSelectedStudents={setStudentsCallbackIsFor}
               />
               <label htmlFor="title">
                 Assignment

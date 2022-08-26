@@ -15,23 +15,23 @@ export const TeacherMessagesStyles = styled.div`
   margin: 10px;
   justify-content: space-around;
   width: 100%;
-  h3{
-    margin: .5rem;
+  h3 {
+    margin: 0.5rem;
   }
-  
+
   .messageContainer {
     display: grid;
     grid-template-columns: repeat(8, auto);
 
-    @media (max-width: 600px){
-   grid-template-columns: 1fr;
-  }
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
   }
   .singleMessage {
     display: flex;
     flex-direction: column;
-    margin: .5rem;
-    padding: .5rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
     border-radius: 2rem;
     box-shadow: 2px 2px var(--blue);
     background: linear-gradient(
@@ -40,12 +40,13 @@ export const TeacherMessagesStyles = styled.div`
       var(--redTrans)
     );
     font-size: 1.2rem;
-    h4, p{
+    h4,
+    p {
       margin: 0px;
     }
   }
   .needsUpdate {
-    background: linear-gradient(208deg, var(--red), var(--redTrans)));
+    background: linear-gradient(208deg, var(--red), var(--redTrans));
     background-size: 400% 400%;
 
     -webkit-animation: AnimationName 3s ease infinite;
@@ -86,7 +87,6 @@ export const TeacherMessagesStyles = styled.div`
       background-position: 0% 57%;
     }
   }
- 
 `;
 
 const GET_MESSAGES = gql`

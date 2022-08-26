@@ -3,14 +3,20 @@ import styled from "styled-components";
 const StudentPickerStyle = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  width: 80%;
-  min-width: max-content;
+  /* align-items: flex-start; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* width: 50%; */
+  /* margin: auto; */
+  /* min-width: max-content; */
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   h4 {
     margin-bottom: 0;
     font-size: medium;
     color: #3f3f3f;
+    width: max-content;
   }
   input[type="checkbox"] {
     position: relative;
@@ -18,6 +24,9 @@ const StudentPickerStyle = styled.div`
     margin-bottom: 5px;
     width: 10px;
     padding: 0;
+  }
+  div {
+    /* width: 50px; */
   }
   .list {
     list-style: none;
@@ -40,7 +49,7 @@ const StudentPickerStyle = styled.div`
 export default function StudentList({
   studentList,
   selectedStudents,
-  setSelecetedStudents,
+  setSelectedStudents,
 }) {
   const {
     block1Students,
@@ -65,9 +74,9 @@ export default function StudentList({
             name={student.name}
             onChange={(e) => {
               if (e.target.checked) {
-                setSelecetedStudents([...selectedStudents, student.id]);
+                setSelectedStudents([...selectedStudents, student.id]);
               } else {
-                setSelecetedStudents(
+                setSelectedStudents(
                   selectedStudents.filter((id) => id !== student.id)
                 );
               }
