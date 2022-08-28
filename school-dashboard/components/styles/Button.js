@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const GradientButton = styled.button`
   background-image: linear-gradient(to top left, var(--red), var(--blue));
@@ -7,7 +7,7 @@ const GradientButton = styled.button`
   border: 0;
   border-radius: 1rem;
   text-transform: uppercase;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   padding: 0.8rem 1.5rem;
   transform: skew(-2deg);
   display: inline-block;
