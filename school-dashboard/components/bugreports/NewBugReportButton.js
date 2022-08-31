@@ -88,7 +88,7 @@ export default function NewBugReportButton() {
 
             // Create email to send
             const email = {
-              toAddress: "rob@boskind.tech",
+              toAddress: "rboskind@gmail.com",
               fromAddress: me.email,
               subject: `NCUJHS.Tech Bug Report from ${res?.data?.createBugReport?.submittedBy.name}`,
               body: `
