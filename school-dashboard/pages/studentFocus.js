@@ -1,21 +1,23 @@
-import { gql, GraphQLClient } from 'graphql-request';
-import { useMemo } from 'react';
-import NewStudentFocusButton from '../components/studentFocus/NewStudentFocusButton';
-import StudentFocusTable from '../components/studentFocus/StudentFocusTable';
-import { useUser } from '../components/User';
-import { endpoint, prodEndpoint } from '../config';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import Table from '../components/Table';
+import { gql, GraphQLClient } from "graphql-request";
+import { useMemo } from "react";
+import NewStudentFocusButton from "../components/studentFocus/NewStudentFocusButton";
+import StudentFocusTable from "../components/studentFocus/StudentFocusTable";
+import { useUser } from "../components/User";
+import { endpoint, prodEndpoint } from "../config";
+import { useGQLQuery } from "../lib/useGqlQuery";
+import Table from "../components/Table";
+import getDisplayName from "../lib/displayName";
 
 const ALL_STUDENT_FOCUS_QUERY = gql`
   query ALL_STUDENT_FOCUS_QUERY {
-    studentFoci(orderBy: {dateCreated:desc}) {
+    studentFoci(orderBy: { dateCreated: desc }) {
       id
       comments
       category
       dateCreated
       student {
         name
+        preferredName
         id
         taTeacher {
           id
@@ -33,7 +35,6 @@ const ALL_STUDENT_FOCUS_QUERY = gql`
       }
     }
   }
-  
 `;
 
 export default function StudentFocus(props) {
@@ -42,7 +43,7 @@ export default function StudentFocus(props) {
   const cachedStudentFoci = props?.initialStudentFoci;
   // console.log('cachedStudentFoci', cachedStudentFoci);
   const { data, isLoading, error } = useGQLQuery(
-    'allStudentFocus',
+    "allStudentFocus",
     ALL_STUDENT_FOCUS_QUERY,
     {},
     {
@@ -54,31 +55,31 @@ export default function StudentFocus(props) {
   const columns = useMemo(
     () => [
       {
-        Header: 'Student Focus',
+        Header: "Student Focus",
         columns: [
           {
-            Header: 'Name',
-            accessor: 'student.name',
+            Header: "Name",
+            accessor: "student.name",
           },
           {
-            Header: 'Teacher',
-            accessor: 'teacher.name',
+            Header: "Teacher",
+            accessor: "teacher.name",
           },
           {
-            Header: 'TA Teacher',
-            accessor: 'student.taTeacher.name',
+            Header: "TA Teacher",
+            accessor: "student.taTeacher.name",
           },
           {
-            Header: 'Comments',
-            accessor: 'comments',
+            Header: "Comments",
+            accessor: "comments",
           },
           {
-            Header: 'Catergory',
-            accessor: 'category',
+            Header: "Catergory",
+            accessor: "category",
           },
           {
-            Header: 'Date',
-            accessor: 'dateCreated',
+            Header: "Date",
+            accessor: "dateCreated",
             Cell: ({ cell: { value } }) => {
               const today = new Date().toLocaleDateString();
               const displayDate = new Date(value).toLocaleDateString();
@@ -92,13 +93,32 @@ export default function StudentFocus(props) {
     []
   );
 
+  const studentFocusMemo = useMemo(() => {
+    if (data?.studentFoci) {
+      const studentFocus = data.studentFoci.map((studentFocus) => {
+        const studentName = getDisplayName(studentFocus.student);
+        const student = {
+          ...studentFocus.student,
+          name: studentName,
+        };
+
+        return {
+          ...studentFocus,
+          student,
+        };
+      });
+      return studentFocus;
+    }
+    return [];
+  }, [data]);
+
   return (
     <div>
       <h1>Student Focus</h1>
       {!!me && <NewStudentFocusButton />}
 
       <Table
-        data={data?.studentFoci || []}
+        data={studentFocusMemo || []}
         columns={columns}
         searchColumn="student.name"
       />
@@ -110,15 +130,15 @@ export async function getStaticProps(context) {
   // console.log(context);
   // fetch PBIS Page data from the server
   const headers = {
-    credentials: 'include',
-    mode: 'cors',
+    credentials: "include",
+    mode: "cors",
     headers: {
       authorization: `test auth for keystone`,
     },
   };
 
   const graphQLClient = new GraphQLClient(
-    process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
     headers
   );
   const fetchStudentFoci = async () =>

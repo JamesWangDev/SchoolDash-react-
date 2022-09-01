@@ -99,6 +99,7 @@ const TA_INFO_QUERY = gql`
           }
           student {
             name
+            preferredName
             id
           }
           link
