@@ -11,6 +11,7 @@ import DisplayPbisCardsWidget from "../PBIS/DisplayPbisCardsWidget";
 import EmailParentsAboutCallback from "../Callback/EmailParentsAboutCallback";
 import QuickPbisButton from "../PBIS/QuickPbisButton";
 import { capitalizeFirstLetter } from "../../lib/nameUtils";
+import getDisplayName from "../../lib/displayName";
 
 const ParentInfoStyles = styled.div`
   border-radius: 1rem;
@@ -22,6 +23,7 @@ const GET_SINGLE_TEACHER = gql`
     user: user(where: { id: $id }) {
       id
       name
+      preferredName
       email
       PbisCardCount
       YearPbisCount
@@ -153,7 +155,7 @@ export default function ViewStudentPage({ student }) {
   return (
     <div>
       <h3>
-        Student info for {student.name} TA: {user?.taTeacher?.name}
+        Student info for {getDisplayName(user)} TA: {user?.taTeacher?.name}
         {me.isStaff && (
           <EmailParentsAboutCallback
             student={user}

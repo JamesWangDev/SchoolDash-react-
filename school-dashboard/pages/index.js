@@ -31,6 +31,7 @@ import AssignmentViewCardsStudent from "../components/Assignments/AssignmentView
 import GradientButton from "../components/styles/Button";
 import { endpoint, prodEndpoint } from "../config";
 import { SEARCH_ALL_USERS_QUERY } from "../components/Search";
+import getDisplayName from "../lib/displayName";
 
 const DashboardContainerStyles = styled.div`
   display: flex;
@@ -133,7 +134,9 @@ export default function Home(props) {
   return (
     <div>
       <main>
-        <h1 className="center">Welcome to the NCUJHS Dashboard {me.name}</h1>
+        <h1 className="center">
+          Welcome to the NCUJHS Dashboard {getDisplayName(me)}
+        </h1>
         <DashboardContainerStyles>
           {me && isAllowed(me || {}, "isStaff") && (
             <PbisCardFormButton teacher={me} />

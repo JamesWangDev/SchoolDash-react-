@@ -1,22 +1,22 @@
-import gql from 'graphql-tag';
-import Toggle from 'react-toggle';
-import { useState } from 'react';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import { useUser } from '../components/User';
-import DisplayError from '../components/ErrorMessage';
-import CallbackTable from '../components/Callback/CallbackTable';
-import 'react-toggle/style.css';
-import CallbackCards from '../components/Callback/CallbackCards';
-import NewCallback from '../components/Callback/NewCallbackButton';
-import { FormContainerStyles } from '../components/styles/Form';
-import Loading from '../components/Loading';
-import NewCallbackMultiStudent from '../components/Callback/newCallbackMultiStudent';
+import gql from "graphql-tag";
+import Toggle from "react-toggle";
+import { useState } from "react";
+import { useGQLQuery } from "../lib/useGqlQuery";
+import { useUser } from "../components/User";
+import DisplayError from "../components/ErrorMessage";
+import CallbackTable from "../components/Callback/CallbackTable";
+import "react-toggle/style.css";
+import CallbackCards from "../components/Callback/CallbackCards";
+import NewCallback from "../components/Callback/NewCallbackButton";
+import { FormContainerStyles } from "../components/styles/Form";
+import Loading from "../components/Loading";
+import NewCallbackMultiStudent from "../components/Callback/newCallbackMultiStudent";
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($teacher: ID) {
     callbacks(
-      orderBy:{dateAssigned: asc}
-      where: { teacher: { id: {equals: $teacher} } }
+      orderBy: { dateAssigned: asc }
+      where: { teacher: { id: { equals: $teacher } } }
     ) {
       id
       teacher {
@@ -25,6 +25,7 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
       }
       student {
         name
+        preferredName
         id
       }
       link
@@ -38,7 +39,6 @@ const MY_CALLBACK_ASSIGNMENTS = gql`
       messageFromTeacherDate
     }
   }
-  
 `;
 
 export default function Callback() {
@@ -46,7 +46,7 @@ export default function Callback() {
   const [showCompleted, setShowCompleted] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'myAssignedCallbacks',
+    "myAssignedCallbacks",
     MY_CALLBACK_ASSIGNMENTS,
     {
       teacher: me?.id,

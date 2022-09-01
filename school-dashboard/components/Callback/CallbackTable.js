@@ -1,10 +1,11 @@
-import Link from 'next/link';
-import { useMemo } from 'react';
-import styled from 'styled-components';
-import Table from '../Table';
-import { useUser } from '../User';
-import CallbackMessagesForTable from './CallbackMessagesForTable';
-import MarkCallbackCompleted from './MarkCallbackCompleted';
+import Link from "next/link";
+import { useMemo } from "react";
+import styled from "styled-components";
+import getDisplayName from "../../lib/displayName";
+import Table from "../Table";
+import { useUser } from "../User";
+import CallbackMessagesForTable from "./CallbackMessagesForTable";
+import MarkCallbackCompleted from "./MarkCallbackCompleted";
 
 export const ToolTipStyles = styled.div`
   position: relative;
@@ -30,37 +31,44 @@ export const ToolTipStyles = styled.div`
 
 export default function CallbackTable({ callbacks }) {
   const me = useUser();
-  const callbacksMemo = useMemo(() => callbacks, [callbacks]);
+  const callbacksMemo = useMemo(() => {
+    const callbackWithName = callbacks?.map((callback) => {
+      const name = getDisplayName(callback.student);
+      const student = { ...callback.student, name };
+      return { ...callback, student };
+    });
+    return callbackWithName;
+  }, [callbacks]);
   const columns = useMemo(
     () => [
       {
-        Header: 'Callback',
+        Header: "Callback",
         columns: [
           {
-            Header: 'Student',
-            accessor: 'student.name',
+            Header: "Student",
+            accessor: "student.name",
             Cell: ({ cell }) => (
               <Link
-                href={`/userProfile/${cell?.row?.original?.student?.id || ''}`}
+                href={`/userProfile/${cell?.row?.original?.student?.id || ""}`}
               >
                 {cell.value}
               </Link>
             ),
           },
           {
-            Header: 'Teacher',
-            accessor: 'teacher.name',
+            Header: "Teacher",
+            accessor: "teacher.name",
             Cell: ({ cell }) => (
               <Link
-                href={`/userProfile/${cell?.row?.original?.teacher?.id || ''}`}
+                href={`/userProfile/${cell?.row?.original?.teacher?.id || ""}`}
               >
                 {cell.value}
               </Link>
             ),
           },
           {
-            Header: 'Assignment',
-            accessor: 'title',
+            Header: "Assignment",
+            accessor: "title",
             Cell: ({ cell }) => (
               <Link href={`/callback/${cell.row.original.id}`}>
                 {cell.value}
@@ -68,17 +76,17 @@ export default function CallbackTable({ callbacks }) {
             ),
           },
           {
-            Header: 'Description',
-            accessor: 'description',
+            Header: "Description",
+            accessor: "description",
             Cell: ({ cell }) => {
               let shortDescription = cell.value
-                .split(' ')
+                .split(" ")
                 .reduce((acc, word) => {
                   if (acc.length > 50) {
                     return acc;
                   }
                   return `${acc} ${word}`;
-                }, '');
+                }, "");
               // if description was shortened add ...
               if (shortDescription.length < cell.value.length) {
                 shortDescription = `${shortDescription}...`;
@@ -96,8 +104,8 @@ export default function CallbackTable({ callbacks }) {
             },
           },
           {
-            Header: 'Date Assigned',
-            accessor: 'dateAssigned',
+            Header: "Date Assigned",
+            accessor: "dateAssigned",
             Cell: ({ cell: { value } }) => {
               const today = new Date().toLocaleDateString();
               const displayDate = new Date(value).toLocaleDateString();
@@ -106,8 +114,8 @@ export default function CallbackTable({ callbacks }) {
             },
           },
           {
-            Header: 'Completed',
-            accessor: 'dateCompleted',
+            Header: "Completed",
+            accessor: "dateCompleted",
             Cell: ({ cell: { value } }) => {
               if (!value) {
                 return <>---</>;
@@ -119,31 +127,31 @@ export default function CallbackTable({ callbacks }) {
             },
           },
           {
-            Header: 'Link',
-            accessor: 'link',
+            Header: "Link",
+            accessor: "link",
             Cell: ({ cell: { value } }) => (
               <Link
-                href={value?.startsWith('http') ? value : `http://${value}`}
+                href={value?.startsWith("http") ? value : `http://${value}`}
               >
-                {value ? 'Link' : ''}
+                {value ? "Link" : ""}
               </Link>
             ),
           },
         ],
       },
       {
-        Header: 'Message',
+        Header: "Message",
         columns: [
           {
-            Header: 'Message',
-            accessor: 'messageFromTeacher',
+            Header: "Message",
+            accessor: "messageFromTeacher",
             Cell: ({ cell }) => {
               // console.log(cell);
               return (
                 <CallbackMessagesForTable callbackItem={cell.row.original} />
               );
             },
-          }
+          },
           // {
           //   Header: 'Teacher',
           //   accessor: 'messageFromTeacher',
@@ -171,11 +179,11 @@ export default function CallbackTable({ callbacks }) {
         ],
       },
       {
-        Header: 'Complete',
+        Header: "Complete",
         columns: [
           {
-            Header: 'Mark Completed',
-            accessor: 'id',
+            Header: "Mark Completed",
+            accessor: "id",
             Cell: ({ cell }) => {
               // console.log(cell.row);
               const isTeacher = me.id === cell.row.original.teacher.id;
@@ -194,7 +202,7 @@ export default function CallbackTable({ callbacks }) {
     <div>
       <p>
         You have {callbacksMemo.length} item
-        {callbacksMemo.length === 1 ? '' : 's'} on Callback{' '}
+        {callbacksMemo.length === 1 ? "" : "s"} on Callback{" "}
       </p>
       <Table
         data={callbacksMemo || []}

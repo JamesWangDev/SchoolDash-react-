@@ -1,9 +1,10 @@
-import Link from 'next/link';
-import styled from 'styled-components';
-import { capitalizeFirstLetter } from '../../lib/nameUtils';
-import { useUser } from '../User';
-import CallbackCardMessages from './CallbackCardMessages';
-import MarkCallbackCompleted from './MarkCallbackCompleted';
+import Link from "next/link";
+import styled from "styled-components";
+import getDisplayName from "../../lib/displayName";
+import { capitalizeFirstLetter } from "../../lib/nameUtils";
+import { useUser } from "../User";
+import CallbackCardMessages from "./CallbackCardMessages";
+import MarkCallbackCompleted from "./MarkCallbackCompleted";
 
 const SingleCardStyles = styled.div`
   background: linear-gradient(to top left, var(--redTrans), var(--blueTrans));
@@ -41,7 +42,7 @@ export default function SingleCallbackCard({ callback }) {
   const dateAssigned = new Date(callback.dateAssigned).toLocaleDateString();
   const completed = callback.dateCompleted
     ? `Completed on ${new Date(callback.dateCompleted).toLocaleDateString()}`
-    : 'Incomplete';
+    : "Incomplete";
   return (
     <SingleCardStyles>
       <Link href={`/callback/${callback.id}`}>
@@ -49,14 +50,16 @@ export default function SingleCallbackCard({ callback }) {
           <h1>{callback.title}</h1>
           <p>
             {callback?.teacher?.id === me?.id
-              ? ''
-              : `${callback.teacher.name} -- `}{' '}
+              ? ""
+              : `${callback.teacher.name} -- `}{" "}
             {dateAssigned}
           </p>
           <p>
             {callback?.student.id === me?.id
-              ? ''
-              : `${capitalizeFirstLetter(callback.student.name)} -- `}{' '}
+              ? ""
+              : `${capitalizeFirstLetter(
+                  getDisplayName(callback.student)
+                )} -- `}{" "}
             {completed}
           </p>
           <p>{callback.description}</p>
@@ -65,12 +68,12 @@ export default function SingleCallbackCard({ callback }) {
       {callback.link && (
         <Link
           href={
-            callback.link?.startsWith('http')
+            callback.link?.startsWith("http")
               ? callback.link
               : `http://${callback.link}`
           }
         >
-          <p className="link">{callback.link ? 'Link' : ''}</p>
+          <p className="link">{callback.link ? "Link" : ""}</p>
         </Link>
       )}
       <CallbackCardMessages me={me} callback={callback} />

@@ -1,65 +1,65 @@
-import { resetIdCounter, useCombobox } from 'downshift';
-import gql from 'graphql-tag';
-import { useRouter } from 'next/dist/client/router';
-import { useState, useMemo } from 'react';
-import { capitalizeFirstLetter, UserTypeDisplay } from '../lib/nameUtils';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
-import { useUser } from './User';
-import { commandPallettePaths } from '../lib/CommandPallettePaths';
-import { GET_CALENDARS } from './calendars/Calendars';
+import { resetIdCounter, useCombobox } from "downshift";
+import gql from "graphql-tag";
+import { useRouter } from "next/dist/client/router";
+import { useState, useMemo } from "react";
+import { capitalizeFirstLetter, UserTypeDisplay } from "../lib/nameUtils";
+import { useGQLQuery } from "../lib/useGqlQuery";
+import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown";
+import { useUser } from "./User";
+import { commandPallettePaths } from "../lib/CommandPallettePaths";
+import { GET_CALENDARS } from "./calendars/Calendars";
+import getDisplayName from "../lib/displayName";
 
 const SEARCH_ALL_LINKS_QUERY = gql`
-query GET_ALL_LINKS {
-  links(where: { forTeachers: { equals: true } }) {
-    id
-    name
-    description
-    link
+  query GET_ALL_LINKS {
+    links(where: { forTeachers: { equals: true } }) {
+      id
+      name
+      description
+      link
+    }
   }
-}
 `;
 
-
 function formatUsers(users = []) {
-  return users.map(user => {
+  return users.map((user) => {
+    const name = capitalizeFirstLetter(getDisplayName(user));
     return {
       id: user.id,
-      name: capitalizeFirstLetter(user.name),
+      name: name,
       icon: UserTypeDisplay(user),
       path: `/userProfile/${user.id}`,
     };
-  }
-  );
+  });
 }
 
 function formatLinks(links = []) {
-  return links.map(link => {
+  return links.map((link) => {
     // if path doesnt have http add it
-    const formattedPath = link.link.startsWith('http') ? link.link : `http://${link.link}`;
+    const formattedPath = link.link.startsWith("http")
+      ? link.link
+      : `http://${link.link}`;
     const nameAndDescription = `${link.name} - ${link.description}`;
     return {
       id: link.id,
       name: nameAndDescription,
-      icon: '🔗',
+      icon: "🔗",
       path: formattedPath,
     };
-  }
-  );
+  });
 }
 
 function formatCalendars(calendars = []) {
-  return calendars.map(calendar => {
+  return calendars.map((calendar) => {
     const date = new Date(calendar.date).toLocaleDateString();
     const nameAndDescription = `${calendar.name} - ${date} - ${calendar.description}`;
     return {
       id: calendar.id,
       name: nameAndDescription,
-      icon: '📅',
+      icon: "📅",
       path: `/calendarEvent/${calendar.id}`,
     };
-  }
-  );
+  });
 }
 
 export const SEARCH_ALL_USERS_QUERY = gql`
@@ -67,6 +67,7 @@ export const SEARCH_ALL_USERS_QUERY = gql`
     users {
       id
       name
+      preferredName
       isStaff
       isParent
       isStudent
@@ -78,7 +79,7 @@ export default function Search() {
   const me = useUser();
   const router = useRouter();
   const { data: allUsers, isLoading } = useGQLQuery(
-    'allUsers',
+    "allUsers",
     SEARCH_ALL_USERS_QUERY,
     {},
     {
@@ -87,7 +88,7 @@ export default function Search() {
     }
   );
   const { data: allLinks } = useGQLQuery(
-    'searchLinks',
+    "searchLinks",
     SEARCH_ALL_LINKS_QUERY,
     {},
     {
@@ -96,8 +97,8 @@ export default function Search() {
     }
   );
 
-  const {data: allCalendars} = useGQLQuery(
-    'allCalendars',
+  const { data: allCalendars } = useGQLQuery(
+    "allCalendars",
     GET_CALENDARS,
     {},
     {
@@ -106,7 +107,6 @@ export default function Search() {
     }
   );
   // console.log('allCalendars', allCalendars);
-  
 
   const [itemsToDisplay, setItemsToDisplay] = useState([]);
 
@@ -116,19 +116,20 @@ export default function Search() {
   // memoized list of data to display
   const formatedItems = useMemo(() => {
     if (allUsers) {
-      return [...formatUsers(allUsers?.users), ...extraPaths, ...formatLinks(allLinks?.links), ...formatCalendars(allCalendars?.calendars)];
+      return [
+        ...formatUsers(allUsers?.users),
+        ...extraPaths,
+        ...formatLinks(allLinks?.links),
+        ...formatCalendars(allCalendars?.calendars),
+      ];
     }
     return [];
-  }
-  , [allUsers, extraPaths, allLinks, allCalendars]);
-
- 
-
+  }, [allUsers, extraPaths, allLinks, allCalendars]);
 
   const items = itemsToDisplay;
 
   const filterUsers = (valueToFilter) => {
-    if (valueToFilter === '') {
+    if (valueToFilter === "") {
       setItemsToDisplay([]);
       // console.log('empty');
       return;
@@ -142,13 +143,13 @@ export default function Search() {
   };
 
   // if in dev mode display users without role
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== "production") {
     // console.log("dev");
     const allUsersWithoutRole = allUsers?.users.filter(
       (user) => !user.isStaff && !user.isParent && !user.isStudent
     );
     if (allUsersWithoutRole?.length > 0) {
-      console.log("Users who dont have a role")
+      console.log("Users who dont have a role");
       console.log(allUsersWithoutRole);
     }
   }
@@ -170,29 +171,29 @@ export default function Search() {
     },
     onSelectedItemChange({ selectedItem }) {
       // if selected item.path is a relative path
-      if (selectedItem?.path.startsWith('/')) {
+      if (selectedItem?.path.startsWith("/")) {
         router.push(selectedItem?.path);
       }
       // if selected item.path is an absolute path
-      if (selectedItem?.path.startsWith('http')) {
+      if (selectedItem?.path.startsWith("http")) {
         window.open(selectedItem?.path);
       }
       // reset input value
-      filterUsers('');
+      filterUsers("");
       reset();
     },
-    itemToString: (item) => item?.name || '',
+    itemToString: (item) => item?.name || "",
   });
 
   return (
     <SearchStyles>
       <div {...getComboboxProps()}>
-        <input 
+        <input
           {...getInputProps({
-            type: 'search',
-            placeholder: 'Search for anything...',
-            id: 'search',
-            className: isLoading ? 'loading' : '',
+            type: "search",
+            placeholder: "Search for anything...",
+            id: "search",
+            className: isLoading ? "loading" : "",
             tabIndex: 1,
             // autoFocus: true,
           })}
@@ -201,7 +202,6 @@ export default function Search() {
       <DropDown {...getMenuProps()}>
         {isOpen &&
           items.map((item, index) => {
-           
             return (
               <DropDownItem
                 {...getItemProps({ item, index })}

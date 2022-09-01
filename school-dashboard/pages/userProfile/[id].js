@@ -11,6 +11,7 @@ import ResetPasswordToPassword from "../../components/users/ResetPasswordToPassw
 import SendParentEmailSignupButton from "../../components/users/SendParentEmailSignup";
 import EditStudent from "../../components/users/EditStudent";
 import { capitalizeFirstLetter } from "../../lib/nameUtils";
+import getDisplayName from "../../lib/displayName";
 
 const ButtonStyles = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ const GET_SINGLE_USER = gql`
     user(where: { id: $id }) {
       id
       name
+      preferredName
       email
       taStudents {
         id
@@ -89,7 +91,7 @@ export default function UserProfile({ query }) {
   const { isStudent } = user;
   return (
     <div>
-      <h1>{capitalizeFirstLetter(user.name)}</h1>
+      <h1>{capitalizeFirstLetter(getDisplayName(user))}</h1>
       <ButtonStyles>
         {isAllowed(me, "isStaff") && me.id !== user.id && (
           <>
