@@ -1,8 +1,8 @@
-import gql from 'graphql-tag';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import Loading from '../../components/Loading';
+import gql from "graphql-tag";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import Loading from "../../components/Loading";
 import {
   classTypeList,
   locationList,
@@ -10,8 +10,10 @@ import {
   studentConductList,
   teacherActionList,
   timeOfDayList,
-} from '../../lib/disciplineData';
-import AdminDisciplineData from '../../components/discipline/AdminDisciplineData';
+} from "../../lib/disciplineData";
+import AdminDisciplineData from "../../components/discipline/AdminDisciplineData";
+import { useUser } from "../../components/User";
+import isAllowed from "../../lib/isAllowed";
 
 const DisplaySingleDiscipline = styled.div`
   display: grid;
@@ -76,6 +78,7 @@ export const SINGLE_DISCIPLINE_DATA = gql`
 `;
 
 export default function SingleDisciplineReferralPage({ query }) {
+  const me = useUser();
   const { data, isLoading, isError, refetch } = useGQLQuery(
     `singleDiscipline-${query.id}`,
     SINGLE_DISCIPLINE_DATA,
@@ -85,6 +88,15 @@ export default function SingleDisciplineReferralPage({ query }) {
   );
   const [editing, setEditing] = useState(false);
   if (isLoading) return <Loading />;
+  if (!me) return null;
+  if (
+    !(
+      isAllowed(me, "canSeeAllDiscipline") ||
+      isAllowed(me, "canManageDiscipline") ||
+      me.id === data.discipline.teacher.id
+    )
+  )
+    return null;
   const discipline = data?.discipline;
   const date = new Date(discipline?.date);
   // console.log(date);
@@ -108,17 +120,18 @@ export default function SingleDisciplineReferralPage({ query }) {
     const listWithoutNulls = list.filter((item) => item !== null);
     // console.log(listWithoutNulls);
     const listAddSpaceBeforeEachCapital = listWithoutNulls.map((item) =>
-      item.replace(/([A-Z])/g, ' $1')
+      item.replace(/([A-Z])/g, " $1")
     );
-    const listCapuitalizeFirstLetterAfterSpace = listAddSpaceBeforeEachCapital.map(
-      (item) => item.charAt(0).toUpperCase() + item.slice(1)
-    );
+    const listCapuitalizeFirstLetterAfterSpace =
+      listAddSpaceBeforeEachCapital.map(
+        (item) => item.charAt(0).toUpperCase() + item.slice(1)
+      );
     return listCapuitalizeFirstLetterAfterSpace;
   };
   return (
     <div>
       <h1>
-        Referral for {discipline?.student?.name} on {dateToShow}{' '}
+        Referral for {discipline?.student?.name} on {dateToShow}{" "}
       </h1>
       <DisplaySingleDiscipline>
         <div>
@@ -129,8 +142,7 @@ export default function SingleDisciplineReferralPage({ query }) {
           <h3>Date:</h3>
           <h3>{dateToShow}</h3>
           <p>
-            Student's Referrals:{' '}
-            {discipline.student.studentDisciplineCount}
+            Student's Referrals: {discipline.student.studentDisciplineCount}
           </p>
         </div>
         <div>
