@@ -17,6 +17,7 @@ export const locationList = [
   "Hallway",
   "Bus",
   "Outdoor Classroom",
+  "Break",
   "Other Location",
 ];
 
@@ -31,6 +32,7 @@ export const timeOfDayList = [
   "Block 7",
   "Block 8",
   "Lunch",
+  "Break",
   "Afternoon TA",
 ];
 
