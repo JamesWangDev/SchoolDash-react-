@@ -20,6 +20,7 @@ export const SPECIAL_GROUP_QUERY = gql`
 
       specialGroupStudents {
         averageTimeToCompleteCallback
+        studentDisciplineCount
         parent {
           name
           email
@@ -141,7 +142,7 @@ export default function SpecialGroup() {
       <h1>{data?.teacher?.name}'s Special Group</h1>
       {students.length > 0 && (
         <>
-          <ViewTaStudentTable users={students} title="TA Students" />
+          <ViewTaStudentTable users={students} title="TA Students" discipline />
           <CallbackTable callbacks={allTaCallbacksFlattened || []} />
         </>
       )}

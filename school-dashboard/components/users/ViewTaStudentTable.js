@@ -2,7 +2,11 @@ import { useMemo } from "react";
 import Link from "next/link";
 import Table from "../Table";
 
-export default function ViewTaStudentTable({ users, title }) {
+export default function ViewTaStudentTable({
+  users,
+  title,
+  discipline = false,
+}) {
   const columns = useMemo(
     () => [
       {
@@ -195,12 +199,16 @@ export default function ViewTaStudentTable({ users, title }) {
               return parentAcountExist ? "✅" : "❌";
             },
           },
+          {
+            Header: "ODR",
+            accessor: "studentDisciplineCount",
+          },
         ],
       },
     ],
     []
   );
-
+  const hiddenColumns = discipline ? "" : "studentDisciplineCount";
   return (
     <div>
       <Table
@@ -208,6 +216,7 @@ export default function ViewTaStudentTable({ users, title }) {
         columns={columns}
         searchColumn="name"
         showSearch={false}
+        hiddenColumns={hiddenColumns}
       />
     </div>
   );
