@@ -6,6 +6,33 @@ import SearchForUserName from "./SearchForUserName";
 import { useUser } from "./User";
 import gql from "graphql-tag";
 import Loading from "./Loading";
+import styled from "styled-components";
+
+const SpecialGroupStyles = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  button {
+    color: var(--textColor);
+    border-radius: 5px;
+    margin-inline: 3px;
+    background: var(--tableAccentColor);
+    /* opacity: 0.8; */
+  }
+  .remove {
+    border: none;
+    background: transparent;
+  }
+  .studentList {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+`;
 
 const ADD_STUDENT_TO_GROUP_MUTATION = gql`
   mutation ADD_STUDENT_TO_GROUP_MUTATION($id: ID, $studentID: ID) {
@@ -54,9 +81,9 @@ export default function ModifySpecialGroup() {
 
   const studentList = data.teacher.specialGroupStudents;
   return (
-    <div>
-      <h1>Special Group</h1>
-      {thinking && <Loading></Loading>}
+    <SpecialGroupStyles>
+      <h4>Student Group</h4>
+      {thinking ? <Loading /> : null}
       <SearchForUserName
         name="studentName"
         userType="isStudent"
@@ -76,28 +103,31 @@ export default function ModifySpecialGroup() {
       >
         add {searchValue.userName}
       </button>
-      {studentList.map((student) => (
-        <div key={student.id}>
-          <span>{student.name}</span>
-          <button
-            type="button"
-            onClick={async () => {
-              setThinking(true);
-              await removeStudent({
-                variables: {
-                  id: me?.id,
-                  studentID: student?.id,
-                },
-              });
-              await refetch();
-              setSearchValue("");
-              setThinking(false);
-            }}
-          >
-            ❌
-          </button>
-        </div>
-      ))}
-    </div>
+      <div className="studentList">
+        {studentList.map((student) => (
+          <div key={student.id}>
+            <span>{student.name}</span>
+            <button
+              type="button"
+              className="remove"
+              onClick={async () => {
+                setThinking(true);
+                await removeStudent({
+                  variables: {
+                    id: me?.id,
+                    studentID: student?.id,
+                  },
+                });
+                await refetch();
+                setSearchValue("");
+                setThinking(false);
+              }}
+            >
+              ❌
+            </button>
+          </div>
+        ))}
+      </div>
+    </SpecialGroupStyles>
   );
 }
