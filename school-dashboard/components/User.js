@@ -24,6 +24,7 @@ const CURRENT_USER_QUERY = gql`
         canSeeOwnCallback
         canSeeAllCallback
         canManagePbis
+        canHaveSpecialGroups
         hasTA
         hasClasses
         isStudent
