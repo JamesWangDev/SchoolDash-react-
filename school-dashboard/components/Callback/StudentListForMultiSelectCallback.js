@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { SmallGradientButton } from "../styles/Button";
 
 const StudentPickerStyle = styled.div`
   display: flex;
@@ -61,6 +63,20 @@ export default function StudentList({
     block7Students,
     block8Students,
   } = studentList || [];
+  const [showSingleClass, setShowSingleClass] = useState(false);
+  const allStudents = [
+    ...(block1Students || []),
+    ...(block2Students || []),
+    ...(block3Students || []),
+    ...(block4Students || []),
+    ...(block5Students || []),
+    ...(block6Students || []),
+    ...(block7Students || []),
+    ...(block8Students || []),
+  ];
+  const allStudentsAlphabetical = allStudents.sort((a, b) =>
+    a.name > b.name ? 1 : -1
+  );
 
   function DisplaySingleClass({ classList }) {
     // console.log(classList);
@@ -89,55 +105,75 @@ export default function StudentList({
   }
 
   return (
-    <StudentPickerStyle>
-      {block1Students?.length > 0 && (
-        <div>
-          <h4>block 1 Students</h4>
-          <DisplaySingleClass classList={block1Students} />
-        </div>
-      )}
-      {block2Students?.length > 0 && (
-        <div>
-          <h4>block 2 Students</h4>
-          <DisplaySingleClass classList={block2Students} />
-        </div>
-      )}
-      {block3Students?.length > 0 && (
-        <div>
-          <h4>block 3 Students</h4>
-          <DisplaySingleClass classList={block3Students} />
-        </div>
-      )}
-      {block4Students?.length > 0 && (
-        <div>
-          <h4>block 4 Students</h4>
-          <DisplaySingleClass classList={block4Students} />
-        </div>
-      )}
-      {block5Students?.length > 0 && (
-        <div>
-          <h4>block 5 Students</h4>
-          <DisplaySingleClass classList={block5Students} />
-        </div>
-      )}
-      {block6Students?.length > 0 && (
-        <div>
-          <h4>block 6 Students</h4>
-          <DisplaySingleClass classList={block6Students} />
-        </div>
-      )}
-      {block7Students?.length > 0 && (
-        <div>
-          <h4>block 7 Students</h4>
-          <DisplaySingleClass classList={block7Students} />
-        </div>
-      )}
-      {block8Students?.length > 0 && (
-        <div>
-          <h4>block 8 Students</h4>
-          <DisplaySingleClass classList={block8Students} />
-        </div>
-      )}
-    </StudentPickerStyle>
+    <>
+      <SmallGradientButton onClick={() => setShowSingleClass(!showSingleClass)}>
+        {showSingleClass
+          ? "Show all classes"
+          : "Sort all students alphabetically"}
+      </SmallGradientButton>
+      <StudentPickerStyle>
+        {showSingleClass ? (
+          <>
+            {allStudentsAlphabetical?.length > 0 && (
+              <div>
+                <h4>All Students</h4>
+                <DisplaySingleClass classList={allStudents} />
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {block1Students?.length > 0 && (
+              <div>
+                <h4>block 1 Students</h4>
+                <DisplaySingleClass classList={block1Students} />
+              </div>
+            )}
+            {block2Students?.length > 0 && (
+              <div>
+                <h4>block 2 Students</h4>
+                <DisplaySingleClass classList={block2Students} />
+              </div>
+            )}
+            {block3Students?.length > 0 && (
+              <div>
+                <h4>block 3 Students</h4>
+                <DisplaySingleClass classList={block3Students} />
+              </div>
+            )}
+            {block4Students?.length > 0 && (
+              <div>
+                <h4>block 4 Students</h4>
+                <DisplaySingleClass classList={block4Students} />
+              </div>
+            )}
+            {block5Students?.length > 0 && (
+              <div>
+                <h4>block 5 Students</h4>
+                <DisplaySingleClass classList={block5Students} />
+              </div>
+            )}
+            {block6Students?.length > 0 && (
+              <div>
+                <h4>block 6 Students</h4>
+                <DisplaySingleClass classList={block6Students} />
+              </div>
+            )}
+            {block7Students?.length > 0 && (
+              <div>
+                <h4>block 7 Students</h4>
+                <DisplaySingleClass classList={block7Students} />
+              </div>
+            )}
+            {block8Students?.length > 0 && (
+              <div>
+                <h4>block 8 Students</h4>
+                <DisplaySingleClass classList={block8Students} />
+              </div>
+            )}
+          </>
+        )}
+      </StudentPickerStyle>
+    </>
   );
 }
