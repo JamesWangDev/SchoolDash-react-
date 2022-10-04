@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import GradientButton from '../styles/Button';
-import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
-import useForm from '../../lib/useForm';
-import DisplayError from '../ErrorMessage';
-import { useUser } from '../User';
-import SearchForUserName from '../SearchForUserName';
-import FormSelect from '../../lib/FormSelect';
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import GradientButton from "../styles/Button";
+import Form, { FormContainerStyles, FormGroupStyles } from "../styles/Form";
+import useForm from "../../lib/useForm";
+import DisplayError from "../ErrorMessage";
+import { useUser } from "../User";
+import SearchForUserName from "../SearchForUserName";
+import FormSelect from "../../lib/FormSelect";
 import {
   classTypeList,
   locationList,
@@ -15,16 +15,16 @@ import {
   studentConductList,
   teacherActionList,
   timeOfDayList,
-} from '../../lib/disciplineData';
-import FormCheckboxArray from '../../lib/FormCheckboxArray';
-import { todaysDateForForm } from '../calendars/formatTodayForForm';
-import useSendEmail from '../../lib/useSendEmail';
-import { useGQLQuery } from '../../lib/useGqlQuery';
+} from "../../lib/disciplineData";
+import FormCheckboxArray from "../../lib/FormCheckboxArray";
+import { todaysDateForForm } from "../calendars/formatTodayForForm";
+import useSendEmail from "../../lib/useSendEmail";
+import { useGQLQuery } from "../../lib/useGqlQuery";
 // import useEmailAdmin from '../../lib/useEmailAdmin';
 
 const GET_ADMIN_EMAILS = gql`
   query GET_ADMIN_EMAILS {
-    users(where: { canManageDiscipline: {equals: true} }) {
+    users(where: { canManageDiscipline: { equals: true } }) {
       id
       name
       email
@@ -36,8 +36,8 @@ const CREATE_HHB_MUTATION = gql`
   mutation CREATE_HHB_MUTATION(
     $teacher: ID!
     $student: ID!
-    $dateOfEvent: String
-    $dateReported: String
+    $dateOfEvent: DateTime
+    $dateReported: DateTime
     $studentReporter: String
     $employeeWitness: String
     $studentWitness: String
@@ -71,17 +71,17 @@ const CREATE_HHB_MUTATION = gql`
 export default function NewBullying({ refetch }) {
   const me = useUser();
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
-  const adminEmailArray = data?.allUsers?.map((u) => u.email);
+  const adminEmailArray = data?.Users?.map((u) => u.email) || [];
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     dateReported: todaysDateForForm(),
     dateOfEvent: todaysDateForForm(),
-    studentReporter: '',
-    employeeWitness: '',
-    studentWitness: '',
-    initialActions: '',
-    nextSteps: '',
-    teacherComments: '',
+    studentReporter: "",
+    employeeWitness: "",
+    studentWitness: "",
+    initialActions: "",
+    nextSteps: "",
+    teacherComments: "",
   });
   const user = useUser();
   const [studentReferralIsFor, setStudentReferralIsFor] = useState(null);
@@ -93,19 +93,21 @@ export default function NewBullying({ refetch }) {
       ...inputs,
       teacher: user?.id,
       student: studentReferralIsFor?.userId,
+      dateReported: new Date(inputs.dateReported).toISOString(),
+      dateOfEvent: new Date(inputs.dateOfEvent).toISOString(),
     },
   });
   return (
     <div>
       <GradientButton
         onClick={() => setShowForm(!showForm)}
-        style={{ marginLeft: '100px' }}
+        style={{ marginLeft: "100px" }}
       >
-        {showForm ? 'Close the form' : 'New HHB Referral'}
+        {showForm ? "Close the form" : "New HHB Referral"}
       </GradientButton>
       <FormContainerStyles>
         <Form
-          className={showForm ? 'visible' : 'hidden'}
+          className={showForm ? "visible" : "hidden"}
           // hidden={!showForm}
           onSubmit={async (e) => {
             e.preventDefault();
