@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import { useQueryClient } from 'react-query';
-import GradientButton, { SmallGradientButton } from '../styles/Button';
-import Form, { FormContainerStyles, FormGroupStyles } from '../styles/Form';
-import useForm from '../../lib/useForm';
-import DisplayError from '../ErrorMessage';
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import { useQueryClient } from "react-query";
+import GradientButton, { SmallGradientButton } from "../styles/Button";
+import Form, { FormContainerStyles, FormGroupStyles } from "../styles/Form";
+import useForm from "../../lib/useForm";
+import DisplayError from "../ErrorMessage";
 
-import { useUser } from '../User';
-import useRevalidatePage from '../../lib/useRevalidatePage';
+import { useUser } from "../User";
+import useRevalidatePage from "../../lib/useRevalidatePage";
 
 const UPDATE_LINK_MUTATION = gql`
   mutation UPDATE_LINK_MUTATION(
@@ -18,7 +18,7 @@ const UPDATE_LINK_MUTATION = gql`
     $link: String
   ) {
     updateLink(
-      where: {id: $id}
+      where: { id: $id }
       data: { name: $name, description: $description, link: $link }
     ) {
       id
@@ -27,15 +27,15 @@ const UPDATE_LINK_MUTATION = gql`
 `;
 const DELETE_LINK_MUTATION = gql`
   mutation DELETE_LINK_MUTATION($id: ID!) {
-    deleteLink(where:{id: $id}) {
+    deleteLink(where: { id: $id }) {
       id
     }
   }
 `;
 
 export default function EditLink({ link, refetch }) {
-  const revalidateIndex = useRevalidatePage('/');
-  const revalidateLinksPage = useRevalidatePage('/links');
+  const revalidateIndex = useRevalidatePage("/");
+  const revalidateLinksPage = useRevalidatePage("/links");
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     name: link.name,
@@ -50,24 +50,22 @@ export default function EditLink({ link, refetch }) {
       id: link.id,
     },
   });
-  const [
-    deleteLink,
-    { loading: deleteLoading, error: deleteError },
-  ] = useMutation(DELETE_LINK_MUTATION, {
-    variables: {
-      id: link.id,
-    },
-  });
+  const [deleteLink, { loading: deleteLoading, error: deleteError }] =
+    useMutation(DELETE_LINK_MUTATION, {
+      variables: {
+        id: link.id,
+      },
+    });
   const queryClient = useQueryClient();
   return (
     <div>
       <SmallGradientButton onClick={() => setShowForm(!showForm)}>
-        {showForm ? 'close' : 'Edit Link'}
+        {showForm ? "close" : "Edit Link"}
       </SmallGradientButton>
       <FormContainerStyles>
         <Form
-          className={showForm ? 'visible' : 'hidden'}
-          style={{ width: '500px' }}
+          className={showForm ? "visible" : "hidden"}
+          style={{ width: "500px" }}
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the input fields to the backend:
@@ -87,13 +85,13 @@ export default function EditLink({ link, refetch }) {
             <label htmlFor="name">
               Name
               <input
-                style={{ marginLeft: '0' }}
+                style={{ marginLeft: "0" }}
                 required
                 type="text"
                 id="name"
                 name="name"
                 placeholder="Title of Assignment"
-                value={inputs.name || ''}
+                value={inputs.name || ""}
                 onChange={handleChange}
               />
             </label>
@@ -113,7 +111,7 @@ export default function EditLink({ link, refetch }) {
             <label htmlFor="link">
               Link
               <input
-                style={{ marginLeft: '0' }}
+                style={{ marginLeft: "0" }}
                 id="link"
                 name="link"
                 placeholder="Link to website"
@@ -122,18 +120,20 @@ export default function EditLink({ link, refetch }) {
               />
             </label>
             <button type="submit">+ Publish</button>
-            <button
-              type="button"
-              onClick={async () => {
-                const res = await deleteLink();
-                // console.log(res);
-                revalidateIndex();
-                revalidateLinksPage();
-                queryClient.refetchQueries('allLinks');
-              }}
-            >
-              Delete
-            </button>
+            {user.isSuperAdmin ? (
+              <button
+                type="button"
+                onClick={async () => {
+                  const res = await deleteLink();
+                  // console.log(res);
+                  revalidateIndex();
+                  revalidateLinksPage();
+                  queryClient.refetchQueries("allLinks");
+                }}
+              >
+                Delete
+              </button>
+            ) : null}
           </fieldset>
         </Form>
       </FormContainerStyles>
