@@ -1,39 +1,38 @@
-import gql from 'graphql-tag';
-import { useState } from 'react';
-import Toggle from 'react-toggle';
-import Loading from '../components/Loading';
-import TrimesterAwardsAllStudentsTable from '../components/TrimesterAwards/TrimesterAwardsAllStudentsTable';
-import TrimesterAwardsTable from '../components/TrimesterAwards/TrimesterAwardsTable';
-import { useUser } from '../components/User';
-import { useGQLQuery } from '../lib/useGqlQuery';
-import 'react-toggle/style.css';
+import gql from "graphql-tag";
+import { useState } from "react";
+import Toggle from "react-toggle";
+import Loading from "../components/Loading";
+import TrimesterAwardsAllStudentsTable from "../components/TrimesterAwards/TrimesterAwardsAllStudentsTable";
+import TrimesterAwardsTable from "../components/TrimesterAwards/TrimesterAwardsTable";
+import { useUser } from "../components/User";
+import { useGQLQuery } from "../lib/useGqlQuery";
+import "react-toggle/style.css";
 
 const GET_STUDENTS_AND_AWARDS_QUERY = gql`
   query GET_STUDENTS_AND_AWARDS {
-  students: users(
-    where: {
-      AND: [{ isStudent: { equals: true } }, { NOT: { taTeacher: null } }]
-    }
-    orderBy: { name: asc }
-  ) {
-    id
-    name
-  }
-  awards: trimesterAwards {
-    id
-    teacher {
+    students: users(
+      where: {
+        AND: [{ isStudent: { equals: true } }, { NOT: { taTeacher: null } }]
+      }
+      orderBy: { name: asc }
+    ) {
       id
       name
     }
-    student {
+    awards: trimesterAwards {
       id
-      name
+      teacher {
+        id
+        name
+      }
+      student {
+        id
+        name
+      }
+      trimester
+      howl
     }
-    trimester
-    howl
   }
-}
-
 `;
 
 export default function TrimesterAwards() {
@@ -41,13 +40,13 @@ export default function TrimesterAwards() {
   const [showAllStudents, setShowAllStudents] = useState(true);
 
   const { data, isLoading, refetch } = useGQLQuery(
-    'trimesterAwards',
+    "trimesterAwards",
     GET_STUDENTS_AND_AWARDS_QUERY
   );
   // current trimester is 1 for November and December, 2 for February and March, 3 for May and June otherwise 0
   const currentMonth = new Date().getMonth() + 1;
   const currentTrimester =
-    currentMonth === 11 || currentMonth === 12
+    currentMonth === 11 || currentMonth === 12 || currentMonth === 10
       ? 1
       : currentMonth === 2 || currentMonth === 3
       ? 2
@@ -73,7 +72,7 @@ export default function TrimesterAwards() {
       <h1>Trimester Awards</h1>
       <h2>
         {currentTrimester === 0
-          ? 'It is not time to enter awards right now'
+          ? "It is not time to enter awards right now"
           : `Entering Awards for Trimester ${currentTrimester}`}
       </h2>
       <p className="hidePrint">
