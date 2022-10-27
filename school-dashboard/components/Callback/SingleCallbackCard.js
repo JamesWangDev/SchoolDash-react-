@@ -45,7 +45,7 @@ export default function SingleCallbackCard({ callback }) {
     : "Incomplete";
   return (
     <SingleCardStyles>
-      <Link href={`/callback/${callback.id}`}>
+      <Link legacyBehavior href={`/callback/${callback.id}`}>
         <a>
           <h1>{callback.title}</h1>
           <p>

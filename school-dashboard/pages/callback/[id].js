@@ -1,16 +1,16 @@
-import gql from 'graphql-tag';
-import styled from 'styled-components';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import Loading from '../../components/Loading';
-import { useUser } from '../../components/User';
-import CallbackCardMessages from '../../components/Callback/CallbackCardMessages';
-import MarkCallbackCompleted from '../../components/Callback/MarkCallbackCompleted';
-import { SmallGradientButton } from '../../components/styles/Button';
-import CallbackEditor from '../../components/Callback/CallbackEditor';
-import DuplicateCallback from '../../components/Callback/DuplicateCallback';
+import gql from "graphql-tag";
+import styled from "styled-components";
+import Link from "next/link";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import Loading from "../../components/Loading";
+import { useUser } from "../../components/User";
+import CallbackCardMessages from "../../components/Callback/CallbackCardMessages";
+import MarkCallbackCompleted from "../../components/Callback/MarkCallbackCompleted";
+import { SmallGradientButton } from "../../components/styles/Button";
+import CallbackEditor from "../../components/Callback/CallbackEditor";
+import DuplicateCallback from "../../components/Callback/DuplicateCallback";
 
 const GET_SINGLE_CALLBACK = gql`
   query GET_SINGLE_CALLBACK($id: ID!) {
@@ -95,7 +95,7 @@ export default function SingleCallbackPage({ query }) {
   const dateAssigned = new Date(callback?.dateAssigned).toLocaleDateString();
   const dateCompleted = callback?.dateCompleted
     ? new Date(callback?.dateCompleted).toLocaleDateString()
-    : 'Not Yet Completed';
+    : "Not Yet Completed";
   return (
     <SingleCallbackStyles>
       <h1>
@@ -108,7 +108,7 @@ export default function SingleCallbackPage({ query }) {
             Edit
           </SmallGradientButton>
         )}
-        {callback.title}{' '}
+        {callback.title}{" "}
         {me?.id === callback?.teacher.id && (
           <SmallGradientButton
             onClick={() => {
@@ -124,10 +124,10 @@ export default function SingleCallbackPage({ query }) {
           <h2>Assigned By: {callback.teacher.name}</h2>
           <h2>{callback.student.name}</h2>
           <p>
-            Average Time For {callback.student.name} To Complete Callback:{' '}
+            Average Time For {callback.student.name} To Complete Callback:{" "}
             {callback.student.averageTimeToCompleteCallback
               ? callback.student.averageTimeToCompleteCallback
-              : 'N/A'}{' '}
+              : "N/A"}{" "}
             Days
           </p>
           <p>{callback.description}</p>
@@ -136,14 +136,15 @@ export default function SingleCallbackPage({ query }) {
           </p>
           {callback.link && (
             <Link
+              legacyBehavior
               href={
-                callback.link?.startsWith('http')
+                callback.link?.startsWith("http")
                   ? callback.link
                   : `http://${callback.link}`
               }
             >
               <a className="link">
-                {callback.link ? `Link to ${callback.link}` : ''}
+                {callback.link ? `Link to ${callback.link}` : ""}
               </a>
             </Link>
           )}
@@ -152,7 +153,7 @@ export default function SingleCallbackPage({ query }) {
           </div>
           {!callback.dateCompleted && (
             <MarkCallbackCompleted callback={callback} />
-          )}{' '}
+          )}{" "}
         </>
       )}
 

@@ -26,7 +26,7 @@ export default function Nav() {
     <NavStyles>
       {true && (
         <>
-          <Link href="/">
+          <Link legacyBehavior href="/">
             <a className="home">
               <FaHome />
             </a>
