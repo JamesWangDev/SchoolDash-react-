@@ -1,16 +1,16 @@
-import gql from 'graphql-tag';
-import { useMemo } from 'react';
-import Link from 'next/link';
-import { useUser } from '../User';
-import NewCalendar from './NewCalendar';
-import { useGQLQuery } from '../../lib/useGqlQuery';
-import Table from '../Table';
-import Loading from '../Loading';
-import isAllowed from '../../lib/isAllowed';
+import gql from "graphql-tag";
+import { useMemo } from "react";
+import Link from "next/link";
+import { useUser } from "../User";
+import NewCalendar from "./NewCalendar";
+import { useGQLQuery } from "../../lib/useGqlQuery";
+import Table from "../Table";
+import Loading from "../Loading";
+import isAllowed from "../../lib/isAllowed";
 
 export const GET_CALENDARS = gql`
   query GET_CALENDARS {
-    calendars(orderBy: {date: asc}) {
+    calendars(orderBy: { date: asc }) {
       name
       id
       description
@@ -24,16 +24,15 @@ export const GET_CALENDARS = gql`
       linkTitle
     }
   }
-  
 `;
 
 export default function Calendars({ dates, initialData }) {
   // console.log('Calendars.js: initialData', initialData);
   const me = useUser();
-  const status = me?.isStaff ? 'Teachers' : 'Students';
-  const editor = isAllowed(me, 'canManageCalendar');
+  const status = me?.isStaff ? "Teachers" : "Students";
+  const editor = isAllowed(me, "canManageCalendar");
   const { data, isLoading, error, refetch } = useGQLQuery(
-    'allCalendars',
+    "allCalendars",
     GET_CALENDARS,
     {
       status,
@@ -47,10 +46,10 @@ export default function Calendars({ dates, initialData }) {
 
   const calendarsFilteredByUserType =
     data?.calendars.filter((calendar) => {
-      if (calendar.status === 'Both') return true;
-      if (me?.isStaff && calendar.status === 'Teachers') return true;
-      if (me?.isStudent && calendar.status === 'Students') return true;
-      if (me?.isParent && calendar.status === 'Students') return true;
+      if (calendar.status === "Both") return true;
+      if (me?.isStaff && calendar.status === "Teachers") return true;
+      if (me?.isStudent && calendar.status === "Students") return true;
+      if (me?.isParent && calendar.status === "Students") return true;
       return false;
     }) || [];
 
@@ -67,32 +66,39 @@ export default function Calendars({ dates, initialData }) {
   const columns = useMemo(
     () => [
       {
-        Header: 'Events',
+        Header: "Events",
         columns: [
           {
-            Header: 'Event',
-            accessor: 'name',
+            Header: "Event",
+            accessor: "name",
             Cell: ({ cell, value }) => {
               return (
-              <Link href={`/calendarEvent/${cell.row.original.id}`}>
-                <a>{value}</a>
-              </Link>
-            )},
+                <Link
+                  legacyBehavior
+                  href={`/calendarEvent/${cell.row.original.id}`}
+                >
+                  <a>{value}</a>
+                </Link>
+              );
+            },
           },
           {
-            Header: 'Description',
-            accessor: 'description',
+            Header: "Description",
+            accessor: "description",
             Cell: ({ cell, value }) => {
               return (
-               <Link href={`/calendarEvent/${cell.row.original.id}`}>
-                <a>{value}</a>
-              </Link>
-              )
-            }
+                <Link
+                  legacyBehavior
+                  href={`/calendarEvent/${cell.row.original.id}`}
+                >
+                  <a>{value}</a>
+                </Link>
+              );
+            },
           },
           {
-            Header: 'Date',
-            accessor: 'date',
+            Header: "Date",
+            accessor: "date",
             Cell: ({ cell: { value } }) => {
               const today = new Date().toLocaleDateString();
               const displayDate = new Date(value).toLocaleDateString();
@@ -101,19 +107,19 @@ export default function Calendars({ dates, initialData }) {
             },
           },
           {
-            Header: 'Link',
-            accessor: 'link',
+            Header: "Link",
+            accessor: "link",
             Cell: ({ cell: { value } }) => (
               <Link
-                href={value?.startsWith('http') ? value : `http://${value}`}
+                href={value?.startsWith("http") ? value : `http://${value}`}
               >
-                {value ? 'Link' : ''}
+                {value ? "Link" : ""}
               </Link>
             ),
           },
           {
-            Header: 'visibility',
-            accessor: 'status',
+            Header: "visibility",
+            accessor: "status",
           },
         ],
       },
@@ -132,7 +138,7 @@ export default function Calendars({ dates, initialData }) {
         data={filteredCalendars || []}
         columns={columns}
         searchColumn="name"
-        hiddenColumns={me?.isStaff ? '' : 'status'}
+        hiddenColumns={me?.isStaff ? "" : "status"}
       />
     </>
   );
