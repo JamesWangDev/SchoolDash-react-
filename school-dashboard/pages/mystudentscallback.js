@@ -11,14 +11,25 @@ import NewCallback from "../components/Callback/NewCallbackButton";
 import { FormContainerStyles } from "../components/styles/Form";
 import Loading from "../components/Loading";
 import NewCallbackMultiStudent from "../components/Callback/newCallbackMultiStudent";
-import { SmallGradientButton } from "../components/styles/Button";
-import Link from "next/link";
 
 const MY_CALLBACK_ASSIGNMENTS = gql`
   query MY_CALLBACK_ASSIGNMENTS($teacher: ID) {
     callbacks(
       orderBy: { dateAssigned: asc }
-      where: { teacher: { id: { equals: $teacher } } }
+      where: {
+        student: {
+          OR: [
+            { block1Teacher: { id: { equals: $teacher } } }
+            { block2Teacher: { id: { equals: $teacher } } }
+            { block3Teacher: { id: { equals: $teacher } } }
+            { block4Teacher: { id: { equals: $teacher } } }
+            { block5Teacher: { id: { equals: $teacher } } }
+            { block6Teacher: { id: { equals: $teacher } } }
+            { block7Teacher: { id: { equals: $teacher } } }
+            { block8Teacher: { id: { equals: $teacher } } }
+          ]
+        }
+      }
     ) {
       id
       teacher {
@@ -48,7 +59,7 @@ export default function Callback() {
   const [showCompleted, setShowCompleted] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const { data, isLoading, error, refetch } = useGQLQuery(
-    "myAssignedCallbacks",
+    "myStudentsCallbacks",
     MY_CALLBACK_ASSIGNMENTS,
     {
       teacher: me?.id,
@@ -72,6 +83,7 @@ export default function Callback() {
   // }
   return (
     <div>
+      Callback for students in B1-B8 classes
       <FormContainerStyles>
         <label>
           <span> Show Completed </span>
@@ -89,12 +101,8 @@ export default function Callback() {
         </label>
         <NewCallback refetch={refetch} />
         <NewCallbackMultiStudent refetch={refetch} />
-        <SmallGradientButton>
-          <Link href="/mystudentscallback">My class students callback</Link>
-        </SmallGradientButton>
       </FormContainerStyles>
       {showTable && <CallbackTable callbacks={callbacks} />}
-
       {!showTable && <CallbackCards callbacks={callbacks} />}
     </div>
   );
