@@ -1,15 +1,15 @@
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import React from 'react';
-import useForm from '../../lib/useForm';
-import DisplayError from '../ErrorMessage';
-import GradientButton from '../styles/Button';
-import Form, { FormContainerStyles } from '../styles/Form';
-import { useUser } from '../User';
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import React from "react";
+import useForm from "../../lib/useForm";
+import DisplayError from "../ErrorMessage";
+import GradientButton from "../styles/Button";
+import Form, { FormContainerStyles } from "../styles/Form";
+import { useUser } from "../User";
 
 const RESET_PASSWORD_TO_PASSWORD_MUTATION = gql`
   mutation RESET_PASSWORD_TO_PASSWORD_MUTATION($id: ID!, $password: String!) {
-    updateUser(where: {id: $id}, data: { password: $password }) {
+    updateUser(where: { id: $id }, data: { password: $password }) {
       id
     }
   }
@@ -18,7 +18,7 @@ const RESET_PASSWORD_TO_PASSWORD_MUTATION = gql`
 export default function UpdateMyPassword() {
   const me = useUser();
   const [showForm, setShowForm] = React.useState(false);
-  const { inputs, handleChange, resetForm } = useForm({ newPassword: '' });
+  const { inputs, handleChange, resetForm } = useForm({ newPassword: "" });
   const [resetThePassword, { loading, error, data }] = useMutation(
     RESET_PASSWORD_TO_PASSWORD_MUTATION,
     {
@@ -32,12 +32,12 @@ export default function UpdateMyPassword() {
   return (
     <div>
       <GradientButton style={{}} onClick={() => setShowForm(!showForm)}>
-        {showForm ? 'Hide  Update  Password  ' : 'Update My Password'}
+        {showForm ? "Hide  Update  Password  " : "Update My Password"}
       </GradientButton>
-      <div style={{ position: 'relative', marginTop: '-320px' }}>
+      <div style={{ position: "relative", marginTop: "-320px" }}>
         <FormContainerStyles>
           <Form
-            className={showForm ? 'visible' : 'hidden'}
+            className={showForm ? "visible moveUp" : "hidden"}
             onSubmit={async (e) => {
               e.preventDefault();
               // Submit the inputfields to the backend:

@@ -33,11 +33,11 @@ export const FormContainerStyles = styled.div`
   }
   .visible {
     z-index: 1000;
-    width: min(75%, 1000px);
+    width: max(75%, 40vw);
     /* opacity: 100%; */
     transition: all 0.5s ease-out;
     margin: auto;
-    /* transform: translatey(0%); */
+    /* transform: translateY(50px); */
     position: absolute;
     background-image: linear-gradient(to bottom, var(--blue), var(--red));
   }
