@@ -1,12 +1,11 @@
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { toast } from 'react-hot-toast';
-import { QueryClient, useQueryClient } from 'react-query';
-import Form, { FormGroupStyles } from '../styles/Form';
-import { SmallGradientButton } from '../styles/Button';
-
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { toast } from "react-hot-toast";
+import { QueryClient, useQueryClient } from "react-query";
+import Form, { FormGroupStyles } from "../styles/Form";
+import { SmallGradientButton } from "../styles/Button";
 
 export const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
   mutation UPDATE_CALLBACK_MESSAGES_MUTATION(
@@ -17,7 +16,7 @@ export const UPDATE_CALLBACK_MESSAGES_MUTATION = gql`
     $messageFromStudentDate: String
   ) {
     updateCallback(
-      where: {id: $id}
+      where: { id: $id }
       data: {
         messageFromTeacher: $messageFromTeacher
         messageFromTeacherDate: $messageFromTeacherDate
@@ -83,21 +82,21 @@ const AnimatedInput = styled.p`
 
 export default function CallbackCardMessages({ me, callback }) {
   const isTeacher = me?.id === callback.teacher.id;
-  const isStudent = me?.id === callback.student.id;
+  const isStudent = me?.id === callback?.student?.id;
   // console.log(callback)
   const [teacherMessage, setTeacherMessage] = useState(
-    callback.messageFromTeacher || ''
+    callback.messageFromTeacher || ""
   );
   const [teacherMessageDate, setTeacherMessageDate] = useState(
-    callback.messageFromTeacherDate || ''
+    callback.messageFromTeacherDate || ""
   );
   const [studentMessage, setStudentMessage] = useState(
-    callback.messageFromStudent || ''
+    callback.messageFromStudent || ""
   );
   const [studentMessageDate, setStudentMessageDate] = useState(
-    callback.messageFromStudentDate || ''
+    callback.messageFromStudentDate || ""
   );
-// console.log(studentMessageDate)
+  // console.log(studentMessageDate)
   const queryClient = useQueryClient();
   const [updateCallback, { loading, error, data }] = useMutation(
     UPDATE_CALLBACK_MESSAGES_MUTATION,
@@ -115,15 +114,13 @@ export default function CallbackCardMessages({ me, callback }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await updateCallback();
-        if (res) {
-          toast.success(
-            `Updated Callback Message for ${callback.student.name}`
-          );
-        }
+    if (res) {
+      toast.success(`Updated Callback Message for ${callback.student.name}`);
+    }
   };
 
   const submitOnEnter = (e) => {
-    if (e.key === 'Enter' && e.shiftKey === false) {
+    if (e.key === "Enter" && e.shiftKey === false) {
       handleSubmit(e);
     }
   };
@@ -135,30 +132,23 @@ export default function CallbackCardMessages({ me, callback }) {
       onSubmit={handleSubmit}
     >
       <FormGroupStyles>
-        <fieldset 
-        disabled={loading}
-        aria-busy={loading}
-        >
+        <fieldset disabled={loading} aria-busy={loading}>
           {!isStudent && (
             <AnimatedInput>
               Student:
-              <span className={callback?.messageFromStudent ? 'hasText' : ''}>
-                {callback.messageFromStudent || '----'}
+              <span className={callback?.messageFromStudent ? "hasText" : ""}>
+                {callback.messageFromStudent || "----"}
               </span>
-              <span>
-                {callback.messageFromStudentDate || ''}
-              </span>
+              <span>{callback.messageFromStudentDate || ""}</span>
             </AnimatedInput>
           )}
           {!isTeacher && (
             <AnimatedInput>
               Teacher:
-              <span className={callback?.messageFromTeacher ? 'hasText' : ''}>
-                {callback.messageFromTeacher || '----'}
+              <span className={callback?.messageFromTeacher ? "hasText" : ""}>
+                {callback.messageFromTeacher || "----"}
               </span>
-              <span>
-                {callback.messageFromTeacherDate || '----'}
-              </span>
+              <span>{callback.messageFromTeacherDate || "----"}</span>
             </AnimatedInput>
           )}
           {isStudent && (
@@ -169,7 +159,7 @@ export default function CallbackCardMessages({ me, callback }) {
                   id={`student - ${callback.id}`}
                   placeholder="Message from Student"
                   value={studentMessage}
-                  className={loading ? 'inputUpdating' : ''}
+                  className={loading ? "inputUpdating" : ""}
                   onKeyDown={submitOnEnter}
                   onChange={(e) => {
                     //   console.log(e.target.value);
@@ -178,9 +168,7 @@ export default function CallbackCardMessages({ me, callback }) {
                     setStudentMessageDate(todaysDate);
                   }}
                 />
-                <span>
-                  {studentMessageDate || '-'}
-                </span>
+                <span>{studentMessageDate || "-"}</span>
               </AnimatedInput>
             </>
           )}
@@ -190,14 +178,18 @@ export default function CallbackCardMessages({ me, callback }) {
               {studentMessage && (
                 <SmallGradientButton
                   type="button"
-                  style={{ fontSize: '1rem', paddingBlock: '0.5rem' , textAlign: 'center'}}
+                  style={{
+                    fontSize: "1rem",
+                    paddingBlock: "0.5rem",
+                    textAlign: "center",
+                  }}
                   onClick={async () => {
                     const todaysDate = new Date().toLocaleDateString();
                     const res = await updateCallback({
                       variables: {
                         id: callback.id,
                         messageFromTeacher: teacherMessage,
-                        messageFromStudent: '',
+                        messageFromStudent: "",
                         messageFromStudentDate: todaysDate,
                       },
                     });
@@ -218,20 +210,17 @@ export default function CallbackCardMessages({ me, callback }) {
                   id={`teacher-${callback.id}`}
                   placeholder="Message from Teacher"
                   value={teacherMessage}
-                  className={loading ? 'inputUpdating' : ''}
+                  className={loading ? "inputUpdating" : ""}
                   onKeyDown={submitOnEnter}
                   onChange={(e) => {
                     //   console.log(e.target.value);
                     const todaysDate = new Date().toLocaleDateString();
                     setTeacherMessage(e.target.value);
                     setTeacherMessageDate(todaysDate);
-                    
                   }}
                   title="Enter to submit change, Shift-Enter for new line"
                 />
-                <span>
-                  {teacherMessageDate || '-'}
-                </span>
+                <span>{teacherMessageDate || "-"}</span>
               </AnimatedInput>
             </>
           )}

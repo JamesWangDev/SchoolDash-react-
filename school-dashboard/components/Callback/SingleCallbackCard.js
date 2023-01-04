@@ -43,6 +43,8 @@ export default function SingleCallbackCard({ callback }) {
   const completed = callback.dateCompleted
     ? `Completed on ${new Date(callback.dateCompleted).toLocaleDateString()}`
     : "Incomplete";
+
+  if (!callback.student) return null;
   return (
     <SingleCardStyles>
       <Link legacyBehavior href={`/callback/${callback.id}`}>
@@ -55,7 +57,7 @@ export default function SingleCallbackCard({ callback }) {
             {dateAssigned}
           </p>
           <p>
-            {callback?.student.id === me?.id
+            {callback?.student?.id === me?.id
               ? ""
               : `${capitalizeFirstLetter(
                   getDisplayName(callback.student)
