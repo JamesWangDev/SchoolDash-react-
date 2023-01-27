@@ -85,8 +85,8 @@ export default function NewBullying({ refetch }) {
   });
   const user = useUser();
   const [studentReferralIsFor, setStudentReferralIsFor] = useState(null);
+  const { sendEmail, emailLoading } = useSendEmail();
 
-  const { setEmail, emailLoading } = useSendEmail();
   //   console.log(`user ${user.id}`);
   const [createHHB, { loading, error }] = useMutation(CREATE_HHB_MUTATION, {
     variables: {
@@ -114,7 +114,7 @@ export default function NewBullying({ refetch }) {
             // Submit the input fields to the backend:
             const res = await createHHB();
             if (res.data.createBullying.id) {
-              adminEmailArray.map((email) => {
+              for (const email of adminEmailArray) {
                 const emailToSend = {
                   toAddress: email,
                   fromAddress: me.email,
@@ -124,10 +124,13 @@ export default function NewBullying({ refetch }) {
                 <p><a href="https://ncujhs.tech/hhb/${res.data.createBullying.id}">Click Here to View</a></p>
                  `,
                 };
-                console.log(emailToSend);
-                setEmail(emailToSend);
-                return null;
-              });
+                const emailRes = await sendEmail({
+                  variables: {
+                    emailData: JSON.stringify(emailToSend),
+                  },
+                });
+                console.log(emailRes);
+              }
             }
             resetForm();
             refetch();
