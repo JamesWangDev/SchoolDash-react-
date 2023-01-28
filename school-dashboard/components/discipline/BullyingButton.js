@@ -113,7 +113,9 @@ export default function NewBullying({ refetch }) {
             e.preventDefault();
             // Submit the input fields to the backend:
             const res = await createHHB();
+            console.log(adminEmailArray);
             if (res.data.createBullying.id) {
+              // loop over each email in adminEmailArray and send an email to each one async and await
               for (const email of adminEmailArray) {
                 const emailToSend = {
                   toAddress: email,
@@ -124,14 +126,15 @@ export default function NewBullying({ refetch }) {
                 <p><a href="https://ncujhs.tech/hhb/${res.data.createBullying.id}">Click Here to View</a></p>
                  `,
                 };
+                console.log(emailToSend);
                 const emailRes = await sendEmail({
                   variables: {
                     emailData: JSON.stringify(emailToSend),
                   },
                 });
-                console.log(emailRes);
               }
             }
+
             resetForm();
             refetch();
             setShowForm(false);
