@@ -71,7 +71,7 @@ const CREATE_HHB_MUTATION = gql`
 export default function NewBullying({ refetch }) {
   const me = useUser();
   const { data, isLoading } = useGQLQuery(`AdminEmails`, GET_ADMIN_EMAILS);
-  const adminEmailArray = data?.Users?.map((u) => u.email) || [];
+  const adminEmailArray = data?.users?.map((u) => u.email);
   const [showForm, setShowForm] = useState(false);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     dateReported: todaysDateForForm(),
