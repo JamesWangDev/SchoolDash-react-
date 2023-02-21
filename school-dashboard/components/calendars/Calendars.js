@@ -29,6 +29,8 @@ export const GET_CALENDARS = gql`
 export default function Calendars({ dates, initialData }) {
   // console.log('Calendars.js: initialData', initialData);
   const me = useUser();
+  const teacherWithStudentEvents = me?.isStaff && me?.canSeeStudentEvents;
+  console.log("teacherWithStudentEvents", teacherWithStudentEvents);
   const status = me?.isStaff ? "Teachers" : "Students";
   const editor = isAllowed(me, "canManageCalendar");
   const { data, isLoading, error, refetch } = useGQLQuery(
@@ -50,6 +52,8 @@ export default function Calendars({ dates, initialData }) {
       if (me?.isStaff && calendar.status === "Teachers") return true;
       if (me?.isStudent && calendar.status === "Students") return true;
       if (me?.isParent && calendar.status === "Students") return true;
+      if (teacherWithStudentEvents && calendar.status === "Students")
+        return true;
       return false;
     }) || [];
 
