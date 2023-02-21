@@ -30,7 +30,6 @@ export default function Calendars({ dates, initialData }) {
   // console.log('Calendars.js: initialData', initialData);
   const me = useUser();
   const teacherWithStudentEvents = me?.isStaff && me?.canSeeStudentEvents;
-  console.log("teacherWithStudentEvents", teacherWithStudentEvents);
   const status = me?.isStaff ? "Teachers" : "Students";
   const editor = isAllowed(me, "canManageCalendar");
   const { data, isLoading, error, refetch } = useGQLQuery(
